@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>CFS三层靶机</title>
+    <link href="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/"/>
+    <url>/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/</url>
+    
+    <content type="html"><![CDATA[<h1 id="1、环境配置"><a href="#1、环境配置" class="headerlink" title="1、环境配置"></a>1、环境配置</h1><p>外网：centos7（宝塔）192.168.10.117（外）192.168.22.128（内）</p><p>二层：Ubuntu（二层）192.168.22.129（内IP1）192.168.33.128（内ip2）</p><p>三层：Windows7（三层）192.168.33.33（内ip3）</p><p>密码：teamssiy.com</p><p>外网开放端口 80 thinkphp</p><p>内网Ubuntu 需要配置宝塔，xdyhr37d:qwe123..</p><p>登录上去后，手动添加ip地址</p><h1 id="2、外网"><a href="#2、外网" class="headerlink" title="2、外网"></a>2、外网</h1><p>thinkPHP5.0，直接工具利用了</p><p><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611110339041.png" alt="image-20240611110339041"><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611110343091.png" alt="image-20240611110343091"><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611110345943.png" alt="image-20240611110345943"></p><p>不是root权限，不管了，直接上线msf，开自动路由，然后上传fsan探测内网信息</p><p><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611110348875.png" alt="image-20240611110348875"><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611110350970.png" alt="image-20240611110350970"><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611110353177.png" alt="image-20240611110353177"></p><p><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611110357738.png" alt="image-20240611110357738"></p><p>129设备一个CMS站点，设置用client隧道直接代理出来</p><p><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111626767.png" alt="image-20240611111626767"></p><p><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111642715.png" alt="image-20240611111642715"><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111639439.png" alt="image-20240611111639439"></p><p>访问成功</p><p><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111631198.png" alt="image-20240611111631198"></p><p>前端源码有个hint，上sqlmap注入，</p><p><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111644787.png" alt="image-20240611111644787"><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111647815.png" alt="image-20240611111647815"></p><p>robots找到后台，sqlmap找到后台账密</p><p><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111651637.png" alt="image-20240611111651637"><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111654528.png" alt="image-20240611111654528"></p><p>然后设置白名单，上传shell，模板上传，然后路由过去</p><p><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111657922.png" alt="image-20240611111657922"><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111703071.png" alt="image-20240611111703071"></p><p>蚁剑设置代理，连shell</p><p><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111705856.png" alt="image-20240611111705856"><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111709213.png" alt="image-20240611111709213"></p><p>使用msf生成一个正向连接的马（bind），上传，运行，自动获取路由，然后获取到第三层网段，fscan上传上去探测一下。</p><p><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111711677.png" alt="image-20240611111711677"><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111714613.png" alt="image-20240611111714613"><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111717582.png" alt="image-20240611111717582"><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111720522.png" alt="image-20240611111720522"></p><p>存在永恒之蓝，用scanner探测一下，确定存在</p><p><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111723448.png" alt="image-20240611111723448"></p><p>然后使用psexec永恒之蓝，直接run，拿下三层</p><p><img src="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/image-20240611111727218.png" alt="image-20240611111727218"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>靶机</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>三层靶机</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>红日靶场（7）</title>
     <link href="/2024/06/10/%E7%BA%A2%E6%97%A57/"/>
     <url>/2024/06/10/%E7%BA%A2%E6%97%A57/</url>
