@@ -1,0 +1,487 @@
+
+
+<!DOCTYPE html>
+<html lang="cn" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="越权">
+  
+    <meta name="description" content="越权的基本概念以及实战中的案例，仅供参考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="渗透-越权">
+<meta property="og:url" content="http://example.com/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="越权的基本概念以及实战中的案例，仅供参考。">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110407431.png">
+<meta property="og:image" content="http://example.com/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110444508.png">
+<meta property="og:image" content="http://example.com/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110602425.png">
+<meta property="og:image" content="http://example.com/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110541980.png">
+<meta property="og:image" content="http://example.com/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110618776.png">
+<meta property="og:image" content="http://example.com/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110638016.png">
+<meta property="og:image" content="http://example.com/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110651476.png">
+<meta property="og:image" content="http://example.com/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110658451.png">
+<meta property="article:published_time" content="2024-06-18T02:54:03.000Z">
+<meta property="article:modified_time" content="2024-06-18T03:08:03.011Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="越权">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110407431.png">
+  
+  
+  <title>渗透-越权 - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Startseite
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archiv
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Kategorie
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Etiketten
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                Über mich
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="渗透-越权">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2024-06-18 10:54" pubdate>
+        June 18, 2024 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">渗透-越权</h1>
+            
+            <div class="markdown-body">
+              <h1 id="1、什么是越权？"><a href="#1、什么是越权？" class="headerlink" title="1、什么是越权？"></a>1、什么是越权？</h1><p>越权漏洞是Web应用程序中一种常见的安全漏洞。它的威胁在于一个账户即可控制全站用户数据。</p>
+<p>越权漏洞的成因主要是因为开发人员在对数据进行<strong>增、删、改、查询</strong>时对客户端请求的数据过分相信而遗漏了权限的判定。而且属于逻辑漏洞的一种，防护和检测都不好做。</p>
+<h1 id="2、越权的分类："><a href="#2、越权的分类：" class="headerlink" title="2、越权的分类："></a>2、越权的分类：</h1><p><strong>1.水平越权</strong>：这种类型的越权就是越权其他用户，比如说你要查看一篇邮件，但是存在越权漏洞，却可以查看其他人的邮件。水平越权导致任意用户敏感信息泄露或者用户信息被恶意修改。</p>
+<p><strong>2.垂直越权</strong>：这种类型的越权就是可以在<strong>不同身份之间越权</strong>，比如你是普通用户，但是可以越权到管理员，甚至超级管理员。这样就可以利用管理员或者超级管理员的功能。</p>
+<p><strong>3.上下文越权</strong>：上下文越权就是说在某个程序需要执行n个步骤，而你却可以跳过其中某个步骤，直接到最后的步骤。</p>
+<h1 id="3、在哪里容易发生越权？"><a href="#3、在哪里容易发生越权？" class="headerlink" title="3、在哪里容易发生越权？"></a>3、在哪里容易发生越权？</h1><p><strong>1.基础参数</strong>：通过修改一下参数就可以产生水平越权，例如查看用户信息页面 URL 后加上自己的 <strong>id</strong> 便可查看，当修改为他人的id号时会返回他人的信息。<strong>再比如cookie中的参数就作为用户的凭据，修改这个凭据便可以其他用户身份通过验证。</strong></p>
+<p><strong>2.多阶段验证</strong>：多阶段功能是一个功能有多个阶段的实现。例如修改密码，可能第一步是验证用户身份信息，号码验证码类的。当验证成功后，跳到第二步，输入新密码，<strong>很多程序会在这一步不再验证用户身份</strong>，导致恶意攻击者抓包直接修改参数值，导致可修改任意用户密码。</p>
+<p><strong>3.基于参数的访问控制</strong>：有的程序会在参数里面进行权限认证。如：<a target="_blank" rel="noopener" href="http://www.aaaa.com/name=test&admin=0">www.aaaa.com/name=test&amp;admin=0</a> ，把0改为1就有了admin权限。</p>
+<p><strong>4.链接隐藏</strong>：有的程序会把页面独立，让爬虫爬取不到，但是可以使用扫目录的方式扫到url，如果此时页面不做权限认证，就可直接访问到功能点，或者只是前端跳转，<strong>可以使用burp抓回包，然后删除js代码绕过。</strong></p>
+<p><strong>5.越权可能存在的地方</strong>：<strong>增、删、改、查、详情、导出</strong>等功能，当有这些功能的时候提高重视，在url、post data、cookie处寻找是否有鉴权参数最关键的点就是定位鉴权参数，<strong>然后替换为其他账户鉴权参数的方法来发现越权漏洞。</strong></p>
+<h1 id="4、如何挖掘越权漏洞："><a href="#4、如何挖掘越权漏洞：" class="headerlink" title="4、如何挖掘越权漏洞："></a>4、如何挖掘越权漏洞：</h1><p>测试水平越权漏洞一般要<strong>控制2个账号</strong>，来互相探测能否影响到对方数据，一般是使用2个浏览器，分别使用2个账号登陆，<strong>在各个功能点修改参数（get、post、cookie）观察是否会影响到另一个账号的数据。</strong> 测试垂直越权一般看是否补通过认证即可访问管理页面，或是找是否有一个参数表示身份权限是否是管理员。</p>
+<h1 id="5、实例"><a href="#5、实例" class="headerlink" title="5、实例"></a>5、实例</h1><p>（注：实例中的目标站点漏洞修复或站点已经关闭）</p>
+<h2 id="xx师范学院校园资讯平台存在越权漏洞："><a href="#xx师范学院校园资讯平台存在越权漏洞：" class="headerlink" title="xx师范学院校园资讯平台存在越权漏洞："></a>xx师范学院校园资讯平台存在越权漏洞：</h2><p>URL：<a target="_blank" rel="noopener" href="https://175.24.xx.xx/login/">https://175.24.xx.xx/login/</a></p>
+<p>这里注册一个账号，然后登陆</p>
+<p>15xxxx12&#x2F;test123</p>
+<p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110407431.png" srcset="/img/loading.gif" lazyload alt="image-20240618110407431"></p>
+<p>登录进来后点击上方的个人信息，进入个人信息页面，查看http包，发现，cookie中存在id参数，并且参数等于某个数值</p>
+<p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110444508.png" srcset="/img/loading.gif" lazyload alt="image-20240618110444508"></p>
+<p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110602425.png" srcset="/img/loading.gif" lazyload alt="image-20240618110602425"></p>
+<p>尝试使用其他人的id，这里，点进其中一个人主页，URL中存在用户的id</p>
+<p>抓包，然后将cookie的id改成51</p>
+<p>成功越权访问他人主页</p>
+<p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110541980.png" srcset="/img/loading.gif" lazyload alt="image-20240618110541980"></p>
+<p>越权成功</p>
+<p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110618776.png" srcset="/img/loading.gif" lazyload alt="image-20240618110618776"></p>
+<p>评论，也是更改其他用户id，发送，使用他人身份发送成功</p>
+<p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110638016.png" srcset="/img/loading.gif" lazyload alt="image-20240618110638016"></p>
+<p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110651476.png" srcset="/img/loading.gif" lazyload alt="image-20240618110651476"></p>
+<p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110658451.png" srcset="/img/loading.gif" lazyload alt="image-20240618110658451"></p>
+<h1 id="6、越权的防护："><a href="#6、越权的防护：" class="headerlink" title="6、越权的防护："></a>6、越权的防护：</h1><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs crmsh"><span class="hljs-number">1</span>.不能只根据用户 id 参数去搜索，应该再次进行身份验证（防止水平越权）。<br><span class="hljs-number">2</span>.可以从用户的加密认证 cookie 中获取当前用户 id，防止攻击者对其修改。或在 session、cookie 中加入不可预测、不可猜解的 <span class="hljs-keyword">user</span> <span class="hljs-title">信息。</span><br><span class="hljs-title">3</span>.在每个页面加载前进行权限认证（防止垂直越权）。<br><span class="hljs-number">4</span>.对有多步验证的应用，需要准确验证上一步是否通过。<br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/">渗透基础</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%B6%8A%E6%9D%83/">越权</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/06/18/%E7%94%A8%E5%8F%8BGPR%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">用友GPR漏洞复现</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/06/18/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%89%EF%BC%89/">
+                        <span class="hidden-mobile">渗透-信息收集（三）</span>
+                        <span class="visible-mobile">Nächster</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

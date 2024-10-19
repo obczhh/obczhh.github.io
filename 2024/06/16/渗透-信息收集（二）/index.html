@@ -1,0 +1,560 @@
+
+
+<!DOCTYPE html>
+<html lang="cn" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="信息收集">
+  
+    <meta name="description" content="此篇包含了渗透实战中常用的信息收集手段，用于备份。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="渗透-信息收集（二）">
+<meta property="og:url" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="此篇包含了渗透实战中常用的信息收集手段，用于备份。">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617232627779.png">
+<meta property="og:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617232650083.png">
+<meta property="og:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617232700021.png">
+<meta property="og:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617232849247.png">
+<meta property="og:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617232856379.png">
+<meta property="og:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617233420727.png">
+<meta property="og:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617233445208.png">
+<meta property="og:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617233531687.png">
+<meta property="og:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240618103735588.png">
+<meta property="article:published_time" content="2024-06-16T15:21:43.000Z">
+<meta property="article:modified_time" content="2024-06-18T02:55:43.761Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="渗透">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617232627779.png">
+  
+  
+  <title>渗透-信息收集（二） - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Startseite
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archiv
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Kategorie
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Etiketten
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                Über mich
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="渗透-信息收集（二）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2024-06-16 23:21" pubdate>
+        June 16, 2024 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      46 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">渗透-信息收集（二）</h1>
+            
+            <div class="markdown-body">
+              <h1 id="信息收集工具利用"><a href="#信息收集工具利用" class="headerlink" title="信息收集工具利用"></a>信息收集工具利用</h1><h2 id="1、Kali—信息收集"><a href="#1、Kali—信息收集" class="headerlink" title="1、Kali—信息收集"></a>1、Kali—信息收集</h2><p><strong>Robots文件探测</strong><br>获取网站隐藏敏感目录活文件</p>
+<p>比如：安装目录、上传目录、编辑器目录、管理目录、管理页面等</p>
+<p>例：<a target="_blank" rel="noopener" href="http://www.baidu.com/robots.txt">www.baidu.com/robots.txt</a></p>
+<h2 id="2、DNS信息收集"><a href="#2、DNS信息收集" class="headerlink" title="2、DNS信息收集"></a>2、DNS信息收集</h2><p>搜集网站域名信息，如子域名，其他域名，解析服务器，区域传送漏洞等</p>
+<p>常用工具：dnsenum、dig、fierce</p>
+<h3 id="Whois信息搜集"><a href="#Whois信息搜集" class="headerlink" title="Whois信息搜集"></a>Whois信息搜集</h3><p>Whois baidu.com</p>
+<p><strong>Dnsenum</strong><br>Dnsenum可以通过字典或谷歌猜测可能存在的域名，并对一个网段进行反查</p>
+<p>Dnsenum –enum baidu.com 获取其他域名<br><img src="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617232627779.png" srcset="/img/loading.gif" lazyload alt="image-20240617232627779"></p>
+<p>-r 允许用户设置递归查询</p>
+<p>-w 允许用户设置whois请求</p>
+<p>-o 允许用户指定输入文件位置</p>
+<hr>
+<h4 id="敏感目录探测"><a href="#敏感目录探测" class="headerlink" title="敏感目录探测"></a>敏感目录探测</h4><p><strong>暴力破解</strong><br>暴力破解的方法就是需要一个强大的目录名称字典，用来尝试逐个匹配，如果存在通过响应码的回显来确定目录或页面是否存在</p>
+<p><strong>目录爬行</strong><br>目录爬行原理是通过一些自带网络蜘蛛爬行的工具对网站链接进行快速爬行</p>
+<p><strong>Dirb</strong><br>-a 改变ua 躲避安全狗</p>
+<p>-b指定扫描路径</p>
+<p>-c 指定cookie</p>
+<p>-p 代理设置</p>
+<p>Dirb <a target="_blank" rel="noopener" href="http://www.baidu.com-a/">http://www.baidu.com-a</a> Mozilla&#x2F;5.0“</p>
+<p><img src="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617232650083.png" srcset="/img/loading.gif" lazyload alt="image-20240617232650083"></p>
+<p>当然也有图形界面的工具</p>
+<p><strong>Dirbuster</strong></p>
+<p><img src="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617232700021.png" srcset="/img/loading.gif" lazyload alt="image-20240617232700021"></p>
+<h2 id="端口探测"><a href="#端口探测" class="headerlink" title="端口探测"></a>端口探测</h2><h3 id="整站识别"><a href="#整站识别" class="headerlink" title="整站识别"></a>整站识别</h3><h4 id="Whatweb"><a href="#Whatweb" class="headerlink" title="Whatweb"></a>Whatweb</h4><p>用来识别网站cms及大家平台环境的工具</p>
+<p>Whatweb -v <a target="_blank" rel="noopener" href="http://baidu.com/">http://baidu.com</a></p>
+<p>平台、脚本、cms、容器、数据库等信息探测</p>
+<h2 id="Waf探测"><a href="#Waf探测" class="headerlink" title="Waf探测"></a>Waf探测</h2><p>Wafwoof</p>
+<p>用来探测waf等一个工具（不推荐）</p>
+<p>Wafw00f <a target="_blank" rel="noopener" href="http://www.baidu.com/">http://www.baidu.com</a></p>
+<hr>
+<h2 id="工具型站的使用"><a href="#工具型站的使用" class="headerlink" title="工具型站的使用"></a>工具型站的使用</h2><h3 id="Google语法"><a href="#Google语法" class="headerlink" title="Google语法"></a>Google语法</h3><h4 id="信息收集的分类（详细篇）"><a href="#信息收集的分类（详细篇）" class="headerlink" title="信息收集的分类（详细篇）"></a>信息收集的分类（详细篇）</h4><p>服务器的相关信息（真实ip，系统类型，版本，开放端口，WAF等）</p>
+<p>网站指纹识别（包括，cms，cdn，证书等） dns记录</p>
+<p>whois信息，姓名，备案，邮箱，电话反查（邮箱丢社工库，社工准备等）</p>
+<p>子域名收集，旁站，C段等</p>
+<p>google hacking针对化搜索，word&#x2F;电子表格&#x2F;pdf文件，中间件版本，弱口令扫描等</p>
+<p>扫描网站目录结构，爆后台，网站banner，测试文件，备份等敏感文件泄漏等</p>
+<p>传输协议，通用漏洞，exp，github源码等</p>
+<hr>
+<h3 id="常见的方法有"><a href="#常见的方法有" class="headerlink" title="常见的方法有"></a>常见的方法有</h3><h3 id="whois查询"><a href="#whois查询" class="headerlink" title="whois查询"></a>whois查询</h3><p>域名在注册的时候 需要填入个人或者企业信息 如果没有设置隐藏属性可以查询出来 通过备案号 查询个人或者企业信息 也可以whois反查注册人 邮箱 电话 机构 反查更多得域名和需要得信息。</p>
+<h3 id="收集子域名"><a href="#收集子域名" class="headerlink" title="收集子域名"></a>收集子域名</h3><p>域名分为根域名和子域名</p>
+<p>baidu.com 根域名 顶级域名</p>
+<p><a target="_blank" rel="noopener" href="http://www.baidu.com子域名/">www.baidu.com子域名</a> 也叫二级域名</p>
+<p><a target="_blank" rel="noopener" href="http://www.wiki.baidu.com/">www.wiki.baidu.com</a> 子域名 也叫三级域名 四级如此类推</p>
+<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a><strong>端口扫描</strong></h3><p>服务器需要开放服务，就必须开启端口，常见的端口是tcp 和udp两种类型</p>
+<p>范围 0-65535 通过扫得到的端口，访问服务 规划下一步渗透。</p>
+<h3 id="查找真实ip"><a href="#查找真实ip" class="headerlink" title="查找真实ip"></a><strong>查找真实ip</strong></h3><p>企业的网站，为了提高访问速度，或者避免黑客攻击，用了cdn服务，用了cdn之后真实服务器ip会被隐藏。</p>
+<h3 id="探测旁站及C段"><a href="#探测旁站及C段" class="headerlink" title="探测旁站及C段"></a><strong>探测旁站及C段</strong></h3><p>旁站:一个服务器上有多个网站 通过ip查询服务器上的网站</p>
+<p>c段:查找同一个段 服务器上的网站。可以找到同样网站的类型和服务器，也可以获取同段服务器进行下一步渗透。</p>
+<h3 id="网络空间搜索引擎"><a href="#网络空间搜索引擎" class="headerlink" title="网络空间搜索引擎"></a><strong>网络空间搜索引擎</strong></h3><p>通过这些引擎查找网站或者服务器的信息，进行下一步渗透。</p>
+<h3 id="扫描敏感目录-文件"><a href="#扫描敏感目录-文件" class="headerlink" title="扫描敏感目录&#x2F;文件"></a><strong>扫描敏感目录&#x2F;文件</strong></h3><p>通过扫描目录和文件，大致了解网站的结构，获取突破点，比如后台，文件备份，上传点。</p>
+<h3 id="指纹识别"><a href="#指纹识别" class="headerlink" title="指纹识别"></a><strong>指纹识别</strong></h3><p>获取网站的版本，属于那些cms管理系统，查找漏洞exp，下载cms进行代码审计。</p>
+<hr>
+<h2 id="在线whois查询"><a href="#在线whois查询" class="headerlink" title="在线whois查询"></a>在线whois查询</h2><p>通过whois来对域名信息进行查询，可以查到注册商、注册人、邮箱、DNS解析服务器、注册人联系电话等，因为有些网站信息查得到，有些网站信息查不到，所以推荐以下信息比较全的查询网站，直接输入目标站点即可查询到相关信息。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs awk">站长之家域名WHOIS信息查询地址 http:<span class="hljs-regexp">//</span>whois.chinaz.com/<br><br>爱站网域名WHOIS信息查询地址 https:<span class="hljs-regexp">//</span>whois.aizhan.com/<br><br>腾讯云域名WHOIS信息查询地址 https:<span class="hljs-regexp">//</span>whois.cloud.tencent.com/<br><br>美橙互联域名WHOIS信息查询地址 https:<span class="hljs-regexp">//</span>whois.cndns.com/<br><br>爱名网域名WHOIS信息查询地址 https:<span class="hljs-regexp">//</span>www.<span class="hljs-number">22</span>.cn<span class="hljs-regexp">/domain/</span><br><br>易名网域名WHOIS信息查询地址 https:<span class="hljs-regexp">//</span>whois.ename.net/<br><br>中国万网域名WHOIS信息查询地址 https:<span class="hljs-regexp">//</span>whois.aliyun.com/<br><br>西部数码域名WHOIS信息查询地址 https:<span class="hljs-regexp">//</span>whois.west.cn/<br><br>新网域名WHOIS信息查询地址 http:<span class="hljs-regexp">//</span>whois.xinnet.com<span class="hljs-regexp">/domain/</span>whois/index.jsp<br><br>纳网域名WHOIS信息查询地址 http:<span class="hljs-regexp">//</span>whois.nawang.cn/<br><br>中资源域名WHOIS信息查询地址 https:<span class="hljs-regexp">//</span>www.zzy.cn<span class="hljs-regexp">/domain/</span>whois.html<br><br>三五互联域名WHOIS信息查询地址 https:<span class="hljs-regexp">//</span>cp.<span class="hljs-number">35</span>.com<span class="hljs-regexp">/chinese/</span>whois.php<br><br>新网互联域名WHOIS信息查询地址 http:<span class="hljs-regexp">//</span>www.dns.com.cn<span class="hljs-regexp">/show/</span>domain<span class="hljs-regexp">/whois/i</span>ndex.<span class="hljs-keyword">do</span><br><br>国外WHOIS信息查询地址 https:<span class="hljs-regexp">//</span>who.is/<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="在线网站备案查询"><a href="#在线网站备案查询" class="headerlink" title="在线网站备案查询"></a>在线网站备案查询</h2><p>网站备案信息是根据国家法律法规规定，由网站所有者向国家有关部门申请的备案，如果需要查询企业备案信息（单位名称、备案编号、网站负责人、电子邮箱、联系电话、法人等），推荐以下网站查询</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs perl">天眼查 https:<span class="hljs-regexp">//</span>www.tianyancha.com/<br><br>ICP备案查询网http:<span class="hljs-regexp">//</span>www.beianbeian.com/<br><br>爱站备案查询https:<span class="hljs-regexp">//i</span>cp.aizhan.com/<br><br>域名助手备案信息查询 http:<span class="hljs-regexp">//</span>cha.fute.com/<span class="hljs-keyword">index</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="查询绿盟的whois信息"><a href="#查询绿盟的whois信息" class="headerlink" title="查询绿盟的whois信息"></a>查询绿盟的whois信息</h3><p>nsfocus.com.cn</p>
+<p>Whois查询nsfocus.com.cn</p>
+<p><img src="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617232849247.png" srcset="/img/loading.gif" lazyload alt="image-20240617232849247"></p>
+<p>通过反查注册人和邮箱得多更多得域名</p>
+<p><img src="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617232856379.png" srcset="/img/loading.gif" lazyload alt="image-20240617232856379"></p>
+<hr>
+<h2 id="端口扫描-1"><a href="#端口扫描-1" class="headerlink" title="端口扫描"></a>端口扫描</h2><p>当确定了目标大概的ip段后，可以先对ip的开放端口进行探测，一些特定服务可能开起在默认端口上，探测开放端口有利于快速收集目标资产，找到目标网站的其他功能站点。</p>
+<h3 id="msscan端口扫描"><a href="#msscan端口扫描" class="headerlink" title="msscan端口扫描"></a><strong>msscan端口扫描</strong></h3><p>msscan -p 1-65535 ip –rate&#x3D;1000</p>
+<p><a target="_blank" rel="noopener" href="https://gitee.com/youshusoft/GoScanner/">https://gitee.com/youshusoft/GoScanner/</a></p>
+<h3 id="御剑端口扫描工具"><a href="#御剑端口扫描工具" class="headerlink" title="御剑端口扫描工具"></a><strong>御剑端口扫描工具</strong></h3><p><img src="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617233420727.png" srcset="/img/loading.gif" lazyload alt="image-20240617233420727"></p>
+<h3 id="nmap扫描端口和探测端口信息"><a href="#nmap扫描端口和探测端口信息" class="headerlink" title="nmap扫描端口和探测端口信息"></a><strong>nmap扫描端口和探测端口信息</strong></h3><p>常用参数，如：</p>
+<p>nmap -sV 192.168.0.2</p>
+<p>nmap -sT 92.168.0.2</p>
+<p>nmap -Pn -A -sC 192.168.0.2</p>
+<p>nmap -sU -sT -p0-65535 192.168.122.1</p>
+<p>用于扫描目标主机服务版本号与开放的端口</p>
+<p>如果需要扫描多个ip或ip段，可以将他们保存到一个txt文件中</p>
+<p>nmap -iL ip.txt</p>
+<p>来扫描列表中所有的ip。</p>
+<p>Nmap为端口探测最常用的方法，操作方便，输出结果非常直观。</p>
+<h3 id="在线端口检测"><a href="#在线端口检测" class="headerlink" title="在线端口检测"></a><strong>在线端口检测</strong></h3><p><a target="_blank" rel="noopener" href="http://coolaf.com/tool/port">http://coolaf.com/tool/port</a></p>
+<p><img src="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617233445208.png" srcset="/img/loading.gif" lazyload alt="image-20240617233445208"></p>
+<p>御剑，msscan，nmap等</p>
+<p>御剑高速端口扫描器：</p>
+<p>填入想要扫描的ip段（如果只扫描一个ip，则开始IP和结束IP填一个即可），可以选择不改默认端口列表，也可以选择自己指定端口。</p>
+<h2 id="渗透端口"><a href="#渗透端口" class="headerlink" title="渗透端口"></a><strong>渗透端口</strong></h2><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">21</span>,<span class="hljs-number">22</span>,<span class="hljs-number">23</span>,<span class="hljs-number">1433</span>,<span class="hljs-number">152</span>,<span class="hljs-number">3306</span>,<span class="hljs-number">3389</span>,<span class="hljs-number">5432</span>,<span class="hljs-number">5900</span>,<span class="hljs-number">50070</span>,<span class="hljs-number">50030</span>,<span class="hljs-number">50000</span>,<span class="hljs-number">27017</span>,<span class="hljs-number">27018</span>,<span class="hljs-number">11211</span>,<span class="hljs-number">9200</span>,<span class="hljs-number">9300</span>,<span class="hljs-number">7001</span>,<span class="hljs-number">7002</span>,<span class="hljs-number">6379</span>,<span class="hljs-number">5984</span>,<span class="hljs-number">873</span>,<span class="hljs-number">443</span>,<span class="hljs-number">8000</span>-<span class="hljs-number">9090</span>,<span class="hljs-number">80</span>-<span class="hljs-number">89</span>,<span class="hljs-number">80</span>,<span class="hljs-number">10000</span>,<span class="hljs-number">8888</span>,<span class="hljs-number">8649</span>,<span class="hljs-number">8083</span>,<span class="hljs-number">8080</span>,<span class="hljs-number">8089</span>,<span class="hljs-number">9090</span>,<span class="hljs-number">7778</span>,<span class="hljs-number">7001</span>,<span class="hljs-number">7002</span>,<span class="hljs-number">6082</span>,<span class="hljs-number">5984</span>,<span class="hljs-number">4440</span>,<span class="hljs-number">3312</span>,<span class="hljs-number">3311</span>,<span class="hljs-number">3128</span>,<span class="hljs-number">2601</span>,<span class="hljs-number">2604</span>,<span class="hljs-number">2222</span>,<span class="hljs-number">2082</span>,<span class="hljs-number">2083</span>,<span class="hljs-number">389</span>,<span class="hljs-number">88</span>,<span class="hljs-number">512</span>,<span class="hljs-number">513</span>,<span class="hljs-number">514</span>,<span class="hljs-number">1025</span>,<span class="hljs-number">111</span>,<span class="hljs-number">1521</span>,<span class="hljs-number">445</span>,<span class="hljs-number">135</span>,<span class="hljs-number">139</span>,<span class="hljs-number">53</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="渗透常见端口及对应服务"><a href="#渗透常见端口及对应服务" class="headerlink" title="渗透常见端口及对应服务"></a><strong>渗透常见端口及对应服务</strong></h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-number">1.</span><span class="hljs-string">web类(web漏洞/敏感目录)</span><br><br><span class="hljs-string">第三方通用组件漏洞struts</span> <span class="hljs-string">thinkphp</span> <span class="hljs-string">jboss</span> <span class="hljs-string">ganglia</span> <span class="hljs-string">zabbix</span><br><br><span class="hljs-number">80</span> <span class="hljs-string">web</span><br><br><span class="hljs-number">80</span><span class="hljs-number">-89</span> <span class="hljs-string">web</span><br><br><span class="hljs-number">8000</span><span class="hljs-number">-9090</span> <span class="hljs-string">web</span><br><br><span class="hljs-number">2</span><span class="hljs-string">.数据库类(扫描弱口令)</span><br><br><span class="hljs-number">1433 </span><span class="hljs-string">MSSQL</span><br><br><span class="hljs-number">1521 </span><span class="hljs-string">Oracle</span><br><br><span class="hljs-number">3306 </span><span class="hljs-string">MySQL</span><br><br><span class="hljs-number">5432 </span><span class="hljs-string">PostgreSQL</span><br><br><span class="hljs-number">3</span><span class="hljs-string">.特殊服务类(未授权/命令执行类/漏洞)</span><br><br><span class="hljs-number">443</span> <span class="hljs-string">SSL心脏滴血</span><br><br><span class="hljs-number">873</span> <span class="hljs-string">Rsync未授权</span><br><br><span class="hljs-number">5984 </span><span class="hljs-string">CouchDB</span> <span class="hljs-string">http://xxx:5984/_utils/</span><br><br><span class="hljs-number">6379 </span><span class="hljs-string">redis未授权</span><br><br><span class="hljs-number">7001</span><span class="hljs-string">,7002</span> <span class="hljs-string">WebLogic默认弱口令，反序列</span><br><br><span class="hljs-number">9200</span><span class="hljs-string">,9300</span> <span class="hljs-string">elasticsearch</span> <span class="hljs-string">参考WooYun:</span> <span class="hljs-string">多玩某服务器ElasticSearch命令执行漏洞</span><br><br><span class="hljs-number">11211</span> <span class="hljs-string">memcache未授权访问</span><br><br><span class="hljs-number">27017</span><span class="hljs-string">,27018</span> <span class="hljs-string">Mongodb未授权访问</span><br><br><span class="hljs-number">50000</span> <span class="hljs-string">SAP命令执行</span><br><br><span class="hljs-number">50070</span><span class="hljs-string">,50030</span> <span class="hljs-string">hadoop默认端口未授权访问</span><br><br><span class="hljs-number">4</span><span class="hljs-string">.常用端口类(扫描弱口令/端口爆破)</span><br><br><span class="hljs-number">21</span> <span class="hljs-string">ftp</span><br><br><span class="hljs-number">22</span> <span class="hljs-string">SSH</span><br><br><span class="hljs-number">23</span> <span class="hljs-string">Telnet</span><br><br><span class="hljs-number">2601</span><span class="hljs-string">,2604</span> <span class="hljs-string">zebra路由，默认密码zebra</span><br><br><span class="hljs-number">3389</span> <span class="hljs-string">远程桌面</span><br><br><span class="hljs-number">5</span><span class="hljs-string">.端口合计详情</span><br><br><span class="hljs-number">21</span> <span class="hljs-string">ftp</span><br><br><span class="hljs-number">22</span> <span class="hljs-string">SSH</span><br><br><span class="hljs-number">23</span> <span class="hljs-string">Telnet</span><br><br><span class="hljs-number">80</span> <span class="hljs-string">web</span><br><br><span class="hljs-number">80</span><span class="hljs-number">-89</span> <span class="hljs-string">web</span><br><br><span class="hljs-number">161</span> <span class="hljs-string">SNMP</span><br><br><span class="hljs-number">389</span> <span class="hljs-string">LDAP</span><br><br><span class="hljs-number">443</span> <span class="hljs-string">SSL心脏滴血以及一些web漏洞测试</span><br><br><span class="hljs-number">445</span> <span class="hljs-string">SMB</span><br><br><span class="hljs-number">512</span><span class="hljs-string">,513,514</span> <span class="hljs-string">Rexec</span><br><br><span class="hljs-number">873</span> <span class="hljs-string">Rsync未授权</span><br><br><span class="hljs-number">1025</span><span class="hljs-string">,111</span> <span class="hljs-string">NFS</span><br><br><span class="hljs-number">1433 </span><span class="hljs-string">MSSQL</span><br><br><span class="hljs-number">1521 </span><span class="hljs-string">Oracle:(iSqlPlus</span> <span class="hljs-string">Port:5560,7778)</span><br><br><span class="hljs-number">2082</span><span class="hljs-string">/2083</span> <span class="hljs-string">cpanel主机管理系统登陆</span> <span class="hljs-string">（国外用较多）</span><br><br><span class="hljs-number">2222 </span><span class="hljs-string">DA虚拟主机管理系统登陆</span> <span class="hljs-string">（国外用较多）</span><br><br><span class="hljs-number">2601</span><span class="hljs-string">,2604</span> <span class="hljs-string">zebra路由，默认密码zebra</span><br><br><span class="hljs-number">3128 </span><span class="hljs-string">squid代理默认端口，如果没设置口令很可能就直接漫游内网了</span><br><br><span class="hljs-number">3306 </span><span class="hljs-string">MySQL</span><br><br><span class="hljs-number">3312</span><span class="hljs-string">/3311</span> <span class="hljs-string">kangle主机管理系统登陆</span><br><br><span class="hljs-number">3389</span> <span class="hljs-string">远程桌面</span><br><br><span class="hljs-number">4440 </span><span class="hljs-string">rundeck</span> <span class="hljs-string">参考WooYun:</span> <span class="hljs-string">借用新浪某服务成功漫游新浪内网</span><br><br><span class="hljs-number">5432 </span><span class="hljs-string">PostgreSQL</span><br><br><span class="hljs-number">5900 </span><span class="hljs-string">vnc</span><br><br><span class="hljs-number">5984 </span><span class="hljs-string">CouchDB</span> <span class="hljs-string">http://xxx:5984/_utils/</span><br><br><span class="hljs-number">6082 </span><span class="hljs-string">varnish</span> <span class="hljs-string">参考WooYun:</span> <span class="hljs-string">Varnish</span> <span class="hljs-string">HTTP</span> <span class="hljs-string">accelerator</span> <span class="hljs-string">CLI</span> <span class="hljs-string">未授权访问易导致网站被直接篡改或者作为代理进入内网</span><br><br><span class="hljs-number">6379 </span><span class="hljs-string">redis未授权</span><br><br><span class="hljs-number">7001</span><span class="hljs-string">,7002</span> <span class="hljs-string">WebLogic默认弱口令，反序列</span><br><br><span class="hljs-number">7778 </span><span class="hljs-string">Kloxo主机控制面板登录</span><br><br><span class="hljs-number">8000</span><span class="hljs-number">-9090</span> <span class="hljs-string">都是一些常见的web端口，有些运维喜欢把管理后台开在这些非80的端口上</span><br><br><span class="hljs-number">8080 </span><span class="hljs-string">tomcat/WDCP主机管理系统，默认弱口令</span><br><br><span class="hljs-number">8080</span><span class="hljs-string">,8089,9090</span> <span class="hljs-string">JBOSS</span><br><br><span class="hljs-number">8083 </span><span class="hljs-string">Vestacp主机管理系统</span> <span class="hljs-string">（国外用较多）</span><br><br><span class="hljs-number">8649 </span><span class="hljs-string">ganglia</span><br><br><span class="hljs-number">8888 </span><span class="hljs-string">amh/LuManager</span> <span class="hljs-string">主机管理系统默认端口</span><br><br><span class="hljs-number">9200</span><span class="hljs-string">,9300</span> <span class="hljs-string">elasticsearch</span> <span class="hljs-string">参考WooYun:</span> <span class="hljs-string">多玩某服务器ElasticSearch命令执行漏洞</span><br><br><span class="hljs-number">10000</span> <span class="hljs-string">Virtualmin/Webmin</span> <span class="hljs-string">服务器虚拟主机管理系统</span><br><br><span class="hljs-number">11211</span> <span class="hljs-string">memcache未授权访问</span><br><br><span class="hljs-number">27017</span><span class="hljs-string">,27018</span> <span class="hljs-string">Mongodb未授权访问</span><br><br><span class="hljs-number">28017</span> <span class="hljs-string">mongodb统计页面</span><br><br><span class="hljs-number">50000</span> <span class="hljs-string">SAP命令执行</span><br><br><span class="hljs-number">50070</span><span class="hljs-string">,50030</span> <span class="hljs-string">hadoop默认端口未授权访问</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="常见的端口和攻击方法"><a href="#常见的端口和攻击方法" class="headerlink" title="常见的端口和攻击方法"></a><strong>常见的端口和攻击方法</strong></h2><p><img src="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240617233531687.png" srcset="/img/loading.gif" lazyload alt="image-20240617233531687"></p>
+<hr>
+<h4 id="查找真实ip-1"><a href="#查找真实ip-1" class="headerlink" title="查找真实ip"></a>查找真实ip</h4><p>如果目标网站使用了CDN，使用了cdn真实的ip会被隐藏，如果要查找真实的服务器就必须获取真实的ip，根据这个ip继续查询旁站。</p>
+<p>注意：很多时候，主站虽然是用了CDN，但子域名可能没有使用CDN，如果主站和子域名在一个ip段中，那么找到子域名的真实ip也是一种途径。</p>
+<p><strong>多地ping确认是否使用CDN</strong></p>
+<p><a target="_blank" rel="noopener" href="http://ping.chinaz.com/">http://ping.chinaz.com/</a></p>
+<p><a target="_blank" rel="noopener" href="http://ping.aizhan.com/">http://ping.aizhan.com/</a></p>
+<p><img src="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240618103735588.png" srcset="/img/loading.gif" lazyload alt="image-20240618103735588"></p>
+<p>** 查询历史DNS解析记录**<br>在查询到的历史解析记录中，最早的历史解析ip很有可能记录的就是真实ip，快速查找真实IP推荐此方法，但并不是所有网站都能查到。</p>
+<p><strong>DNSDB</strong><br><a target="_blank" rel="noopener" href="https://dnsdb.io/zh-cn/">https://dnsdb.io/zh-cn/</a><br><strong>微步在线</strong><br><a target="_blank" rel="noopener" href="https://x.threatbook.cn/">https://x.threatbook.cn/</a></p>
+<p><strong>Ipip.net</strong><br><a target="_blank" rel="noopener" href="https://tools.ipip.net/cdn.php">https://tools.ipip.net/cdn.php</a></p>
+<p><strong>viewdns</strong><br><a target="_blank" rel="noopener" href="https://viewdns.info/">https://viewdns.info</a></p>
+<p><strong>phpinfo</strong><br>如果目标网站存在phpinfo泄露等，可以在phpinfo中的SERVER_ADDR或_SERVER[“SERVER_ADDR”]找到真实ip</p>
+<p><strong>绕过CDN</strong><br>绕过CDN的多种方法具体可以参考 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/qiudabai/p/9763739.html">https://www.cnblogs.com/qiudabai/p/9763739.html</a></p>
+<hr>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/">渗透基础</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F/">渗透</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/06/18/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%89%EF%BC%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">渗透-信息收集（三）</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%80%EF%BC%89/">
+                        <span class="hidden-mobile">渗透之信息收集（一）</span>
+                        <span class="visible-mobile">Nächster</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

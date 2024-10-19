@@ -1,0 +1,536 @@
+
+
+<!DOCTYPE html>
+<html lang="cn" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="红日靶场">
+  
+    <meta name="description" content="红日靶场1，外至内流程，记录学习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="红日靶场（1）">
+<meta property="og:url" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="红日靶场1，外至内流程，记录学习。">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610112901058.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610112917532.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610112944031.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113012092.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113136786.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113145213.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113229156.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113253799.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113301879.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113403698.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113442886.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113412110.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113454890.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113504648.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113531629.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113540705.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113549428.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113611647.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113638905.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113647069.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113656625.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113819088.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113826214.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113903165.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113925837.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113940093.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113954217.png">
+<meta property="article:published_time" content="2024-06-10T03:20:14.000Z">
+<meta property="article:modified_time" content="2024-06-10T16:19:55.361Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="靶场">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610112901058.png">
+  
+  
+  <title>红日靶场（1） - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Startseite
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archiv
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Kategorie
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Etiketten
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                Über mich
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="红日靶场（1）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2024-06-10 11:20" pubdate>
+        June 10, 2024 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">红日靶场（1）</h1>
+            
+            <div class="markdown-body">
+              <h1 id="1、环境配置"><a href="#1、环境配置" class="headerlink" title="1、环境配置"></a>1、环境配置</h1><p>红日靶场中存在一台Windows7，一台Windows server 2003 和一台Windows server 2008</p>
+<p>其中Windows7部署两张网卡 一张仅主机模式，用于内网， 一张看情况，用于外网，这里我是桥接模式</p>
+<p>两台Windows server 是仅主机模式，存在于内网环境中。</p>
+<p>部署完毕后重启</p>
+<p><strong>phpstudy，启动</strong></p>
+<p>开始打靶</p>
+<h1 id="2、web打点"><a href="#2、web打点" class="headerlink" title="2、web打点"></a>2、web打点</h1><p>通过信息收集，发现探针</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610112901058.png" srcset="/img/loading.gif" lazyload alt="01"></p>
+<p>然后尝试弱口令 root&#x2F;root 测试成功</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610112917532.png" srcset="/img/loading.gif" lazyload alt="image-20240610112917532"></p>
+<p>扫描目录，发现phpMyAdmin，使用root&#x2F;root登录</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610112944031.png" srcset="/img/loading.gif" lazyload alt="image-20240610112944031"></p>
+<p>登录成功，这里可以想到使用phpMyAdmin来getshell</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113012092.png" srcset="/img/loading.gif" lazyload alt="image-20240610113012092"></p>
+<p>通过phpinfo报错页面查看到绝对路径，然后使用数据库写入shell，这里有多重方法，这里选择使用日志写入</p>
+<p>&#96;Show variables like ‘%general%’; 查看功能是否开启</p>
+<p>Set global general_log &#x3D; on; 开启日志功能</p>
+<p>Set global general_log_file &#x3D; “c:\phpstuty\www\1.php”; 设置日志输出位置，前提是知道绝对路径&#96;</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113136786.png" srcset="/img/loading.gif" lazyload alt="image-20240610113136786"></p>
+<p>测试PHPinfo，写入成功</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113145213.png" srcset="/img/loading.gif" lazyload alt="image-20240610113145213"></p>
+<h1 id="3、初探"><a href="#3、初探" class="headerlink" title="3、初探"></a>3、初探</h1><p>连接蚁剑，权限为administrator</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113229156.png" srcset="/img/loading.gif" lazyload alt="image-20240610113229156"></p>
+<p>查看防火墙状态，发现打开，然后关闭</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113253799.png" srcset="/img/loading.gif" lazyload alt="image-20240610113253799"></p>
+<p>生成一个木马，然后传到蚁剑，打开运行，msf上线，方便后续操作</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113301879.png" srcset="/img/loading.gif" lazyload alt="image-20240610113301879"></p>
+<h1 id="4、深入"><a href="#4、深入" class="headerlink" title="4、深入"></a>4、深入</h1><p>使用msf查看域信息<img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113403698.png" srcset="/img/loading.gif" lazyload alt="image-20240610113403698"><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113442886.png" srcset="/img/loading.gif" lazyload alt="image-20240610113442886"></p>
+<p>利用msf打开远程rdp，使用kali的redesktop ip:3389连接，这里连接成功了，没截图</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113412110.png" srcset="/img/loading.gif" lazyload alt="image-20240610113412110"></p>
+<p>查看arp信息，动态和静态，52网段<img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113454890.png" srcset="/img/loading.gif" lazyload alt="image-20240610113454890"></p>
+<p>查看域内用户</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113504648.png" srcset="/img/loading.gif" lazyload alt="image-20240610113504648"></p>
+<p>有内网，直接上cs了</p>
+<p>CS4.0，上传木马，然后传到Windows7后打开上线</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113531629.png" srcset="/img/loading.gif" lazyload alt="image-20240610113531629"></p>
+<p>查看域以及对应的ip地址</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113540705.png" srcset="/img/loading.gif" lazyload alt="image-20240610113540705"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113549428.png" srcset="/img/loading.gif" lazyload alt="image-20240610113549428"></p>
+<p>使用cs自带的cs提权，直接提取至system权限</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113611647.png" srcset="/img/loading.gif" lazyload alt="image-20240610113611647"></p>
+<h2 id="与msf关联"><a href="#与msf关联" class="headerlink" title="与msf关联"></a>与msf关联</h2><p>创建forset_http监听，然后然后msf监听对应ip以及端口</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113638905.png" srcset="/img/loading.gif" lazyload alt="image-20240610113638905"></p>
+<p>使用msf自带的smb扫描工具，然后查询445端口</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113647069.png" srcset="/img/loading.gif" lazyload alt="image-20240610113647069"></p>
+<p>使用msf模块查看系统中安装了哪些应用，这里顺带一提，实战中估计可以利用一些软件漏洞提权或者其他操作</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113656625.png" srcset="/img/loading.gif" lazyload alt="image-20240610113656625"></p>
+<h2 id="sockers-反向代理"><a href="#sockers-反向代理" class="headerlink" title="sockers 反向代理"></a>sockers 反向代理</h2><p>使用cs创建隧道，中转-&gt;socker server 然后配置proxychains </p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113819088.png" srcset="/img/loading.gif" lazyload alt="image-20240610113819088"></p>
+<p>然后使用proxychains firefox 打开火狐 访问 192.168.52.138</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113826214.png" srcset="/img/loading.gif" lazyload alt="image-20240610113826214"></p>
+<p>成功出网，但是无法将端口转发到metpreter，更换个代理工具，用lcx，然后配置proxychnains firefox 打开192.168.52.138，正常</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113903165.png" srcset="/img/loading.gif" lazyload alt="image-20240610113903165"></p>
+<p>回到msf</p>
+<p>load kiwi 加载kiwi，</p>
+<p>creds_all 显示明文密码</p>
+<p>creds_kerberos 显示所有</p>
+<p>这里内网横向使用CS自带的工具，创建一个smb监听器，然后使用jump-psexce，使用使用hashdump出来的管理员明文登录</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113925837.png" srcset="/img/loading.gif" lazyload alt="image-20240610113925837"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113940093.png" srcset="/img/loading.gif" lazyload alt="image-20240610113940093"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A51/image-20240610113954217.png" srcset="/img/loading.gif" lazyload alt="image-20240610113954217"></p>
+<h6 id="博客目的是为了将我的onenot中之前的学习笔记备份至github中，所以内容所显潦草🫡"><a href="#博客目的是为了将我的onenot中之前的学习笔记备份至github中，所以内容所显潦草🫡" class="headerlink" title="博客目的是为了将我的onenot中之前的学习笔记备份至github中，所以内容所显潦草🫡"></a>博客目的是为了将我的onenot中之前的学习笔记备份至github中，所以内容所显潦草🫡</h6>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA/">红日靶场</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%B6%E5%9C%BA/">靶场</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/06/10/%E7%BA%A2%E6%97%A52/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">红日靶场（2）</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2002/10/18/1/">
+                        <span class="hidden-mobile">me</span>
+                        <span class="visible-mobile">Nächster</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

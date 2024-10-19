@@ -1,0 +1,553 @@
+
+
+<!DOCTYPE html>
+<html lang="cn" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="信息收集">
+  
+    <meta name="description" content="此篇包含了渗透实战中常用的信息收集手段，用于备份。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="渗透之信息收集（一）">
+<meta property="og:url" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="此篇包含了渗透实战中常用的信息收集手段，用于备份。">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%80%EF%BC%89/image-20240617233109222.png">
+<meta property="og:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%80%EF%BC%89/image-20240617233022961.png">
+<meta property="og:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%80%EF%BC%89/image-20240617233040795.png">
+<meta property="og:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%80%EF%BC%89/image-20240617233140676.png">
+<meta property="og:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%80%EF%BC%89/image-20240617233234071.png">
+<meta property="og:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%80%EF%BC%89/image-20240617233250532.png">
+<meta property="article:published_time" content="2024-06-16T14:58:08.000Z">
+<meta property="article:modified_time" content="2024-06-18T02:55:33.336Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="渗透">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%80%EF%BC%89/image-20240617233109222.png">
+  
+  
+  <title>渗透之信息收集（一） - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Startseite
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archiv
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Kategorie
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Etiketten
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                Über mich
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="渗透之信息收集（一）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2024-06-16 22:58" pubdate>
+        June 16, 2024 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      34 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">渗透之信息收集（一）</h1>
+            
+            <div class="markdown-body">
+              <h1 id="1、简介"><a href="#1、简介" class="headerlink" title="1、简介"></a>1、简介</h1><p>渗透的本质是信息收集，在一个渗透项目当中，信息搜集是一个非常重要的环节，搜集足够多的信息，测试足够多的信息，才有足够多的可能。</p>
+<p><strong>搜集信息主要包括但不限于域名信息，子域名信息，网站信息，网站根目录敏感文件，网站真实ip，ip暴露端口，中间件信息等等….</strong></p>
+<hr>
+<h1 id="Web信息搜集"><a href="#Web信息搜集" class="headerlink" title="Web信息搜集"></a>Web信息搜集</h1><h2 id="前期探测"><a href="#前期探测" class="headerlink" title="前期探测"></a>前期探测</h2><p><strong>1、域名信息</strong><br><strong>2、对应ip收集</strong><br>相关域名对应ip，相关工具：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">nslookup</span><br><br>ip138……<br></code></pre></td></tr></table></figure>
+
+<p>查找目标域名信息的方法</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">fofa title=“公司名称”<br><br>百度搜索 <span class="hljs-built_in">int</span>itle=公司名称<br><br>Google搜索 <span class="hljs-built_in">int</span>itle=公司名称<br><br>站长之家直接搜索名称或者网站域名即可查看相关信息：http:<span class="hljs-comment">//tool.chinaz.com</span><br><br>钟馗之眼 site=域名即可 https:<span class="hljs-comment">//www.zoomeye.org/</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>3、子域名收集</strong></p>
+<p>收集的子域名可以扩大测试的范围，统一域名下的二级域名都属于目标范围</p>
+<p><strong>子域名在线查询</strong><br><a target="_blank" rel="noopener" href="https://www.t1h2ua.cn/tools/">https://www.t1h2ua.cn/tools/</a>**</p>
+<p><strong>工具：layer、subDomainsBrute</strong></p>
+<p><img src="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%80%EF%BC%89/image-20240617233109222.png" srcset="/img/loading.gif" lazyload alt="image-20240617233109222"></p>
+<p><strong>子域名在线查询1</strong><br><a target="_blank" rel="noopener" href="https://phpinfo.me/domain/">https://phpinfo.me/domain/</a></p>
+<p><img src="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%80%EF%BC%89/image-20240617233022961.png" srcset="/img/loading.gif" lazyload alt="image-20240617233022961"></p>
+<p><strong>dns侦测</strong><br><a target="_blank" rel="noopener" href="https://dnsdumpster.com/">https://dnsdumpster.com/</a><br><img src="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%80%EF%BC%89/image-20240617233040795.png" srcset="/img/loading.gif" lazyload alt="image-20240617233040795"></p>
+<p><strong>IP138查询子域名</strong><br><a target="_blank" rel="noopener" href="https://site.ip138.com/baidu.com/domain.htm">https://site.ip138.com/baidu.com/domain.htm</a></p>
+<p><strong>FOFA搜索子域名</strong><br><a target="_blank" rel="noopener" href="https://fofa.so/">https://fofa.so/</a></p>
+<p>语法：domain&#x3D;“baidu.com”</p>
+<p><strong>Hackertarget查询子域名</strong><br><a target="_blank" rel="noopener" href="https://hackertarget.com/find-dns-host-records/">https://hackertarget.com/find-dns-host-records/</a></p>
+<p>注意：通过该方法查询子域名可以得到一个目标大概的ip段，接下来可以通过ip来收集信息。</p>
+<p><strong>360测绘空间</strong><br><a target="_blank" rel="noopener" href="https://quake.360.cn/">https://quake.360.cn/</a></p>
+<p>domain:”*.freebuf.com”</p>
+<p><strong>SubDomainBrute</strong><br>pip install aiodns</p>
+<p><img src="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%80%EF%BC%89/image-20240617233140676.png" srcset="/img/loading.gif" lazyload alt="image-20240617233140676"></p>
+<p>运行命令subDomainsBrute.py freebuf.com</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">subDomainsBrute<span class="hljs-selector-class">.py</span> freebuf<span class="hljs-selector-class">.com</span> <span class="hljs-attr">--full</span> -o freebuf2.txt<br></code></pre></td></tr></table></figure>
+
+<p><strong>Sublist3r</strong><br><a target="_blank" rel="noopener" href="https://github.com/aboul3la/Sublist3r">https://github.com/aboul3la/Sublist3r</a></p>
+<p>pip install -r requirements.txt</p>
+<p>提示：以上方法为爆破子域名，由于字典比较强大，所以效率较高。</p>
+<p>帮助文档</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-deletion">-h ：帮助</span><br><br><span class="hljs-deletion">-d ：指定主域名枚举子域名</span><br><br><span class="hljs-deletion">-b ：调用subbrute暴力枚举子域名</span><br><br><span class="hljs-deletion">-p ：指定tpc端口扫描子域名</span><br><br><span class="hljs-deletion">-v ：显示实时详细信息结果</span><br><br><span class="hljs-deletion">-t ：指定线程</span><br><br><span class="hljs-deletion">-e ：指定搜索引擎</span><br><br><span class="hljs-deletion">-o ：将结果保存到文本</span><br><br><span class="hljs-deletion">-n ：输出不带颜色</span><br><br>默认参数扫描子域名<br><br>python sublist3r.py -d baidu.com<br><br>使用暴力枚举子域名<br><br>python sublist3r -b -d baidu.com<br></code></pre></td></tr></table></figure>
+
+<p><strong>OneForALL</strong><br>pip3 install –user -r requirements.txt -i <a target="_blank" rel="noopener" href="https://mirrors.aliyun.com/pypi/simple/">https://mirrors.aliyun.com/pypi/simple/</a></p>
+<p>python3 oneforall.py –target baidu.com run &#x2F;<em>收集</em>&#x2F;</p>
+<p><img src="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%80%EF%BC%89/image-20240617233234071.png" srcset="/img/loading.gif" lazyload alt="image-20240617233234071"></p>
+<p><strong>爆破子域名</strong></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs stylus">brute<span class="hljs-selector-class">.py</span> <span class="hljs-attr">--target</span> domain<span class="hljs-selector-class">.com</span> <span class="hljs-attr">--word</span> True run<br><br>brute<span class="hljs-selector-class">.py</span> <span class="hljs-attr">--targets</span> ./domains<span class="hljs-selector-class">.txt</span> <span class="hljs-attr">--word</span> True run<br><br>brute<span class="hljs-selector-class">.py</span> <span class="hljs-attr">--target</span> domain<span class="hljs-selector-class">.com</span> <span class="hljs-attr">--word</span> True <span class="hljs-attr">--concurrent</span> <span class="hljs-number">2000</span> run<br><br>brute<span class="hljs-selector-class">.py</span> <span class="hljs-attr">--target</span> domain<span class="hljs-selector-class">.com</span> <span class="hljs-attr">--word</span> True <span class="hljs-attr">--wordlist</span> subnames<span class="hljs-selector-class">.txt</span> run<br><br>brute<span class="hljs-selector-class">.py</span> <span class="hljs-attr">--target</span> domain<span class="hljs-selector-class">.com</span> <span class="hljs-attr">--word</span> True <span class="hljs-attr">--recursive</span> True <span class="hljs-attr">--depth</span> <span class="hljs-number">2</span> run<br><br>brute<span class="hljs-selector-class">.py</span> <span class="hljs-attr">--target</span> d<span class="hljs-selector-class">.com</span> <span class="hljs-attr">--fuzz</span> True <span class="hljs-attr">--place</span> m.*<span class="hljs-selector-class">.d</span><span class="hljs-selector-class">.com</span> <span class="hljs-attr">--rule</span> <span class="hljs-string">&#x27;[a-z]&#x27;</span> run<br><br>brute<span class="hljs-selector-class">.py</span> <span class="hljs-attr">--target</span> d<span class="hljs-selector-class">.com</span> <span class="hljs-attr">--fuzz</span> True <span class="hljs-attr">--place</span> m.*<span class="hljs-selector-class">.d</span><span class="hljs-selector-class">.com</span> <span class="hljs-attr">--fuzzlist</span> subnames<span class="hljs-selector-class">.txt</span> run<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%80%EF%BC%89/image-20240617233250532.png" srcset="/img/loading.gif" lazyload alt="image-20240617233250532"></p>
+<p><strong>隐藏域名hosts碰撞</strong><br>隐藏资产探测-hosts碰撞</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/fuASZODw1rLvgT7GySMC8Q">https://mp.weixin.qq.com/s/fuASZODw1rLvgT7GySMC8Q</a></p>
+<p>很多时候访问目标资产IP响应多为：401、403、404、500，但是用域名请求却能返回正常的业务系统（禁止IP直接访问），因为这大多数都是需要绑定host才能正常请求访问的 （目前互联网公司基本的做法）（域名删除了A记录，但是反代的配置未更新），那么我们就可以通过收集到的目标的 域名 和 目标资产 的IP段组合起来，以 IP段+域名 的形式进行捆绑碰撞，就能发现很多有意思的东西。</p>
+<p>在发送http请求的时候，对域名和IP列表进行配对，然后遍历发送请求 （就相当于修改了本地的hosts文件一样），并把相应的title和响应包大小拿回 来做对比，即可快速发现一些隐蔽的资产。</p>
+<p>进行hosts碰撞需要目标的域名和目标的相关IP作为字典</p>
+<p>域名就不说了</p>
+<p>相关IP来源有：</p>
+<p>目标域名历史解析IP</p>
+<p><a target="_blank" rel="noopener" href="https://site.ip138.com/">https://site.ip138.com/</a></p>
+<p><a target="_blank" rel="noopener" href="https://ipchaxun.com/">https://ipchaxun.com/</a></p>
+<p>ip正则</p>
+<p><a target="_blank" rel="noopener" href="https://www.aicesu.cn/reg/">https://www.aicesu.cn/reg/</a></p>
+<p><strong>4、Whois信息查询</strong><br>根据已知域名反查，分析出此域名的注册人、邮箱、电话等</p>
+<p>工具：爱站网、站长工具、微步在线（<a href="https://x.threatbook.cn）、site.ip138.com、searchdns.netcraft.com、国外whois信息查询网址：https://who.is旁站c段">https://x.threatbook.cn）、site.ip138.com、searchdns.netcraft.com、国外whois信息查询网址：https://who.is旁站c段</a><br><strong>5、旁站</strong><br>一个服务器上有多个网站 通过ip查询服务器上的网站</p>
+<p>C段<br>查找同一个ip段服务器上的网站，可以找到同样同站的类型和服务器，也可以获取同段服务器进行下一步渗透</p>
+<p>收集方向<br>域名、端口、目录</p>
+<p><strong>常用工具</strong></p>
+<p>Webè<a target="_blank" rel="noopener" href="http://www.5kik.com/c/%E3%80%81%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F%E5%B7%A5%E5%85%B7">http://www.5kik.com/c/、目录扫描工具</a></p>
+<hr>
+<h4 id="敏感目录"><a href="#敏感目录" class="headerlink" title="敏感目录"></a>敏感目录</h4><p>通过扫描目录和文件，大致了解同站的的结构，获取突破点，比如后台，文件备份，上传点<br><strong>收集方向</strong><br>Robots.txt、后台目录、安装包、上传目录、mysql管理接口、安装页面、phpinfo、编辑器、iis短文件、分析网站cms</p>
+<p><strong>常用工具</strong><br>字典爆破：御剑、dirbuster、wwwscan、iis_shortname_scanner等</p>
+<p>菜刀、webrobot、burp等</p>
+<hr>
+<h4 id="端口分析"><a href="#端口分析" class="headerlink" title="端口分析"></a>端口分析</h4><p>服务器需要开放服务，就必须开启端口，常见的端口是tcp和udp两种类型范围0-65535通过扫描得到的端口访问服务，规划下一步渗透</p>
+<hr>
+<h2 id="整站分析"><a href="#整站分析" class="headerlink" title="整站分析"></a>整站分析</h2><h3 id="1、服务器类型"><a href="#1、服务器类型" class="headerlink" title="1、服务器类型"></a><strong>1、服务器类型</strong></h3><p>服务器平台、版本等</p>
+<h3 id="2、网站容器"><a href="#2、网站容器" class="headerlink" title="2、网站容器"></a><strong>2、网站容器</strong></h3><p>搭建网站等服务组件，例如：iis、apache、nginx、tomact等</p>
+<h3 id="3、脚本类型"><a href="#3、脚本类型" class="headerlink" title="3、脚本类型"></a><strong>3、脚本类型</strong></h3><p>Asp、php、jsp、aspx等</p>
+<h3 id="4、数据库类型"><a href="#4、数据库类型" class="headerlink" title="4、数据库类型"></a><strong>4、数据库类型</strong></h3><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs ada"><span class="hljs-keyword">Access</span>、sqlserver、mysql、oracle、postgresql等<br><br>Asp+<span class="hljs-keyword">access</span>/sqlserver<br><br>Aspx+sqlserver/<span class="hljs-keyword">access</span><br><br>Php+mysql<br><br>Php+postgresql<br><br>Php+oracle<br><br>Jsp+sqlserver/mysql/oracle<br><br>Linux jsp+mysql<br><br>Windows jsp+sqlserver<br></code></pre></td></tr></table></figure>
+
+<h3 id="4、CMS类型"><a href="#4、CMS类型" class="headerlink" title="4、CMS类型"></a><strong>4、CMS类型</strong></h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs awk">Robots文件<br><br><span class="hljs-regexp">/plugs/</span> 之梦<br><br>登陆后台泄露cms类型<br><br>网站页脚泄露的cms<br><br>工具自动化识别cms类型<br><br>对应的cms漏洞直接利用<br><br>下载对应的cms分析目录<br><br>审计该cms源码漏洞<br><br>WAF<br></code></pre></td></tr></table></figure>
+
+<h3 id="谷歌hacker"><a href="#谷歌hacker" class="headerlink" title="谷歌hacker"></a>谷歌hacker</h3><p><strong>Intext：</strong><br>查找网页中含有xx关键字的网站 例：intext：管理员登陆</p>
+<p><strong>Intitle：</strong><br>查找某个标题 例：intitle：后台登陆</p>
+<p><strong>Filetype：</strong><br>查找某个文件类型的文件 例：数据挖掘filetype：doc</p>
+<p><strong>Inurl：</strong><br>查找url中带有某字段的网站 例：inurl：php？id&#x3D;</p>
+<p><strong>Site：</strong><br>中某域名中查找信息</p>
+<p>….</p>
+<hr>
+<h3 id="url采集"><a href="#url采集" class="headerlink" title="url采集"></a>url采集</h3><p><strong>采集相关url的同类网站</strong><br>例如:<br>Php？id&#x3D;<br><strong>漏洞网站</strong><br>相同某种指纹网站<br><strong>常用工具</strong><br>谷歌hacker<br>url采集器</p>
+<h3 id="信息分析"><a href="#信息分析" class="headerlink" title="信息分析"></a>信息分析</h3><p><strong>服务信息收集</strong></p>
+<p>网络服务：web&#x2F;ftp&#x2F;telnet&#x2F;ssh&#x2F;mail&#x2F;mysql&#x2F;mssql&#x2F;oracle&#x2F;rdp<br>服务版本，漏洞等相关信息收集<br>系统版本信息收集</p>
+<hr>
+<h3 id="网络设备信息收集"><a href="#网络设备信息收集" class="headerlink" title="网络设备信息收集"></a>网络设备信息收集</h3><p>网络开放端口<br>路由<br>防火墙<br>代理服务器等相关设备的收集<br>Shodan</p>
+<hr>
+<h3 id="后台查找"><a href="#后台查找" class="headerlink" title="后台查找"></a>后台查找</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">弱口令默认后台：<span class="hljs-keyword">admin</span>，<span class="hljs-keyword">admin</span>/<span class="hljs-keyword">login</span>.asp，manage，asp等<br><br>查找网页等链接：一般来说，网站等主页有管理登陆类似的东西，有些<br><br>查找网站图片的属性<br><br>查找网站使用的管理系统，从而确定后台<br><br>用工具查找：wwwscan，intellitamper，御剑<br><br>txt的帮助：robots.txt文件告诉蜘蛛程序中服务器上什么样的文件<br><br>Googlehacker<br><br>查看网站使用的编辑器上否有默认后台<br><br>短文件利用<br><br>sqlmap –<span class="hljs-keyword">sql</span>-shel load_file(‘d:/wwwroot/<span class="hljs-keyword">index</span>.php’)<br><br>找关联性信息<br><br>同一个建站商<br><br>同一个注册邮箱<br><br>同一个注册人<br><br>后台可能不在同一个站<br></code></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="端口后台"><a href="#端口后台" class="headerlink" title="端口后台"></a><strong>端口后台</strong></h3><p><strong>子域名</strong><br><strong>Admin.baidu.com</strong></p>
+<p><strong>System.baidu.com</strong></p>
+<p><em>可能是完全独立的另一个域名</em><br><em>如果是同一个服务器可以查旁站</em></p>
+<hr>
+<h3 id="CDN绕过"><a href="#CDN绕过" class="headerlink" title="CDN绕过"></a>CDN绕过</h3><p><em>判断CDN（超级ping）</em></p>
+<p>绕过：</p>
+<p>查找二级域名、让服务器主动给你发包（邮件）、敏感目录泄漏、查询历史解析ip、访问绕过CDN（修改hosts文件）</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/">渗透基础</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F/">渗透</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">渗透-信息收集（二）</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/">
+                        <span class="hidden-mobile">CFS三层靶机</span>
+                        <span class="visible-mobile">Nächster</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

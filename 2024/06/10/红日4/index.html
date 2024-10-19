@@ -1,0 +1,604 @@
+
+
+<!DOCTYPE html>
+<html lang="cn" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="红日靶场">
+  
+    <meta name="description" content="红日靶场学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="红日靶场（4）">
+<meta property="og:url" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="红日靶场学习笔记">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610125908734.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130012215.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130034549.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130043600.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130046803.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130159949.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130225005.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130238977.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130313075.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130317044.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130323877.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130404448.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130348530.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130413481.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130427424.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130430351.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130439858.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130443393.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130453272.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130459144.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130506688.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130512662.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130531270.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130534319.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130537785.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130555458.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130609331.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130615554.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130618409.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130651507.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130658743.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130704855.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130709653.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130715960.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130729202.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130733976.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130746921.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130753120.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130804867.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130811562.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130818706.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130845289.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130848069.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130858420.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130910718.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130917611.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130923599.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130950869.png">
+<meta property="article:published_time" content="2024-06-10T04:57:55.000Z">
+<meta property="article:modified_time" content="2024-06-10T16:19:49.239Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="靶场">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610125908734.png">
+  
+  
+  <title>红日靶场（4） - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Startseite
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archiv
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Kategorie
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Etiketten
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                Über mich
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="红日靶场（4）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2024-06-10 12:57" pubdate>
+        June 10, 2024 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">红日靶场（4）</h1>
+            
+            <div class="markdown-body">
+              <h1 id="1、环境配置"><a href="#1、环境配置" class="headerlink" title="1、环境配置"></a>1、环境配置</h1><p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610125908734.png" srcset="/img/loading.gif" lazyload alt="image-20240610125908734"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">拿出一张网卡配183网段，然后仅主机模式<br>然后web机器做一些配置<br>先进入ubuntu启动web,开启3个环境<br><span class="hljs-built_in">cd</span> /home/ubuntu/Desktop/vulhub/struts2/s2-045<br><span class="hljs-built_in">sudo</span> docker-compose up -d<br><span class="hljs-built_in">cd</span> /home/ubuntu/Desktop/vulhub/tomcat/CVE-2017-12615/<br><span class="hljs-built_in">sudo</span> docker-compose up -d<br><span class="hljs-built_in">cd</span> /home/ubuntu/Desktop/vulhub/phpmyadmin/CVE-2018-12613/<br><span class="hljs-built_in">sudo</span> docker-compose up -d<br></code></pre></td></tr></table></figure>
+
+<h1 id="2、外网"><a href="#2、外网" class="headerlink" title="2、外网"></a>2、外网</h1><p>信息收集，外网开放4个端口，整理</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130012215.png" srcset="/img/loading.gif" lazyload alt="image-20240610130012215"></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-number">2001</span><span class="hljs-number">-2003</span><br><br><span class="hljs-number">2001</span><span class="hljs-string">：status</span><br><br><span class="hljs-number">2002</span><span class="hljs-string">：tomcat</span><br><br><span class="hljs-number">2003</span><span class="hljs-string">：phpmyadmin</span><br></code></pre></td></tr></table></figure>
+
+<p>使用工具查看端口细节，2001端口struts2，直接漏洞利用</p>
+<p>2002漏洞，tomacat，爆破</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130034549.png" srcset="/img/loading.gif" lazyload alt="image-20240610130034549"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130043600.png" srcset="/img/loading.gif" lazyload alt="image-20240610130043600"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130046803.png" srcset="/img/loading.gif" lazyload alt="image-20240610130046803"></p>
+<p>漏洞利用，直接getshell</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130159949.png" srcset="/img/loading.gif" lazyload alt="image-20240610130159949"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130225005.png" srcset="/img/loading.gif" lazyload alt="image-20240610130225005"></p>
+<p>这个不是root权限，直接放弃，可能有目录读取</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130238977.png" srcset="/img/loading.gif" lazyload alt="image-20240610130238977"></p>
+<p>tomcat漏洞利用，put写入文件，直接写入jsp的shell</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130313075.png" srcset="/img/loading.gif" lazyload alt="image-20240610130313075"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130317044.png" srcset="/img/loading.gif" lazyload alt="image-20240610130317044"></p>
+<p>写入shell，这里需要简单的绕过</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130323877.png" srcset="/img/loading.gif" lazyload alt="image-20240610130323877"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130404448.png" srcset="/img/loading.gif" lazyload alt="image-20240610130404448"></p>
+<p>哥斯拉连接</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130348530.png" srcset="/img/loading.gif" lazyload alt="image-20240610130348530"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130413481.png" srcset="/img/loading.gif" lazyload alt="image-20240610130413481"></p>
+<p>开启监听，反弹</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130427424.png" srcset="/img/loading.gif" lazyload alt="image-20240610130427424"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130430351.png" srcset="/img/loading.gif" lazyload alt="image-20240610130430351"></p>
+<p>这是一个docker环境</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130439858.png" srcset="/img/loading.gif" lazyload alt="image-20240610130439858"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130443393.png" srcset="/img/loading.gif" lazyload alt="image-20240610130443393"></p>
+<p>查看教程，逃逸</p>
+<p><a target="_blank" rel="noopener" href="http://www.zlprogram.com/Show/36/HYYX68M9.shtml">http://www.zlprogram.com/Show/36/HYYX68M9.shtml</a></p>
+<p>这里将磁盘挂在到自己创建的文件里边，然后发现存在逃逸，写入ssh公钥</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130453272.png" srcset="/img/loading.gif" lazyload alt="image-20240610130453272"></p>
+<p>创建公钥私钥</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130459144.png" srcset="/img/loading.gif" lazyload alt="image-20240610130459144"></p>
+<p>然后将内容写入在家目录的.ssh中</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130506688.png" srcset="/img/loading.gif" lazyload alt="image-20240610130506688"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130512662.png" srcset="/img/loading.gif" lazyload alt="image-20240610130512662"></p>
+<p>方法1，在kali创建公钥和私钥，然后传到靶机，使用 ssh -i[私钥] 参数连接</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130531270.png" srcset="/img/loading.gif" lazyload alt="image-20240610130531270"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130534319.png" srcset="/img/loading.gif" lazyload alt="image-20240610130534319"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130537785.png" srcset="/img/loading.gif" lazyload alt="image-20240610130537785"></p>
+<p>方法2，因为可以修改文件，所以说直接吧相同版本中的Ubuntu中新建的用户里边的password和shadow用户复制到etc的对应的文件中</p>
+<p>方法3</p>
+<p>Docker逃逸漏洞目前已知有</p>
+<ul>
+<li><p>Dirty     Cow（CVE-2016-5195）是Linux内核中的权限提升漏洞</p>
+</li>
+<li><p>CVE-2019-5736</p>
+</li>
+<li><p>emote     api 未授权访问</p>
+</li>
+</ul>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130555458.png" srcset="/img/loading.gif" lazyload alt="image-20240610130555458"></p>
+<p>最后2个</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36197704/article/details/122109838">https://blog.csdn.net/qq_36197704/article/details/122109838</a></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130609331.png" srcset="/img/loading.gif" lazyload alt="image-20240610130609331"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130615554.png" srcset="/img/loading.gif" lazyload alt="image-20240610130615554"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130618409.png" srcset="/img/loading.gif" lazyload alt="image-20240610130618409"></p>
+<p>但是但是！！！</p>
+<p>这里我复现3个，一个都没成功！！！</p>
+<p>直接Ubuntu:ubuntu连接了。。。。。😭</p>
+<h1 id="3、内网"><a href="#3、内网" class="headerlink" title="3、内网"></a>3、内网</h1><p>假装逃逸出来后，生一个马子</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130651507.png" srcset="/img/loading.gif" lazyload alt="image-20240610130651507"></p>
+<p>开启监听，马上传上去，运行，上线</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130658743.png" srcset="/img/loading.gif" lazyload alt="image-20240610130658743"></p>
+<p>发现内网网段</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130704855.png" srcset="/img/loading.gif" lazyload alt="image-20240610130704855"></p>
+<p>开启msf的自动路由功能</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130709653.png" srcset="/img/loading.gif" lazyload alt="image-20240610130709653"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130715960.png" srcset="/img/loading.gif" lazyload alt="image-20240610130715960"></p>
+<p>上传fscan，使用fscan搜集内网网段的内容，2台存在永恒之蓝漏洞</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130729202.png" srcset="/img/loading.gif" lazyload alt="image-20240610130729202"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130733976.png" srcset="/img/loading.gif" lazyload alt="image-20240610130733976"></p>
+<p>检测，发现漏洞存在</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130746921.png" srcset="/img/loading.gif" lazyload alt="image-20240610130746921"></p>
+<p>开启msf的socks代理，proxychains代理监听1080</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130753120.png" srcset="/img/loading.gif" lazyload alt="image-20240610130753120"></p>
+<p>这里一直失败，永恒之蓝两台机器，已经连过去了，但是一直连接失败，怀疑是代理问题，换个代理吧</p>
+<p>Ew内网代理</p>
+<p>kali</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130804867.png" srcset="/img/loading.gif" lazyload alt="image-20240610130804867"></p>
+<p>靶机</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130811562.png" srcset="/img/loading.gif" lazyload alt="image-20240610130811562"></p>
+<p>访问成功</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130818706.png" srcset="/img/loading.gif" lazyload alt="image-20240610130818706"></p>
+<p>但是使用msf框架利用永恒之蓝攻击失败，这里貌似运气成分把，需要多攻击几次，不过懒得弄了</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130845289.png" srcset="/img/loading.gif" lazyload alt="image-20240610130845289"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130848069.png" srcset="/img/loading.gif" lazyload alt="image-20240610130848069"></p>
+<p>使用chisel</p>
+<p>Ubuntu（出网靶机）是服务器</p>
+<p>.&#x2F;chisel servers -p 8888 –socke5</p>
+<p>kali是攻击机，也就是需要接受出网靶机的端口(10.87是出网靶机的IP)</p>
+<p>.&#x2F;chisel client 192.168.10.87:8888 socks</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130858420.png" srcset="/img/loading.gif" lazyload alt="image-20240610130858420"></p>
+<p>kali</p>
+<p>1080监听端口，然后nmap扫描，可以扫描</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130910718.png" srcset="/img/loading.gif" lazyload alt="image-20240610130910718"></p>
+<p>Msf，永恒之蓝Windows7，成功拿下</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130917611.png" srcset="/img/loading.gif" lazyload alt="image-20240610130917611"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130923599.png" srcset="/img/loading.gif" lazyload alt="image-20240610130923599"></p>
+<p>Load_kiw查看账号密码，但是这里我想进shell一直进不去，timeout，估计又是隧道的问题，这里暂时没有想到解决办法，所以放弃。</p>
+<p>一般关闭防火墙后打开3389或者使用psexec和wmiexec都可以连接，然后上传mimikatz查看管理员密码，在使用2个工具关闭防火墙就可以拿下域了吧。。。。</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130950869.png" srcset="/img/loading.gif" lazyload alt="image-20240610130950869"></p>
+<p>关关难，关关过，虽然失败了，但是也会学会了工具使用了</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA/">红日靶场</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%B6%E5%9C%BA/">靶场</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/06/10/%E7%BA%A2%E6%97%A55/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">红日靶场（5）</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/06/10/%E7%BA%A2%E6%97%A53/">
+                        <span class="hidden-mobile">红日靶场（3）</span>
+                        <span class="visible-mobile">Nächster</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,579 @@
+
+
+<!DOCTYPE html>
+<html lang="cn" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="信息收集">
+  
+    <meta name="description" content="此篇包含了渗透实战中常用的信息收集手段，用于备份。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="渗透-信息收集（三）">
+<meta property="og:url" content="http://example.com/2024/06/18/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%89%EF%BC%89/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="此篇包含了渗透实战中常用的信息收集手段，用于备份。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2024-06-18T02:39:06.000Z">
+<meta property="article:modified_time" content="2024-06-18T02:55:36.946Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="渗透">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>渗透-信息收集（三） - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Startseite
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archiv
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Kategorie
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Etiketten
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                Über mich
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="渗透-信息收集（三）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2024-06-18 10:39" pubdate>
+        June 18, 2024 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      51 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">渗透-信息收集（三）</h1>
+            
+            <div class="markdown-body">
+              <h1 id="信息收集其他"><a href="#信息收集其他" class="headerlink" title="信息收集其他"></a>信息收集其他</h1><h2 id="旁站和C段"><a href="#旁站和C段" class="headerlink" title="旁站和C段"></a>旁站和C段</h2><p>旁站往往存在业务功能站点，建议先收集已有IP的旁站，再探测C段，确认C段目标后，再在C段的基础上再收集一次旁站。</p>
+<p>旁站是和已知目标站点在同一服务器但不同端口的站点，通过以下方法搜索到旁站后，先访问一下确定是不是自己需要的站点信息。</p>
+<p><strong>站长之家</strong><br>同ip网站查询<a target="_blank" rel="noopener" href="http://stool.chinaz.com/same">http://stool.chinaz.com/same</a></p>
+<p><a target="_blank" rel="noopener" href="https://chapangzhan.com/">https://chapangzhan.com/</a></p>
+<p><strong>google hacking</strong><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36119192/article/details/84029809">https://blog.csdn.net/qq_36119192/article/details/84029809</a></p>
+<p><strong>网络空间搜索引擎</strong></p>
+<p>如FOFA搜索旁站和C段</p>
+<p>该方法效率较高，并能够直观地看到站点标题，但也有不常见端口未收录的情况，虽然这种情况很少，但之后补充资产的时候可以用下面的方法nmap扫描再收集一遍。</p>
+<p><strong>在线c段 webscan.cc</strong><br>webscan.cc</p>
+<p><a target="_blank" rel="noopener" href="https://c.webscan.cc/">https://c.webscan.cc/</a></p>
+<p><strong>c段利用脚本</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs css">pip install requests<br><br><span class="hljs-selector-id">#coding</span>:utf-<span class="hljs-number">8</span><br><br>import requests<br><br>import json<br><br>def <span class="hljs-built_in">get_c</span>(ip):<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;正在收集&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(ip))<br><br>url=<span class="hljs-string">&quot;http://api.webscan.cc/?action=query&amp;ip=&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(ip)<br><br>req=requests.<span class="hljs-built_in">get</span>(url=url)<br><br>html=req.text<br><br>data=req.<span class="hljs-built_in">json</span>()<br><br>if <span class="hljs-string">&#x27;null&#x27;</span> not in html:<br><br>with <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;resulit.txt&quot;</span>, <span class="hljs-string">&#x27;a&#x27;</span>, encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>) as f:<br><br>f.<span class="hljs-built_in">write</span>(ip + <span class="hljs-string">&#x27;\n&#x27;</span>)<br><br>f.<span class="hljs-built_in">close</span>()<br><br>for i in data:<br><br>with <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;resulit.txt&quot;</span>, <span class="hljs-string">&#x27;a&#x27;</span>,encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>) as f:<br><br>f.<span class="hljs-built_in">write</span>(<span class="hljs-string">&quot;\t&#123;&#125; &#123;&#125;\n&quot;</span>.<span class="hljs-built_in">format</span>(i[<span class="hljs-string">&#x27;domain&#x27;</span>],i[<span class="hljs-string">&#x27;title&#x27;</span>]))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;     [+] &#123;&#125; &#123;&#125;[+]&quot;</span>.<span class="hljs-built_in">format</span>(i[<span class="hljs-string">&#x27;domain&#x27;</span>],i[<span class="hljs-string">&#x27;title&#x27;</span>]))<br><br>f.<span class="hljs-built_in">close</span>()<br><br>def <span class="hljs-built_in">get_ips</span>(ip):<br><br>iplist=[]<br><br>ips_str = ip[:ip.<span class="hljs-built_in">rfind</span>(<span class="hljs-string">&#x27;.&#x27;</span>)]<br><br>for ips in <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">256</span>):<br><br>ipadd=ips_str + <span class="hljs-string">&#x27;.&#x27;</span> + <span class="hljs-built_in">str</span>(ips)<br><br>iplist.<span class="hljs-built_in">append</span>(ipadd)<br><br>return iplist<br><br>ip=<span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;请你输入要查询的ip:&quot;</span>)<br><br>ips=<span class="hljs-built_in">get_ips</span>(ip)<br><br>for p in ips:<br><br><span class="hljs-built_in">get_c</span>(p)<br></code></pre></td></tr></table></figure>
+
+<p><strong>Nmap,Msscan扫描等</strong><br>例如：nmap -p 80,443,8000,8080 -Pn 192.168.0.0&#x2F;24</p>
+<p>常见端口表</p>
+<p>21,22,23,80-90,161,389,443,445,873,1099,1433,1521,1900,2082,2083,2222,2601,2604,3128,3306,3311,3312,3389,4440,4848,5432,5560,5900,5901,5902,6082,6379,7001-7010,7778,8080-8090,8649,8888,9000,9200,10000,11211,27017,28017,50000,50030,50060,135,139,445,53,88</p>
+<p>注意：探测C段时一定要确认ip是否归属于目标，因为一个C段中的所有ip不一定全部属于目标。</p>
+<hr>
+<h2 id="网络空间搜索引擎"><a href="#网络空间搜索引擎" class="headerlink" title="网络空间搜索引擎"></a>网络空间搜索引擎</h2><p>如果想要在短时间内快速收集资产，那么利用网络空间搜索引擎是不错的选择，可以直观地看到旁站，端口，站点标题，IP等信息，点击列举出站点可以直接访问，以此来判断是否为自己需要的站点信息。FOFA的常用语法</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs routeros">1、同IP旁站：<span class="hljs-attribute">ip</span>=“192.168.0.1”<br><br>2、C段：<span class="hljs-attribute">ip</span>=“192.168.0.0/24”<br><br>3、子域名：<span class="hljs-attribute">domain</span>=“baidu.com”<br><br>4、标题/关键字：<span class="hljs-attribute">title</span>=“百度”<br><br>5、如果需要将结果缩小到某个城市的范围，那么可以拼接语句<br><br><span class="hljs-attribute">title</span>=“百度”&amp;&amp; <span class="hljs-attribute">region</span>=“Beijing”<br><br>特征：<span class="hljs-attribute">body</span>=<span class="hljs-string">&quot;百度&quot;</span>或header=“baidu”<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="敏感文件搜索"><a href="#敏感文件搜索" class="headerlink" title="敏感文件搜索"></a>敏感文件搜索</h2><h3 id="GitHub搜索"><a href="#GitHub搜索" class="headerlink" title="GitHub搜索"></a><strong>GitHub搜索</strong></h3><p>in:name test #仓库标题搜索含有关键字test</p>
+<p>in:descripton test #仓库描述搜索含有关键字</p>
+<p>in:readme test #Readme文件搜素含有关键字</p>
+<p>搜索某些系统的密码</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/search?q=smtp+58.com+password+3306&type=Code">https://github.com/search?q=smtp+58.com+password+3306&amp;type=Code</a></p>
+<p>github 关键词监控</p>
+<p><a target="_blank" rel="noopener" href="https://www.codercto.com/a/46640.html">https://www.codercto.com/a/46640.html</a></p>
+<h3 id="谷歌搜索"><a href="#谷歌搜索" class="headerlink" title="谷歌搜索"></a><strong>谷歌搜索</strong></h3><p>site:Github.com sa password</p>
+<p>site:Github.com root password</p>
+<p>site:Github.com User ID&#x3D;‘sa’;Password</p>
+<p>site:Github.com inurl:sql</p>
+<h3 id="SVN-信息收集"><a href="#SVN-信息收集" class="headerlink" title="SVN 信息收集"></a><strong>SVN 信息收集</strong></h3><p>site:Github.com svn</p>
+<p>site:Github.com svn username</p>
+<p>site:Github.com svn password</p>
+<p>site:Github.com svn username password</p>
+<h3 id="综合信息收集"><a href="#综合信息收集" class="headerlink" title="综合信息收集"></a><strong>综合信息收集</strong></h3><p>site:Github.com password</p>
+<p>site:Github.com ftp ftppassword</p>
+<p>site:Github.com 密码</p>
+<p>site:Github.com 内部</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36119192/article/details/99690742">https://blog.csdn.net/qq_36119192/article/details/99690742</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.361way.com/github-hack/6284.html">http://www.361way.com/github-hack/6284.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.github.com/cn/github/searching-for-information-on-github/searching-code">https://docs.github.com/cn/github/searching-for-information-on-github/searching-code</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/search?q=smtp+bilibili.com&type=code">https://github.com/search?q=smtp+bilibili.com&amp;type=code</a></p>
+<h3 id="Google-hacking"><a href="#Google-hacking" class="headerlink" title="Google-hacking"></a><strong>Google-hacking</strong></h3><p>site:域名</p>
+<p>inurl: url中存在的关键字网页</p>
+<p>intext：网页正文中的关键词</p>
+<p>filetype:指定文件类型</p>
+<h3 id="wooyun漏洞库"><a href="#wooyun漏洞库" class="headerlink" title="wooyun漏洞库"></a><strong>wooyun漏洞库</strong></h3><p><a target="_blank" rel="noopener" href="https://wooyun.website/">https://wooyun.website/</a><br>联系管理员limanman233可以获得海量漏洞库</p>
+<hr>
+<h3 id="网盘搜索"><a href="#网盘搜索" class="headerlink" title="网盘搜索"></a><strong>网盘搜索</strong></h3><p>凌云搜索 <a target="_blank" rel="noopener" href="https://www.lingfengyun.com/">https://www.lingfengyun.com/</a></p>
+<p>盘多多：<a target="_blank" rel="noopener" href="http://www.panduoduo.net/">http://www.panduoduo.net/</a></p>
+<p>盘搜搜：<a target="_blank" rel="noopener" href="http://www.pansoso.com/">http://www.pansoso.com/</a></p>
+<p>盘搜：<a target="_blank" rel="noopener" href="http://www.pansou.com/">http://www.pansou.com/</a></p>
+<h3 id="社工库"><a href="#社工库" class="headerlink" title="社工库"></a><strong>社工库</strong></h3><p>名字&#x2F;常用id&#x2F;邮箱&#x2F;密码&#x2F;电话 登录 网盘 网站 邮箱 找敏感信息</p>
+<p>tg机器人</p>
+<h3 id="社工相关"><a href="#社工相关" class="headerlink" title="社工相关"></a>社工相关</h3><p>微信或者QQ 混入内部群，蹲点观测。加客服小姐姐发一些连接。进一步获取敏感信息。测试产品，购买服务器，拿去测试账号和密码。</p>
+<h3 id="网站注册信息"><a href="#网站注册信息" class="headerlink" title="网站注册信息"></a><strong>网站注册信息</strong></h3><p><a target="_blank" rel="noopener" href="http://www.reg007.com查询网站注册信息/">www.reg007.com查询网站注册信息</a></p>
+<p>一般是配合社工库一起来使用。</p>
+<h3 id="js敏感信息"><a href="#js敏感信息" class="headerlink" title="js敏感信息"></a><strong>js敏感信息</strong></h3><p>网站的url连接写到js里面<br>js的api接口 里面包含用户信息 比如 账号和密码</p>
+<p>** jsfinder**<br><a target="_blank" rel="noopener" href="https://gitee.com/kn1fes/JSFinder">https://gitee.com/kn1fes/JSFinder</a></p>
+<p>python3 JSFinder.py -u <a target="_blank" rel="noopener" href="http://www.mi.com/">http://www.mi.com</a></p>
+<p>python3 JSFinder.py -u <a target="_blank" rel="noopener" href="http://www.mi.com/">http://www.mi.com</a> -d</p>
+<p>python3 JSFinder.py -u <a target="_blank" rel="noopener" href="http://www.mi.com/">http://www.mi.com</a> -d -ou mi_url.txt -os mi_subdomain.txt</p>
+<p>当你想获取更多信息的时候，可以使用-d进行深度爬取来获得更多内容，并使用命令 -ou, -os来指定URL和子域名所保存的文件名</p>
+<p>批量指定URL和JS链接来获取里面的URL。</p>
+<p>指定URL：</p>
+<p>python JSFinder.py -f text.txt</p>
+<p>指定JS：</p>
+<p>python JSFinder.py -f text.txt -j</p>
+<h4 id="Packer-Fuzzer"><a href="#Packer-Fuzzer" class="headerlink" title="Packer-Fuzzer"></a><strong>Packer-Fuzzer</strong></h4><p>寻找网站交互接口 授权key</p>
+<p>随着WEB前端打包工具的流行，您在日常渗透测试、安全服务中是否遇到越来越多以Webpack打包器为代表的网站？这类打包器会将整站的API和API参数打包在一起供Web集中调用，这也便于我们快速发现网站的功能和API清单，但往往这些打包器所生成的JS文件数量异常之多并且总JS代码量异常庞大（多达上万行），这给我们的手工测试带来了极大的不便，Packer Fuzzer软件应运而生。</p>
+<p>本工具支持自动模糊提取对应目标站点的API以及API对应的参数内容，并支持对：未授权访问、敏感信息泄露、CORS、SQL注入、水平越权、弱口令、任意文件上传七大漏洞进行模糊高效的快速检测。在扫描结束之后，本工具还支持自动生成扫描报告，您可以选择便于分析的HTML版本以及较为正规的doc、pdf、txt版本。</p>
+<p>sudo apt-get install nodejs &amp;&amp; sudo apt-get install npm</p>
+<p>git clone <a target="_blank" rel="noopener" href="https://gitee.com/keyboxdzd/Packer-Fuzzer.git">https://gitee.com/keyboxdzd/Packer-Fuzzer.git</a></p>
+<p>pip3 install -r requirements.txt</p>
+<p>python3 PackerFuzzer.py -u <a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/">https://www.liaoxuefeng.com</a></p>
+<h3 id="SecretFinder"><a href="#SecretFinder" class="headerlink" title="SecretFinder"></a><strong>SecretFinder</strong></h3><p>一款基于Python脚本的JavaScript敏感信息搜索工具</p>
+<p><a target="_blank" rel="noopener" href="https://gitee.com/mucn/SecretFinder">https://gitee.com/mucn/SecretFinder</a></p>
+<p>python3 SecretFinder.py -i <a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com/</a> -e</p>
+<h3 id="github信息泄露监控"><a href="#github信息泄露监控" class="headerlink" title="github信息泄露监控"></a>github信息泄露监控</h3><p><a target="_blank" rel="noopener" href="https://github.com/0xbug/Hawkeye">https://github.com/0xbug/Hawkeye</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/MiSecurity/x-patrol">https://github.com/MiSecurity/x-patrol</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/VKSRC/Github-Monitor">https://github.com/VKSRC/Github-Monitor</a></p>
+<h3 id="物理接触"><a href="#物理接触" class="headerlink" title="物理接触"></a>物理接触</h3><p>到企业办公层连接wifi，连同内网。丢一些带有后门的usb 开放免费的wifi截取账号和密码。</p>
+<hr>
+<h2 id="非常规操作"><a href="#非常规操作" class="headerlink" title="非常规操作"></a>非常规操作</h2><p>1、如果找到了目标的一处资产，但是对目标其他资产的收集无处下手时，可以查看一下该站点的body里是否有目标的特征，然后利用网络空间搜索引擎（如fofa等）对该特征进行搜索，如：body&#x3D;”XX公司”或body&#x3D;”baidu”等。</p>
+<p>该方式一般适用于特征明显，资产数量较多的目标，并且很多时候效果拔群。</p>
+<p>2、当通过上述方式的找到test.com的特征后，再进行body的搜索，然后再搜索到test.com的时候，此时fofa上显示的ip大概率为test.com的真实IP。</p>
+<p>3、如果需要对政府网站作为目标，那么在批量获取网站首页的时候，可以用上</p>
+<p><a target="_blank" rel="noopener" href="http://114.55.181.28/databaseInfo/index">http://114.55.181.28/databaseInfo/index</a></p>
+<p>之后可以结合上一步的方法进行进一步的信息收集。</p>
+<hr>
+<h2 id="SSL-TLS证书查询"><a href="#SSL-TLS证书查询" class="headerlink" title="SSL&#x2F;TLS证书查询"></a>SSL&#x2F;TLS证书查询</h2><p>SSL&#x2F;TLS证书通常包含域名、子域名和邮件地址等信息，结合证书中的信息，可以更快速地定位到目标资产，获取到更多目标资产的相关信息。</p>
+<p><a target="_blank" rel="noopener" href="https://myssl.com/">https://myssl.com/</a></p>
+<p><a target="_blank" rel="noopener" href="https://crt.sh/">https://crt.sh</a></p>
+<p><a target="_blank" rel="noopener" href="https://censys.io/">https://censys.io</a></p>
+<p><a target="_blank" rel="noopener" href="https://developers.facebook.com/tools/ct/">https://developers.facebook.com/tools/ct/</a></p>
+<p><a target="_blank" rel="noopener" href="https://google.com/transparencyreport/https/ct/">https://google.com/transparencyreport/https/ct/</a></p>
+<p>SSL证书搜索引擎：</p>
+<p><a target="_blank" rel="noopener" href="https://certdb.com/domain/github.com">https://certdb.com/domain/github.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://crt.sh/?Identity=%25.baidu.com">https://crt.sh/?Identity=%.baidu.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://censys.io/">https://censys.io/</a></p>
+<p>GetDomainsBySSL.py</p>
+<hr>
+<h2 id="移动资产收集"><a href="#移动资产收集" class="headerlink" title="移动资产收集"></a>移动资产收集</h2><h3 id="微信小程序支付宝小程序"><a href="#微信小程序支付宝小程序" class="headerlink" title="微信小程序支付宝小程序"></a><strong>微信小程序支付宝小程序</strong></h3><p>现在很多企业都有小程序，可以关注企业的微信公众号或者支付宝小程序，或关注运营相关人员，查看朋友圈，获取小程序。</p>
+<p><a target="_blank" rel="noopener" href="https://weixin.sogou.com/weixin?type=1&ie=utf8&query=%E6%8B%BC%E5%A4%9A%E5%A4%9A">https://weixin.sogou.com/weixin?type=1&amp;ie=utf8&amp;query=%E6%8B%BC%E5%A4%9A%E5%A4%9A</a></p>
+<h3 id="app软件搜索"><a href="#app软件搜索" class="headerlink" title="app软件搜索"></a><strong>app软件搜索</strong></h3><p><a target="_blank" rel="noopener" href="https://www.qimai.cn/">https://www.qimai.cn/</a></p>
+<h3 id="社交信息搜索"><a href="#社交信息搜索" class="headerlink" title="社交信息搜索"></a>社交信息搜索</h3><p>QQ群 QQ手机号</p>
+<p>微信群</p>
+<p>领英</p>
+<p><a target="_blank" rel="noopener" href="https://www.linkedin.com/">https://www.linkedin.com/</a></p>
+<p>脉脉招聘</p>
+<p>boss招聘</p>
+<hr>
+<h3 id="常用工具推荐"><a href="#常用工具推荐" class="headerlink" title="常用工具推荐"></a>常用工具推荐</h3><h4 id="资产收集神器"><a href="#资产收集神器" class="headerlink" title="资产收集神器"></a>资产收集神器</h4><p>ARL(Asset Reconnaissance Lighthouse)资产侦察灯塔系统</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/TophantTechnology/ARL">https://github.com/TophantTechnology/ARL</a></p>
+<p>AssetsHunter</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/rabbitmask/AssetsHunter">https://github.com/rabbitmask/AssetsHunter</a></p>
+<p>一款用于src资产信息收集的工具</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/sp4rkw/Reaper">https://github.com/sp4rkw/Reaper</a></p>
+<p>domain_hunter_pro</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/bit4woo/domain_hunter_pro">https://github.com/bit4woo/domain_hunter_pro</a></p>
+<p>LangSrcCurise</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/shellsec/LangSrcCurise">https://github.com/shellsec/LangSrcCurise</a></p>
+<p>网段资产</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/colodoo/midscan">https://github.com/colodoo/midscan</a></p>
+<p>Fuzz字典推荐：<a target="_blank" rel="noopener" href="https://github.com/TheKingOfDuck/fuzzDicts">https://github.com/TheKingOfDuck/fuzzDicts</a></p>
+<p>BurpCollector(BurpSuite参数收集插件)：<a target="_blank" rel="noopener" href="https://github.com/TEag1e/BurpCollector">https://github.com/TEag1e/BurpCollector</a></p>
+<p>Wfuzz：<a target="_blank" rel="noopener" href="https://github.com/xmendez/wfuzz">https://github.com/xmendez/wfuzz</a></p>
+<p>LinkFinder：<a target="_blank" rel="noopener" href="https://github.com/GerbenJavado/LinkFinder">https://github.com/GerbenJavado/LinkFinder</a></p>
+<p>PoCBox：<a target="_blank" rel="noopener" href="https://github.com/Acmesec/PoCBox">https://github.com/Acmesec/PoCBox</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/">渗透基础</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F/">渗透</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">渗透-越权</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/">
+                        <span class="hidden-mobile">渗透-信息收集（二）</span>
+                        <span class="visible-mobile">Nächster</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

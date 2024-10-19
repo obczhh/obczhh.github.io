@@ -1,0 +1,521 @@
+
+
+<!DOCTYPE html>
+<html lang="cn" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="红日靶场">
+  
+    <meta name="description" content="红日靶场">
+<meta property="og:type" content="article">
+<meta property="og:title" content="红日靶场（5）">
+<meta property="og:url" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="红日靶场">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233721335.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233726073.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233750090.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233754007.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233758453.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233804887.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233830037.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233848273.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233857407.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233916111.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233939119.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233957452.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234027496.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234044238.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234051645.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234057953.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234104144.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234111370.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234117398.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234206575.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234213973.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234227311.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234237264.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234245869.png">
+<meta property="og:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234255621.png">
+<meta property="article:published_time" content="2024-06-10T15:35:49.000Z">
+<meta property="article:modified_time" content="2024-06-10T16:19:47.203Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="网络安全 靶场">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233721335.png">
+  
+  
+  <title>红日靶场（5） - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Startseite
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archiv
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Kategorie
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Etiketten
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                Über mich
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="红日靶场（5）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2024-06-10 23:35" pubdate>
+        June 10, 2024 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      364 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      4 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">红日靶场（5）</h1>
+            
+            <div class="markdown-body">
+              <h1 id="1、环境搭建"><a href="#1、环境搭建" class="headerlink" title="1、环境搭建"></a>1、环境搭建</h1><p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233721335.png" srcset="/img/loading.gif" lazyload alt="image-20240610233721335"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233726073.png" srcset="/img/loading.gif" lazyload alt="image-20240610233726073"></p>
+<h1 id="2、环境搭建"><a href="#2、环境搭建" class="headerlink" title="2、环境搭建"></a>2、环境搭建</h1><p>端口+漏洞扫描，发现存在thinkPHP漏洞</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233750090.png" srcset="/img/loading.gif" lazyload alt="image-20240610233750090"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233754007.png" srcset="/img/loading.gif" lazyload alt="image-20240610233754007"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233758453.png" srcset="/img/loading.gif" lazyload alt="image-20240610233758453"></p>
+<p>直接使用利用工具，getshell</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233804887.png" srcset="/img/loading.gif" lazyload alt="image-20240610233804887"></p>
+<p>蚁剑连接</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233830037.png" srcset="/img/loading.gif" lazyload alt="image-20240610233830037"></p>
+<p>上线msf</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233848273.png" srcset="/img/loading.gif" lazyload alt="image-20240610233848273"></p>
+<p>设置监听，成功上线</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233857407.png" srcset="/img/loading.gif" lazyload alt="image-20240610233857407"></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233916111.png" srcset="/img/loading.gif" lazyload alt="image-20240610233916111"></p>
+<p>成功内网ip，有个138.138网络</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233939119.png" srcset="/img/loading.gif" lazyload alt="image-20240610233939119"></p>
+<p>msf查看域用户</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610233957452.png" srcset="/img/loading.gif" lazyload alt="image-20240610233957452"></p>
+<h1 id="3、内网"><a href="#3、内网" class="headerlink" title="3、内网"></a>3、内网</h1><p>这里换一个用使用leo用户impersonate_toke切换</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234027496.png" srcset="/img/loading.gif" lazyload alt="image-20240610234027496"></p>
+<p>进入shell</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234044238.png" srcset="/img/loading.gif" lazyload alt="image-20240610234044238"></p>
+<p>开启自动路由</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234051645.png" srcset="/img/loading.gif" lazyload alt="image-20240610234051645"></p>
+<p>检测永恒之蓝，存在</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234057953.png" srcset="/img/loading.gif" lazyload alt="image-20240610234057953"></p>
+<p>获取leo的system权限，失败</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234104144.png" srcset="/img/loading.gif" lazyload alt="image-20240610234104144"></p>
+<p>这里先获取admin权限，在获取system权限，使用msf自带的模块</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234111370.png" srcset="/img/loading.gif" lazyload alt="image-20240610234111370"></p>
+<p>查看域用户，域账户dc.sun.com，ping，发现域控制器</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234117398.png" srcset="/img/loading.gif" lazyload alt="image-20240610234117398"></p>
+<p>关闭防火墙</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234206575.png" srcset="/img/loading.gif" lazyload alt="image-20240610234206575"></p>
+<p>打开隧道</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234213973.png" srcset="/img/loading.gif" lazyload alt="image-20240610234213973"></p>
+<p>Load_kiw</p>
+<p>Creds_all</p>
+<p>查看密文密码</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234227311.png" srcset="/img/loading.gif" lazyload alt="image-20240610234227311"></p>
+<p><strong>Psexec 攻击</strong></p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234237264.png" srcset="/img/loading.gif" lazyload alt="image-20240610234237264"></p>
+<p>但是一直攻击失败，放弃使用psexec，上线cs看看</p>
+<p>使用payload注入，监听reverse_http然后CS也同理，IP和端口一致</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234245869.png" srcset="/img/loading.gif" lazyload alt="image-20240610234245869"></p>
+<p>掏出wmiexec试试，成功了。。。。域拿下</p>
+<p><img src="/2024/06/10/%E7%BA%A2%E6%97%A55/image-20240610234255621.png" srcset="/img/loading.gif" lazyload alt="image-20240610234255621"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA/">红日靶场</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8-%E9%9D%B6%E5%9C%BA/">网络安全 靶场</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/06/10/%E7%BA%A2%E6%97%A57/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">红日靶场（7）</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/06/10/%E7%BA%A2%E6%97%A54/">
+                        <span class="hidden-mobile">红日靶场（4）</span>
+                        <span class="visible-mobile">Nächster</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
