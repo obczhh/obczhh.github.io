@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
+<html lang="zh-CN" data-default-color-scheme=dark>
 
 
 
@@ -105,7 +105,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😒","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -178,18 +178,6 @@
             </li>
           
         
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -235,7 +223,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.6k 字
+      1.6k 个字
     </span>
   
 
@@ -327,7 +315,7 @@
 <p>开始爆破，设置字典，这里方便测试，将域密码也放入测试，爆破成功</p>
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A53/image-20240610124848413.png" srcset="/img/loading.gif" lazyload alt="image-20240610124848413"></p>
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A53/image-20240610124859257.png" srcset="/img/loading.gif" lazyload alt="image-20240610124859257"></p>
-<h2 id="wmiexec-smb-利用"><a href="#wmiexec-smb-利用" class="headerlink" title="wmiexec smb****利用"></a><strong>wmiexec smb****利用</strong></h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs awk">WMI介绍：<br>WMI（Windows Management Instrumentation,Windows 管理规范）是一项核心的 Windows 管理技术；用户可以使用 WMI 管理本地和远程计算机。     <br><br>作用：WMI以CIMOM为基础，CIMOM即公共信息模型对象管理器（Common Information Model Object Manager），是一个描述操作系统构成单元的对象数据库，为MMC和脚本程序提供了一个访问操作系统构成单元的公共接口。有了WMI，工具软件和脚本程序访问操作系统的不同部分时不需要使用不同的API；相反，操作系统的不同部分都可以插入WMI，工具软件和脚本程序可以方便地读写WMI。<br><br> WMI 可以管理本地和远程计算机，攻击者使用 wmi 攻击时 windows 系统默认不会在日志中记录这些操作，可以做到无日志、攻击脚本无需写入到磁盘，增加了隐蔽性。<br> <br> wmiexec下载地址：https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/CoreSecurity/im</span>packet<span class="hljs-regexp">/blob/m</span>aster<span class="hljs-regexp">/examples/</span>wmiexec.py<br></code></pre></td></tr></table></figure>
+<h2 id="wmiexec-smb-利用"><a href="#wmiexec-smb-利用" class="headerlink" title="wmiexec smb****利用"></a><strong>wmiexec smb****利用</strong></h2><figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">WMI介绍：<br>WMI（Windows Management Instrumentation,Windows 管理规范）是一项核心的 Windows 管理技术；用户可以使用 WMI 管理本地和远程计算机。     <br><br>作用：WMI以CIMOM为基础，CIMOM即公共信息模型对象管理器（Common Information Model Object Manager），是一个描述操作系统构成单元的对象数据库，为MMC和脚本程序提供了一个访问操作系统构成单元的公共接口。有了WMI，工具软件和脚本程序访问操作系统的不同部分时不需要使用不同的API；相反，操作系统的不同部分都可以插入WMI，工具软件和脚本程序可以方便地读写WMI。<br><br> WMI 可以管理本地和远程计算机，攻击者使用 wmi 攻击时 windows 系统默认不会在日志中记录这些操作，可以做到无日志、攻击脚本无需写入到磁盘，增加了隐蔽性。<br> <br> wmiexec下载地址：https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/CoreSecurity/im</span>packet<span class="hljs-regexp">/blob/m</span>aster<span class="hljs-regexp">/examples/</span>wmiexec.py<br></code></pre></div></td></tr></table></figure>
 
 <p>连接个个内网</p>
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A53/image-20240610125011175.png" srcset="/img/loading.gif" lazyload alt="image-20240610125011175"></p>
@@ -372,29 +360,6 @@
                 
               </div>
               
-              
-                <div class="post-prevnext">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2024/06/10/%E7%BA%A2%E6%97%A54/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">红日靶场（4）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2024/06/10/%E7%BA%A2%E6%97%A52/">
-                        <span class="hidden-mobile">红日靶场（2）</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
               
             </div>
 
@@ -455,7 +420,8 @@
 
   <footer class="text-center mt-5 py-3">
   <div class="footer-content">
-     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    
+
   </div>
   
 

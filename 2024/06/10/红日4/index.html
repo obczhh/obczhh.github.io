@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
+<html lang="zh-CN" data-default-color-scheme=dark>
 
 
 
@@ -116,7 +116,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😒","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -189,18 +189,6 @@
             </li>
           
         
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -246,7 +234,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      1.5k 个字
     </span>
   
 
@@ -288,11 +276,11 @@
             
             <div class="markdown-body">
               <h1 id="1、环境配置"><a href="#1、环境配置" class="headerlink" title="1、环境配置"></a>1、环境配置</h1><p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610125908734.png" srcset="/img/loading.gif" lazyload alt="image-20240610125908734"></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">拿出一张网卡配183网段，然后仅主机模式<br>然后web机器做一些配置<br>先进入ubuntu启动web,开启3个环境<br><span class="hljs-built_in">cd</span> /home/ubuntu/Desktop/vulhub/struts2/s2-045<br><span class="hljs-built_in">sudo</span> docker-compose up -d<br><span class="hljs-built_in">cd</span> /home/ubuntu/Desktop/vulhub/tomcat/CVE-2017-12615/<br><span class="hljs-built_in">sudo</span> docker-compose up -d<br><span class="hljs-built_in">cd</span> /home/ubuntu/Desktop/vulhub/phpmyadmin/CVE-2018-12613/<br><span class="hljs-built_in">sudo</span> docker-compose up -d<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">拿出一张网卡配183网段，然后仅主机模式<br>然后web机器做一些配置<br>先进入ubuntu启动web,开启3个环境<br><span class="hljs-built_in">cd</span> /home/ubuntu/Desktop/vulhub/struts2/s2-045<br><span class="hljs-built_in">sudo</span> docker-compose up -d<br><span class="hljs-built_in">cd</span> /home/ubuntu/Desktop/vulhub/tomcat/CVE-2017-12615/<br><span class="hljs-built_in">sudo</span> docker-compose up -d<br><span class="hljs-built_in">cd</span> /home/ubuntu/Desktop/vulhub/phpmyadmin/CVE-2018-12613/<br><span class="hljs-built_in">sudo</span> docker-compose up -d<br></code></pre></div></td></tr></table></figure>
 
 <h1 id="2、外网"><a href="#2、外网" class="headerlink" title="2、外网"></a>2、外网</h1><p>信息收集，外网开放4个端口，整理</p>
 <p><img src="/2024/06/10/%E7%BA%A2%E6%97%A54/image-20240610130012215.png" srcset="/img/loading.gif" lazyload alt="image-20240610130012215"></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-number">2001</span><span class="hljs-number">-2003</span><br><br><span class="hljs-number">2001</span><span class="hljs-string">：status</span><br><br><span class="hljs-number">2002</span><span class="hljs-string">：tomcat</span><br><br><span class="hljs-number">2003</span><span class="hljs-string">：phpmyadmin</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-number">2001</span><span class="hljs-number">-2003</span><br><br><span class="hljs-number">2001</span><span class="hljs-string">：status</span><br><br><span class="hljs-number">2002</span><span class="hljs-string">：tomcat</span><br><br><span class="hljs-number">2003</span><span class="hljs-string">：phpmyadmin</span><br></code></pre></div></td></tr></table></figure>
 
 <p>使用工具查看端口细节，2001端口struts2，直接漏洞利用</p>
 <p>2002漏洞，tomacat，爆破</p>
@@ -419,29 +407,6 @@
               </div>
               
               
-                <div class="post-prevnext">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2024/06/10/%E7%BA%A2%E6%97%A55/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">红日靶场（5）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2024/06/10/%E7%BA%A2%E6%97%A53/">
-                        <span class="hidden-mobile">红日靶场（3）</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
             </div>
 
             
@@ -501,7 +466,8 @@
 
   <footer class="text-center mt-5 py-3">
   <div class="footer-content">
-     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    
+
   </div>
   
 

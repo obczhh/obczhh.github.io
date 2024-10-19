@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
+<html lang="zh-CN" data-default-color-scheme=dark>
 
 
 
@@ -67,7 +67,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😒","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -140,18 +140,6 @@
             </li>
           
         
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -197,7 +185,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.1k 字
+      6.1k 个字
     </span>
   
 
@@ -249,7 +237,7 @@
 <p><strong>在线c段 webscan.cc</strong><br>webscan.cc</p>
 <p><a target="_blank" rel="noopener" href="https://c.webscan.cc/">https://c.webscan.cc/</a></p>
 <p><strong>c段利用脚本</strong></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs css">pip install requests<br><br><span class="hljs-selector-id">#coding</span>:utf-<span class="hljs-number">8</span><br><br>import requests<br><br>import json<br><br>def <span class="hljs-built_in">get_c</span>(ip):<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;正在收集&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(ip))<br><br>url=<span class="hljs-string">&quot;http://api.webscan.cc/?action=query&amp;ip=&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(ip)<br><br>req=requests.<span class="hljs-built_in">get</span>(url=url)<br><br>html=req.text<br><br>data=req.<span class="hljs-built_in">json</span>()<br><br>if <span class="hljs-string">&#x27;null&#x27;</span> not in html:<br><br>with <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;resulit.txt&quot;</span>, <span class="hljs-string">&#x27;a&#x27;</span>, encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>) as f:<br><br>f.<span class="hljs-built_in">write</span>(ip + <span class="hljs-string">&#x27;\n&#x27;</span>)<br><br>f.<span class="hljs-built_in">close</span>()<br><br>for i in data:<br><br>with <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;resulit.txt&quot;</span>, <span class="hljs-string">&#x27;a&#x27;</span>,encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>) as f:<br><br>f.<span class="hljs-built_in">write</span>(<span class="hljs-string">&quot;\t&#123;&#125; &#123;&#125;\n&quot;</span>.<span class="hljs-built_in">format</span>(i[<span class="hljs-string">&#x27;domain&#x27;</span>],i[<span class="hljs-string">&#x27;title&#x27;</span>]))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;     [+] &#123;&#125; &#123;&#125;[+]&quot;</span>.<span class="hljs-built_in">format</span>(i[<span class="hljs-string">&#x27;domain&#x27;</span>],i[<span class="hljs-string">&#x27;title&#x27;</span>]))<br><br>f.<span class="hljs-built_in">close</span>()<br><br>def <span class="hljs-built_in">get_ips</span>(ip):<br><br>iplist=[]<br><br>ips_str = ip[:ip.<span class="hljs-built_in">rfind</span>(<span class="hljs-string">&#x27;.&#x27;</span>)]<br><br>for ips in <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">256</span>):<br><br>ipadd=ips_str + <span class="hljs-string">&#x27;.&#x27;</span> + <span class="hljs-built_in">str</span>(ips)<br><br>iplist.<span class="hljs-built_in">append</span>(ipadd)<br><br>return iplist<br><br>ip=<span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;请你输入要查询的ip:&quot;</span>)<br><br>ips=<span class="hljs-built_in">get_ips</span>(ip)<br><br>for p in ips:<br><br><span class="hljs-built_in">get_c</span>(p)<br></code></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs css">pip install requests<br><br><span class="hljs-selector-id">#coding</span>:utf-<span class="hljs-number">8</span><br><br>import requests<br><br>import json<br><br>def <span class="hljs-built_in">get_c</span>(ip):<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;正在收集&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(ip))<br><br>url=<span class="hljs-string">&quot;http://api.webscan.cc/?action=query&amp;ip=&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(ip)<br><br>req=requests.<span class="hljs-built_in">get</span>(url=url)<br><br>html=req.text<br><br>data=req.<span class="hljs-built_in">json</span>()<br><br>if <span class="hljs-string">&#x27;null&#x27;</span> not in html:<br><br>with <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;resulit.txt&quot;</span>, <span class="hljs-string">&#x27;a&#x27;</span>, encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>) as f:<br><br>f.<span class="hljs-built_in">write</span>(ip + <span class="hljs-string">&#x27;\n&#x27;</span>)<br><br>f.<span class="hljs-built_in">close</span>()<br><br>for i in data:<br><br>with <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;resulit.txt&quot;</span>, <span class="hljs-string">&#x27;a&#x27;</span>,encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>) as f:<br><br>f.<span class="hljs-built_in">write</span>(<span class="hljs-string">&quot;\t&#123;&#125; &#123;&#125;\n&quot;</span>.<span class="hljs-built_in">format</span>(i[<span class="hljs-string">&#x27;domain&#x27;</span>],i[<span class="hljs-string">&#x27;title&#x27;</span>]))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;     [+] &#123;&#125; &#123;&#125;[+]&quot;</span>.<span class="hljs-built_in">format</span>(i[<span class="hljs-string">&#x27;domain&#x27;</span>],i[<span class="hljs-string">&#x27;title&#x27;</span>]))<br><br>f.<span class="hljs-built_in">close</span>()<br><br>def <span class="hljs-built_in">get_ips</span>(ip):<br><br>iplist=[]<br><br>ips_str = ip[:ip.<span class="hljs-built_in">rfind</span>(<span class="hljs-string">&#x27;.&#x27;</span>)]<br><br>for ips in <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">256</span>):<br><br>ipadd=ips_str + <span class="hljs-string">&#x27;.&#x27;</span> + <span class="hljs-built_in">str</span>(ips)<br><br>iplist.<span class="hljs-built_in">append</span>(ipadd)<br><br>return iplist<br><br>ip=<span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;请你输入要查询的ip:&quot;</span>)<br><br>ips=<span class="hljs-built_in">get_ips</span>(ip)<br><br>for p in ips:<br><br><span class="hljs-built_in">get_c</span>(p)<br></code></pre></div></td></tr></table></figure>
 
 <p><strong>Nmap,Msscan扫描等</strong><br>例如：nmap -p 80,443,8000,8080 -Pn 192.168.0.0&#x2F;24</p>
 <p>常见端口表</p>
@@ -257,7 +245,7 @@
 <p>注意：探测C段时一定要确认ip是否归属于目标，因为一个C段中的所有ip不一定全部属于目标。</p>
 <hr>
 <h2 id="网络空间搜索引擎"><a href="#网络空间搜索引擎" class="headerlink" title="网络空间搜索引擎"></a>网络空间搜索引擎</h2><p>如果想要在短时间内快速收集资产，那么利用网络空间搜索引擎是不错的选择，可以直观地看到旁站，端口，站点标题，IP等信息，点击列举出站点可以直接访问，以此来判断是否为自己需要的站点信息。FOFA的常用语法</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs routeros">1、同IP旁站：<span class="hljs-attribute">ip</span>=“192.168.0.1”<br><br>2、C段：<span class="hljs-attribute">ip</span>=“192.168.0.0/24”<br><br>3、子域名：<span class="hljs-attribute">domain</span>=“baidu.com”<br><br>4、标题/关键字：<span class="hljs-attribute">title</span>=“百度”<br><br>5、如果需要将结果缩小到某个城市的范围，那么可以拼接语句<br><br><span class="hljs-attribute">title</span>=“百度”&amp;&amp; <span class="hljs-attribute">region</span>=“Beijing”<br><br>特征：<span class="hljs-attribute">body</span>=<span class="hljs-string">&quot;百度&quot;</span>或header=“baidu”<br></code></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">1、同IP旁站：<span class="hljs-attribute">ip</span>=“192.168.0.1”<br><br>2、C段：<span class="hljs-attribute">ip</span>=“192.168.0.0/24”<br><br>3、子域名：<span class="hljs-attribute">domain</span>=“baidu.com”<br><br>4、标题/关键字：<span class="hljs-attribute">title</span>=“百度”<br><br>5、如果需要将结果缩小到某个城市的范围，那么可以拼接语句<br><br><span class="hljs-attribute">title</span>=“百度”&amp;&amp; <span class="hljs-attribute">region</span>=“Beijing”<br><br>特征：<span class="hljs-attribute">body</span>=<span class="hljs-string">&quot;百度&quot;</span>或header=“baidu”<br></code></pre></div></td></tr></table></figure>
 
 <hr>
 <h2 id="敏感文件搜索"><a href="#敏感文件搜索" class="headerlink" title="敏感文件搜索"></a>敏感文件搜索</h2><h3 id="GitHub搜索"><a href="#GitHub搜索" class="headerlink" title="GitHub搜索"></a><strong>GitHub搜索</strong></h3><p>in:name test #仓库标题搜索含有关键字test</p>
@@ -394,29 +382,6 @@
               </div>
               
               
-                <div class="post-prevnext">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">渗透-越权</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2024/06/16/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%BA%8C%EF%BC%89/">
-                        <span class="hidden-mobile">渗透-信息收集（二）</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
             </div>
 
             
@@ -476,7 +441,8 @@
 
   <footer class="text-center mt-5 py-3">
   <div class="footer-content">
-     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    
+
   </div>
   
 

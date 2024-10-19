@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
+<html lang="zh-CN" data-default-color-scheme=dark>
 
 
 
@@ -76,7 +76,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😒","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -149,18 +149,6 @@
             </li>
           
         
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -206,7 +194,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      1.5k 个字
     </span>
   
 
@@ -276,7 +264,7 @@
 <p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110638016.png" srcset="/img/loading.gif" lazyload alt="image-20240618110638016"></p>
 <p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110651476.png" srcset="/img/loading.gif" lazyload alt="image-20240618110651476"></p>
 <p><img src="/2024/06/18/%E6%B8%97%E9%80%8F-%E8%B6%8A%E6%9D%83/image-20240618110658451.png" srcset="/img/loading.gif" lazyload alt="image-20240618110658451"></p>
-<h1 id="6、越权的防护："><a href="#6、越权的防护：" class="headerlink" title="6、越权的防护："></a>6、越权的防护：</h1><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs crmsh"><span class="hljs-number">1</span>.不能只根据用户 id 参数去搜索，应该再次进行身份验证（防止水平越权）。<br><span class="hljs-number">2</span>.可以从用户的加密认证 cookie 中获取当前用户 id，防止攻击者对其修改。或在 session、cookie 中加入不可预测、不可猜解的 <span class="hljs-keyword">user</span> <span class="hljs-title">信息。</span><br><span class="hljs-title">3</span>.在每个页面加载前进行权限认证（防止垂直越权）。<br><span class="hljs-number">4</span>.对有多步验证的应用，需要准确验证上一步是否通过。<br></code></pre></td></tr></table></figure>
+<h1 id="6、越权的防护："><a href="#6、越权的防护：" class="headerlink" title="6、越权的防护："></a>6、越权的防护：</h1><figure class="highlight crmsh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs crmsh"><span class="hljs-number">1</span>.不能只根据用户 id 参数去搜索，应该再次进行身份验证（防止水平越权）。<br><span class="hljs-number">2</span>.可以从用户的加密认证 cookie 中获取当前用户 id，防止攻击者对其修改。或在 session、cookie 中加入不可预测、不可猜解的 <span class="hljs-keyword">user</span> <span class="hljs-title">信息。</span><br><span class="hljs-title">3</span>.在每个页面加载前进行权限认证（防止垂直越权）。<br><span class="hljs-number">4</span>.对有多步验证的应用，需要准确验证上一步是否通过。<br></code></pre></div></td></tr></table></figure>
 
 
             </div>
@@ -301,29 +289,6 @@
                 
               </div>
               
-              
-                <div class="post-prevnext">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2024/06/18/%E7%94%A8%E5%8F%8BGPR%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">用友GPR漏洞复现</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2024/06/18/%E6%B8%97%E9%80%8F-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E4%B8%89%EF%BC%89/">
-                        <span class="hidden-mobile">渗透-信息收集（三）</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
               
             </div>
 
@@ -384,7 +349,8 @@
 
   <footer class="text-center mt-5 py-3">
   <div class="footer-content">
-     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    
+
   </div>
   
 
