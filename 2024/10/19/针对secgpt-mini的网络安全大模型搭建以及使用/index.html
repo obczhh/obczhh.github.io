@@ -1,0 +1,451 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言   ​	随着人工智能技术的不断发展，它在网络安全领域中的作用也日益增加。AI可以帮助检测和识别潜在的安全威胁，提供智能的解决方案并提高安全性。然而，AI也可能导致安全漏洞，这些漏洞可能会被恶意利用或被攻击者利用来获取未授权的访问权限，从而可能导致严重后果。 ​	目前，许多企业正在使用AI来提升安全性，并开发了各种类型的漏洞。例如，AI算法可能会出现错误或绕过保护机制的情况，这可能导">
+<meta property="og:type" content="article">
+<meta property="og:title" content="针对secgpt-mini的网络安全大模型搭建以及使用">
+<meta property="og:url" content="http://example.com/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="前言   ​	随着人工智能技术的不断发展，它在网络安全领域中的作用也日益增加。AI可以帮助检测和识别潜在的安全威胁，提供智能的解决方案并提高安全性。然而，AI也可能导致安全漏洞，这些漏洞可能会被恶意利用或被攻击者利用来获取未授权的访问权限，从而可能导致严重后果。 ​	目前，许多企业正在使用AI来提升安全性，并开发了各种类型的漏洞。例如，AI算法可能会出现错误或绕过保护机制的情况，这可能导">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020172410316.png">
+<meta property="og:image" content="http://example.com/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020172115834.png">
+<meta property="og:image" content="http://example.com/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020172210661.png">
+<meta property="og:image" content="http://example.com/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020172924615.png">
+<meta property="og:image" content="http://example.com/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020174050013.png">
+<meta property="og:image" content="http://example.com/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020183714687.png">
+<meta property="og:image" content="http://example.com/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020183828806.png">
+<meta property="og:image" content="http://example.com/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020183940976.png">
+<meta property="og:image" content="http://example.com/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020184109992.png">
+<meta property="og:image" content="http://example.com/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020173436414.png">
+<meta property="og:image" content="http://example.com/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020184054324.png">
+<meta property="article:published_time" content="2024-10-19T09:02:13.000Z">
+<meta property="article:modified_time" content="2024-10-20T13:15:50.884Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="-ai -cyber security">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020172410316.png">
+  
+  
+  <title>针对secgpt-mini的网络安全大模型搭建以及使用 - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😒","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="针对secgpt-mini的网络安全大模型搭建以及使用">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2024-10-19 17:02" pubdate>
+        2024年10月19日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.2k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">针对secgpt-mini的网络安全大模型搭建以及使用</h1>
+            
+            <div class="markdown-body">
+              <h1>
+    前言
+</h1>
+
+<p>​	随着人工智能技术的不断发展，它在网络安全领域中的作用也日益增加。AI可以帮助检测和识别潜在的安全威胁，提供智能的解决方案并提高安全性。然而，AI也可能导致安全漏洞，这些漏洞可能会被恶意利用或被攻击者利用来获取未授权的访问权限，从而可能导致严重后果。</p>
+<p>​	目前，许多企业正在使用AI来提升安全性，并开发了各种类型的漏洞。例如，AI算法可能会出现错误或绕过保护机制的情况，这可能导致未经授权的访问、数据泄露或甚至远程代码执行等严重问题。此外，由于AI系统是基于机器学习和大数据分析技术的，它们也可能存在数据隐私和安全问题。</p>
+<p>​	尽管AI可能带来一些安全风险，但是它可以弥补人类不足之处，并帮助我们更好地保护信息和系统免受攻击。因此，我们需要与AI合作，确保其安全可靠地使用和发布。</p>
+<h1 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h1><p>搭个mini的过过瘾😘</p>
+<p><img src="/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020172410316.png" srcset="/img/loading.gif" lazyload alt="image-20241020172410316"></p>
+<h2 id="Docker一键运行"><a href="#Docker一键运行" class="headerlink" title="Docker一键运行"></a>Docker一键运行</h2><figure class="highlight dockerfile"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span> python:slim<br><br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /secgpt-mini</span><br><br><span class="hljs-keyword">COPY</span><span class="language-bash"> . /secgpt-mini</span><br><br><span class="hljs-keyword">RUN</span><span class="language-bash"> pip install -i https://mirrors.ustc.edu.cn/pypi/web/simple -r requirements.txt</span><br><br><span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">7860</span><br><br><span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;python&quot;</span>, <span class="hljs-string">&quot;webdemo.py&quot;</span>, <span class="hljs-string">&quot;--base_model&quot;</span>, <span class="hljs-string">&quot;/secgpt-mini/models&quot;</span>]</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="手动搭建"><a href="#手动搭建" class="headerlink" title="手动搭建"></a>手动搭建</h2><p>克隆所需文件，包括模型</p>
+<p>git clone <a target="_blank" rel="noopener" href="https://huggingface.co/clouditera/secgpt-mini">https://huggingface.co/clouditera/secgpt-mini</a></p>
+<p><em>如果没有模型，如果有略过，手动下载后放到models目录中</em></p>
+<p><em><a target="_blank" rel="noopener" href="https://huggingface.co/clouditera/secgpt-mini/blob/main/models/model.safetensors">https://huggingface.co/clouditera/secgpt-mini/blob/main/models/model.safetensors</a></em></p>
+<p>然后下载所需要模块</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">pip install -i https:<span class="hljs-regexp">//mi</span>rrors.ustc.edu.cn<span class="hljs-regexp">/pypi/</span>web/simple -r requirements.txt<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020172115834.png" srcset="/img/loading.gif" lazyload alt="image-20241020172115834"></p>
+<p>下载完毕后使用命令</p>
+<p>python .\webdemo.py –base_model .\models\ </p>
+<p>运行，浏览器打开 <a target="_blank" rel="noopener" href="http://127.0.0.1:7860/">http://127.0.0.1:7860/</a> 访问web页面</p>
+<p><img src="/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020172210661.png" srcset="/img/loading.gif" lazyload alt="image-20241020172210661"></p>
+<h1 id="体验"><a href="#体验" class="headerlink" title="体验"></a>体验</h1><blockquote>
+<p>对于体验的话，每个人的感受都是不同的，我针对一些问题，分别提问，看看回答的咋样😁</p>
+</blockquote>
+<h2 id="工具使用"><a href="#工具使用" class="headerlink" title="工具使用"></a>工具使用</h2><p>sqlmap：</p>
+<p><img src="/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020172924615.png" srcset="/img/loading.gif" lazyload alt="image-20241020172924615"></p>
+<p>回答1有点抽风，回答2正常的使用参数也是能给出来的</p>
+<p>问了一些sql注入过滤bypass的，发现，有点蠢啊这ai</p>
+<h2 id="代码审计"><a href="#代码审计" class="headerlink" title="代码审计"></a>代码审计</h2><p><img src="/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020174050013.png" srcset="/img/loading.gif" lazyload alt="image-20241020174050013"></p>
+<p><img src="/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020183714687.png" srcset="/img/loading.gif" lazyload alt="image-20241020183714687"></p>
+<p>只测试了几个php的代码，发现对于代码的理解，有点呃 ，，，，</p>
+<h2 id="简单面试题"><a href="#简单面试题" class="headerlink" title="简单面试题"></a>简单面试题</h2><p>只能说，纯显示而已了</p>
+<p><img src="/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020183828806.png" srcset="/img/loading.gif" lazyload alt="image-20241020183828806"></p>
+<p><img src="/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020183940976.png" srcset="/img/loading.gif" lazyload alt="image-20241020183940976"><img src="/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020184109992.png" srcset="/img/loading.gif" lazyload alt="image-20241020184109992"></p>
+<p><img src="/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020173436414.png" srcset="/img/loading.gif" lazyload alt="image-20241020173436414"></p>
+<p><img src="/2024/10/19/%E9%92%88%E5%AF%B9secgpt-mini%E7%9A%84%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20241020184054324.png" srcset="/img/loading.gif" lazyload alt="image-20241020184054324"></p>
+<p>开头的前言也是这个模型生成的，只能说可以研究原理，真正使用的话，不推荐</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ai-cyber-security/">-ai -cyber security</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
