@@ -350,7 +350,7 @@
 <p><img src="/2024/10/24/%E7%A5%9E%E5%B7%9E%E6%95%B0%E7%A0%81DCFW-1800CTF%E9%A2%98%E7%9B%AEwp/image-20241024211929563.png" srcset="/img/loading.gif" lazyload alt="image-20241024211929563"></p>
 <p><a href="onenote:..\CTF\PHPCTF\PHP反序列化字符串逃逸.one#section-id={67556CA1-5694-4A97-9FA9-E92D5CB4AB0C}&end&base-path=https://d.docs.live.net/5fd9226643f52715/文档/我的网安学习之路（服了我自己了）">字符串逃逸</a>就是将需要查看需要逃逸出来的字段，查看有几位，比如传入4位字符，然后正则将其替换成5位字符，就会多一位出来，这样传入就可以将剩下的逃逸出来 </p>
 <p>正常的序列，标红的是要逃逸出来的字符串，34个字符串 </p>
-<p>O:1:”a”:4:{s:5:”phone”;s:11:”12345678901”;s:5:”email”;s:10:”<a href="mailto:&#x31;&#x32;&#51;&#64;&#x71;&#113;&#46;&#99;&#111;&#x6d;">&#x31;&#x32;&#51;&#64;&#x71;&#113;&#46;&#99;&#111;&#x6d;</a>“;s:8:”nickname”;a:1:{i:0;s:3:”123”;}s:5:”photo”;s:10:”config.php”;} </p>
+<p>O:1:”a”:4:{s:5:”phone”;s:11:”12345678901”;s:5:”email”;s:10:”<a href="mailto:&#49;&#50;&#51;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;">&#49;&#50;&#51;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;</a>“;s:8:”nickname”;a:1:{i:0;s:3:”123”;}s:5:”photo”;s:10:”config.php”;} </p>
 <p>34个where </p>
 <p><img src="/2024/10/24/%E7%A5%9E%E5%B7%9E%E6%95%B0%E7%A0%81DCFW-1800CTF%E9%A2%98%E7%9B%AEwp/image-20241024211955794.png" srcset="/img/loading.gif" lazyload alt="image-20241024211955794"></p>
 <p><img src="/2024/10/24/%E7%A5%9E%E5%B7%9E%E6%95%B0%E7%A0%81DCFW-1800CTF%E9%A2%98%E7%9B%AEwp/image-20241024212006538.png" srcset="/img/loading.gif" lazyload alt="image-20241024212006538"></p>
