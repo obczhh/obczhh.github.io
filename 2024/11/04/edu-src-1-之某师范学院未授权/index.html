@@ -16,19 +16,46 @@
   <meta name="author" content="0ldcat">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="归档">
-<meta property="og:url" content="http://example.com/archives/2024/11/index.html">
+    <meta name="description" content="​	 url: http:&#x2F;&#x2F;***.edu.cn&#x2F;admin&#x2F;login.html	 **师范学院实验室安全教育和考试系统存在未授权后台访问  修改返回值，-2改成1，404改成200，防包后成功进入后台，不过没有菜单   访问查看源代码，存在menu.json 文件，手动访问">
+<meta property="og:type" content="article">
+<meta property="og:title" content="edu-src(1)之某师范学院未授权">
+<meta property="og:url" content="http://example.com/2024/11/04/edu-src-1-%E4%B9%8B%E6%9F%90%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%E6%9C%AA%E6%8E%88%E6%9D%83/index.html">
 <meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="​	 url: http:&#x2F;&#x2F;***.edu.cn&#x2F;admin&#x2F;login.html	 **师范学院实验室安全教育和考试系统存在未授权后台访问  修改返回值，-2改成1，404改成200，防包后成功进入后台，不过没有菜单   访问查看源代码，存在menu.json 文件，手动访问">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/11/04/edu-src-1-%E4%B9%8B%E6%9F%90%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%E6%9C%AA%E6%8E%88%E6%9D%83/image-20241104214215600.png">
+<meta property="og:image" content="http://example.com/2024/11/04/edu-src-1-%E4%B9%8B%E6%9F%90%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%E6%9C%AA%E6%8E%88%E6%9D%83/image-20241104214245654.png">
+<meta property="og:image" content="http://example.com/2024/11/04/edu-src-1-%E4%B9%8B%E6%9F%90%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%E6%9C%AA%E6%8E%88%E6%9D%83/image-20241104214254496.png">
+<meta property="og:image" content="http://example.com/2024/11/04/edu-src-1-%E4%B9%8B%E6%9F%90%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%E6%9C%AA%E6%8E%88%E6%9D%83/image-20241104214324291.png">
+<meta property="og:image" content="http://example.com/2024/11/04/edu-src-1-%E4%B9%8B%E6%9F%90%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%E6%9C%AA%E6%8E%88%E6%9D%83/image-20241104214350297.png">
+<meta property="og:image" content="http://example.com/2024/11/04/edu-src-1-%E4%B9%8B%E6%9F%90%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%E6%9C%AA%E6%8E%88%E6%9D%83/image-20241104214420456.png">
+<meta property="article:published_time" content="2024-11-04T13:41:40.000Z">
+<meta property="article:modified_time" content="2024-11-04T13:47:02.597Z">
 <meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="SRC">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/11/04/edu-src-1-%E4%B9%8B%E6%9F%90%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%E6%9C%AA%E6%8E%88%E6%9D%83/image-20241104214215600.png">
   
   
-  <title>归档 - 0ldcat_blog</title>
+  <title>edu-src(1)之某师范学院未授权 - 0ldcat_blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -55,7 +82,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -144,9 +171,43 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="归档">
+            <span class="h2" id="subtitle" title="edu-src(1)之某师范学院未授权">
               
             </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2024-11-04 21:41" pubdate>
+        2024年11月4日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      149 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      2 分钟
+    </span>
+  
+
+  
+  
+</div>
 
             
           </div>
@@ -159,82 +220,69 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 25 篇文章</p>
-  <hr>
-  
-  
-    
       
-      <p class="h5">2024</p>
-    
-    <a href="/2024/11/04/Apache-ISIS%E5%AD%98%E5%9C%A8H2%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E5%AF%BC%E8%87%B4%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Apache ISIS存在H2数据库未授权访问导致命令执行</span>
-      <time style="float: right;">11-04</time>
-    </a>
-  
-    
-    <a href="/2024/11/04/edu-src-1-%E4%B9%8B%E6%9F%90%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%E6%9C%AA%E6%8E%88%E6%9D%83/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">edu-src(1)之某师范学院未授权</span>
-      <time style="float: right;">11-04</time>
-    </a>
-  
-    
-    <a href="/2024/11/04/SliverC2-%E6%95%99%E7%A8%8B-5/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">SliverC2 教程(5)</span>
-      <time style="float: right;">11-04</time>
-    </a>
-  
-    
-    <a href="/2024/11/03/SliverC2-%E6%95%99%E7%A8%8B-4/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">SliverC2 教程(4)</span>
-      <time style="float: right;">11-03</time>
-    </a>
-  
-    
-    <a href="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-3/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">SliverC2 教程(3)</span>
-      <time style="float: right;">11-02</time>
-    </a>
-  
-    
-    <a href="/2024/11/02/SliverC2-%E6%95%99%E7%A8%8B-2/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">SliverC2 教程(2)</span>
-      <time style="float: right;">11-02</time>
-    </a>
-  
-    
-    <a href="/2024/11/01/SliverC2-%E6%95%99%E7%A8%8B-1/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">SliverC2 教程(1)</span>
-      <time style="float: right;">11-01</time>
-    </a>
-  
-    
-    <a href="/2024/11/01/%E5%B7%B2%E7%9F%A5C2/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">已知C2（转载）</span>
-      <time style="float: right;">11-01</time>
-    </a>
-  
-</div>
 
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">edu-src(1)之某师范学院未授权</h1>
+            
+            <div class="markdown-body">
+              <p>​	</p>
+<p>url: http:&#x2F;&#x2F;***.edu.cn&#x2F;admin&#x2F;login.html	</p>
+<p>**师范学院实验室安全教育和考试系统存在未授权后台访问</p>
+<p><img src="/2024/11/04/edu-src-1-%E4%B9%8B%E6%9F%90%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%E6%9C%AA%E6%8E%88%E6%9D%83/image-20241104214215600.png" srcset="/img/loading.gif" lazyload alt="image-20241104214215600"></p>
+<p>修改返回值，-2改成1，404改成200，防包后成功进入后台，不过没有菜单</p>
+<p><img src="/2024/11/04/edu-src-1-%E4%B9%8B%E6%9F%90%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%E6%9C%AA%E6%8E%88%E6%9D%83/image-20241104214245654.png" srcset="/img/loading.gif" lazyload alt="image-20241104214245654"></p>
+<p><img src="/2024/11/04/edu-src-1-%E4%B9%8B%E6%9F%90%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%E6%9C%AA%E6%8E%88%E6%9D%83/image-20241104214254496.png" srcset="/img/loading.gif" lazyload alt="image-20241104214254496"></p>
+<p>访问查看源代码，存在menu.json 文件，手动访问</p>
+<p> <img src="/2024/11/04/edu-src-1-%E4%B9%8B%E6%9F%90%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%E6%9C%AA%E6%8E%88%E6%9D%83/image-20241104214324291.png" srcset="/img/loading.gif" lazyload alt="image-20241104214324291"></p>
+<p><img src="/2024/11/04/edu-src-1-%E4%B9%8B%E6%9F%90%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%E6%9C%AA%E6%8E%88%E6%9D%83/image-20241104214350297.png" srcset="/img/loading.gif" lazyload alt="image-20241104214350297"></p>
+<p><img src="/2024/11/04/edu-src-1-%E4%B9%8B%E6%9F%90%E5%B8%88%E8%8C%83%E5%AD%A6%E9%99%A2%E6%9C%AA%E6%8E%88%E6%9D%83/image-20241104214420456.png" srcset="/img/loading.gif" lazyload alt="image-20241104214420456"></p>
 
-
-
-
-              </div>
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/SRC/">SRC</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -318,6 +366,19 @@
   
 
 
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
 
 
 
