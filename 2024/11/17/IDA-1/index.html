@@ -1,0 +1,461 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1、安装略过2、熟悉1、界面 两重要窗口 ​	左函数窗口 ​	右图形模式汇编和文本模式（空格切换） 2、字符串串口快捷键shift+F12进入字符串窗口，双击字符串可以进入对应数据区域  3、ida数据窗口可以更改指令，F2进入编辑模式，退出再按一次 G键跳转到指定地址  4、交叉引用对于一些函数，ida会在地址加入sub_的方式作为函数名，如果想知道查看这个函数在哪里被引用，可以使用快捷键X 可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IDA(1)">
+<meta property="og:url" content="http://example.com/2024/11/17/IDA-1/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="1、安装略过2、熟悉1、界面 两重要窗口 ​	左函数窗口 ​	右图形模式汇编和文本模式（空格切换） 2、字符串串口快捷键shift+F12进入字符串窗口，双击字符串可以进入对应数据区域  3、ida数据窗口可以更改指令，F2进入编辑模式，退出再按一次 G键跳转到指定地址  4、交叉引用对于一些函数，ida会在地址加入sub_的方式作为函数名，如果想知道查看这个函数在哪里被引用，可以使用快捷键X 可">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-1/image-20241117205908315.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-1/image-20241117210141425.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-1/image-20241117210344979.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-1/image-20241117210808301.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-1/image-20241117212259468.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-1/image-20241117212334224.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-1/image-20241117212407906.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-1/image-20241117213546783.png">
+<meta property="article:published_time" content="2024-11-17T05:53:22.000Z">
+<meta property="article:modified_time" content="2024-11-17T14:02:18.158Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="tools">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/11/17/IDA-1/image-20241117205908315.png">
+  
+  
+  <title>IDA(1) - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😒","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="IDA(1)">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2024-11-17 13:53" pubdate>
+        2024年11月17日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      823 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      7 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">IDA(1)</h1>
+            
+            <div class="markdown-body">
+              <h1 id="1、安装略过"><a href="#1、安装略过" class="headerlink" title="1、安装略过"></a>1、安装略过</h1><h1 id="2、熟悉"><a href="#2、熟悉" class="headerlink" title="2、熟悉"></a>2、熟悉</h1><h2 id="1、界面"><a href="#1、界面" class="headerlink" title="1、界面"></a>1、界面</h2><p><img src="/2024/11/17/IDA-1/image-20241117205908315.png" srcset="/img/loading.gif" lazyload alt="image-20241117205908315"></p>
+<p>两重要窗口</p>
+<p>​	左函数窗口</p>
+<p>​	右图形模式汇编和文本模式（空格切换）</p>
+<h2 id="2、字符串串口"><a href="#2、字符串串口" class="headerlink" title="2、字符串串口"></a>2、字符串串口</h2><p>快捷键shift+F12进入字符串窗口，双击字符串可以进入对应数据区域</p>
+<p><img src="/2024/11/17/IDA-1/image-20241117210141425.png" srcset="/img/loading.gif" lazyload alt="image-20241117210141425"></p>
+<h2 id="3、ida数据窗口"><a href="#3、ida数据窗口" class="headerlink" title="3、ida数据窗口"></a>3、ida数据窗口</h2><p>可以更改指令，F2进入编辑模式，退出再按一次</p>
+<p>G键跳转到指定地址</p>
+<p><img src="/2024/11/17/IDA-1/image-20241117210344979.png" srcset="/img/loading.gif" lazyload alt="image-20241117210344979"></p>
+<h2 id="4、交叉引用"><a href="#4、交叉引用" class="headerlink" title="4、交叉引用"></a>4、交叉引用</h2><p>对于一些函数，ida会在地址加入sub_的方式作为函数名，如果想知道查看这个函数在哪里被引用，可以使用快捷键X</p>
+<p>可以看到，这个函数被引用的地方有4个，</p>
+<p><img src="/2024/11/17/IDA-1/image-20241117210808301.png" srcset="/img/loading.gif" lazyload alt="image-20241117210808301"></p>
+<p>这个表格有4个子项：</p>
+<ul>
+<li>direction ，表示被引用的地方是在当前地址的前面还是后面</li>
+<li>Type，这个有点复杂，交叉引用分为代码交叉引用和数据交叉引用</li>
+<li><ul>
+<li>读取交叉引用， 用 r 表示</li>
+<li>写入交叉引用，用 w 表示</li>
+<li>偏移量交叉引用，用 o 表示</li>
+<li>普通流，用 o 表示</li>
+<li>调用流，用 p 表示</li>
+<li>跳转流，用 j 表示</li>
+<li>代码交叉引用又分为</li>
+<li>数据交叉引用</li>
+</ul>
+</li>
+<li>Address，引用地址</li>
+<li>Text，引用地址处的反汇编文本</li>
+</ul>
+<h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><p>这个error，双击，然后找到字符串位置</p>
+<p><img src="/2024/11/17/IDA-1/image-20241117212259468.png" srcset="/img/loading.gif" lazyload alt="image-20241117212259468"></p>
+<p>然后X，跳转到位置，成功跳转，也就是main函数了</p>
+<p><img src="/2024/11/17/IDA-1/image-20241117212334224.png" srcset="/img/loading.gif" lazyload alt="image-20241117212334224"></p>
+<p><img src="/2024/11/17/IDA-1/image-20241117212407906.png" srcset="/img/loading.gif" lazyload alt="image-20241117212407906"></p>
+<p>N键选择对应函数可以重命名</p>
+<p><img src="/2024/11/17/IDA-1/image-20241117213546783.png" srcset="/img/loading.gif" lazyload alt="image-20241117213546783"></p>
+<h2 id="常用快捷键"><a href="#常用快捷键" class="headerlink" title="常用快捷键"></a>常用快捷键</h2><p><strong>a</strong>：将数据转换为字符串</p>
+<p><strong>f5&#x2F;tab</strong>：一键反汇编</p>
+<p><strong>esc</strong>：回退键，能够倒回上一部操作的视图（只有在反汇编窗口才是这个作用，如果是在其他窗口按下esc，会关闭该窗口）</p>
+<p><strong>shift+f12</strong>：可以打开string窗口，一键找出所有的字符串，右击setup，还能对窗口的属性进行设置</p>
+<p><strong>ctrl+w</strong>：保存ida数据库</p>
+<p><strong>ctrl+鼠标滚轮</strong>：能够调节流程视图的大小</p>
+<p><strong>x</strong>：对着某个函数、变量按该快捷键，可以查看它的交叉引用</p>
+<p><strong>g</strong>：直接跳转到某个地址</p>
+<p><strong>n</strong>：更改变量的名称</p>
+<p><strong>y</strong>：更改变量的类型</p>
+<p><strong>&#x2F;</strong> ：在反编译后伪代码的界面中写下注释</p>
+<p>****：在反编译后伪代码的界面中隐藏&#x2F;显示变量和函数的类型描述，有时候变量特别多的时候隐藏掉类型描述看起来会轻松很多</p>
+<p><strong>；</strong> ：在反汇编后的界面中写下注释</p>
+<p><strong>ctrl+shift+w</strong>：拍摄IDA快照</p>
+<p><strong>u</strong>：undefine，取消定义函数、代码、数据的定义</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/tools/">tools</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

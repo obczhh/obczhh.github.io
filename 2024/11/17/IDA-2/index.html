@@ -1,0 +1,489 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="为了更好的学习掌握IDA的使用以及逆向的代码逻辑思维，我将使用buuctf的题目来进一步学习 1、easyreida打开，flag煳脸上了  2、reverse1拖进来，默认没壳，几板斧下去，重命名一下已知函数 输入flag，判断，str1大于str2才会为真，但是有个！，所以说我们要为0，也就是str1和str2需要相等 ok，查看v3，也就是上面的str2  可以看到有个{hello_worl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IDA(2)">
+<meta property="og:url" content="http://example.com/2024/11/17/IDA-2/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="为了更好的学习掌握IDA的使用以及逆向的代码逻辑思维，我将使用buuctf的题目来进一步学习 1、easyreida打开，flag煳脸上了  2、reverse1拖进来，默认没壳，几板斧下去，重命名一下已知函数 输入flag，判断，str1大于str2才会为真，但是有个！，所以说我们要为0，也就是str1和str2需要相等 ok，查看v3，也就是上面的str2  可以看到有个{hello_worl">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241117220520710.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241117221916406.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241117223059366.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241117223330281.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241117223345116.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241117223428125.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241117225132619.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241117225153542.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241117225213444.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241117225829377.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/73b51ca1b40843ae253f90e59ede60f.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241117230505661.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241117230514964.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241117230736168.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241117231247318.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241117231639561.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241118130252359.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241118130549252.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241118131934521.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241118131951543.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241118230014059.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241118222414261.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241118222712121.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241119124003676.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241120224712705.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241120224725759.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241120224755385.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241120225124499.png">
+<meta property="og:image" content="http://example.com/2024/11/17/IDA-2/image-20241120225303806.png">
+<meta property="article:published_time" content="2024-11-17T14:02:27.000Z">
+<meta property="article:modified_time" content="2024-11-21T01:50:49.416Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="tools">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/11/17/IDA-2/image-20241117220520710.png">
+  
+  
+  <title>IDA(2) - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😒","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="IDA(2)">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2024-11-17 22:02" pubdate>
+        2024年11月17日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      9 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">IDA(2)</h1>
+            
+            <div class="markdown-body">
+              <p>为了更好的学习掌握IDA的使用以及逆向的代码逻辑思维，我将使用buuctf的题目来进一步学习</p>
+<h1 id="1、easyre"><a href="#1、easyre" class="headerlink" title="1、easyre"></a>1、easyre</h1><p>ida打开，flag煳脸上了</p>
+<p><img src="/2024/11/17/IDA-2/image-20241117220520710.png" srcset="/img/loading.gif" lazyload alt="image-20241117220520710"></p>
+<h1 id="2、reverse1"><a href="#2、reverse1" class="headerlink" title="2、reverse1"></a>2、reverse1</h1><p>拖进来，默认没壳，几板斧下去，重命名一下已知函数</p>
+<p>输入flag，判断，str1大于str2才会为真，但是有个！，所以说我们要为0，也就是str1和str2需要相等</p>
+<p>ok，查看v3，也就是上面的str2</p>
+<p><img src="/2024/11/17/IDA-2/image-20241117221916406.png" srcset="/img/loading.gif" lazyload alt="image-20241117221916406"></p>
+<p>可以看到有个{hello_world}，尝试一下，发现是错的，继续分析</p>
+<p><img src="/2024/11/17/IDA-2/image-20241117223059366.png" srcset="/img/loading.gif" lazyload alt="image-20241117223059366"></p>
+<p><img src="/2024/11/17/IDA-2/image-20241117223330281.png" srcset="/img/loading.gif" lazyload alt="image-20241117223330281"></p>
+<p>不用具体分析，就可以看出，将o替换成0，再次尝试，成功</p>
+<p><img src="/2024/11/17/IDA-2/image-20241117223345116.png" srcset="/img/loading.gif" lazyload alt="image-20241117223345116"></p>
+<p><img src="/2024/11/17/IDA-2/image-20241117223428125.png" srcset="/img/loading.gif" lazyload alt="image-20241117223428125"></p>
+<h1 id="3、reverse2"><a href="#3、reverse2" class="headerlink" title="3、reverse2"></a>3、reverse2</h1><p>查看，flag，然后查看伪代码，套路还是一样的，我们往上查看代码</p>
+<p><img src="/2024/11/17/IDA-2/image-20241117225132619.png" srcset="/img/loading.gif" lazyload alt="image-20241117225132619"></p>
+<p><img src="/2024/11/17/IDA-2/image-20241117225153542.png" srcset="/img/loading.gif" lazyload alt="image-20241117225153542"></p>
+<p>r键将其转换成ascii码，一眼看出来，和前面一体大差不差，遍历到i或者r，就将其换成1，所以最终flag为</p>
+<p>flag{hack1ng_fo1_fun}</p>
+<p><img src="/2024/11/17/IDA-2/image-20241117225213444.png" srcset="/img/loading.gif" lazyload alt="image-20241117225213444"></p>
+<h1 id="4、内涵的软件"><a href="#4、内涵的软件" class="headerlink" title="4、内涵的软件"></a>4、内涵的软件</h1><p>flag也是糊脸上了</p>
+<p><img src="/2024/11/17/IDA-2/image-20241117225829377.png" srcset="/img/loading.gif" lazyload alt="image-20241117225829377"></p>
+<h1 id="5、新年快乐"><a href="#5、新年快乐" class="headerlink" title="5、新年快乐"></a>5、新年快乐</h1><p>有upx壳，使用工具一键脱就行了</p>
+<p><img src="/2024/11/17/IDA-2/73b51ca1b40843ae253f90e59ede60f.png" srcset="/img/loading.gif" lazyload alt="73b51ca1b40843ae253f90e59ede60f"></p>
+<p><img src="/2024/11/17/IDA-2/image-20241117230505661.png" srcset="/img/loading.gif" lazyload alt="image-20241117230505661"></p>
+<p><img src="/2024/11/17/IDA-2/image-20241117230514964.png" srcset="/img/loading.gif" lazyload alt="image-20241117230514964"></p>
+<p>可以正常查看</p>
+<p><img src="/2024/11/17/IDA-2/image-20241117230736168.png" srcset="/img/loading.gif" lazyload alt="image-20241117230736168"></p>
+<p>通过代码，可以产看“HappyNewYear!” 赋到str2,然后str1是自己输入的内容，也就是说str1需要等于str2，返回0，才会进入ture中，直接将“HappyNewYear!”输入即可</p>
+<p><img src="/2024/11/17/IDA-2/image-20241117231247318.png" srcset="/img/loading.gif" lazyload alt="image-20241117231247318"></p>
+<p><img src="/2024/11/17/IDA-2/image-20241117231639561.png" srcset="/img/loading.gif" lazyload alt="image-20241117231639561"></p>
+<h1 id="6、XOR"><a href="#6、XOR" class="headerlink" title="6、XOR"></a>6、XOR</h1><p>根据标题，双击global，然后光标选择到指定区域，再次双击，然后shift+e查看提取的数据，这里选择ascii码，方便提取</p>
+<p>配合chatgpt写出解密脚本</p>
+<p><img src="/2024/11/17/IDA-2/image-20241118130252359.png" srcset="/img/loading.gif" lazyload alt="image-20241118130252359"></p>
+<p><img src="/2024/11/17/IDA-2/image-20241118130549252.png" srcset="/img/loading.gif" lazyload alt="image-20241118130549252"></p>
+<p><img src="/2024/11/17/IDA-2/image-20241118131934521.png" srcset="/img/loading.gif" lazyload alt="image-20241118131934521"></p>
+<p><img src="/2024/11/17/IDA-2/image-20241118131951543.png" srcset="/img/loading.gif" lazyload alt="image-20241118131951543"></p>
+<h1 id="7、reverse-3"><a href="#7、reverse-3" class="headerlink" title="7、reverse 3"></a>7、reverse 3</h1><p>base64</p>
+<p><img src="/2024/11/17/IDA-2/image-20241118230014059.png" srcset="/img/loading.gif" lazyload alt="image-20241118230014059"></p>
+<p>还是和前面差不多，查看加密函数，丢到gpt分析</p>
+<p><img src="/2024/11/17/IDA-2/image-20241118222414261.png" srcset="/img/loading.gif" lazyload alt="image-20241118222414261"></p>
+<p><img src="/2024/11/17/IDA-2/image-20241118222712121.png" srcset="/img/loading.gif" lazyload alt="image-20241118222712121"></p>
+<p>使用python解密，主函数中，加上自己本身的索引，达成加密效果，我们直接减就行了</p>
+<p><img src="/2024/11/17/IDA-2/image-20241119124003676.png" srcset="/img/loading.gif" lazyload alt="image-20241119124003676"></p>
+<p>根据前面的伪代码提示，写出解密代码</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> base64<br><br>a = <span class="hljs-string">&quot;e3nifIH9b_C@n@dH&quot;</span><br>flag = <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(a)):<br>    flag += <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">ord</span>(a[i]) - i) <span class="hljs-comment"># 减去自己索引 </span><br><br><span class="hljs-built_in">print</span>(base64.b64decode(flag))<br><br><span class="hljs-string">b&#x27;&#123;i_l0ve_you&#125;&#x27;</span><br></code></pre></div></td></tr></table></figure>
+
+<h1 id="8、不一样的flag"><a href="#8、不一样的flag" class="headerlink" title="8、不一样的flag"></a>8、不一样的flag</h1><p>题目的再次练习</p>
+<p>看到敏感字符，然后跟踪看看，哪个函数调用，main调用，查看伪代码</p>
+<p><img src="/2024/11/17/IDA-2/image-20241120224712705.png" srcset="/img/loading.gif" lazyload alt="image-20241120224712705"></p>
+<p><img src="/2024/11/17/IDA-2/image-20241120224725759.png" srcset="/img/loading.gif" lazyload alt="image-20241120224725759"></p>
+<p>控制方向，那上面的01就是地图了，*#一个起点一个终点。</p>
+<p><img src="/2024/11/17/IDA-2/image-20241120224755385.png" srcset="/img/loading.gif" lazyload alt="image-20241120224755385"></p>
+<p>5*5迷宫</p>
+<p><img src="/2024/11/17/IDA-2/image-20241120225124499.png" srcset="/img/loading.gif" lazyload alt="image-20241120225124499"></p>
+<figure class="highlight hsp"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs hsp"><span class="hljs-symbol">*1111</span><br><span class="hljs-number">01000</span><br><span class="hljs-number">01010</span><br><span class="hljs-number">00010</span><br><span class="hljs-number">1111</span><span class="hljs-meta">#</span><br><br>flag&#123;<span class="hljs-number">222441144222</span>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2024/11/17/IDA-2/image-20241120225303806.png" srcset="/img/loading.gif" lazyload alt="image-20241120225303806"></p>
+<p>​	</p>
+<p>通过这些题目的练习以及IDA的操作，对于IDA的基础操作基本了解了</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/tools/">tools</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
