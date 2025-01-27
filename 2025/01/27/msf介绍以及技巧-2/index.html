@@ -1,0 +1,438 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="_auxiliary_模块：12345678910111213ACK 通过ACK扫描的方式对防火墙上未屏蔽的端口进行探测ftpbounce 通过FTPbounce攻击的原理对TCP服务进行枚举，一些新的FTP服务器软件能够很好的防范FTPbounce攻击，但在一些旧的Solaris及FreeBSD 系统的FTP服务中此类工具方法仍能够被利用syn 使用发送TCP SYN标志的方式探测开放的端口tc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="msf介绍以及技巧-2">
+<meta property="og:url" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="_auxiliary_模块：12345678910111213ACK 通过ACK扫描的方式对防火墙上未屏蔽的端口进行探测ftpbounce 通过FTPbounce攻击的原理对TCP服务进行枚举，一些新的FTP服务器软件能够很好的防范FTPbounce攻击，但在一些旧的Solaris及FreeBSD 系统的FTP服务中此类工具方法仍能够被利用syn 使用发送TCP SYN标志的方式探测开放的端口tc">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127112820763.png">
+<meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127112841438.png">
+<meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127112906066.png">
+<meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127112917972.png">
+<meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127112946152.png">
+<meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127112952424.png">
+<meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127113100783.png">
+<meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127113114802.png">
+<meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127113129493.png">
+<meta property="article:published_time" content="2025-01-27T03:24:59.000Z">
+<meta property="article:modified_time" content="2025-01-27T03:31:47.480Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="渗透">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127112820763.png">
+  
+  
+  <title>msf介绍以及技巧-2 - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😒","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="msf介绍以及技巧-2">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2025-01-27 11:24" pubdate>
+        2025年1月27日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.3k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      12 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">msf介绍以及技巧-2</h1>
+            
+            <div class="markdown-body">
+              <h1 id="auxiliary-模块："><a href="#auxiliary-模块：" class="headerlink" title="_auxiliary_模块："></a>_auxiliary_模块：</h1><figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">ACK 通过ACK扫描的方式对防火墙上未屏蔽的端口进行探测<br>ftpbounce 通过FTPbounce攻击的原理对TCP服务进行枚举，一些新的FTP服务器软件能够很好的防范FTPbounce攻击，但在一些旧的Solaris及FreeBSD 系统的FTP服务中此类工具方法仍能够被利用<br>syn 使用发送TCP SYN标志的方式探测开放的端口<br>tcp 通过一次完整的TCP连接来判断端口是否开放，这种扫描方式最准确，但扫描速度较慢<br>xmas 一种更为隐秘的扫描方式，通过发送FIN,PSH,和URG标志，能够躲避一些高级的TCP标记检测器的过滤<br><br>1 TCP端⼝扫描 auxiliary/scanner/portscan/tcp<br>2 ACK防⽕墙扫描 auxiliary/scanner/portscan/ack<br>3 FTP跳端⼝扫描 auxiliary/scanner/portscan/ftpbounce<br>4 SYN端⼝扫描 auxiliary/scanner/portscan/syn<br>5 TCP-XMas端⼝扫描 auxiliary/scanner/portscan/xmas<br><br><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="TCP端⼝扫描：auxiliary-scanner-portscan-tc"><a href="#TCP端⼝扫描：auxiliary-scanner-portscan-tc" class="headerlink" title="TCP端⼝扫描：auxiliary&#x2F;scanner&#x2F;portscan&#x2F;tc"></a><strong>TCP<strong><strong>端⼝扫描：</strong></strong>auxiliary&#x2F;scanner&#x2F;portscan&#x2F;tc</strong></h2><p><img src="/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127112820763.png" srcset="/img/loading.gif" lazyload alt="image-20250127112820763"></p>
+<p>扫描结束！192.168.119.139开放了以下端⼝：</p>
+<p><img src="/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127112841438.png" srcset="/img/loading.gif" lazyload alt="image-20250127112841438"></p>
+<h2 id="ACK防⽕墙扫描：auxiliary-scanner-portscan-ack"><a href="#ACK防⽕墙扫描：auxiliary-scanner-portscan-ack" class="headerlink" title="ACK防⽕墙扫描：auxiliary&#x2F;scanner&#x2F;portscan&#x2F;ack"></a><strong>ACK<strong><strong>防⽕墙扫描：</strong></strong>auxiliary&#x2F;scanner&#x2F;portscan&#x2F;ack</strong></h2><p><img src="/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127112906066.png" srcset="/img/loading.gif" lazyload alt="image-20250127112906066"></p>
+<figure class="highlight erlang-repl"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs erlang-repl">⽤ACK扫描会分段去发送数据包扫描，才能够绕过⼀些防火墙设备，⽽不是Windows防火墙！Windows⾃带的防火墙是阻断⼀切进入的连接!<br>因为虚拟机Windwos <span class="hljs-number">7</span>是吧防火墙关闭了的，如果打开那么防火墙是会阻断连接的！<br>经过测试，Windows防火墙开启，使⽤ACK是扫描不出来的！<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127112917972.png" srcset="/img/loading.gif" lazyload alt="image-20250127112917972"></p>
+<figure class="highlight"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs">剩余⼏个端⼝扫描，和上⾯的例⼦是⼀样的⽤法，只是模式不同！<br></code></pre></div></td></tr></table></figure>
+
+<p>**版本扫描 ** </p>
+<p><strong>探测对方操作系统信息：****use auxiliary&#x2F;scanner&#x2F;smb&#x2F;smb_version</strong></p>
+<p><img src="/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127112946152.png" srcset="/img/loading.gif" lazyload alt="image-20250127112946152"></p>
+<p><img src="/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127112952424.png" srcset="/img/loading.gif" lazyload alt="image-20250127112952424"></p>
+<figure class="highlight elixir"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs elixir">可以看到，操作系统是<span class="hljs-title class_">Windows</span> <span class="hljs-number">7</span>,主机名是<span class="hljs-symbol">:LIUWX-PC</span>,不在域内<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a><strong>其他</strong></h2><h3 id="永恒之蓝：-MS-17-010"><a href="#永恒之蓝：-MS-17-010" class="headerlink" title="永恒之蓝：****MS-17-010"></a><strong>永恒之蓝：****MS-17-010</strong></h3><figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">msf5 auxiliary(scanner/smb/smb_version) &gt; use auxiliary/scanner/smb/smb_ms17_010<br>msf5 auxiliary(scanner/smb/smb_ms17_010) &gt; set rhosts 192.168.119.139<br>rhosts =&gt; 192.168.119.139<br>msf5 auxiliary(scanner/smb/smb_ms17_010) &gt; show options<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127113100783.png" srcset="/img/loading.gif" lazyload alt="image-20250127113100783"></p>
+<figure class="highlight applescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs applescript">Host <span class="hljs-keyword">is</span> likely VULNERABLE <span class="hljs-keyword">to</span> MS17<span class="hljs-number">-010</span>!<br>说明是存在永恒之蓝这个漏洞的！<br>存在的话，就可以利⽤：<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127113114802.png" srcset="/img/loading.gif" lazyload alt="image-20250127113114802"></p>
+<p>可以看到，虚拟机Win7已经蓝屏！</p>
+<p><img src="/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127113129493.png" srcset="/img/loading.gif" lazyload alt="image-20250127113129493"></p>
+<p><strong>⼩技巧</strong></p>
+<p>我⾸先是在&#x2F;root⽬录下建立了⼀个ips.txt文本，⾥⾯是我要扫描的IP:</p>
+<p>set rhosts file:&#x2F;root&#x2F;ips.txt</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F/">渗透</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

