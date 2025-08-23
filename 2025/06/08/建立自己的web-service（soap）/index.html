@@ -1,0 +1,491 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1、这篇文章主要介绍采用SOAP来建立以及访问Web service接口。 　　Web service是一个平台独立的，低耦合的，自包含的、基于可编程的web的应用程序，可使用开放的XML(标准通用标记语言下的一个子集)标准来描述、发布、发现、协调和配置这些应用程序，用于开发分布式的互操作的应用程序。 　　Web Service技术， 能使得运行在不同机器上的不同应用无须借助附加的、专门的第三方软">
+<meta property="og:type" content="article">
+<meta property="og:title" content="建立自己的web service（soap）">
+<meta property="og:url" content="http://example.com/2025/06/08/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84web-service%EF%BC%88soap%EF%BC%89/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="1、这篇文章主要介绍采用SOAP来建立以及访问Web service接口。 　　Web service是一个平台独立的，低耦合的，自包含的、基于可编程的web的应用程序，可使用开放的XML(标准通用标记语言下的一个子集)标准来描述、发布、发现、协调和配置这些应用程序，用于开发分布式的互操作的应用程序。 　　Web Service技术， 能使得运行在不同机器上的不同应用无须借助附加的、专门的第三方软">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/06/08/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84web-service%EF%BC%88soap%EF%BC%89/image-20250608222550019.png">
+<meta property="og:image" content="http://example.com/2025/06/08/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84web-service%EF%BC%88soap%EF%BC%89/image-20250608222615539.png">
+<meta property="og:image" content="http://example.com/2025/06/08/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84web-service%EF%BC%88soap%EF%BC%89/image-20250608222633233.png">
+<meta property="og:image" content="http://example.com/2025/06/08/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84web-service%EF%BC%88soap%EF%BC%89/image-20250608222714158.png">
+<meta property="og:image" content="http://example.com/2025/06/08/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84web-service%EF%BC%88soap%EF%BC%89/image-20250608222741239.png">
+<meta property="og:image" content="http://example.com/2025/06/08/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84web-service%EF%BC%88soap%EF%BC%89/image-20250608222959371.png">
+<meta property="article:published_time" content="2025-06-08T14:24:19.000Z">
+<meta property="article:modified_time" content="2025-06-08T14:30:23.415Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="小技巧">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/06/08/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84web-service%EF%BC%88soap%EF%BC%89/image-20250608222550019.png">
+  
+  
+  <title>建立自己的web service（soap） - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😒","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="建立自己的web service（soap）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2025-06-08 22:24" pubdate>
+        2025年6月8日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      16k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      132 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">建立自己的web service（soap）</h1>
+            
+            <div class="markdown-body">
+              <h2 id="1、"><a href="#1、" class="headerlink" title="1、"></a>1、</h2><p>这篇文章主要介绍采用SOAP来建立以及访问Web service接口。</p>
+<p>　　Web service是一个平台独立的，低耦合的，自包含的、基于可编程的web的应用程序，可使用开放的XML(标准通用标记语言下的一个子集)标准来描述、发布、发现、协调和配置这些应用程序，用于开发分布式的互操作的应用程序。</p>
+<p>　　Web Service技术， 能使得运行在不同机器上的不同应用无须借助附加的、专门的第三方软件或硬件， 就可相互交换数据或集成。依据Web Service规范实施的应用之间， 无论它们所使用的语言、 平台或内部协议是什么， 都可以相互交换数据。Web Service是自描述、 自包含的可用网络模块， 可以执行具体的业务功能。Web Service也很容易部署， 因为它们基于一些常规的产业标准以及已有的一些技术，诸如标准通用标记语言下的子集XML、HTTP。Web Service减少了应用接口的花费。Web Service为整个企业甚至多个组织之间的业务流程的集成提供了一个通用机制。</p>
+<p>　　简而言之，当访问Web service，我们只需给定相应的数据条件就能够得到相应的信息。它的精华所在就是<strong>能够跨平台跨语言</strong>，即PHP构建的客户端能够访问java构建的Web service、.NET构建的客户端能够访问PHP构建的Web service、A服务器能够访问使用B服务器中的函数等等！</p>
+<h1 id="2、"><a href="#2、" class="headerlink" title="2、"></a>2、</h1><p>　Web Service也叫XML Web Service WebService是一种可以接收从Internet或者Intranet上的其它系统中传递过来的请求，轻量级的独立的通讯技术。是:通过SOAP在Web上提供的软件（服务），使用WSDL文件进行（说明），并通过（UDDI）进行注册。</p>
+<p>　　<strong>XML：</strong>(Extensible Markup Language)扩展型可标记语言。面向短期的临时数据处理、面向万维网络，是Soap的基础。</p>
+<p>　　<strong>Soap：</strong>(Simple Object Access Protocol)简单对象存取协议。是XML Web Service 的通信协议。当用户通过UDDI找到你的WSDL描述文档后，他通过可以SOAP调用你建立的Web服务中的一个或多个操作。SOAP是XML文档形式的调用方法的规范，它可以支持不同的底层接口，像HTTP(S)或者SMTP。</p>
+<p>　　<strong>WSDL：</strong>(Web Services Description Language) WSDL 文件是一个 XML 文档，用于说明一组 SOAP 消息以及如何交换这些消息。大多数情况下由软件自动生成和使用。</p>
+<p>　　WSDL（Web Service Description Language）Web服务器描述语言是用XML文档来描述Web服务的标准，是Web服务的接口定义语言，由Ariba、Intel、IBM、MS等共同提出，通过WSDL，可描述Web服务的三个基本属性：</p>
+<ul>
+<li>服务做些什么——服务所提供的操作（方法）</li>
+<li>如何访问服务——和服务交互的数据格式以及必要协议</li>
+<li>服务位于何处——协议相关的地址，如URL</li>
+</ul>
+<p>　　WSDL文档以端口集合的形式来描述Web服务，WSDL 服务描述包含对一组操作和消息的一个抽象定义，绑定到这些操作和消息的一个具体协议，和这个绑定的一个网络端点规范。WSDL 文档被分为两种类型：<strong>服务接口（service interface ）</strong>和 <strong>服务实现（service implementations）</strong>。</p>
+<p>　　服务接口文档中的主要元素为types、message、operation、portType、binding、port和service，他们的作用分别为：</p>
+<p>　　<strong>types：</strong>定义了Web服务使用的所有数据类型集合，可被元素的各消息部件所引用。它使用某种类型系统(一般地使用XML Schema中的类型系统)。</p>
+<p>　　<strong>message：</strong>通信消息数据结构的抽象类型化定义。使用Types所定义的类型来定义整个消息的数据结构。</p>
+<p>　　<strong>operation：</strong>对服务中所支持操作的抽象描述。一般单个operation描述了一个访问入口的请求&#x2F;响应消息对。</p>
+<p>　　<strong>portType：</strong>对于某个访问入口点类型所支持操作的抽象集合。这些操作可以由一个或多个服务访问点来支持。</p>
+<p>　　<strong>binding：</strong>包含了如何将抽象接口的元素(portType)转变为具体表示的细节，具体表示也就是指特定的数据格式和协议的结合；特定端口类型的具体协议和数据格式规范的绑定。</p>
+<p>　　<strong>port：</strong>定义为协议&#x2F;数据格式绑定与具体Web访问地址组合的单个服务访问点。</p>
+<p>　　<strong>service：</strong>这是一个粗糙命名的元素，代表端口的集合；相关服务访问点的集合。</p>
+<p><strong>总结来看</strong>，portType(与message和type元素的细节相结合)描述了Web服务是什么，binding元素描述了如何使用Web服务，port及service元素描述了Web服务的位置。</p>
+<h1 id="3、"><a href="#3、" class="headerlink" title="3、"></a>3、</h1><p>　1、客户根据WSDL描述文档，会生成一个SOAP请求消息。（客户生成的SOAP请求会被嵌入在一个HTTP POST请求中，发送到Web服务器中。）</p>
+<p>　　2、Web服务器再把这些请求转发给Web service请求处理器。（请求处理器的作用在于，解析收到的SOAP请求，调用Webservice，然后再生成相应的SOAP应答）</p>
+<p>　　3、Web服务器得到SOAP应答后，会再通过HTTP应答的方式把它送回到客户端。</p>
+<p>　　忽略其中的细节，简而言之就是浏览器访问Web服务器A中的相应程序（即服务器A定义调用服务器B Web service的应用程序，此程序是客户端）；Web服务器B响应该请求，并调用执行相应的程序，最终以http响应将数据发给Web服务器A；Web服务器A在返回给浏览器。</p>
+<p>　　SOAP使用HTTP传送XML，尽管HTTP不是有效率的通讯协议，而且XML还需要额外的文件解析（parse），两者使得交易的速度大大低于其它方案。<br>　　但是XML是一个开放、健全、有语义的讯息机制，而HTTP是一个广泛又能避免许多关于防火墙的问题，从而使SOAP得到了广泛的应用。<br>　　但是如果效率对自己来说很重要，那么应该多考虑其它的方式，而不要用SOAP。</p>
+<p>可以参考下面的简图（具体细节忽略）：</p>
+<p><img src="/2025/06/08/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84web-service%EF%BC%88soap%EF%BC%89/image-20250608222550019.png" srcset="/img/loading.gif" lazyload alt="image-20250608222550019"></p>
+<h1 id="4、"><a href="#4、" class="headerlink" title="4、"></a>4、</h1><p>　接下来我们将来访问国内飞机航班时刻表 WEB 服务，先了解一些基本服务的情况。</p>
+<p>　该网站提供一些Web服务： <a target="_blank" rel="noopener" href="http://www.webxml.com.cn/zh_cn/web_services.aspx">http://www.webxml.com.cn/zh_cn/web_services.aspx</a></p>
+<p>　我们将选取国内飞机航班时刻表 WEB 服务来进行访问！</p>
+<p><img src="/2025/06/08/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84web-service%EF%BC%88soap%EF%BC%89/image-20250608222615539.png" srcset="/img/loading.gif" lazyload alt="image-20250608222615539"></p>
+<p>　从上图中我们可以看到一个Web服务含有三个链接，分别代表三种途径Endpoint、Disco、WSDL。</p>
+<p>　　那它们有什么不同呢？</p>
+<p>Endpoint：web服务的URI地址，你访问之后，就会出现web服务的相关类描述、方法列表以及方法描述。</p>
+<p>Disco：通过这个可以找到该web服务。即利用了web服务发现机制中的一种发现机制disco。</p>
+<p>WSDL： 该web服务的描述性语言。即Web Services Description Language。用来描述你的web服务定义的方法和属性、binding协议部分、port端口以及服务URI。<br>　　我们当然是使用WSDL啦！</p>
+<p>　　参考上面WSDL的介绍我们很容易就能看明白这个文件。</p>
+<p>　　在PHP中存在一个扩展SOAP，使用它是很方便处理相应的SOAP类Web service！</p>
+<h1 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h1><p>　　1、首先我们点击进入该WSDL文件，查看这个Web service提供什么功能、有什么方法、以及使用方法的参数、返回的结果类型等等。</p>
+<p>　　我们将使用getDomesticAirlinesTime()进行测试</p>
+<p><img src="/2025/06/08/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84web-service%EF%BC%88soap%EF%BC%89/image-20250608222633233.png" srcset="/img/loading.gif" lazyload alt="image-20250608222633233"></p>
+<p>　　该方法需要填入相应的参数，包括出发城市、抵达城市、出发日期、（商业用户ID）</p>
+<p>　　2、接下来使用PHP中的SOAP扩展中的SoapClient类进行访问该Web service</p>
+<p>　　该文件我命名为test99.php</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php+HTML">&lt;?php<br>header(&quot;Content-type:text/html;charset=utf-8;&quot;);<br>$client = new SoapClient(&quot;http://ws.webxml.com.cn/webservices/DomesticAirline.asmx?wsdl&quot;);<br>echo &quot;&lt;pre&gt;&quot;;<br>print_r($client-&gt;__getFunctions());     #查看该WSDL所有方法<br>echo &quot;&lt;/pre&gt;&quot;;<br>$arr=array(&#x27;startCity&#x27;=&gt;&#x27;北京&#x27;, &#x27;lastCity&#x27;=&gt;&#x27;广州&#x27;, &#x27;theDate&#x27;=&gt;&#x27;2017-05-22&#x27;);    #参数信息、数组形势<br>$a=$client-&gt;getDomesticAirlinesTime($arr);<br>echo &quot;&lt;pre&gt;&quot;;<br>print_r($a);<br>echo &quot;&lt;/pre&gt;&quot;;<br>$c= $client-&gt;__soapCall(&#x27;getDomesticAirlinesTime&#x27;, array(&#x27;getDomesticAirlinesTime&#x27;=&gt;$arr));<br>echo &quot;&lt;pre&gt;&quot;;<br>print_r($c);<br>echo &quot;&lt;/pre&gt;&quot;;die;<br>?&gt;<br></code></pre></div></td></tr></table></figure>
+
+<p>　浏览器访问test99.php，结果如下</p>
+<p><img src="/2025/06/08/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84web-service%EF%BC%88soap%EF%BC%89/image-20250608222714158.png" srcset="/img/loading.gif" lazyload alt="image-20250608222714158"></p>
+<h1 id="5、"><a href="#5、" class="headerlink" title="5、"></a>5、</h1><p>　　PHP中的SOAP可分为WSDL类型SOAP与非WSDL类型SOAP，现如今大多数使用的SOAP是含有WSDL的。个人对与这两种的理解是：含WSDL是标准类型的，因为WSDL使用了XML标准语法对你提供的方法类进行了描述（描述服务）。接下来我们将构建WSDL类型的SOAP Web service接口。</p>
+<p>　　步骤：</p>
+<p>　　目录构造如下：</p>
+<p><img src="/2025/06/08/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84web-service%EF%BC%88soap%EF%BC%89/image-20250608222741239.png" srcset="/img/loading.gif" lazyload alt="image-20250608222741239"></p>
+<p>　　1、先构造好我们需要提供服务的功能方法</p>
+<p>　　Webserciec.class.php（这个类很简单，只是做个测试；当然这里可以写我们想要提供的任何功能，各种逻辑，以及数据服务等等。）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php+HTML">&lt;?php<br>Class WebService<br>&#123;<br>    public function getTest($a)<br>    &#123;<br>        return &quot;The msg from WebService&quot;.$a;<br>    &#125;<br>    public function test($b,$c)<br>    &#123;<br>        return $b+$c;<br>    &#125;<br>&#125;<br>?&gt;<br></code></pre></div></td></tr></table></figure>
+
+<p>　　2、构建WSDL文件（即使用WSDL对Webservice.class.php类文件进行相应的服务描述）</p>
+<p>　　由于PHP中没有将该类生成WSDL文件的功能函数，因此我们需要借助别的工具将WSDL文件构造出来！</p>
+<p>　　下面是一个SoapDiscovery.class.php类文件，可以生成相应的WSDL文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php+HTML">&lt;?php<br><br>/**<br>* Copyright (c) 2005, Braulio Jos?Solano Rojas<br>* All rights reserved.<br>*<br>* Redistribution and use in source and binary forms, with or without modification, are<br>* permitted provided that the following conditions are met:<br>*<br>*     Redistributions of source code must retain the above copyright notice, this list of<br>*     conditions and the following disclaimer.<br>*     Redistributions in binary form must reproduce the above copyright notice, this list of<br>*     conditions and the following disclaimer in the documentation and/or other materials<br>*     provided with the distribution.<br>*     Neither the name of the Solsoft de Costa Rica S.A. nor the names of its contributors may<br>*     be used to endorse or promote products derived from this software without specific<br>*     prior written permission.<br>*<br>* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND<br>* CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES,<br>* INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF<br>* MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE<br>* DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR<br>* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,<br>* SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT<br>* NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;<br>* LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)<br>* HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN<br>* CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR<br>* OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,<br>* EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<br>*<br>*<br>* @version $Id: SoapDiscovery.class.php 66 2013-04-10 07:12:21Z ideaa $<br>* @copyright 2005<br>*/<br><br>/**<br>* SoapDiscovery Class that provides Web Service Definition Language (WSDL).<br>*<br>* @package SoapDiscovery<br>* @author Braulio Jos?Solano Rojas<br>* @copyright Copyright (c) 2005 Braulio Jos?Solano Rojas<br>* @version $Id: SoapDiscovery.class.php 66 2013-04-10 07:12:21Z ideaa $<br>* @access public<br>* */<br>class SoapDiscovery &#123;<br><br>    private $class_name = &#x27;&#x27;;<br>    private $service_name = &#x27;&#x27;;<br>    private $address = &#x27;&#x27;;<br><br>    /**<br>     * SoapDiscovery::__construct() SoapDiscovery class Constructor.<br>     *<br>     * @param string $class_name<br>     * @param string $service_name<br>     * */<br>    public function __construct($class_name = &#x27;&#x27;, $service_name = &#x27;&#x27;, $address = &#x27;&#x27;) &#123;<br>        $this-&gt;class_name = $class_name;<br>        $this-&gt;service_name = $service_name;<br>        $this -&gt; address = $_SERVER[&#x27;SERVER_NAME&#x27;].&#x27;:&#x27;.$_SERVER[&#x27;SERVER_PORT&#x27;].$_SERVER[&#x27;PHP_SELF&#x27;];<br>        if(!empty($address))<br>        $this -&gt; address = $address;<br>    &#125;<br><br>    /**<br>     * SoapDiscovery::getWSDL() Returns the WSDL of a class if the class is instantiable.<br>     *<br>     * @return string<br>     * */<br>    public function getWSDL() &#123;<br>        if (empty($this-&gt;service_name)) &#123;<br>            throw new Exception(&#x27;No service name.&#x27;);<br>        &#125;<br>        $headerWSDL = &quot;&lt;?xml version=\&quot;1.0\&quot; ?&gt;\n&quot;;<br>        $headerWSDL.= &quot;&lt;definitions name=\&quot;$this-&gt;service_name\&quot; targetNamespace=\&quot;urn:$this-&gt;service_name\&quot; xmlns:wsdl=\&quot;http://schemas.xmlsoap.org/wsdl/\&quot; xmlns:soap=\&quot;http://schemas.xmlsoap.org/wsdl/soap/\&quot; xmlns:tns=\&quot;urn:$this-&gt;service_name\&quot; xmlns:xsd=\&quot;http://www.w3.org/2001/XMLSchema\&quot; xmlns:SOAP-ENC=\&quot;http://schemas.xmlsoap.org/soap/encoding/\&quot; xmlns=\&quot;http://schemas.xmlsoap.org/wsdl/\&quot;&gt;\n&quot;;<br>        $headerWSDL.= &quot;&lt;types xmlns=\&quot;http://schemas.xmlsoap.org/wsdl/\&quot; /&gt;\n&quot;;<br><br>        if (empty($this-&gt;class_name)) &#123;<br>            throw new Exception(&#x27;No class name.&#x27;);<br>        &#125;<br><br>        $class = new ReflectionClass($this-&gt;class_name);<br><br>        if (!$class-&gt;isInstantiable()) &#123;<br>            throw new Exception(&#x27;Class is not instantiable.&#x27;);<br>        &#125;<br><br>        $methods = $class-&gt;getMethods();<br><br>        $portTypeWSDL = &#x27;&lt;portType name=&quot;&#x27; . $this-&gt;service_name . &#x27;Port&quot;&gt;&#x27;;<br>        $bindingWSDL = &#x27;&lt;binding name=&quot;&#x27; . $this-&gt;service_name . &#x27;Binding&quot; type=&quot;tns:&#x27; . $this-&gt;service_name . &quot;Port\&quot;&gt;\n&lt;soap:binding style=\&quot;rpc\&quot; transport=\&quot;http://schemas.xmlsoap.org/soap/http\&quot; /&gt;\n&quot;;<br>        $serviceWSDL = &#x27;&lt;service name=&quot;&#x27; . $this-&gt;service_name . &quot;\&quot;&gt;\n&lt;documentation /&gt;\n&lt;port name=\&quot;&quot; . $this-&gt;service_name . &#x27;Port&quot; binding=&quot;tns:&#x27; . $this-&gt;service_name . &quot;Binding\&quot;&gt;&lt;soap:address location=\&quot;&quot;.$this -&gt;address.&quot;\&quot; /&gt;\n&lt;/port&gt;\n&lt;/service&gt;\n&quot;;<br>        $messageWSDL = &#x27;&#x27;;<br>        foreach ($methods as $method) &#123;<br>            if ($method-&gt;isPublic() &amp;&amp; !$method-&gt;isConstructor()) &#123;<br>                $portTypeWSDL.= &#x27;&lt;operation name=&quot;&#x27; . $method-&gt;getName() . &quot;\&quot;&gt;\n&quot; . &#x27;&lt;input message=&quot;tns:&#x27; . $method-&gt;getName() . &quot;Request\&quot; /&gt;\n&lt;output message=\&quot;tns:&quot; . $method-&gt;getName() . &quot;Response\&quot; /&gt;\n&lt;/operation&gt;\n&quot;;<br>                $bindingWSDL.= &#x27;&lt;operation name=&quot;&#x27; . $method-&gt;getName() . &quot;\&quot;&gt;\n&quot; . &#x27;&lt;soap:operation soapAction=&quot;urn:&#x27; . $this-&gt;service_name . &#x27;#&#x27; . $this-&gt;class_name . &#x27;#&#x27; . $method-&gt;getName() . &quot;\&quot; /&gt;\n&lt;input&gt;&lt;soap:body use=\&quot;encoded\&quot; namespace=\&quot;urn:$this-&gt;service_name\&quot; encodingStyle=\&quot;http://schemas.xmlsoap.org/soap/encoding/\&quot; /&gt;\n&lt;/input&gt;\n&lt;output&gt;\n&lt;soap:body use=\&quot;encoded\&quot; namespace=\&quot;urn:$this-&gt;service_name\&quot; encodingStyle=\&quot;http://schemas.xmlsoap.org/soap/encoding/\&quot; /&gt;\n&lt;/output&gt;\n&lt;/operation&gt;\n&quot;;<br>                $messageWSDL.= &#x27;&lt;message name=&quot;&#x27; . $method-&gt;getName() . &quot;Request\&quot;&gt;\n&quot;;<br>                $parameters = $method-&gt;getParameters();<br>                foreach ($parameters as $parameter) &#123;<br>                    $messageWSDL.= &#x27;&lt;part name=&quot;&#x27; . $parameter-&gt;getName() . &quot;\&quot; type=\&quot;xsd:string\&quot; /&gt;\n&quot;;<br>                &#125;<br>                $messageWSDL.= &quot;&lt;/message&gt;\n&quot;;<br>                $messageWSDL.= &#x27;&lt;message name=&quot;&#x27; . $method-&gt;getName() . &quot;Response\&quot;&gt;\n&quot;;<br>                $messageWSDL.= &#x27;&lt;part name=&quot;&#x27; . $method-&gt;getName() . &quot;\&quot; type=\&quot;xsd:string\&quot; /&gt;\n&quot;;<br>                $messageWSDL.= &quot;&lt;/message&gt;\n&quot;;<br>            &#125;<br>        &#125;<br>        $portTypeWSDL.= &quot;&lt;/portType&gt;\n&quot;;<br>        $bindingWSDL.= &quot;&lt;/binding&gt;\n&quot;;<br>        //return sprintf(&#x27;%s%s%s%s%s%s&#x27;, $headerWSDL, $portTypeWSDL, $bindingWSDL, $serviceWSDL, $messageWSDL, &#x27;&lt;/definitions&gt;&#x27;);<br>        //生成wsdl文件，将上面的return注释<br>        $fso = fopen($this-&gt;class_name . &quot;.wsdl&quot;, &quot;w&quot;);<br>        fwrite($fso, sprintf(&#x27;%s%s%s%s%s%s&#x27;, $headerWSDL, $portTypeWSDL, $bindingWSDL, $serviceWSDL, $messageWSDL, &#x27;&lt;/definitions&gt;&#x27;));<br>    &#125;<br><br>    /**<br>     * SoapDiscovery::getDiscovery() Returns discovery of WSDL.<br>     *<br>     * @return string<br>     * */<br>    public function getDiscovery() &#123;<br>        return &quot;&lt;?xml version=\&quot;1.0\&quot; ?&gt;\n&lt;disco:discovery xmlns:disco=\&quot;http://schemas.xmlsoap.org/disco/\&quot; xmlns:scl=\&quot;http://schemas.xmlsoap.org/disco/scl/\&quot;&gt;\n&lt;scl:contractRef ref=\&quot;http://&quot; . $_SERVER[&#x27;SERVER_NAME&#x27;] . &#x27;:&#x27; . $_SERVER[&#x27;SERVER_PORT&#x27;] . $_SERVER[&#x27;PHP_SELF&#x27;] . &quot;?wsdl\&quot; /&gt;\n&lt;/disco:discovery&gt;&quot;;<br>    &#125;<br><br>&#125;<br><br>?&gt;<br></code></pre></div></td></tr></table></figure>
+
+<p>getWSDL.php文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php+HTML">&lt;?php<br>include (&#x27;./WebService.class.php&#x27;);<br>include (&#x27;./SoapDiscovery.class.php&#x27;);<br>$wsdl =new SoapDiscovery(&#x27;WebService&#x27;,&#x27;a&#x27;,&#x27;http://www.test99.com/ok/server.php&#x27;);  #第一个是参数为类名、第二个参数为服务名（可以随便写）、第三个参数为提供服务的接口文件<br>$wsdl -&gt; getWSDL();<br>?&gt;<br></code></pre></div></td></tr></table></figure>
+
+<p>　　访问<a target="_blank" rel="noopener" href="http://www.test99.com/ok/getWSDL.php%EF%BC%8C%E5%8D%B3%E5%8F%AF%E7%94%9F%E6%88%90WebService.WSDL%E6%96%87%E4%BB%B6">http://www.test99.com/ok/getWSDL.php，即可生成WebService.WSDL文件</a></p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> ?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">definitions</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;a&quot;</span> <span class="hljs-attr">targetNamespace</span>=<span class="hljs-string">&quot;urn:a&quot;</span> <span class="hljs-attr">xmlns:wsdl</span>=<span class="hljs-string">&quot;http://schemas.xmlsoap.org/wsdl/&quot;</span> <span class="hljs-attr">xmlns:soap</span>=<span class="hljs-string">&quot;http://schemas.xmlsoap.org/wsdl/soap/&quot;</span> <span class="hljs-attr">xmlns:tns</span>=<span class="hljs-string">&quot;urn:a&quot;</span> <span class="hljs-attr">xmlns:xsd</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema&quot;</span> <span class="hljs-attr">xmlns:SOAP-ENC</span>=<span class="hljs-string">&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.xmlsoap.org/wsdl/&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">types</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.xmlsoap.org/wsdl/&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">portType</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;aPort&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">operation</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;getTest&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">message</span>=<span class="hljs-string">&quot;tns:getTestRequest&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">output</span> <span class="hljs-attr">message</span>=<span class="hljs-string">&quot;tns:getTestResponse&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">operation</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">operation</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">message</span>=<span class="hljs-string">&quot;tns:testRequest&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">output</span> <span class="hljs-attr">message</span>=<span class="hljs-string">&quot;tns:testResponse&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">operation</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">portType</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">binding</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;aBinding&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;tns:aPort&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">soap:binding</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;rpc&quot;</span> <span class="hljs-attr">transport</span>=<span class="hljs-string">&quot;http://schemas.xmlsoap.org/soap/http&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">operation</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;getTest&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">soap:operation</span> <span class="hljs-attr">soapAction</span>=<span class="hljs-string">&quot;urn:a#WebService#getTest&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">input</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">soap:body</span> <span class="hljs-attr">use</span>=<span class="hljs-string">&quot;encoded&quot;</span> <span class="hljs-attr">namespace</span>=<span class="hljs-string">&quot;urn:a&quot;</span> <span class="hljs-attr">encodingStyle</span>=<span class="hljs-string">&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">input</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">output</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">soap:body</span> <span class="hljs-attr">use</span>=<span class="hljs-string">&quot;encoded&quot;</span> <span class="hljs-attr">namespace</span>=<span class="hljs-string">&quot;urn:a&quot;</span> <span class="hljs-attr">encodingStyle</span>=<span class="hljs-string">&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">output</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">operation</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">operation</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">soap:operation</span> <span class="hljs-attr">soapAction</span>=<span class="hljs-string">&quot;urn:a#WebService#test&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">input</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">soap:body</span> <span class="hljs-attr">use</span>=<span class="hljs-string">&quot;encoded&quot;</span> <span class="hljs-attr">namespace</span>=<span class="hljs-string">&quot;urn:a&quot;</span> <span class="hljs-attr">encodingStyle</span>=<span class="hljs-string">&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">input</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">output</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">soap:body</span> <span class="hljs-attr">use</span>=<span class="hljs-string">&quot;encoded&quot;</span> <span class="hljs-attr">namespace</span>=<span class="hljs-string">&quot;urn:a&quot;</span> <span class="hljs-attr">encodingStyle</span>=<span class="hljs-string">&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">output</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">operation</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">binding</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">service</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">documentation</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">port</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;aPort&quot;</span> <span class="hljs-attr">binding</span>=<span class="hljs-string">&quot;tns:aBinding&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">soap:address</span> <span class="hljs-attr">location</span>=<span class="hljs-string">&quot;http://www.test99.com/ok/server.php&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">port</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">service</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">message</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;getTestRequest&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">part</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;a&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;xsd:string&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">message</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">message</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;getTestResponse&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">part</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;getTest&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;xsd:string&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">message</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">message</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;testRequest&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">part</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;b&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;xsd:string&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">part</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;c&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;xsd:string&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">message</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">message</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;testResponse&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">part</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;xsd:string&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">message</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">definitions</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>　　3、建立Server.php服务文件</p>
+<figure class="highlight php"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">include</span>(<span class="hljs-string">&quot;WebService.class.php&quot;</span>);<br><span class="hljs-variable">$server</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SoapServer</span>(<span class="hljs-string">&quot;WebService.wsdl&quot;</span>);<br><span class="hljs-variable">$server</span> -&gt; <span class="hljs-title function_ invoke__">setClass</span>(<span class="hljs-string">&quot;WebService&quot;</span>);<br><span class="hljs-variable">$server</span> -&gt; <span class="hljs-title function_ invoke__">handle</span>();<br><span class="hljs-meta">?&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>　　大功告成，给外部提供接口，<a target="_blank" rel="noopener" href="http://www.test99.com/ok/Server.php?wsdl">http://www.test99.com/ok/Server.php?wsdl</a></p>
+<p>　　4、开始访问，在<a target="_blank" rel="noopener" href="http://www.test88.com主机中建立客户端程序/">www.test88.com主机中建立客户端程序</a></p>
+<p>　　Client.php</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs php+HTML">header(&quot;Content-type:text/html;charset=utf-8;&quot;);<br>$client = new SoapClient(&quot;http://www.test99.com/ok/Server.php?wsdl&quot;);<br>echo &quot;&lt;pre&gt;&quot;;<br>print_r($client-&gt;__getFunctions());<br>echo &quot;&lt;/pre&gt;&quot;;<br>echo $client-&gt;__soapCall(&#x27;test&#x27;,array(&#x27;1&#x27;,&#x27;2&#x27;));<br>echo &quot;&lt;br/&gt;&quot;;<br>try&#123;<br>    echo  $result=$client -&gt; test(&#x27;2&#x27;,&#x27;2&#x27;);<br>&#125;catch(SoapFault $e)&#123;<br>    echo $e-&gt;getMessage();<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>　　访问<a target="_blank" rel="noopener" href="http://www.test88.com/Client.php%EF%BC%8C%E7%BB%93%E6%9E%9C%E5%A6%82%E4%B8%8B%E6%89%80%E7%A4%BA%EF%BC%9A">http://www.test88.com/Client.php，结果如下所示：</a></p>
+<p><img src="/2025/06/08/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84web-service%EF%BC%88soap%EF%BC%89/image-20250608222959371.png" srcset="/img/loading.gif" lazyload alt="image-20250608222959371"></p>
+<p>根据上图我们采用SOAP建立Web service成功！建立Web service就是这么简单</p>
+<p>6、</p>
+<p>　　当然我这里仅仅只是建立了一个对外开放的Web服务，但是这个服务如果不加以说明注释别人肯定不知道这个服务有什么作用呀、该怎么使用呀等等。这些东西在这篇文章中还没有提到，大家需切记哈！</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%B0%8F%E6%8A%80%E5%B7%A7/">小技巧</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

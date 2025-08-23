@@ -1,0 +1,728 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="安装，这里使用Ubuntu，windows物理机跟谷歌浏览器有冲突，创建目录创建venv虚拟环境后github或者pip安装后，开始应用。 1with SB(uc&#x3D;True,headless&#x3D;False) as sb:  中间的参数可以根据需求调节，具体如下    参数名 类型 默认值 说明    browser str &quot;chrome&quot; 浏览器类型：&quot;chrome&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python-seleniumbase的学习应用">
+<meta property="og:url" content="http://example.com/2025/06/20/python-seleniumbase%E7%9A%84%E5%AD%A6%E4%B9%A0%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="安装，这里使用Ubuntu，windows物理机跟谷歌浏览器有冲突，创建目录创建venv虚拟环境后github或者pip安装后，开始应用。 1with SB(uc&#x3D;True,headless&#x3D;False) as sb:  中间的参数可以根据需求调节，具体如下    参数名 类型 默认值 说明    browser str &quot;chrome&quot; 浏览器类型：&quot;chrome&amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/06/20/python-seleniumbase%E7%9A%84%E5%AD%A6%E4%B9%A0%E5%BA%94%E7%94%A8/image-20250620214124831.png">
+<meta property="og:image" content="http://example.com/2025/06/20/python-seleniumbase%E7%9A%84%E5%AD%A6%E4%B9%A0%E5%BA%94%E7%94%A8/image-20250620222952237.png">
+<meta property="article:published_time" content="2025-06-20T13:31:55.000Z">
+<meta property="article:modified_time" content="2025-06-20T15:38:04.082Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/06/20/python-seleniumbase%E7%9A%84%E5%AD%A6%E4%B9%A0%E5%BA%94%E7%94%A8/image-20250620214124831.png">
+  
+  
+  <title>python-seleniumbase的学习应用 - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😒","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="python-seleniumbase的学习应用">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2025-06-20 21:31" pubdate>
+        2025年6月20日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.4k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      79 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">python-seleniumbase的学习应用</h1>
+            
+            <div class="markdown-body">
+              <p>安装，这里使用Ubuntu，windows物理机跟谷歌浏览器有冲突，创建目录创建venv虚拟环境后github或者pip安装后，开始应用。</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">with</span> SB(uc=<span class="hljs-literal">True</span>,headless=<span class="hljs-literal">False</span>) <span class="hljs-keyword">as</span> sb:<br></code></pre></div></td></tr></table></figure>
+
+<p>中间的参数可以根据需求调节，具体如下</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>browser</code></td>
+<td><code>str</code></td>
+<td><code>&quot;chrome&quot;</code></td>
+<td>浏览器类型：<code>&quot;chrome&quot;</code>、<code>&quot;edge&quot;</code>、<code>&quot;firefox&quot;</code>、<code>&quot;safari&quot;</code> 等</td>
+</tr>
+<tr>
+<td><code>uc</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>是否使用 undetected-chromedriver 防止检测</td>
+</tr>
+<tr>
+<td><code>proxy</code></td>
+<td><code>str</code></td>
+<td><code>None</code></td>
+<td>设置 HTTP 或 SOCKS 代理地址，如：<code>&quot;http://127.0.0.1:7890&quot;</code></td>
+</tr>
+<tr>
+<td><code>headless</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>是否无头运行（不显示浏览器界面）</td>
+</tr>
+<tr>
+<td><code>incognito</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>是否以隐身模式启动浏览器</td>
+</tr>
+<tr>
+<td><code>maximize</code></td>
+<td><code>bool</code></td>
+<td><code>True</code></td>
+<td>启动后是否最大化浏览器窗口</td>
+</tr>
+<tr>
+<td><code>locale_code</code></td>
+<td><code>str</code></td>
+<td><code>None</code></td>
+<td>浏览器语言设置（如 <code>&quot;zh-CN&quot;</code>、<code>&quot;en-US&quot;</code>）</td>
+</tr>
+<tr>
+<td><code>agent</code></td>
+<td><code>str</code></td>
+<td><code>None</code></td>
+<td>自定义 User-Agent</td>
+</tr>
+<tr>
+<td><code>cap_file</code></td>
+<td><code>str</code></td>
+<td><code>None</code></td>
+<td>加载自定义浏览器 capabilities 的 json 文件</td>
+</tr>
+<tr>
+<td><code>extension_zip</code></td>
+<td><code>str</code></td>
+<td><code>None</code></td>
+<td>加载 Chrome 插件 <code>.zip</code> 文件</td>
+</tr>
+<tr>
+<td><code>extension_dir</code></td>
+<td><code>str</code></td>
+<td><code>None</code></td>
+<td>加载 Chrome 插件的目录</td>
+</tr>
+<tr>
+<td><code>start_page</code></td>
+<td><code>str</code></td>
+<td><code>None</code></td>
+<td>浏览器启动时加载的初始页面 URL</td>
+</tr>
+<tr>
+<td><code>disable_csp</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>是否禁用 CSP（内容安全策略）</td>
+</tr>
+<tr>
+<td><code>enable_sync</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>启用 Google 登录同步功能（需要配置好用户数据）</td>
+</tr>
+<tr>
+<td><code>use_auto_ext</code></td>
+<td><code>bool</code></td>
+<td><code>True</code></td>
+<td>使用 seleniumbase 自带的自动化扩展</td>
+</tr>
+<tr>
+<td><code>no_sandbox</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>禁用 sandbox 模式（有时 root 用户需要）</td>
+</tr>
+<tr>
+<td><code>disable_gpu</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>禁用 GPU 加速（用于某些系统兼容）</td>
+</tr>
+</tbody></table>
+<p>官方提供了（貌似）一个购物练习网站，这里使用代码完成登录-&gt;添加购物车-&gt;进入购物车-&gt;输入信息-&gt;完成购买操作</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> seleniumbase <span class="hljs-keyword">import</span> SB<br><span class="hljs-keyword">import</span> requests<br><span class="hljs-comment"># -*- coding: utf-8 -*-</span><br><br>proxy = <span class="hljs-string">&quot;http://192.168.80.1:7890&quot;</span><br><br><br>status = requests.get(<span class="hljs-string">&quot;https://www.saucedemo.com/&quot;</span>, proxies=&#123;<span class="hljs-string">&quot;http&quot;</span>: proxy, <span class="hljs-string">&quot;https&quot;</span>: proxy&#125;)<br><span class="hljs-keyword">if</span> status.status_code == <span class="hljs-number">200</span>:<br>    <span class="hljs-keyword">with</span> SB(uc=<span class="hljs-literal">True</span>, proxy=proxy, headless=<span class="hljs-literal">False</span>) <span class="hljs-keyword">as</span> sb:<br>        sb.<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;https://www.saucedemo.com/&quot;</span>)<br>        status_code =  sb.get_status_code()  <span class="hljs-comment"># 获取状态码</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;status code <span class="hljs-subst">&#123;status_code&#125;</span>&quot;</span>)  <span class="hljs-comment"># 打印状态码</span><br>        sb.<span class="hljs-built_in">type</span>(<span class="hljs-string">&quot;#user-name&quot;</span>,<span class="hljs-string">&quot;standard_user&quot;</span>)<br>        sb.<span class="hljs-built_in">type</span>(<span class="hljs-string">&quot;#password&quot;</span>,<span class="hljs-string">&#x27;secret_sauce&#x27;</span>)<br>        sb.click(<span class="hljs-string">&quot;#login-button&quot;</span>)<br>        <span class="hljs-comment">#文本形式判断是否登陆成功</span><br>        text = sb.get_text()<br>        <span class="hljs-keyword">if</span> sb.assert_element(<span class="hljs-string">&quot;#inventory_container&quot;</span>):<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Login successful, inventory container found.&quot;</span>) <span class="hljs-comment">#id的话需要加入 #符号</span><br>            <span class="hljs-keyword">try</span>:<br>                sb.click(<span class="hljs-string">&quot;#add-to-cart-sauce-labs-backpack&quot;</span>)<br>                sb.click(<span class="hljs-string">&quot;#add-to-cart-sauce-labs-bike-light&quot;</span>)<br>                sb.click(<span class="hljs-string">&quot;#add-to-cart-sauce-labs-bolt-t-shirt&quot;</span>)<br>                sb.click(<span class="hljs-string">&quot;#shopping_cart_container&quot;</span>)<br>                sb.click(<span class="hljs-string">&quot;#checkout&quot;</span>)<br>                <br>                sb.<span class="hljs-built_in">type</span>(<span class="hljs-string">&quot;#first-name&quot;</span>, <span class="hljs-string">&quot;John&quot;</span>)<br>                sb.<span class="hljs-built_in">type</span>(<span class="hljs-string">&quot;#last-name&quot;</span>, <span class="hljs-string">&quot;Doe&quot;</span>)<br>                sb.<span class="hljs-built_in">type</span>(<span class="hljs-string">&quot;#postal-code&quot;</span>, <span class="hljs-string">&quot;12345&quot;</span>)<br>                sb.click(<span class="hljs-string">&quot;#continue&quot;</span>)<br><br>                sb.click(<span class="hljs-string">&quot;#finish&quot;</span>)<br>                <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;Thank you&quot;</span> <span class="hljs-keyword">in</span> sb.get_text():<br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;购买完毕&quot;</span>)<br>                <span class="hljs-keyword">else</span>:<br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;购买失败，未找到感谢页面。&quot;</span>)<br>            <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;An error occurred while clicking: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Login failed, inventory container not found.&quot;</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p>这里需要注意，我这里使用#号来获取对应的div？写法这样子，应该是CSS的关系。</p>
+<p>然后还可以使用[]来获取，这里适用于HTML的属性</p>
+<table>
+<thead>
+<tr>
+<th>语法</th>
+<th>匹配 HTML 标签</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[type=&quot;submit&quot;]</code></td>
+<td><code>&lt;input type=&quot;submit&quot;&gt;</code></td>
+</tr>
+<tr>
+<td><code>[name=&quot;username&quot;]</code></td>
+<td><code>&lt;input name=&quot;username&quot;&gt;</code></td>
+</tr>
+<tr>
+<td><code>[data-index=&quot;9&quot;]</code></td>
+<td><code>&lt;div data-index=&quot;9&quot;&gt;</code></td>
+</tr>
+<tr>
+<td><code>[placeholder=&quot;输入用户名&quot;]</code></td>
+<td><code>&lt;input placeholder=&quot;输入用户名&quot;&gt;</code></td>
+</tr>
+</tbody></table>
+<p>当你需要选择的是非标准的 <code>id</code> 或 <code>class</code>，比如 <code>data-xxx</code>、<code>aria-xxx</code> 这类自定义属性，<strong>就必须使用 <code>[attr=&quot;value&quot;]</code></strong> 语法，没有简写可用。</p>
+<p>这里获取百度主页的新闻内容为例</p>
+<p><img src="/2025/06/20/python-seleniumbase%E7%9A%84%E5%AD%A6%E4%B9%A0%E5%BA%94%E7%94%A8/image-20250620214124831.png" srcset="/img/loading.gif" lazyload alt="image-20250620214124831"></p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> seleniumbase <span class="hljs-keyword">import</span> SB<br><br><span class="hljs-keyword">with</span> SB(uc=<span class="hljs-literal">True</span>,headless=<span class="hljs-literal">False</span>) <span class="hljs-keyword">as</span> sb:<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):<br>        <span class="hljs-keyword">try</span>:<br>            sb.<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;https://www.baidu.com&quot;</span>)<br>            sb.click(<span class="hljs-string">f&#x27;[data-index=&quot;<span class="hljs-subst">&#123;i&#125;</span>&quot;]&#x27;</span>)<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;成功点击id<span class="hljs-subst">&#123;i&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;错误的id<span class="hljs-subst">&#123;i&#125;</span>: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br><br></code></pre></div></td></tr></table></figure>
+
+<p>获取标签句柄来实现跳转回原来的页面然后获取新的内容</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> seleniumbase <span class="hljs-keyword">import</span> SB<br><span class="hljs-keyword">import</span> time<br><br><span class="hljs-keyword">with</span> SB(uc=<span class="hljs-literal">True</span>,headless=<span class="hljs-literal">False</span>) <span class="hljs-keyword">as</span> sb:<br>    sb.<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;https://www.baidu.com&quot;</span>)<br>    headless = sb.driver.current_window_handle <span class="hljs-comment"># 获取当前窗口句柄</span><br><br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):<br>        sb.click(<span class="hljs-string">f&#x27;[data-index=&quot;<span class="hljs-subst">&#123;i&#125;</span>&quot;]&#x27;</span>)<br>        title = sb.get_page_title()<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;当前页面标题: <span class="hljs-subst">&#123;title&#125;</span>&quot;</span>)<br>        sb.switch_to_window(headless)  <span class="hljs-comment"># 切换到当前窗口</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;当前窗口句柄: <span class="hljs-subst">&#123;headless&#125;</span>&quot;</span>)<br><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/06/20/python-seleniumbase%E7%9A%84%E5%AD%A6%E4%B9%A0%E5%BA%94%E7%94%A8/image-20250620222952237.png" srcset="/img/loading.gif" lazyload alt="image-20250620222952237"></p>
+<p>方法↓</p>
+<h2 id="浏览器操作相关"><a href="#浏览器操作相关" class="headerlink" title="浏览器操作相关"></a>浏览器操作相关</h2><table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+<th>示例代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>open(url)</code></td>
+<td>打开指定网址</td>
+<td><code>sb.open(&quot;https://www.baidu.com&quot;)</code></td>
+</tr>
+<tr>
+<td><code>refresh()</code></td>
+<td>刷新当前页面</td>
+<td><code>sb.refresh()</code></td>
+</tr>
+<tr>
+<td><code>go_back()</code></td>
+<td>浏览器后退</td>
+<td><code>sb.go_back()</code></td>
+</tr>
+<tr>
+<td><code>go_forward()</code></td>
+<td>浏览器前进</td>
+<td><code>sb.go_forward()</code></td>
+</tr>
+<tr>
+<td><code>get_current_url()</code></td>
+<td>获取当前页面URL</td>
+<td><code>url = sb.get_current_url()</code></td>
+</tr>
+<tr>
+<td><code>get_page_title()</code></td>
+<td>获取当前页面标题</td>
+<td><code>title = sb.get_page_title()</code></td>
+</tr>
+<tr>
+<td><code>save_screenshot(filename)</code></td>
+<td>保存当前页面截图</td>
+<td><code>sb.save_screenshot(&quot;screenshot.png&quot;)</code></td>
+</tr>
+<tr>
+<td><code>quit()</code></td>
+<td>关闭浏览器并结束所有会话</td>
+<td><code>sb.quit()</code></td>
+</tr>
+</tbody></table>
+<h2 id="标签页-窗口管理"><a href="#标签页-窗口管理" class="headerlink" title="标签页 &#x2F; 窗口管理"></a>标签页 &#x2F; 窗口管理</h2><table>
+<thead>
+<tr>
+<th>方法 &#x2F; 属性</th>
+<th>说明</th>
+<th>示例代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>driver.current_window_handle</code></td>
+<td>获取当前窗口句柄</td>
+<td><code>handle = sb.driver.current_window_handle</code></td>
+</tr>
+<tr>
+<td><code>driver.window_handles</code></td>
+<td>获取所有打开窗口的句柄列表</td>
+<td><code>handles = sb.driver.window_handles</code></td>
+</tr>
+<tr>
+<td><code>driver.switch_to.window(handle)</code></td>
+<td>切换到指定窗口句柄</td>
+<td><code>sb.driver.switch_to.window(handles[0])</code></td>
+</tr>
+<tr>
+<td><code>driver.close()</code></td>
+<td>关闭当前窗口</td>
+<td><code>sb.driver.close()</code></td>
+</tr>
+</tbody></table>
+<h2 id="元素定位与操作"><a href="#元素定位与操作" class="headerlink" title="元素定位与操作"></a>元素定位与操作</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+<th>示例代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>click(selector)</code></td>
+<td>点击页面元素，selector为CSS选择器</td>
+<td><code>sb.click(&quot;#submit-btn&quot;)</code></td>
+</tr>
+<tr>
+<td><code>type(selector, text)</code></td>
+<td>输入文字到元素</td>
+<td><code>sb.type(&quot;#search-box&quot;, &quot;seleniumbase\n&quot;)</code></td>
+</tr>
+<tr>
+<td><code>get_text(selector=None)</code></td>
+<td>获取元素文本，未传selector则获取整个页面文本</td>
+<td><code>text = sb.get_text(&quot;#main&quot;)</code></td>
+</tr>
+<tr>
+<td><code>assert_element(selector)</code></td>
+<td>断言页面存在指定元素</td>
+<td><code>sb.assert_element(&quot;#login-form&quot;)</code></td>
+</tr>
+<tr>
+<td><code>wait_for_element(selector, timeout=10)</code></td>
+<td>等待元素出现，超时抛异常</td>
+<td><code>sb.wait_for_element(&quot;.result-item&quot;, timeout=5)</code></td>
+</tr>
+<tr>
+<td><code>is_element_visible(selector)</code></td>
+<td>判断元素是否可见</td>
+<td><code>visible = sb.is_element_visible(&quot;#menu&quot;)</code></td>
+</tr>
+<tr>
+<td><code>hover(selector)</code></td>
+<td>鼠标悬停元素</td>
+<td><code>sb.hover(&quot;.dropdown&quot;)</code></td>
+</tr>
+</tbody></table>
+<h2 id="其他实用方法"><a href="#其他实用方法" class="headerlink" title="其他实用方法"></a>其他实用方法</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+<th>示例代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>execute_script(js_code)</code></td>
+<td>执行JavaScript代码</td>
+<td><code>sb.execute_script(&quot;window.scrollTo(0, document.body.scrollHeight);&quot;)</code></td>
+</tr>
+<tr>
+<td><code>get_attribute(selector, attribute)</code></td>
+<td>获取元素指定属性的值</td>
+<td><code>value = sb.get_attribute(&quot;#input&quot;, &quot;value&quot;)</code></td>
+</tr>
+<tr>
+<td><code>select_option_by_text(selector, text)</code></td>
+<td>通过文本选择下拉框选项</td>
+<td><code>sb.select_option_by_text(&quot;#dropdown&quot;, &quot;Option 2&quot;)</code></td>
+</tr>
+<tr>
+<td><code>wait_for_ready_state_complete(timeout=30)</code></td>
+<td>等待页面加载完成</td>
+<td><code>sb.wait_for_ready_state_complete()</code></td>
+</tr>
+</tbody></table>
+<h1 id="额外说明"><a href="#额外说明" class="headerlink" title="额外说明"></a>额外说明</h1><ul>
+<li>选择器（selector）可以使用CSS选择器，如：<code>#id</code>、<code>.class</code>、<code>[attr=&quot;value&quot;]</code>。</li>
+<li><code>get_text()</code> 无参数时获取整个页面的可见文本，传入参数时获取指定元素的文本。</li>
+<li>大部分操作会自动等待元素出现（implicit wait），但你也可以用<code>wait_for_element</code>控制等待时长。</li>
+<li>SeleniumBase底层封装了<code>selenium.webdriver</code>，可以直接通过<code>sb.driver</code>访问selenium的原生方法和属性。</li>
+</ul>
+<h4 id="4-1、点击"><a href="#4-1、点击" class="headerlink" title="4.1、点击"></a>4.1、点击</h4><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># 打开页面</span><br>self.open(url)<br><br><span class="hljs-comment"># 单击元素</span><br>self.click(selector, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None, <span class="hljs-attribute">delay</span>=0, <span class="hljs-attribute">scroll</span>=<span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># 双击元素</span><br>self.double_click(selector, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 通过元素列表，连续单击</span><br>self.click_chain(selectors_list, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None, <span class="hljs-attribute">spacing</span>=0)<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="4-2、输入"><a href="#4-2、输入" class="headerlink" title="4.2、输入"></a>4.2、输入</h4><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># 先清除文本，再更新文本</span><br><span class="hljs-comment"># 等同于：self.update_text(selector, text, by=&quot;css selector&quot;, timeout=None)</span><br>self.type(selector, text, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 不清除文本，直接添加</span><br><span class="hljs-comment"># 等同于：self.add_text(self, selector, text, by=&quot;css selector&quot;, timeout=None)</span><br>self.send_keys(selector, text, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 清除文本</span><br>self.clear(selector, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 提交表单</span><br>self.submit(selector, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>)<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="4-3、等待相关"><a href="#4-3、等待相关" class="headerlink" title="4.3、等待相关"></a>4.3、等待相关</h4><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># 等待文本,将返回值</span><br><span class="hljs-comment"># 等同于：self.find_text(text, selector=&quot;html&quot;, by=&quot;css selector&quot;, timeout=None)</span><br>self.wait_for_text(text, <span class="hljs-attribute">selector</span>=<span class="hljs-string">&quot;html&quot;</span>, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 等待元素可见，其元素必须可见，不能被影藏，将返回值</span><br><span class="hljs-comment"># 等同于：self.find_element(selector, by=&quot;css selector&quot;, timeout=None)</span><br><span class="hljs-comment"># 等同于：self.wait_for_element_visible(selector, by=&quot;css selector&quot;, timeout=None)</span><br>self.wait_for_element(selector, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 等待元素出现，且此元素不要求必须可见，可隐藏</span><br><span class="hljs-comment"># 等同于：self.get_element(selector, by=&quot;css selector&quot;, timeout=None)</span><br>self.wait_for_element_present(selector, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 等待元素可点击，但不点击</span><br>self.wait_for_element_clickable(selector, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="4-4、下拉选项"><a href="#4-4、下拉选项" class="headerlink" title="4.4、下拉选项"></a>4.4、下拉选项</h4><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># 按照文本选择选项</span><br>self.select_option_by_text(dropdown_selector, option, <span class="hljs-attribute">dropdown_by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 按照索引选择选项</span><br>self.select_option_by_index(dropdown_selector, option, <span class="hljs-attribute">dropdown_by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 按照 value 属性值选择选项</span><br>self.select_option_by_value(dropdown_selector, option, <span class="hljs-attribute">dropdown_by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="4-5、文件上传下载"><a href="#4-5、文件上传下载" class="headerlink" title="4.5、文件上传下载"></a>4.5、文件上传下载</h4><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># 文件上传，selector=元素，file_path=需要上传的文件路径</span><br>self.choose_file(selector, file_path, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 文件下载断言,file=文件名</span><br>self.assert_downloaded_file(file, <span class="hljs-attribute">timeout</span>=None, <span class="hljs-attribute">browser</span>=<span class="hljs-literal">False</span>)<br><br><span class="hljs-comment"># 下载的文件名变化，则可使用下方的正则匹配，regex=下载文件的文件名正则表达式</span><br>self.assert_downloaded_file_regex(regex, <span class="hljs-attribute">timeout</span>=None, <span class="hljs-attribute">browser</span>=<span class="hljs-literal">False</span>)<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="4-6、断言"><a href="#4-6、断言" class="headerlink" title="4.6、断言"></a>4.6、断言</h4><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># 断言文本，部分匹配</span><br>self.assert_text(text, <span class="hljs-attribute">selector</span>=<span class="hljs-string">&quot;html&quot;</span>, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 断言文本，精确匹配</span><br>self.assert_exact_text(text, <span class="hljs-attribute">selector</span>=<span class="hljs-string">&quot;html&quot;</span>, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 断言元素，如果找不到任何内容，将引发异常</span><br>self.assert_element(selector, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 断言元素存在于HTML中（不需要此元素可见）</span><br>self.assert_element_present(selector, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 断言属性</span><br>self.assert_attribute(selector, attribute, <span class="hljs-attribute">value</span>=None, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 断言属性不存在</span><br>self.assert_attribute_not_present(selector, attribute, <span class="hljs-attribute">value</span>=None, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 断言网页标题</span><br>self.assert_title(title)<br><br><span class="hljs-comment"># 断言网页URL</span><br>self.assert_url(url)<br><br><span class="hljs-comment"># 断言链接文本</span><br>self.assert_link_text(link_text, <span class="hljs-attribute">timeout</span>=None)<br><br><span class="hljs-comment"># 延迟断言，表示多个断言集合在一起，给出一个最终结果，而不是中途失败就退出</span><br><span class="hljs-comment"># 延迟断言，断言文本，部分匹配</span><br>self.deferred_assert_text(text, <span class="hljs-attribute">selector</span>=<span class="hljs-string">&quot;html&quot;</span>, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None, <span class="hljs-attribute">fs</span>=<span class="hljs-literal">False</span>)<br><br><span class="hljs-comment"># 延迟断言，断言文本，精确匹配</span><br>self.deferred_assert_exact_text(text, <span class="hljs-attribute">selector</span>=<span class="hljs-string">&quot;html&quot;</span>, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None, <span class="hljs-attribute">fs</span>=<span class="hljs-literal">False</span>)<br><br><span class="hljs-comment"># 延迟断言，断言元素</span><br>self.deferred_assert_element(selector, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None, <span class="hljs-attribute">fs</span>=<span class="hljs-literal">False</span>)<br><br><span class="hljs-comment"># 断言元素存在于HTML中（不需要此元素可见）</span><br>self.deferred_assert_element_present(selector, <span class="hljs-attribute">by</span>=<span class="hljs-string">&quot;css selector&quot;</span>, <span class="hljs-attribute">timeout</span>=None, <span class="hljs-attribute">fs</span>=<span class="hljs-literal">False</span>)<br><br><span class="hljs-comment"># 延迟断言必须断言最后，加上下面的方法</span><br>self.process_deferred_asserts(<span class="hljs-attribute">print_only</span>=<span class="hljs-literal">False</span>)<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="4-7、切换"><a href="#4-7、切换" class="headerlink" title="4.7、切换"></a>4.7、切换</h4><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-comment"># 切换到指定框架，frame=frame名称、ID、索引或选择器</span><br><span class="hljs-variable language_">self</span>.switch_to_frame(frame, timeout=<span class="hljs-literal">None</span>)<br><br><span class="hljs-comment"># 从框架中退出</span><br><span class="hljs-variable language_">self</span>.switch_to_default_content()<br><br><span class="hljs-comment"># 多个嵌套框架时，切换到所在框架的父框架</span><br><span class="hljs-variable language_">self</span>.switch_to_parent_frame()<br><br><span class="hljs-comment"># 打开新的标签页，默认焦点切换到新标签页</span><br><span class="hljs-variable language_">self</span>.open_new_window(switch_to=<span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># 多个标签页时，切换到指定查，window=0表示第1个标签页，1表示第2个标签页，以此类推，此值也可以是 self.driver.window_handles 中的列表项</span><br><span class="hljs-variable language_">self</span>.switch_to_window(window, timeout=<span class="hljs-literal">None</span>)<br><br><span class="hljs-comment"># 切换到弹窗</span><br><span class="hljs-variable language_">self</span>.switch_to_alert(timeout=<span class="hljs-literal">None</span>)<br></code></pre></div></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/python/">python</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

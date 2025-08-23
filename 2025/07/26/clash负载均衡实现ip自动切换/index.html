@@ -1,0 +1,446 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="下载 Clash 并将节点地址导入至 Clash首先你需要下载并安装 Clash。Win 系统用的就是 Clash for Windows（CFW）。本文演示，使用的也是 CFW。其他设备请自行测试，基本操作相同。不熟悉英文的朋友可以选择安装 CFW 汉化补丁。这里就不赘述了。 下面就讲两种节点导入客户端的方式： 直接点击导入——打开 Clash、然后打开灯塔 Cloud 的仪表盘，然后最下方选择">
+<meta property="og:type" content="article">
+<meta property="og:title" content="clash负载均衡实现ip自动切换">
+<meta property="og:url" content="http://example.com/2025/07/26/clash%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%AE%9E%E7%8E%B0ip%E8%87%AA%E5%8A%A8%E5%88%87%E6%8D%A2/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="下载 Clash 并将节点地址导入至 Clash首先你需要下载并安装 Clash。Win 系统用的就是 Clash for Windows（CFW）。本文演示，使用的也是 CFW。其他设备请自行测试，基本操作相同。不熟悉英文的朋友可以选择安装 CFW 汉化补丁。这里就不赘述了。 下面就讲两种节点导入客户端的方式： 直接点击导入——打开 Clash、然后打开灯塔 Cloud 的仪表盘，然后最下方选择">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://js2panda.com/wp-content/uploads/2023/02/1677567313-image.png.webp">
+<meta property="article:published_time" content="2025-07-26T13:02:32.000Z">
+<meta property="article:modified_time" content="2025-08-23T09:56:19.263Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="技巧">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://js2panda.com/wp-content/uploads/2023/02/1677567313-image.png.webp">
+  
+  
+  <title>clash负载均衡实现ip自动切换 - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😒","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="clash负载均衡实现ip自动切换">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2025-07-26 21:02" pubdate>
+        2025年7月26日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.6k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      22 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">clash负载均衡实现ip自动切换</h1>
+            
+            <div class="markdown-body">
+              <h2 id="下载-Clash-并将节点地址导入至-Clash"><a href="#下载-Clash-并将节点地址导入至-Clash" class="headerlink" title="下载 Clash 并将节点地址导入至 Clash"></a>下载 Clash 并将节点地址导入至 Clash</h2><p>首先你需要下载并安装 Clash。Win 系统用的就是 Clash for Windows（CFW）。本文演示，使用的也是 CFW。其他设备请自行测试，基本操作相同。不熟悉英文的朋友可以选择<a target="_blank" rel="noopener" href="https://js2panda.com/clash-zh">安装 CFW 汉化补丁</a>。这里就不赘述了。</p>
+<p>下面就讲两种节点导入客户端的方式：</p>
+<p><strong>直接点击导入</strong>——打开 Clash、然后打开灯塔 Cloud 的仪表盘，然后最下方选择【一键订阅】。然后选择【导入到 Clash for Windows】即可。这种方法只是用于 PC端，如果是手机端需要通过订阅地址导入。</p>
+<p><strong>通过订阅地址导入</strong>——然后打开灯塔 Cloud 的仪表盘，然后最下方选择【一键订阅】。然后选择【复制订阅地址】。打开 Clash，将订阅地址复制到左侧【配置】上方的URL栏里，然后点击【下载】即可。</p>
+<p>无论通过哪种方式，出现如下选项就代表导入成功：</p>
+<p>订阅地址导入成功</p>
+<p>到此其实就可以在左侧【代理】中选择单个节点进行科学上网了。但是为了实现更好的加速效果，你还得…</p>
+<p>注意：此时可能会有 invalid mode: redir-host [Could not switch to this profile] 报错</p>
+<p>这个是因为 灯塔 Cloud 机场订阅默认的 <code>enhanced-mode</code> 设置是 <code>redir-host</code> 模式。所以要进行修改。建议大家先看完本教程，然后再<a target="_blank" rel="noopener" href="https://js2panda.com/clash-redir-host-error">阅读如何修复这个问题的教程</a>。</p>
+<p>在问题修复指南中，我也附带了 <strong>负载均衡+修复报错</strong> 的<strong>完整预处理脚本代码</strong>。可以直接复制粘贴使用。</p>
+<h2 id="配置-Clash-的-parsers（预处理）实现负载均衡"><a href="#配置-Clash-的-parsers（预处理）实现负载均衡" class="headerlink" title="配置 Clash 的 parsers（预处理）实现负载均衡"></a>配置 Clash 的 parsers（预处理）实现负载均衡</h2><p>在刚才我们已近导入了所有的节点，大约有20组这样。现在我们要利用 Clash 的 parsers 预处理配置功能实现节点的负载均衡。简单说就是让所有节点雨露均沾，不浪费任何一个带宽，提升我们的魔法上网体验。</p>
+<p>打开 Clash，左侧选择【设置】，并在右侧选择【配置】</p>
+<p>在【预处理配置（parsers）】后面点击【编辑】：</p>
+<p>将下方代码完整的放入编辑文件中，然后 Ctrl+S 、或者点击右小角按钮保存：</p>
+<figure class="highlight nestedtext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs nestedtext"><span class="hljs-attribute">parsers</span><span class="hljs-punctuation">:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">reg: &#x27;slbable$&#x27;</span><br>    <span class="hljs-attribute">yaml</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-attribute">append-proxy-groups</span><span class="hljs-punctuation">:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">name: ⚖️ 负载均衡-散列</span><br>          <span class="hljs-attribute">type</span><span class="hljs-punctuation">:</span> <span class="hljs-string">load-balance</span><br>          <span class="hljs-attribute">url</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&#x27;http://www.google.com/generate_204&#x27;</span><br>          <span class="hljs-attribute">interval</span><span class="hljs-punctuation">:</span> <span class="hljs-string">300</span><br>          <span class="hljs-attribute">strategy</span><span class="hljs-punctuation">:</span> <span class="hljs-string">consistent-hashing</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">name: ⚖️ 负载均衡-轮询</span><br>          <span class="hljs-attribute">type</span><span class="hljs-punctuation">:</span> <span class="hljs-string">load-balance</span><br>          <span class="hljs-attribute">url</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&#x27;http://www.google.com/generate_204&#x27;</span><br>          <span class="hljs-attribute">interval</span><span class="hljs-punctuation">:</span> <span class="hljs-string">300</span><br>          <span class="hljs-attribute">strategy</span><span class="hljs-punctuation">:</span> <span class="hljs-string">round-robin</span><br>      <span class="hljs-attribute">commands</span><span class="hljs-punctuation">:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">proxy-groups.⚖️ 负载均衡-散列.proxies=[]proxyNames</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">proxy-groups.0.proxies.0+⚖️ 负载均衡-散列</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">proxy-groups.⚖️ 负载均衡-轮询.proxies=[]proxyNames</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">proxy-groups.0.proxies.0+⚖️ 负载均衡-轮询</span><br></code></pre></div></td></tr></table></figure>
+
+<p>再次点击编辑，出现的应该是如下这样的界面：</p>
+<p>Clash 的 负载均衡（散列+轮询）配置代码</p>
+<p>回到左侧【配置】，选择之前出现的灯塔 Cloud选项，右击选择【设置】。此时应该会出现之前复制过的灯塔 Cloud 的订阅地址。你需要在订阅地址之后加上【#slbable】：在订阅地址后面手动输入：#slbable</p>
+<p>点击确定回到【配置】界面，右击灯塔 Cloud 选择【预处理配置】。如果出现如下界面，就代表负载均衡规则已加载成功：</p>
+<p>此时，你的 Clash 已经配置好的节点之间的负载均衡规则。在【代理】-【规则】中出现了【负载均衡-散列】和【负载均衡-轮询】的选项：</p>
+<p>在只需要重启 Clash 并选择好代理，就可以实现负载均衡效果。</p>
+<h2 id="重启-Clash-并选择对应规则"><a href="#重启-Clash-并选择对应规则" class="headerlink" title="重启 Clash 并选择对应规则"></a>重启 Clash 并选择对应规则</h2><p>重启之后，打开【代理】-【规则】，并点击选择【负载均衡-轮询模式】。然后右击窗口右下角的Clash小蓝猫图标，像右侧图片这样选择。选择【系统代理】、然后代理模式选择【规则】。</p>
+<p>关于系统代理、TUN模式、混合配置这些，<strong>新手可以这么理解</strong>：</p>
+<ul>
+<li><strong>系统代理</strong>：就是浏览页面、看视频之类的走代理（魔法上网）。游戏、应用之类的不会走代理（虽然不是绝对）。</li>
+<li><strong>TUN 模式</strong>：就是无论网页、游戏、应用还是什么全部按照规则走代理（魔法上网）。</li>
+<li><strong>混合模式</strong>：就是上面两个混一起用。</li>
+</ul>
+<p>关于全局、规则、直连、脚本，这些我就不解释了。正常选择【规则】模式（类似其他绕过大陆或 PAC 模式）就对了。</p>
+<p>到此你就可以愉快的扶墙看 YouTube 了。博主的体会是：<strong>学习任何新知识，有 YouTube 足以。国内除了 B 站能看之外，其余的都是垃圾。</strong></p>
+<h2 id="速度测试"><a href="#速度测试" class="headerlink" title="速度测试"></a>速度测试</h2><p>如果你想测试负载均衡的效果，可以在 Clash 界面左侧，选择【链接】，然后打开 Google 网站进行检测：</p>
+<p><img src="https://js2panda.com/wp-content/uploads/2023/02/1677567313-image.png.webp" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>因为我是用的是【轮询】模式，可以看到上方不同的请求，使用的节点都不一样。即使有一个节点速度慢，只会导致其中一个请求失效或加载慢、而不会影响到整体效果。</p>
+<p><em><strong>博主提示</strong>：如果要测试负载均衡的下载效果可以通过 <a target="_blank" rel="noopener" href="https://www.speedtest.net/">speedtest.net</a> 进行测试。记得测试前将 Clash 切换到全局模式。</em></p>
+<p>这时有人要问：如果大部分节点都失效怎么办？雨露均沾大部分不就没用了？这个不必担心，预处理规则中会隔一段时间就检测节点有效性。<strong>负载均衡也只会在有效的节点中进行</strong>。</p>
+<p>在上方 parsers（预处理）代码中，有一个 interval 的属性，就是查询有效性的时间间隔。<code>interval: 300</code> 其实就代表，每隔 300 秒就查询一次节点有效性。</p>
+<h3 id="散列模式和轮询模式的说明"><a href="#散列模式和轮询模式的说明" class="headerlink" title="散列模式和轮询模式的说明"></a>散列模式和轮询模式的说明</h3><p>我在上面使用的是轮询模式，关于轮询和散列模式在具体使用中感觉并不是特别的大。新手可以这么理解这两个模式（并不准确，但足够你理解）：</p>
+<ul>
+<li><strong>轮询模式</strong>：按照节点顺序，挨个匹配请求。</li>
+<li><strong>散列模式</strong>：按照随机规律（hash 随机），匹配请求。</li>
+</ul>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>负载均衡的好处就是可以规避单节点失效导致无法科学上网的问题。同时在多请求时，可以通过给不同的请求分配不同的节点，将科学上网体验、速度最大化。</p>
+<p>利用 Clash 客户端的 parsers（预处理）功能，可以完美的实现这个功能。再拉跨的节点，只要数量够多，都可以实现带宽叠加，网速叠加的效果。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%8A%80%E5%B7%A7/">技巧</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
