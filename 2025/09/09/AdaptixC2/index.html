@@ -1,0 +1,482 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="AdaptixC2Adaptix 是一个为渗透测试人员设计的可扩展的后渗透和对抗模拟框架。Adaptix 服务器使用 Golang 编写，以允许操作员的灵活性。GUI 客户端使用 C++ QT 编写，使其可以在 Linux、Windows 和 MacOS 操作系统上使用。 Features 功能特性 Server&#x2F;Client Architecture for Multiplayer S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AdaptixC2编译到运行">
+<meta property="og:url" content="http://example.com/2025/09/09/AdaptixC2/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="AdaptixC2Adaptix 是一个为渗透测试人员设计的可扩展的后渗透和对抗模拟框架。Adaptix 服务器使用 Golang 编写，以允许操作员的灵活性。GUI 客户端使用 C++ QT 编写，使其可以在 Linux、Windows 和 MacOS 操作系统上使用。 Features 功能特性 Server&#x2F;Client Architecture for Multiplayer S">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250910164040910.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250910165249100.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250910165328100.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250910170242133.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250910231435165.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250910231703038.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911095420010.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911095842211.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250910221607832.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911101752129.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911101733583.png">
+<meta property="article:published_time" content="2025-09-09T08:00:20.000Z">
+<meta property="article:modified_time" content="2025-09-11T02:19:45.817Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="C2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250910164040910.png">
+  
+  
+  <title>AdaptixC2编译到运行 - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😒","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="AdaptixC2编译到运行">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2025-09-09 16:00" pubdate>
+        2025年9月9日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.6k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      47 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">AdaptixC2编译到运行</h1>
+            
+            <div class="markdown-body">
+              <h1 id="AdaptixC2"><a href="#AdaptixC2" class="headerlink" title="AdaptixC2"></a>AdaptixC2</h1><p>Adaptix 是一个为渗透测试人员设计的可扩展的后渗透和对抗模拟框架。Adaptix 服务器使用 Golang 编写，以允许操作员的灵活性。GUI 客户端使用 C++ QT 编写，使其可以在 Linux、Windows 和 MacOS 操作系统上使用。</p>
+<h2 id="Features-功能特性"><a href="#Features-功能特性" class="headerlink" title="Features 功能特性"></a>Features 功能特性</h2><ul>
+<li>Server&#x2F;Client Architecture for Multiplayer Support<br>支持多人游戏的服务器&#x2F;客户端架构</li>
+<li>Cross-platform GUI client<br>跨平台 GUI 客户端</li>
+<li>Fully encrypted communications<br>完全加密的通信</li>
+<li>Listener and Agents as Plugin (Extender)<br>监听器和代理作为插件（扩展器）</li>
+<li>Client extensibility for adding new tools<br>客户端可扩展性，用于添加新工具</li>
+<li>Task and Jobs storage 任务和作业存储</li>
+<li>Files and Process browsers<br>文件和进程浏览器</li>
+<li>Credentials, Targets and Screenshots Managers<br>凭证、目标和屏幕截图管理器</li>
+<li>Socks4 &#x2F; Socks5 &#x2F; Socks5 Auth support<br>Socks4 &#x2F; Socks5 &#x2F; Socks5 认证支持</li>
+<li>Local and Reverse port forwarding support<br>本地和反向端口转发支持</li>
+<li>BOF support BOF 支持</li>
+<li>Linking Agents and Sessions Graph<br>连接代理和会话图</li>
+<li>Agents Health Checker 代理健康检查器</li>
+<li>Agents KillDate and WorkingTime control<br>代理杀毒日期和工作时间控制</li>
+<li>Windows&#x2F;Linux&#x2F;MacOs agents support<br>Windows&#x2F;Linux&#x2F;MacOs 代理支持</li>
+<li>Remote Terminal 远程终端</li>
+<li>AxScript Engine AxScript 引擎</li>
+</ul>
+<h2 id="扩展套件"><a href="#扩展套件" class="headerlink" title="扩展套件"></a>扩展套件</h2><p>Official <a target="_blank" rel="noopener" href="https://github.com/Adaptix-Framework/Extension-Kit">Extension-Kit</a> on GitHub</p>
+<h2 id="当前扩展者"><a href="#当前扩展者" class="headerlink" title="当前扩展者"></a>当前扩展者</h2><ul>
+<li>HTTP&#x2F;S Beacon Listener HTTP&#x2F;S 信标监听器</li>
+<li>SMB Beacon Listener SMB 信标监听器</li>
+<li>TCP Beacon Listener TCP 信标监听器</li>
+<li>Beacon Agent 信标代理</li>
+<li>TCP&#x2F;mTLS Gopher Listener TCP&#x2F;mTLS Gopher 监听器</li>
+<li>Gopher Agent</li>
+</ul>
+<h2 id="安装-所有在linux中——Debain-："><a href="#安装-所有在linux中——Debain-：" class="headerlink" title="安装(所有在linux中——Debain)："></a>安装(所有在linux中——Debain)：</h2><figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">git clone https://github.com/Adaptix-Framework/AdaptixC2.git<br>cd AdaptixC2<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="预安装："><a href="#预安装：" class="headerlink" title="预安装："></a>预安装：</h2><figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">要构建扩展器，您需要更新的 Mingw。关于构建服务器和扩展器（已测试）：使用 Ubuntu 24、Debian 12 或 Dockerfile。<br>sudo apt install mingw-w64 make gcc g++ g++-mingw-w64<br><br>wget https://go.dev/dl/go1.24.4.linux-amd64.tar.gz -O /tmp/go1.24.4.linux-amd64.tar.gz<br>sudo rm -rf /usr/local/go /usr/local/bin/go<br>sudo tar -C /usr/local -xzf /tmp/go1.24.4.linux-amd64.tar.gz<br>sudo ln -s /usr/local/go/bin/go /usr/local/bin/go<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-keyword">for</span> windows 7 support by gopher agent</span><br>git clone https://github.com/Adaptix-Framework/go-win7 /tmp/go-win7<br>sudo mv /tmp/go-win7 /usr/lib/<br><br>要构建 Client，您需要安装额外的依赖项<br>sudo apt install gcc g++ build-essential make cmake mingw-w64 g++-mingw-w64 libssl-dev qt6-base-dev qt6-websockets-dev qt6-declarative-dev<br>[WINDOWS:<br>Need https://doc.qt.io/qt-6/qt-online-installation.html]<br><br></code></pre></div></td></tr></table></figure>
+
+<p>以上安装完毕后即可make (go env -w GOPROXY&#x3D;<a target="_blank" rel="noopener" href="https://mirrors.aliyun.com/goproxy/,direct">https://mirrors.aliyun.com/goproxy/,direct</a>)</p>
+<p>AdaptixServer 和 Extenders (goplugins) 必须使用相同版本的 golang 包进行构建。</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">make server<br>make extenders<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/09/09/AdaptixC2/image-20250910164040910.png" srcset="/img/loading.gif" lazyload alt="image-20250910164040910"></p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250910165249100.png" srcset="/img/loading.gif" lazyload alt="image-20250910165249100"></p>
+<p>所有编译后的文件都将位于 dist 目录中。</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250910165328100.png" srcset="/img/loading.gif" lazyload alt="image-20250910165328100"></p>
+<h1 id="Client-客户端"><a href="#Client-客户端" class="headerlink" title="Client 客户端"></a>Client 客户端</h1><h2 id="Linux-MacOS"><a href="#Linux-MacOS" class="headerlink" title="Linux &#x2F; MacOS"></a>Linux &#x2F; MacOS</h2><p>AdaptixClient 是从 cmake 配置文件编译的。</p>
+<figure class="highlight axapta"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs axapta">make <span class="hljs-keyword">client</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/09/09/AdaptixC2/image-20250910170242133.png" srcset="/img/loading.gif" lazyload alt="image-20250910170242133"></p>
+<p>AdaptixClient 文件将位于 dist 目录中。</p>
+<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><p>从官方网站下载 QT 在线安装程序：<a target="_blank" rel="noopener" href="https://www.qt.io/download-qt-installer-oss%E3%80%82">https://www.qt.io/download-qt-installer-oss。</a></p>
+<p>(这里安装需要一直手动重试 然后才能安装成功 )</p>
+<p>然后将AdaptixClient复制出来 QT打开CMakeLists.txt 文件 打开后config之后提示更新在更新就行了</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250910231435165.png" srcset="/img/loading.gif" lazyload alt="image-20250910231435165"></p>
+<p>项目中添加release模式</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250910231703038.png" srcset="/img/loading.gif" lazyload alt="image-20250910231703038"></p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911095420010.png" srcset="/img/loading.gif" lazyload alt="image-20250911095420010"></p>
+<p>为客户端创建一个目录，所有依赖项将复制到该目录。将 AdapticClient.exe 可执行文件移动到此目录，打开 cmd.exe 并运行 windeployqt.exe。即可直接运行！</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911095842211.png" srcset="/img/loading.gif" lazyload alt="image-20250911095842211"></p>
+<h1 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h1><figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">└─$ ./adaptixserver<br><br>[===== Adaptix Framework v0.8 =====]<br><br>Usage: AdaptixServer [options]<br>Options:<br>  -debug<br>        Enable debug mode<br>  -e string<br>        Teamserver URI endpoint<br>  -ex string<br>        Path to the extender file<br>  -i string<br>        Teamserver listen interface (default &quot;0.0.0.0&quot;)<br>  -p int<br>        Teamserver handler port<br>  -profile string 指定配置文件 配置文件内容如下<br>        Path to JSON profile file<br>  -pw string<br>        Teamserver password<br>  -sc string<br>        Path to the SSL certificate<br>  -sk string<br>        Path to the SSL key<br><br>Either provide options individually or use a JSON config file with -config flag.<br><br>Example:<br>   AdaptixServer -i 0.0.0.0 -p port -pw password -e endpoint -sc SslCert -sk SslKey [-ex ext1,ext2,...] [-debug]<br>   AdaptixServer -profile profile.json [-debug]<br><br></code></pre></div></td></tr></table></figure>
+
+<p>profile.json</p>
+<p>默认端口为4321</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;Teamserver&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;interface&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;0.0.0.0&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;port&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">4321</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;endpoint&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/endpoint&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;password&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pass&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;cert&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;server.rsa.crt&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;key&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;server.rsa.key&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;extenders&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>      <span class="hljs-string">&quot;extenders/listener_beacon_http/config.json&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-string">&quot;extenders/listener_beacon_smb/config.json&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-string">&quot;extenders/listener_beacon_tcp/config.json&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-string">&quot;extenders/agent_beacon/config.json&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-string">&quot;extenders/listener_gopher_tcp/config.json&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-string">&quot;extenders/agent_gopher/config.json&quot;</span><br>    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;access_token_live_hours&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">12</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;refresh_token_live_hours&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">168</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br><br>  <span class="hljs-attr">&quot;ServerResponse&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">404</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;headers&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;Content-Type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;text/html; charset=UTF-8&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;Server&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;AdaptixC2&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;Adaptix Version&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;v0.8&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;page&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;404page.html&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br><br>  <span class="hljs-attr">&quot;EventCallback&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;Telegram&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;token&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;chats_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;new_agent_message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;New agent: %type% (%id%)\n\n%user% @ %computer% (%internalip%)\nelevated: %elevated%\nfrom: %externalip%\ndomain: %domain%&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;new_cred_message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;New secret [%type%]:\n\n%username% : %password% (%domain%)\n\nStorage: %storage%\nHost: %host%&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;new_download_message&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;File saved: %path% [%size%] from %computer% (%user%)&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br><br>Teamserver<span class="hljs-punctuation">:</span><br><br>port - port for client connection<br>port - 客户端连接端口<br><br>endpoint - URN for connecting clients<br>endpoint - 客户端连接的 URN<br><br>password - authenticator for clients<br>密码 - 客户的认证器<br><br>cert and key - SSL Certificate and Key for web server<br>证书和密钥 - 适用于 Web 服务器的 SSL 证书和密钥<br><br>extender - array of strings-paths to go-plugins<br>扩展器 - 字符串数组-指向 go 插件的路径<br><br>access_token_live_hours &amp; refresh_token_live_hours -  The validity period of the JWT token that the client receives after authorization.<br>access_token_live_hours &amp; refresh_token_live_hours -  客户在授权后收到的 JWT 令牌的有效期。<br><br>ServerResponse<span class="hljs-punctuation">:</span><br><br>status - web server response code in case of an illegitimate request<br>状态 - 非法请求情况下，Web 服务器的响应代码<br><br>headers - web server HTTP Headers<br>头部 - Web 服务器的 HTTP 头部信息<br><br>page - the path to the file whose contents will be returned in the web server&#x27;s response<br>页面 - Web 服务器响应中返回的内容的文件路径<br></code></pre></div></td></tr></table></figure>
+
+<p>要运行 adaptixserver，您需要一个 SSL 证书。您可以使用 ssl_gen 脚本生成自己的证书。</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">openssl req -x509 -nodes -newkey rsa:2048 -keyout server.rsa.key -out server.rsa.crt -days 3650<br></code></pre></div></td></tr></table></figure>
+
+<p>启动 AdaptihServer 后，将在服务器可执行文件旁边创建一个 <code>data</code> 目录。服务器数据库文件和其他所有文件都将创建在 <code>data</code> 目录中。</p>
+<p>启动后</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250910221607832.png" srcset="/img/loading.gif" lazyload alt="image-20250910221607832"></p>
+<p>打开客户端输入对应的内容之后然后就能连接成功，默认密码为pass</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911101752129.png" srcset="/img/loading.gif" lazyload alt="image-20250911101752129"></p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911101733583.png" srcset="/img/loading.gif" lazyload alt="image-20250911101733583"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/C2/">C2</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
