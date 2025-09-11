@@ -34,8 +34,35 @@
 <meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250910221607832.png">
 <meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911101752129.png">
 <meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911101733583.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911104404685.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911104536053.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911104653118.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911104719256.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911104732314.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911104814096.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911104827958.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911104834748.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911104944801.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911105004331.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911105112884.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911105124817.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911111512638.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911105142675.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911105151827.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911111558656.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911111643978.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911111656310.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911111711317.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911111727174.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911111736493.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911111809676.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911111827805.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911111901185.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911111912684.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911111955066.png">
+<meta property="og:image" content="http://example.com/2025/09/09/AdaptixC2/image-20250911112048198.png">
 <meta property="article:published_time" content="2025-09-09T08:00:20.000Z">
-<meta property="article:modified_time" content="2025-09-11T02:20:54.848Z">
+<meta property="article:modified_time" content="2025-09-11T03:20:58.404Z">
 <meta property="article:author" content="0ldcat">
 <meta property="article:tag" content="C2">
 <meta name="twitter:card" content="summary_large_image">
@@ -197,7 +224,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.6k 个字
+      9.8k 个字
     </span>
   
 
@@ -206,7 +233,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      47 分钟
+      82 分钟
     </span>
   
 
@@ -308,6 +335,91 @@
 <p>打开客户端输入对应的内容之后然后就能连接成功，默认密码为pass</p>
 <p><img src="/2025/09/09/AdaptixC2/image-20250911101752129.png" srcset="/img/loading.gif" lazyload alt="image-20250911101752129"></p>
 <p><img src="/2025/09/09/AdaptixC2/image-20250911101733583.png" srcset="/img/loading.gif" lazyload alt="image-20250911101733583"></p>
+<h1 id="事件回调-通知"><a href="#事件回调-通知" class="headerlink" title="事件回调-通知"></a>事件回调-通知</h1><p>EventCallback 函数允许接收各种事件的通知。目前，仅实现了新代理注册事件。</p>
+<p>new_agent_message - 注册新代理事件：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs pgsql"><br><span class="hljs-meta">%type</span>% - Agent <span class="hljs-keyword">type</span>   <span class="hljs-meta">%type</span>% - 代理类型<br><br>%id% - Agent ID   %id% - 代理 ID<br><br>%<span class="hljs-keyword">user</span>% - Username   %<span class="hljs-keyword">user</span>% - 用户名<br><br>%computer% - Computer   %computer% - 计算机<br><br>%<span class="hljs-keyword">domain</span>% - <span class="hljs-keyword">Domain</span> <span class="hljs-type">name</span>   %<span class="hljs-keyword">domain</span>% - 域名<br><br>%pid% - Process ID   %pid% - 进程 ID<br><br>%internalip% - <span class="hljs-type">Internal</span> IPv4 address<br> %internalip% - 内部 IPv4 地址<br><br>%externalip% - <span class="hljs-keyword">External</span> IPv4 address<br> %externalip% - 外部 IPv4 地址<br><br>%elevated% - <span class="hljs-keyword">true</span>, <span class="hljs-keyword">if</span> the agent has high context<br> %elevated% - <span class="hljs-keyword">true</span> , 如果代理具有高上下文<br><br></code></pre></div></td></tr></table></figure>
+
+<p>new_cred_message - 新增凭证：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs pgsql"><br>%username% - Username   %username% - 用户名<br><br>%<span class="hljs-keyword">password</span>% - <span class="hljs-keyword">Password</span>   %<span class="hljs-keyword">password</span>% - 密码<br><br>%<span class="hljs-keyword">domain</span>% - Realm   %<span class="hljs-keyword">domain</span>% - 世界<br><br><span class="hljs-meta">%type</span>% - <span class="hljs-keyword">Type</span> <span class="hljs-keyword">of</span> secret<br> <span class="hljs-meta">%type</span>% - 秘密类型<br><br>%<span class="hljs-keyword">storage</span>% - Secrets vault   %<span class="hljs-keyword">storage</span>% - 秘密保险库<br><br>%host% - Computer   %host% - 计算机<br></code></pre></div></td></tr></table></figure>
+
+<p>new_download_message - 文件已下载并保存在服务器上：</p>
+<figure class="highlight sas"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sas"><br><span class="hljs-title function_">%user</span>% - Username   <span class="hljs-title function_">%user</span>% - 用户名<br><br><span class="hljs-title function_">%computer</span>% - Computer   <span class="hljs-title function_">%computer</span>% - 计算机<br><br><span class="hljs-title function_">%path</span>% - Full <span class="hljs-keyword">filename</span>   <span class="hljs-title function_">%path</span>% - 完整文件名<br><br><span class="hljs-title function_">%size</span>% - Filesize   <span class="hljs-title function_">%size</span>% - 文件大小<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="Telegram"><a href="#Telegram" class="headerlink" title="Telegram"></a>Telegram</h2><p>要向 Telegram 发送事件，在 <code>EventCallback.Telegram</code> 配置中，您需要指定机器人令牌，以及机器人将要发送消息的聊天 ID。</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json"><span class="hljs-attr">&quot;EventCallback&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;Telegram&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;token&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;number:token&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;chats_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;id1&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;id2&quot;</span><span class="hljs-punctuation">,</span>...<span class="hljs-punctuation">]</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;new_agent_message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;New agent: %type% (%id%)\n\n%user% @ %computer% (%internalip%)\nelevated: %elevated%\nfrom: %externalip%\ndomain: %domain%&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;new_cred_message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;New secret [%type%]:\n\n%username% : %password% (%domain%)\n\nStorage: %storage%\nHost: %host%&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;new_download_message&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;File saved: %path% [%size%] from %computer% (%user%)&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="创建-BOT"><a href="#创建-BOT" class="headerlink" title="创建 BOT"></a>创建 BOT</h3><p>前往 Telegram 中的官方@BotFather 机器人，创建您自己的机器人。创建的机器人的 API 令牌将会显示出来。</p>
+<p>前往创建的机器人，激活聊天并发送任意测试消息给它。</p>
+<p>向 Telegram API 发起请求，并指定您的令牌。响应将包含您的测试消息和聊天 ID（您需要在配置中指定这个 ID）</p>
+<p>curl <a target="_blank" rel="noopener" href="https://api.telegram.org/bot">https://api.telegram.org/bot</a><TOKEN_HERE>&#x2F;getUpdates | jq</TOKEN_HERE></p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911104404685.png" srcset="/img/loading.gif" lazyload alt="image-20250911104404685"></p>
+<h1 id="用户界面"><a href="#用户界面" class="headerlink" title="用户界面"></a>用户界面</h1><p>AdaptixClient 用户界面分为两部分。界面的上半部分显示代理及其任务。界面的下半部分显示您交互的每个功能的选项卡。您可以点击这两个部分之间的区域并根据需要调整大小。</p>
+<p>项目管理菜单。关闭项目将断开当前项目与 C2 服务器的连接并关闭项目区域。新建项目将打开一个新的登录窗口。</p>
+<p>授权后，一个新的项目标签将出现在客户端底部面板中。</p>
+<p>打开客户端的扩展窗口。有关扩展的更多信息，请在此处查看。（<a target="_blank" rel="noopener" href="https://adaptix-framework.gitbook.io/adaptix-framework/adaptix-c2/bof-and-extensions%EF%BC%89">https://adaptix-framework.gitbook.io/adaptix-framework/adaptix-c2/bof-and-extensions）</a></p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911104536053.png" srcset="/img/loading.gif" lazyload alt="image-20250911104536053"></p>
+<h2 id="Session-Table-会话表格"><a href="#Session-Table-会话表格" class="headerlink" title="Session Table 会话表格"></a>Session Table 会话表格</h2><p>会话表显示哪些代理已注册到 AdaptixServer。</p>
+<p>用户字段显示所使用的访问令牌。会话表有代理标记：已终止、非活动、未链接、无响应。操作员可以将代理标记为非活动或活动，还可以选择条目的颜色或整行的颜色。将代理标记为无响应的时间在会话表设置中设置。</p>
+<p>将鼠标悬停在睡眠字段上将显示当前的 KillDate 和工作时间设置（如果已设置）。在工作时间外，代理将被标记为“无工作时间”。</p>
+<p>双击代理行将打开代理控制台。代理通过会话表的上下文菜单进行管理。</p>
+<h2 id="Sessions-Graph-会话图表"><a href="#Sessions-Graph-会话图表" class="headerlink" title="Sessions Graph 会话图表"></a>Sessions Graph 会话图表</h2><p>没有可视化表示，很难追踪和理解由 4 个或 5 个链接代理组成的链。这时，会话图就派上用场了。</p>
+<p>会话图以自然的方式展示了代理链。每个代理会话都有一个电脑图标，表明其操作系统和权限级别。如果图标是红色的，则表示代理正在特权进程中运行。灰色图标表示代理当前正在被检查（可能处于非活动状态）。</p>
+<p>防火墙图标代表代理的出站点。每条线都包含负责处理代理数据的监听器的名称。虚线绿色表示使用了”外部”监听器。</p>
+<p>一条连接一个代理会话到另一个代理的实线表示两个代理（”内部”监听器）之间的链接。这些线包含监听器名称和链接名称</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911104653118.png" srcset="/img/loading.gif" lazyload alt="image-20250911104653118"></p>
+<p>代理通过会话表的上下文菜单进行管理。</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911104719256.png" srcset="/img/loading.gif" lazyload alt="image-20250911104719256"></p>
+<h2 id="Agents-console-代理控制台"><a href="#Agents-console-代理控制台" class="headerlink" title="Agents console 代理控制台"></a>Agents console 代理控制台</h2><p>代理控制台看起来是这样的。每个命令包括操作员名称、任务 ID 和代理类型。</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911104732314.png" srcset="/img/loading.gif" lazyload alt="image-20250911104732314"></p>
+<p>控制台会保存输入命令的历史记录，并支持命令自动补全。通过按 <code>Tab</code> 键，控制台支持本地路径的自动补全，而 <code>Ctrl+Tab</code> 将打开文件选择窗口。控制台拥有自己的菜单，包含许多设置。</p>
+<h1 id="监听器和代理"><a href="#监听器和代理" class="headerlink" title="监听器和代理"></a>监听器和代理</h1><p>监听器通过监听器表的上下文菜单进行管理。</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911104814096.png" srcset="/img/loading.gif" lazyload alt="image-20250911104814096"></p>
+<p>监听器和代理的对话框中的参数根据相应的扩展器动态创建。</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911104827958.png" srcset="/img/loading.gif" lazyload alt="image-20250911104827958"></p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911104834748.png" srcset="/img/loading.gif" lazyload alt="image-20250911104834748"></p>
+<h2 id="默认监听器和代理（常用）"><a href="#默认监听器和代理（常用）" class="headerlink" title="默认监听器和代理（常用）"></a>默认监听器和代理（常用）</h2><h2 id="Beacon-HTTP"><a href="#Beacon-HTTP" class="headerlink" title="Beacon HTTP"></a>Beacon HTTP</h2><p>“Beacon HTTP”监听器启动一个 Web 服务器并注册一个”beacon”代理。</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911104944801.png" srcset="/img/loading.gif" lazyload alt="image-20250911104944801"></p>
+<h2 id="Beacon-HTTP-参数"><a href="#Beacon-HTTP-参数" class="headerlink" title="Beacon HTTP 参数"></a>Beacon HTTP 参数</h2><p><img src="/2025/09/09/AdaptixC2/image-20250911105004331.png" srcset="/img/loading.gif" lazyload alt="image-20250911105004331"></p>
+<h2 id="Beacon-SMB"><a href="#Beacon-SMB" class="headerlink" title="Beacon SMB"></a>Beacon SMB</h2><p>“Beacon SMB” 是一个内部监听器，用于通过 SMB 命名管道与 “Beacon” 代理进行通信。</p>
+<h2 id="Beacon-TCP-（方便）"><a href="#Beacon-TCP-（方便）" class="headerlink" title="Beacon TCP （方便）"></a>Beacon TCP （方便）</h2><p>“Beacon TCP”通过 TCP 套接字与父 Beacon 代理进行通信。 点对点通信可以在同一主机上的 Beacons 之间以及跨网络进行。</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911105112884.png" srcset="/img/loading.gif" lazyload alt="image-20250911105112884"></p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911105124817.png" srcset="/img/loading.gif" lazyload alt="image-20250911105124817"></p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911111512638.png" srcset="/img/loading.gif" lazyload alt="image-20250911111512638"></p>
+<h2 id="Gopher-TCP"><a href="#Gopher-TCP" class="headerlink" title="Gopher TCP"></a>Gopher TCP</h2><p>“Gopher TCP”监听器启动一个 tcp&#x2F;mtls 服务器并注册一个”gopher”代理。</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911105142675.png" srcset="/img/loading.gif" lazyload alt="image-20250911105142675"></p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911105151827.png" srcset="/img/loading.gif" lazyload alt="image-20250911105151827"></p>
+<p><strong>如何为 mTLS 生成证书和密钥</strong></p>
+<figure class="highlight axapta"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs axapta"><span class="hljs-meta"># CA cert</span><br>openssl genrsa -out ca.key <span class="hljs-number">2048</span><br>openssl req -x509 -<span class="hljs-keyword">new</span> -nodes -key ca.key -sha256 -days <span class="hljs-number">3650</span> -out ca.crt -subj <span class="hljs-string">&quot;/CN=Test CA&quot;</span><br><br><span class="hljs-meta"># server cert and key</span><br>openssl genrsa -out <span class="hljs-keyword">server</span>.key <span class="hljs-number">2048</span><br>openssl req -<span class="hljs-keyword">new</span> -key <span class="hljs-keyword">server</span>.key -out <span class="hljs-keyword">server</span>.csr -subj <span class="hljs-string">&quot;/CN=localhost&quot;</span><br>openssl x509 -req -<span class="hljs-keyword">in</span> <span class="hljs-keyword">server</span>.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out <span class="hljs-keyword">server</span>.crt -days <span class="hljs-number">365</span> -sha256<br><br><span class="hljs-meta"># client cert and key</span><br>openssl genrsa -out <span class="hljs-keyword">client</span>.key <span class="hljs-number">2048</span><br>openssl req -<span class="hljs-keyword">new</span> -key <span class="hljs-keyword">client</span>.key -out <span class="hljs-keyword">client</span>.csr -subj <span class="hljs-string">&quot;/CN=client&quot;</span><br>openssl x509 -req -<span class="hljs-keyword">in</span> <span class="hljs-keyword">client</span>.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out <span class="hljs-keyword">client</span>.crt -days <span class="hljs-number">365</span> -sha256<br></code></pre></div></td></tr></table></figure>
+
+<h1 id="Agents-代理"><a href="#Agents-代理" class="headerlink" title="Agents 代理"></a>Agents 代理</h1><h2 id="Beacon-Configuration-配置"><a href="#Beacon-Configuration-配置" class="headerlink" title="Beacon Configuration 配置"></a>Beacon Configuration 配置</h2><p>此版本的 Beacon 代理并非为规避 AV 或 EDR 而设计，因此不符合 OPSEC 标准。Beacon 主要旨在测试和展示 AdaptixC2 的能力。然而，Beacon 代理可以轻松扩展和修改，使其兼容多种 AV 规避方法。</p>
+<h2 id><a href="#" class="headerlink" title></a><img src="/2025/09/09/AdaptixC2/image-20250911111558656.png" srcset="/img/loading.gif" lazyload alt="image-20250911111558656"></h2><p>Beacon 目前仅支持 Windows 操作系统。</p>
+<p>Beacon 可以生成以下格式的 x64 和 x86 架构版本：EXE、DLL、服务可执行文件、Shellcode。</p>
+<p>KillDate 参数设置 Beacon 的死亡日期和时间（GMT+0 格式）。</p>
+<p>WorkingTime 参数设置 Beacon 活跃的时间间隔（目标主机的本地时间）。</p>
+<ul>
+<li><p>Legit-DLL 已设置为 DLL。此选项将生成用于侧载的 DLL，其中包含指定 DLL 的所有导出项。</p>
+</li>
+<li><p>服务名称已设置为服务可执行文件。</p>
+</li>
+</ul>
+<h2 id="Commands-命令-（命令可以前面加入help查看对应帮助）"><a href="#Commands-命令-（命令可以前面加入help查看对应帮助）" class="headerlink" title="Commands 命令 （命令可以前面加入help查看对应帮助）"></a>Commands 命令 （命令可以前面加入help查看对应帮助）</h2><p>Beacon 目前支持以下命令。</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911111643978.png" srcset="/img/loading.gif" lazyload alt="image-20250911111643978"></p>
+<p>带有 <code>*</code> 标记的命令有子命令。</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911111656310.png" srcset="/img/loading.gif" lazyload alt="image-20250911111656310"></p>
+<h3 id="文件系统命令"><a href="#文件系统命令" class="headerlink" title="文件系统命令"></a>文件系统命令</h3><p><img src="/2025/09/09/AdaptixC2/image-20250911111711317.png" srcset="/img/loading.gif" lazyload alt="image-20250911111711317"></p>
+<h3 id="外泄命令"><a href="#外泄命令" class="headerlink" title="外泄命令"></a>外泄命令</h3><p><img src="/2025/09/09/AdaptixC2/image-20250911111727174.png" srcset="/img/loading.gif" lazyload alt="image-20250911111727174"></p>
+<h3 id="隧道命令"><a href="#隧道命令" class="headerlink" title="隧道命令"></a>隧道命令</h3><p><img src="/2025/09/09/AdaptixC2/image-20250911111736493.png" srcset="/img/loading.gif" lazyload alt="image-20250911111736493"></p>
+<p>由于 Bacon 是一个异步代理，代理扫描不应超过四个线程。</p>
+<p>代理不会自动切换睡眠时间。使用 <code>sleep 0</code> </p>
+<h3 id="进程命令"><a href="#进程命令" class="headerlink" title="进程命令"></a>进程命令</h3><h3 id="-1"><a href="#-1" class="headerlink" title></a><img src="/2025/09/09/AdaptixC2/image-20250911111809676.png" srcset="/img/loading.gif" lazyload alt="image-20250911111809676"></h3><h3 id="链接命令"><a href="#链接命令" class="headerlink" title="链接命令"></a>链接命令</h3><p><img src="/2025/09/09/AdaptixC2/image-20250911111827805.png" srcset="/img/loading.gif" lazyload alt="image-20250911111827805"></p>
+<h3 id="后渗透命令"><a href="#后渗透命令" class="headerlink" title="后渗透命令"></a>后渗透命令</h3><p><img src="/2025/09/09/AdaptixC2/image-20250911111901185.png" srcset="/img/loading.gif" lazyload alt="image-20250911111901185"></p>
+<h3 id="代理命令"><a href="#代理命令" class="headerlink" title="代理命令"></a>代理命令</h3><p><img src="/2025/09/09/AdaptixC2/image-20250911111912684.png" srcset="/img/loading.gif" lazyload alt="image-20250911111912684"></p>
+<h2 id="Gopher（木马样例客户端）"><a href="#Gopher（木马样例客户端）" class="headerlink" title="Gopher（木马样例客户端）"></a>Gopher（木马样例客户端）</h2><p>这个版本的 Gopher 代理并非设计用于绕过防病毒软件或端点检测与响应系统，因此不符合 OPSEC 标准。Gopher 的主要目的是测试和展示 AdaptixC2 的能力。然而，Gopher 代理可以轻松扩展和修改，使其兼容多种防病毒软件绕过方法。</p>
+<p>配置</p>
+<p><img src="/2025/09/09/AdaptixC2/image-20250911111955066.png" srcset="/img/loading.gif" lazyload alt="image-20250911111955066"></p>
+<p>Gopher 目前支持 Windows、Linux 和 MacOS。Gopher 可以生成 amd64 和 arm64 架构的版本。</p>
+<h3 id="Gopher-目前支持以下命令。"><a href="#Gopher-目前支持以下命令。" class="headerlink" title="Gopher 目前支持以下命令。"></a>Gopher 目前支持以下命令。</h3><p><img src="/2025/09/09/AdaptixC2/image-20250911112048198.png" srcset="/img/loading.gif" lazyload alt="image-20250911112048198"></p>
+<p>下载和运行命令会创建一个新的并行连接。作业终止命令可以停止下载或命令&#x2F;脚本的执行。</p>
 
             </div>
             <hr>
