@@ -1,0 +1,605 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="参考： 123https:&#x2F;&#x2F;clickhouse.com&#x2F;bloghttps:&#x2F;&#x2F;clickhouse.com&#x2F;docs&#x2F;zh&#x2F;install&#x2F;debian_ubuntu    搭建Windows系统 需要安装WSL2  1curl https:&#x2F;&#x2F;clickhouse.com&#x2F; | sh   直接使用.&#x2F;clickhouse 启动 测试 1234其他：如果您希望持久化数据，您需要运行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="clickhouse部署以及使用">
+<meta property="og:url" content="http://example.com/2025/10/25/clickhouse%E9%83%A8%E7%BD%B2%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="参考： 123https:&#x2F;&#x2F;clickhouse.com&#x2F;bloghttps:&#x2F;&#x2F;clickhouse.com&#x2F;docs&#x2F;zh&#x2F;install&#x2F;debian_ubuntu    搭建Windows系统 需要安装WSL2  1curl https:&#x2F;&#x2F;clickhouse.com&#x2F; | sh   直接使用.&#x2F;clickhouse 启动 测试 1234其他：如果您希望持久化数据，您需要运行">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/10/25/clickhouse%E9%83%A8%E7%BD%B2%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20251025001234649.png">
+<meta property="og:image" content="http://example.com/2025/10/25/clickhouse%E9%83%A8%E7%BD%B2%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20251025001400918.png">
+<meta property="og:image" content="http://example.com/2025/10/25/clickhouse%E9%83%A8%E7%BD%B2%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20251028233459217.png">
+<meta property="og:image" content="http://example.com/2025/10/25/clickhouse%E9%83%A8%E7%BD%B2%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20251028235010779.png">
+<meta property="og:image" content="http://example.com/2025/10/25/clickhouse%E9%83%A8%E7%BD%B2%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20251028235003932.png">
+<meta property="og:image" content="http://example.com/2025/10/25/clickhouse%E9%83%A8%E7%BD%B2%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20251028235504346.png">
+<meta property="article:published_time" content="2025-10-24T16:09:47.000Z">
+<meta property="article:modified_time" content="2025-11-20T15:37:41.212Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/10/25/clickhouse%E9%83%A8%E7%BD%B2%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20251025001234649.png">
+  
+  
+  <title>clickhouse部署以及使用 - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😶‍🌫️","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="clickhouse部署以及使用">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2025-10-25 00:09" pubdate>
+        2025年10月25日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      13k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      112 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">clickhouse部署以及使用</h1>
+            
+            <div class="markdown-body">
+              <p>参考：</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>clickhouse.com/blog<br>https:<span class="hljs-regexp">//</span>clickhouse.com<span class="hljs-regexp">/docs/</span>zh<span class="hljs-regexp">/install/</span>debian_ubuntu<br><br></code></pre></div></td></tr></table></figure>
+
+
+
+<h1 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h1><p>Windows系统 需要安装WSL2 </p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">curl https://clickhouse.com/ | sh<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/10/25/clickhouse%E9%83%A8%E7%BD%B2%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20251025001234649.png" srcset="/img/loading.gif" lazyload alt="image-20251025001234649"></p>
+<p>直接使用.&#x2F;clickhouse 启动 测试<img src="/2025/10/25/clickhouse%E9%83%A8%E7%BD%B2%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20251025001400918.png" srcset="/img/loading.gif" lazyload alt="image-20251025001400918"></p>
+<figure class="highlight axapta"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs axapta">其他：<br>如果您希望持久化数据，您需要运行 clickhouse-<span class="hljs-keyword">server</span>。您可以使用以下命令启动 ClickHouse 服务器：./clickhouse <span class="hljs-keyword">server</span><br>服务器启动后，打开一个新的终端窗口并运行以下命令以启动 clickhouse-<span class="hljs-keyword">client</span>：./clickhouse clinet<br><br></code></pre></div></td></tr></table></figure>
+
+<h1 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h1><p>为什么这玩意那么快 </p>
+<p>因为通过创新存储层和查询层 表片段-&gt;片段 查询在此执行 如果片段积累过多 会进行后台合并操作 过程中会执行“转换（替换合并、聚合合并、TTL合并）” 查询数据过程中有预聚合数据 时间会加快</p>
+<p>重复查询使用“数据修剪”</p>
+<figure class="highlight fortran"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs fortran">主键索引，定义表数据的排序顺序。一个良好选择的主键可以利用快速的二分搜索评估过滤器（如上述查询中的 <span class="hljs-keyword">WHERE</span> 子句），而不需要全列扫描。从更技术的角度看，扫描的运行时间变为相对于数据大小的对数而不是线性。<br><br>表投影，作为表的替代内部版本，存储相同的数据但按不同的主键排序。当频繁有多个过滤条件时，投影非常有用。<br><br>跳过索引，将额外的数据统计信息嵌入到列中，例如最小和最大列值、唯一值集合等。跳过索引与主键和表投影是正交的，根据列中的数据分布，它们可以大大加快过滤器的评估速度。<br></code></pre></div></td></tr></table></figure>
+
+<p>这三种技术的目标是在全列读取中尽可能跳过尽量多的行，<strong>因为读取数据的最快方式是根本不读取它。</strong></p>
+<h1 id="创建库和表"><a href="#创建库和表" class="headerlink" title="创建库和表"></a>创建库和表</h1><p>与大多数数据库一样，ClickHouse 将表逻辑上分组到 <strong>数据库</strong> 中。使用 <code>CREATE DATABASE</code> 命令在 ClickHouse 中创建一个新数据库：</p>
+<p><img src="/2025/10/25/clickhouse%E9%83%A8%E7%BD%B2%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20251028233459217.png" srcset="/img/loading.gif" lazyload alt="image-20251028233459217"></p>
+<p>使用create table定义表 如果不指定库的话 默认存储在default中</p>
+<h2 id="对主键的简要介绍"><a href="#对主键的简要介绍" class="headerlink" title="对主键的简要介绍"></a>对主键的简要介绍</h2><ul>
+<li>ClickHouse 中的主键对表中的每一行 *<strong>不是唯一的*</strong></li>
+<li>ClickHouse 表的主键决定了数据写入磁盘时的排序方式。每 8,192 行或 10MB 的数据（称为 <strong>索引粒度</strong>）在主键索引文件中创建一个条目。这个粒度概念创建了一个 <strong>稀疏索引</strong>，可以轻松适应内存，并且这些粒度表示在 <code>SELECT</code> 查询中处理的列数据的最小量条带。</li>
+<li>可以使用 <code>PRIMARY KEY</code> 参数定义主键。如果您定义一个没有指定 <code>PRIMARY KEY</code> 的表，则主键将成为 <code>ORDER BY</code> 子句中指定的元组。如果同时指定 <code>PRIMARY KEY</code> 和 <code>ORDER BY</code>，则主键必须是排序顺序的前缀。</li>
+</ul>
+<p>开始创建</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> test.test_table( <br>	id UInt32, #一个<span class="hljs-number">32</span>位无符号整数<br>    url String, #字符串数据类型 替代了<span class="hljs-type">varchar</span> <span class="hljs-type">blob</span> <span class="hljs-type">clob</span>等<br>    <span class="hljs-type">time</span> String <br>)<br><span class="hljs-keyword">primary</span> key(id) #主键<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2025/10/25/clickhouse%E9%83%A8%E7%BD%B2%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20251028235010779.png" srcset="/img/loading.gif" lazyload alt="image-20251028235010779"></p>
+<p><img src="/2025/10/25/clickhouse%E9%83%A8%E7%BD%B2%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20251028235003932.png" srcset="/img/loading.gif" lazyload alt="image-20251028235003932"></p>
+<h1 id="插入clickhouse数据"><a href="#插入clickhouse数据" class="headerlink" title="插入clickhouse数据"></a>插入clickhouse数据</h1><p>基本示例：</p>
+<p>可以使用insert into table 命令 同mysql </p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> test.test_table(id,url,<span class="hljs-type">time</span>) <span class="hljs-keyword">values</span><br>(<span class="hljs-number">1</span>,<span class="hljs-string">&#x27;niko&#x27;</span>,now()),<br>(<span class="hljs-number">2</span>,<span class="hljs-string">&#x27;jerry&#x27;</span>,now()),<br>(<span class="hljs-number">3</span>,<span class="hljs-string">&#x27;kaze&#x27;</span>,now())<br></code></pre></div></td></tr></table></figure>
+
+<p>这里需要使用单引号</p>
+<p><img src="/2025/10/25/clickhouse%E9%83%A8%E7%BD%B2%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/image-20251028235504346.png" srcset="/img/loading.gif" lazyload alt="image-20251028235504346"></p>
+<h2 id="插入的最佳实践"><a href="#插入的最佳实践" class="headerlink" title="插入的最佳实践"></a>插入的最佳实践</h2><p>默认情况下，每个发送到 ClickHouse 的插入会导致 ClickHouse 立即创建一个存储部分，其中包含插入的数据以及需要存储的其他元数据。因此，发送较小数量但每个包含更多数据的插入比发送数量较多但每个包含较少数据的插入将减少所需的写入次数。<strong>一般来说，我们建议一次插入至少 1,000 行的数据，理想情况下在 10,000 到 100,000 行之间。</strong></p>
+<p>如果无法进行大批量插入，请使用下面描述的异步插入。</p>
+<p>默认情况下 插入数据是同步的 即 插入什么数据 就是什么数据 <strong>但是使用 MergeTree  引擎的表 他会自动去重</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">New</span> users <span class="hljs-keyword">to</span> ClickHouse Cloud <span class="hljs-keyword">are</span> often surprised <span class="hljs-keyword">by</span> ClickHouse’s deduplication strategy. This usually occurs <span class="hljs-keyword">when</span> identical inserts appear <span class="hljs-keyword">to</span> <span class="hljs-keyword">not</span> have <span class="hljs-keyword">any</span> effect. <span class="hljs-keyword">For</span> example, consider the following:<br><br><br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> temp<br>(<br>   `<span class="hljs-type">timestamp</span>` DateTime,<br>   `<span class="hljs-keyword">value</span>` UInt64<br>)<br>ENGINE <span class="hljs-operator">=</span> MergeTree<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> tuple()<br><br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> temp <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;2022-10-21&#x27;</span>, <span class="hljs-number">10</span>), (<span class="hljs-string">&#x27;2022-10-22&#x27;</span>, <span class="hljs-number">20</span>), (<span class="hljs-string">&#x27;2022-10-23&#x27;</span>, <span class="hljs-number">15</span>), (<span class="hljs-string">&#x27;2022-10-24&#x27;</span>, <span class="hljs-number">18</span>)<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> temp <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;2022-10-21&#x27;</span>, <span class="hljs-number">10</span>), (<span class="hljs-string">&#x27;2022-10-22&#x27;</span>, <span class="hljs-number">20</span>), (<span class="hljs-string">&#x27;2022-10-23&#x27;</span>, <span class="hljs-number">15</span>), (<span class="hljs-string">&#x27;2022-10-24&#x27;</span>, <span class="hljs-number">18</span>)<br><br>clickhouse<span class="hljs-operator">-</span>cloud :) <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> temp<br><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> temp<br><br>┌───────────<span class="hljs-type">timestamp</span>─┬─<span class="hljs-keyword">value</span>─┐<br>│ <span class="hljs-number">2022</span><span class="hljs-number">-10</span><span class="hljs-number">-21</span> <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> │    <span class="hljs-number">10</span> │<br>│ <span class="hljs-number">2022</span><span class="hljs-number">-10</span><span class="hljs-number">-22</span> <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> │    <span class="hljs-number">20</span> │<br>│ <span class="hljs-number">2022</span><span class="hljs-number">-10</span><span class="hljs-number">-23</span> <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> │    <span class="hljs-number">15</span> │<br>│ <span class="hljs-number">2022</span><span class="hljs-number">-10</span><span class="hljs-number">-24</span> <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> │    <span class="hljs-number">18</span> │<br>└─────────────────────┴───────┘<br></code></pre></div></td></tr></table></figure>
+
+<p>注！软件关闭后库与表直接消失</p>
+<h1 id="使用-HTTP-接口"><a href="#使用-HTTP-接口" class="headerlink" title="使用 HTTP 接口"></a>使用 HTTP 接口</h1><p>与许多传统数据库不同，ClickHouse 支持 HTTP 接口。用户可以使用此接口插入和查询数据，使用上述任一格式。这通常比 ClickHouse 的原生协议更受欢迎，因为它允许与负载均衡器轻松切换流量。我们预计使用原生协议时，插入性能会有小的差异，因为其开销稍低。现有客户端使用这两种协议（在某些情况下，两者都在使用，例如 Go 客户端）。原生协议确实允许轻松跟踪查询进度。</p>
+<p>.&#x2F;clickhouse server 开启</p>
+<p>默认为8443端口 cur对应ip加端口后回显ok后即可访问</p>
+<p>更多内容<a target="_blank" rel="noopener" href="https://clickhouse.com/docs/zh/interfaces/http">https://clickhouse.com/docs/zh/interfaces/http</a></p>
+<h1 id="选择-ClickHouse-数据"><a href="#选择-ClickHouse-数据" class="headerlink" title="选择 ClickHouse 数据"></a>选择 ClickHouse 数据</h1><p>ClickHouse 是一个 SQL 数据库，您可以通过编写您已经熟悉的相同类型的 <code>SELECT</code> 查询来查询您的数据。例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> helloworld.my_first_table<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-type">timestamp</span><br></code></pre></div></td></tr></table></figure>
+
+<p>添加一个 <code>FORMAT</code> 子句以指定 ClickHouse <a target="_blank" rel="noopener" href="https://clickhouse.com/docs/zh/interfaces/formats">支持的多种输出格式</a> 之一：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> helloworld.my_first_table<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-type">timestamp</span><br>FORMAT TabSeparated<br></code></pre></div></td></tr></table></figure>
+
+<h1 id="更新和删除-ClickHouse-数据的变更"><a href="#更新和删除-ClickHouse-数据的变更" class="headerlink" title="更新和删除 ClickHouse 数据的变更"></a>更新和删除 ClickHouse 数据的变更</h1><p>尽管 ClickHouse 主要针对高容量分析工作负载，但在某些情况下，可以修改或删除现有数据。这些操作被称为“变更”，并使用 <code>ALTER TABLE</code> 命令执行。</p>
+<h2 id="更新数据"><a href="#更新数据" class="headerlink" title="更新数据"></a>更新数据</h2><p>使用 <code>ALTER TABLE...UPDATE</code> 命令更新表中的行：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> [<span class="hljs-operator">&lt;</span>database<span class="hljs-operator">&gt;</span>.]<span class="hljs-operator">&lt;</span><span class="hljs-keyword">table</span><span class="hljs-operator">&gt;</span> <span class="hljs-keyword">UPDATE</span> <span class="hljs-operator">&lt;</span><span class="hljs-keyword">column</span><span class="hljs-operator">&gt;</span> <span class="hljs-operator">=</span> <span class="hljs-operator">&lt;</span>expression<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">WHERE</span> <span class="hljs-operator">&lt;</span>filter_expr<span class="hljs-operator">&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<p><code>&lt;expression&gt;</code> 是满足 <code>&lt;filter_expr&gt;</code> 的列的新值。<code>&lt;expression&gt;</code> 必须与列的数据类型相同，或可以使用 <code>CAST</code> 运算符转换为相同的数据类型。<code>&lt;filter_expr&gt;</code> 应该对每一行数据返回一个 <code>UInt8</code>（零或非零）值。多个 <code>UPDATE &lt;column&gt;</code> 语句可以用逗号分隔组合在一个 <code>ALTER TABLE</code> 命令中。</p>
+<p><strong>示例</strong>：</p>
+<ol>
+<li>这样的变更允许使用字典查找将 <code>visitor_ids</code> 替换为新值：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> website.clicks<br><span class="hljs-keyword">UPDATE</span> visitor_id <span class="hljs-operator">=</span> getDict(<span class="hljs-string">&#x27;visitors&#x27;</span>, <span class="hljs-string">&#x27;new_visitor_id&#x27;</span>, visitor_id)<br><span class="hljs-keyword">WHERE</span> visit_date <span class="hljs-operator">&lt;</span> <span class="hljs-string">&#x27;2022-01-01&#x27;</span><br></code></pre></div></td></tr></table></figure>
+
+<ol>
+<li>在一个命令中修改多个值可能比多个命令更高效：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> website.clicks<br><span class="hljs-keyword">UPDATE</span> url <span class="hljs-operator">=</span> <span class="hljs-built_in">substring</span>(url, <span class="hljs-built_in">position</span>(url, <span class="hljs-string">&#x27;://&#x27;</span>) <span class="hljs-operator">+</span> <span class="hljs-number">3</span>), visitor_id <span class="hljs-operator">=</span> new_visit_id<br><span class="hljs-keyword">WHERE</span> visit_date <span class="hljs-operator">&lt;</span> <span class="hljs-string">&#x27;2022-01-01&#x27;</span><br></code></pre></div></td></tr></table></figure>
+
+<ol>
+<li>对于分片表，可以执行 <code>ON CLUSTER</code> 变更：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> clicks <span class="hljs-keyword">ON</span> CLUSTER main_cluster<br><span class="hljs-keyword">UPDATE</span> click_count <span class="hljs-operator">=</span> click_count <span class="hljs-operator">/</span> <span class="hljs-number">2</span><br><span class="hljs-keyword">WHERE</span> visitor_id ILIKE <span class="hljs-string">&#x27;%robot%&#x27;</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h2><p>使用 <code>ALTER TABLE</code> 命令删除行：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> [<span class="hljs-operator">&lt;</span>database<span class="hljs-operator">&gt;</span>.]<span class="hljs-operator">&lt;</span><span class="hljs-keyword">table</span><span class="hljs-operator">&gt;</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">WHERE</span> <span class="hljs-operator">&lt;</span>filter_expr<span class="hljs-operator">&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p><code>&lt;filter_expr&gt;</code> 应该对每一行数据返回一个 UInt8 值。</p>
+<p><strong>示例</strong></p>
+<ol>
+<li>删除列中值在某个数组中的任何记录：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> website.clicks <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">WHERE</span> visitor_id <span class="hljs-keyword">in</span> (<span class="hljs-number">253</span>, <span class="hljs-number">1002</span>, <span class="hljs-number">4277</span>)<br></code></pre></div></td></tr></table></figure>
+
+<ol>
+<li>这个查询修改了什么？</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> clicks <span class="hljs-keyword">ON</span> CLUSTER main_cluster <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">WHERE</span> visit_date <span class="hljs-operator">&lt;</span> <span class="hljs-string">&#x27;2022-01-02 15:00:00&#x27;</span> <span class="hljs-keyword">AND</span> page_id <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;573&#x27;</span><br></code></pre></div></td></tr></table></figure>
+
+<h1 id="在-ClickHouse-中生成随机测试数据-测试"><a href="#在-ClickHouse-中生成随机测试数据-测试" class="headerlink" title="在 ClickHouse 中生成随机测试数据-测试"></a>在 ClickHouse 中生成随机测试数据-测试</h1><h2 id="Simple-uniform-dataset"><a href="#Simple-uniform-dataset" class="headerlink" title="Simple uniform dataset"></a>Simple uniform dataset</h2><p><strong>Use-case</strong>: Generate a quick dataset of user events with random timestamps and event types.</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> user_events (<br>  event_id UUID,<br>  user_id UInt32,<br>  event_type LowCardinality(String),<br>  event_time DateTime<br>) ENGINE <span class="hljs-operator">=</span> MergeTree<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> event_time;<br><br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> user_events<br><span class="hljs-keyword">SELECT</span><br>  generateUUIDv4() <span class="hljs-keyword">AS</span> event_id,<br>  rand() <span class="hljs-operator">%</span> <span class="hljs-number">10000</span> <span class="hljs-keyword">AS</span> user_id,<br>  arrayJoin([<span class="hljs-string">&#x27;click&#x27;</span>,<span class="hljs-string">&#x27;view&#x27;</span>,<span class="hljs-string">&#x27;purchase&#x27;</span>]) <span class="hljs-keyword">AS</span> event_type,<br>  now() <span class="hljs-operator">-</span> <span class="hljs-type">INTERVAL</span> rand() <span class="hljs-operator">%</span> <span class="hljs-number">3600</span><span class="hljs-operator">*</span><span class="hljs-number">24</span> <span class="hljs-keyword">SECOND</span> <span class="hljs-keyword">AS</span> event_time<br><span class="hljs-keyword">FROM</span> numbers(<span class="hljs-number">1000000</span>);<br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li><code>rand() % 10000</code>: uniform distribution of 10k users</li>
+<li><code>arrayJoin(...)</code>: randomly selects one of three event types</li>
+<li>Timestamps spread over the previous 24 hours</li>
+</ul>
+<hr>
+<h2 id="Exponential-distribution"><a href="#Exponential-distribution" class="headerlink" title="Exponential distribution"></a>Exponential distribution</h2><p><strong>Use-case</strong>: Simulate purchase amounts where most values are low, but a few are high.</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> purchases (<br>  dt DateTime,<br>  customer_id UInt32,<br>  total_spent Float32<br>) ENGINE <span class="hljs-operator">=</span> MergeTree<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> dt;<br><br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> purchases<br><span class="hljs-keyword">SELECT</span><br>  now() <span class="hljs-operator">-</span> <span class="hljs-type">INTERVAL</span> randUniform(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>_000_000) <span class="hljs-keyword">SECOND</span> <span class="hljs-keyword">AS</span> dt,<br>  number <span class="hljs-keyword">AS</span> customer_id,<br>  <span class="hljs-number">15</span> <span class="hljs-operator">+</span> round(randExponential(<span class="hljs-number">1</span><span class="hljs-operator">/</span><span class="hljs-number">10</span>), <span class="hljs-number">2</span>) <span class="hljs-keyword">AS</span> total_spent<br><span class="hljs-keyword">FROM</span> numbers(<span class="hljs-number">500000</span>);<br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li>Uniform timestamps over recent period</li>
+<li><code>randExponential(1/10)</code> — most totals near 0, offset by 15 as a minimum ([ClickHouse][1], [ClickHouse][2], [Atlantic.Net][3], [GitHub][4])</li>
+</ul>
+<hr>
+<h2 id="Time-distributed-events-Poisson"><a href="#Time-distributed-events-Poisson" class="headerlink" title="Time-distributed events (Poisson)"></a>Time-distributed events (Poisson)</h2><p><strong>Use-case</strong>: Simulate event arrivals that cluster around a specific period (e.g., peak hour).</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> events (<br>  dt DateTime,<br>  event_type String<br>) ENGINE <span class="hljs-operator">=</span> MergeTree<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> dt;<br><br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> events<br><span class="hljs-keyword">SELECT</span><br>  toDateTime(<span class="hljs-string">&#x27;2022-12-12 12:00:00&#x27;</span>)<br>    <span class="hljs-operator">-</span> ((<span class="hljs-number">12</span> <span class="hljs-operator">+</span> randPoisson(<span class="hljs-number">12</span>)) <span class="hljs-operator">*</span> <span class="hljs-number">3600</span>) <span class="hljs-keyword">AS</span> dt,<br>  <span class="hljs-string">&#x27;click&#x27;</span> <span class="hljs-keyword">AS</span> event_type<br><span class="hljs-keyword">FROM</span> numbers(<span class="hljs-number">200000</span>);<br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li>Events peak around noon, with Poisson-distributed deviation</li>
+</ul>
+<hr>
+<h2 id="Time-varying-normal-distribution"><a href="#Time-varying-normal-distribution" class="headerlink" title="Time-varying normal distribution"></a>Time-varying normal distribution</h2><p><strong>Use-case</strong>: Emulate system metrics (e.g., CPU usage) that vary over time.</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> cpu_metrics (<br>  host String,<br>  ts DateTime,<br>  usage Float32<br>) ENGINE <span class="hljs-operator">=</span> MergeTree<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> (host, ts);<br><br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> cpu_metrics<br><span class="hljs-keyword">SELECT</span><br>  arrayJoin([<span class="hljs-string">&#x27;host1&#x27;</span>,<span class="hljs-string">&#x27;host2&#x27;</span>,<span class="hljs-string">&#x27;host3&#x27;</span>]) <span class="hljs-keyword">AS</span> host,<br>  now() <span class="hljs-operator">-</span> <span class="hljs-type">INTERVAL</span> number <span class="hljs-keyword">SECOND</span> <span class="hljs-keyword">AS</span> ts,<br>  greatest(<span class="hljs-number">0.0</span>, least(<span class="hljs-number">100.0</span>,<br>    randNormal(<span class="hljs-number">50</span> <span class="hljs-operator">+</span> <span class="hljs-number">30</span><span class="hljs-operator">*</span><span class="hljs-built_in">sin</span>(toUInt32(ts)<span class="hljs-operator">%</span><span class="hljs-number">86400</span><span class="hljs-operator">/</span><span class="hljs-number">86400</span><span class="hljs-operator">*</span><span class="hljs-number">2</span><span class="hljs-operator">*</span>pi()), <span class="hljs-number">10</span>)<br>  )) <span class="hljs-keyword">AS</span> usage<br><span class="hljs-keyword">FROM</span> numbers(<span class="hljs-number">10000</span>);<br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li><code>usage</code> follows a diurnal sine wave + randomness</li>
+<li>Values bounded to [0,100]</li>
+</ul>
+<hr>
+<h2 id="Categorical-and-nested-data"><a href="#Categorical-and-nested-data" class="headerlink" title="Categorical and nested data"></a>Categorical and nested data</h2><p><strong>Use-case</strong>: Create user profiles with multi-valued interests.</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> user_profiles (<br>  user_id UInt32,<br>  interests <span class="hljs-keyword">Array</span>(String),<br>  scores <span class="hljs-keyword">Array</span>(UInt8)<br>) ENGINE <span class="hljs-operator">=</span> MergeTree<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> user_id;<br><br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> user_profiles<br><span class="hljs-keyword">SELECT</span><br>  number <span class="hljs-keyword">AS</span> user_id,<br>  arrayShuffle([<span class="hljs-string">&#x27;sports&#x27;</span>,<span class="hljs-string">&#x27;music&#x27;</span>,<span class="hljs-string">&#x27;tech&#x27;</span>])[<span class="hljs-number">1</span> <span class="hljs-operator">+</span> rand() <span class="hljs-operator">%</span> <span class="hljs-number">3</span> : <span class="hljs-number">1</span> <span class="hljs-operator">+</span> rand() <span class="hljs-operator">%</span> <span class="hljs-number">3</span>] <span class="hljs-keyword">AS</span> interests,<br>  [rand() <span class="hljs-operator">%</span> <span class="hljs-number">100</span>, rand() <span class="hljs-operator">%</span> <span class="hljs-number">100</span>, rand() <span class="hljs-operator">%</span> <span class="hljs-number">100</span>] <span class="hljs-keyword">AS</span> scores<br><span class="hljs-keyword">FROM</span> numbers(<span class="hljs-number">20000</span>);<br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li>Random array length between 1–3</li>
+<li>Three per-user scores for each interest</li>
+</ul>
+<h1 id="生成随机表-测试"><a href="#生成随机表-测试" class="headerlink" title="生成随机表-测试"></a>生成随机表-测试</h1><p>The <a target="_blank" rel="noopener" href="https://clickhouse.com/docs/zh/sql-reference/functions/other-functions#generateRandomStructure"><code>generateRandomStructure</code></a> function is particularly useful when combined with the <a target="_blank" rel="noopener" href="https://clickhouse.com/docs/zh/sql-reference/table-functions/generate"><code>generateRandom</code></a> table engine for testing, benchmarking, or creating mock data with arbitrary schemas.</p>
+<p>Let’s start by just seeing what a random structure looks like using the <code>generateRandomStructure</code> function:</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> generateRandomStructure(<span class="hljs-number">5</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>You might see something like:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs response">c1 UInt32, c2 Array(String), c3 DateTime, c4 Nullable(Float64), c5 Map(String, Int16)<br></code></pre></div></td></tr></table></figure>
+
+<p>You can also use a seed to get the same structure every time:</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> generateRandomStructure(<span class="hljs-number">3</span>, <span class="hljs-number">42</span>);<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs response">c1 String, c2 Array(Nullable(Int32)), c3 Tuple(UInt8, Date)<br></code></pre></div></td></tr></table></figure>
+
+<p>Now let’s create an actual table and fill it with random data:</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> my_test_table<br>ENGINE <span class="hljs-operator">=</span> MergeTree<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> tuple()<br><span class="hljs-keyword">AS</span> <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <br><span class="hljs-keyword">FROM</span> generateRandom(<br>    <span class="hljs-string">&#x27;col1 UInt32, col2 String, col3 Float64, col4 DateTime&#x27;</span>,<br>    <span class="hljs-number">1</span>,  <span class="hljs-comment">-- seed for data generation</span><br>    <span class="hljs-number">10</span>  <span class="hljs-comment">-- number of different random values</span><br>)<br>LIMIT <span class="hljs-number">100</span>;  <span class="hljs-comment">-- 100 rows</span><br><br><span class="hljs-comment">-- Step 2: Query your new table</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> my_test_table LIMIT <span class="hljs-number">5</span>;<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs response">┌───────col1─┬─col2──────┬─────────────────────col3─┬────────────────col4─┐<br>│ 4107652264 │ &amp;b!M-e;7  │  1.0013455832230728e-158 │ 2059-08-14 19:03:26 │<br>│  652895061 │ Dj7peUH&#123;T │   -1.032074207667996e112 │ 2079-10-06 04:18:16 │<br>│ 2319105779 │ =D[       │    -2.066555415720528e88 │ 2015-04-26 11:44:13 │<br>│ 1835960063 │ _@&#125;a      │  -1.4998020545039013e110 │ 2063-03-03 20:36:55 │<br>│  730412674 │ _&#125;!       │ -1.3578492992094465e-275 │ 2098-08-23 18:23:37 │<br>└────────────┴───────────┴──────────────────────────┴─────────────────────┘<br></code></pre></div></td></tr></table></figure>
+
+<p>Let’s combine both functions for a completely random table. First, see what structure we’ll get:</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> generateRandomStructure(<span class="hljs-number">7</span>, <span class="hljs-number">123</span>) <span class="hljs-keyword">AS</span> structure FORMAT vertical;<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs response">┌─structure──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐<br>│ c1 Decimal64(7), c2 Enum16(&#x27;c2V0&#x27; = -21744, &#x27;c2V1&#x27; = 5380), c3 Int8, c4 UUID, c5 UUID, c6 FixedString(190), c7 Map(Enum16(&#x27;c7V0&#x27; = -19581, &#x27;c7V1&#x27; = -10024, &#x27;c7V2&#x27; = 27615, &#x27;c7V3&#x27; = -10177, &#x27;c7V4&#x27; = -19644, &#x27;c7V5&#x27; = 3554, &#x27;c7V6&#x27; = 29073, &#x27;c7V7&#x27; = 28800, &#x27;c7V8&#x27; = -11512), Float64) │<br>└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘<br></code></pre></div></td></tr></table></figure>
+
+<p>Now create the table with that structure and use the <code>DESCRIBE</code> statement to see what we created:</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> fully_random_table<br>ENGINE <span class="hljs-operator">=</span> MergeTree<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> tuple()<br><span class="hljs-keyword">AS</span> <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <br><span class="hljs-keyword">FROM</span> generateRandom(generateRandomStructure(<span class="hljs-number">7</span>, <span class="hljs-number">123</span>), <span class="hljs-number">1</span>, <span class="hljs-number">10</span>)<br>LIMIT <span class="hljs-number">1000</span>;<br><br><span class="hljs-keyword">DESCRIBE</span> <span class="hljs-keyword">TABLE</span> fully_random_table;<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs response">   ┌─name─┬─type─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┬─default_type─┬─default_expression─┬─comment─┬─codec_expression─┬─ttl_expression─┐<br>1. │ c1   │ Decimal(18, 7)                                                                                                                                                           │              │                    │         │                  │                │<br>2. │ c2   │ Enum16(&#x27;c2V0&#x27; = -21744, &#x27;c2V1&#x27; = 5380)                                                                                                                                   │              │                    │         │                  │                │<br>3. │ c3   │ Int8                                                                                                                                                                     │              │                    │         │                  │                │<br>4. │ c4   │ UUID                                                                                                                                                                     │              │                    │         │                  │                │<br>5. │ c5   │ UUID                                                                                                                                                                     │              │                    │         │                  │                │<br>6. │ c6   │ FixedString(190)                                                                                                                                                         │              │                    │         │                  │                │<br>7. │ c7   │ Map(Enum16(&#x27;c7V4&#x27; = -19644, &#x27;c7V0&#x27; = -19581, &#x27;c7V8&#x27; = -11512, &#x27;c7V3&#x27; = -10177, &#x27;c7V1&#x27; = -10024, &#x27;c7V5&#x27; = 3554, &#x27;c7V2&#x27; = 27615, &#x27;c7V7&#x27; = 28800, &#x27;c7V6&#x27; = 29073), Float64) │              │                    │         │                  │                │<br>   └──────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┴──────────────┴────────────────────┴─────────┴──────────────────┴────────────────┘<br></code></pre></div></td></tr></table></figure>
+
+<p>Inspect the first row for a sample of the generated data:</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> fully_random_table LIMIT <span class="hljs-number">1</span> FORMAT vertical;<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs response">Row 1:<br>──────<br>c1: 80416293882.257732 -- 80.42 billion<br>c2: c2V1<br>c3: -84<br>c4: 1a9429b3-fd8b-1d72-502f-c051aeb7018e<br>c5: 7407421a-031f-eb3b-8571-44ff279ddd36<br>c6: g̅b�&amp;��rҵ���5C�\�|��H�&gt;���l&#x27;V3��R�[��=3�G�LwVMR*s緾/2�J.���6#��(�h&gt;�lە��L^�M�:�R�9%d�ž�zv��W����Y�S��_no��BP+��u��.0��UZ!x�@7:�nj%3�Λd�S�k&gt;���w��|�&amp;��~<br>c7: &#123;&#x27;c7V8&#x27;:-1.160941256852442&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h1 id="clickhouse-for-python"><a href="#clickhouse-for-python" class="headerlink" title="clickhouse for python"></a>clickhouse for python</h1><p>pip install clickhouse-connect</p>
+<h5 id="使用-ClickHouse-Connect-客户端实例连接到-localhost-上的-ClickHouse-服务器："><a href="#使用-ClickHouse-Connect-客户端实例连接到-localhost-上的-ClickHouse-服务器：" class="headerlink" title="使用 ClickHouse Connect 客户端实例连接到 localhost 上的 ClickHouse 服务器："></a>使用 ClickHouse Connect 客户端实例连接到 localhost 上的 ClickHouse 服务器：</h5><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> clickhouse_connect<br><br>client = clickhouse_connect.get_client(host=<span class="hljs-string">&#x27;localhost&#x27;</span>, username=<span class="hljs-string">&#x27;default&#x27;</span>, password=<span class="hljs-string">&#x27;password&#x27;</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p>连接后开始交互</p>
+<p>要运行 ClickHouse SQL 命令，请使用客户端的 <code>command</code> 方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">client.command(<span class="hljs-string">&#x27;CREATE TABLE new_table (key UInt32, value String, metric Float64) ENGINE MergeTree ORDER BY key&#x27;</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p>要插入批量数据，请使用客户端的 <code>insert</code> 方法，搭配一个二维数组的行和值：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">row1 = [<span class="hljs-number">1000</span>, <span class="hljs-string">&#x27;String Value 1000&#x27;</span>, <span class="hljs-number">5.233</span>]<br>row2 = [<span class="hljs-number">2000</span>, <span class="hljs-string">&#x27;String Value 2000&#x27;</span>, -<span class="hljs-number">107.04</span>]<br>data = [row1, row2]<br>client.insert(<span class="hljs-string">&#x27;new_table&#x27;</span>, data, column_names=[<span class="hljs-string">&#x27;key&#x27;</span>, <span class="hljs-string">&#x27;value&#x27;</span>, <span class="hljs-string">&#x27;metric&#x27;</span>])<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h1 id="创建持久库和表"><a href="#创建持久库和表" class="headerlink" title="创建持久库和表"></a>创建持久库和表</h1><p>这要引出clickhouse的引擎概念 分别引擎对应着不同的速率还有一些其他去别</p>
+<ul>
+<li><strong>MergeTree</strong>: 适用于大部分场景，提供最好的性能和数据压缩比。</li>
+<li><strong>ReplacingMergeTree</strong>: 类似于 MergeTree，但在后台合并时会删除重复的数据。</li>
+<li><strong>SummingMergeTree</strong>: 在后台合并时会将相同主键的数据进行求和。</li>
+<li><strong>AggregatingMergeTree</strong>: 在后台合并时会将相同主键的数据进行聚合计算。</li>
+<li><strong>Kafka</strong>: 允许 ClickHouse 直接从 Kafka 队列中读取数据。</li>
+<li><strong>Null</strong>: 这是一个特殊的引擎，用于创建一个不存储任何数据的表，用于丢弃数据（类似于“黑洞”引擎）。</li>
+</ul>
+<p>具体 ： <a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1964424">https://cloud.tencent.com/developer/article/1964424</a></p>
+<p>创建一个表 拥有唯一ID和去重</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> docs(<br>	doc_id UInt64,<br>    content String,<br>    cat String,<br>    create_time DataTime   <br>)ENGINE <span class="hljs-operator">=</span> ReplacingMergeTree(content)<br><span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">to</span> YYYYMM(create_time)<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> doc_id<br>SETTING compression_codec <span class="hljs-operator">=</span> &quot;ZSTD(16)&quot;<br><br><br>创建一个表 里面有<span class="hljs-number">4</span>个字段 分别为id 内容 其他<span class="hljs-number">1</span> 创建时间 引擎使用增强引擎 使用content判断去重 <span class="hljs-keyword">partition</span>定义分区策略（数据会按年月存储在不同的分区目录中，查询时若指定时间范围（如 <span class="hljs-keyword">WHERE</span> create_time <span class="hljs-operator">&gt;=</span> <span class="hljs-string">&#x27;2025-08-01&#x27;</span>），ClickHouse 会只扫描目标分区，避免全表扫描，大幅提升查询速度。）<span class="hljs-keyword">order</span> 排序键 setting compression 压缩等级 <span class="hljs-number">1</span><span class="hljs-operator">-</span> <span class="hljs-number">22</span>  <br></code></pre></div></td></tr></table></figure>
+
+<p>继续优化速度</p>
+<p>除了可用使用 create_time 查询对应时间段的内容以优化速率以外</p>
+<p>还可以建立跳数索引来加快速度</p>
+<p>具体：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000044361859">https://segmentfault.com/a/1190000044361859</a> (因为本文主要将模糊查询的加速，因此主要看布隆过滤器家族。)</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> dosc(<br>	doc_id UInt64,<br>    content String,<br>    cat String,<br>    create_time Datetime<br>)ENGINE <span class="hljs-operator">=</span> ReplacingMergeTree(content)<br><span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">to</span> YYYYMM(create_time)<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> doc_id<br>SETTINGS<br>	compreesion_codec <span class="hljs-operator">=</span> &quot;ZSTD(16)&quot;,<br>	index_granularity <span class="hljs-operator">=</span> <span class="hljs-number">8192</span><br></code></pre></div></td></tr></table></figure>
+
+<p>最终</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> IF <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> text_logs (<br>    line_id UInt64,               <span class="hljs-comment">-- 每行文本的唯一标识（自增ID，便于定位）</span><br>    content String,               <span class="hljs-comment">-- 存储单行文本内容（核心字段，自动压缩）</span><br>    line_num UInt32,              <span class="hljs-comment">-- 原始文件中的行号（可选，用于溯源）</span><br>    source_file String,           <span class="hljs-comment">-- 文本来源文件名（如&quot;log_202508.txt&quot;，便于分类）</span><br>    create_time DateTime <span class="hljs-keyword">DEFAULT</span> now()  <span class="hljs-comment">-- 写入时间（默认当前时间，用于分区）</span><br>) ENGINE <span class="hljs-operator">=</span> MergeTree()<br><span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> toYYYYMM(create_time)  <span class="hljs-comment">-- 按写入时间的年月分区（加速时间范围查询）</span><br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> (source_file, create_time, line_id)  <span class="hljs-comment">-- 主键：先按来源文件，再按时间和ID</span><br><span class="hljs-keyword">PRIMARY</span> KEY (source_file, create_time)  <span class="hljs-comment">-- 显式指定主键（优化索引效率）</span><br>SETTINGS <br>    compression_codec <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;ZSTD(16)&#x27;</span>,  <span class="hljs-comment">-- 高压缩率（180GB可压至25-50GB）</span><br>    index_granularity <span class="hljs-operator">=</span> <span class="hljs-number">4096</span>,        <span class="hljs-comment">-- 索引粒度（平衡索引大小和查询效率）</span><br>    min_bytes_for_wide_part <span class="hljs-operator">=</span> <span class="hljs-number">1073741824</span>  <span class="hljs-comment">-- 1GB以上自动用宽表格式（减少小文件）</span><br><span class="hljs-comment">-- 对content字段添加跳数索引（加速关键词查询）</span><br>INDEX content_keywords (content) TYPE tokenbf_v1(<span class="hljs-number">256</span>, <span class="hljs-number">3</span>, <span class="hljs-number">0</span>) GRANULARITY <span class="hljs-number">16</span>;<br></code></pre></div></td></tr></table></figure>
+
+<h1 id="跳数索引"><a href="#跳数索引" class="headerlink" title="跳数索引"></a>跳数索引</h1><figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> skip_table<br>(<br>  my_key UInt64,<br>  my_value UInt64<br>)<br>ENGINE MergeTree <span class="hljs-keyword">primary</span> key my_key<br>SETTINGS index_granularity<span class="hljs-operator">=</span><span class="hljs-number">8192</span>;<br></code></pre></div></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%B7%A5%E5%85%B7/">工具</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
