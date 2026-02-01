@@ -1,0 +1,482 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Clawdbot 并不依赖复杂环境，也不需要高性能服务器，只要一台最基础的 Linux 主机，就可以跑起来一个 7x24 小时在线的 AI 助理系统。 为避免各种网络问题，如果使用服务器部署，建议使用境外服务器。 接下来直接从实战开始，用一台Ubuntu服务器，一步一步搭建Clawdbot，MacOS、CentOS等Linux系统同样适用。 1. 终端运行命令bash 1curl -fsSL ht">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Clawdbot搭建使用">
+<meta property="og:url" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="Clawdbot 并不依赖复杂环境，也不需要高性能服务器，只要一台最基础的 Linux 主机，就可以跑起来一个 7x24 小时在线的 AI 助理系统。 为避免各种网络问题，如果使用服务器部署，建议使用境外服务器。 接下来直接从实战开始，用一台Ubuntu服务器，一步一步搭建Clawdbot，MacOS、CentOS等Linux系统同样适用。 1. 终端运行命令bash 1curl -fsSL ht">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127162851779.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127162921705.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127162936033.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127162947183.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163017053.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163100604.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163230250.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163158149.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163213071.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163359897.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163414649.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163430408.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194339589.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194347992.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194357707.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194416077.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194431238.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194444597.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194506238.png">
+<meta property="article:published_time" content="2026-01-27T02:29:14.000Z">
+<meta property="article:modified_time" content="2026-01-29T11:46:55.197Z">
+<meta property="article:author" content="0ldcat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127162851779.png">
+  
+  
+  <title>Clawdbot搭建使用 - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😶‍🌫️","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Clawdbot搭建使用">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2026-01-27 10:29" pubdate>
+        2026年1月27日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.8k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Clawdbot搭建使用</h1>
+            
+            <div class="markdown-body">
+              <p>Clawdbot 并不依赖复杂环境，也不需要高性能服务器，只要一台最基础的 Linux 主机，就可以跑起来一个 7x24 小时在线的 AI 助理系统。</p>
+<p>为避免各种网络问题，如果使用服务器部署，建议使用境外服务器。</p>
+<p>接下来直接从实战开始，用一台Ubuntu服务器，一步一步搭建Clawdbot，MacOS、CentOS等Linux系统同样适用。</p>
+<h2 id="1-终端运行命令"><a href="#1-终端运行命令" class="headerlink" title="1. 终端运行命令"></a>1. 终端运行命令</h2><p>bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">curl -fsSL https://clawd.bot/install.sh | bash<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127162851779.png" srcset="/img/loading.gif" lazyload alt="image-20260127162851779"></p>
+<p>选择Yes，接下来的提示选择“QuickStart”</p>
+<h2 id="2-模型"><a href="#2-模型" class="headerlink" title="2. 模型"></a>2. 模型</h2><p>选择Qwen，Clawdbox中的Qwen就是调用Qwen Code，免费且量大。</p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127162921705.png" srcset="/img/loading.gif" lazyload alt="image-20260127162921705"></p>
+<h2 id="3-授权"><a href="#3-授权" class="headerlink" title="3.授权"></a>3.授权</h2><p>等待一段时间后出现以下内容，复制网址到你的浏览器打开</p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127162936033.png" srcset="/img/loading.gif" lazyload alt="image-20260127162936033"></p>
+<p>登录成功后选择模型</p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127162947183.png" srcset="/img/loading.gif" lazyload alt="image-20260127162947183"></p>
+<ol start="4">
+<li><h2 id="配置Telegram机器人"><a href="#配置Telegram机器人" class="headerlink" title="配置Telegram机器人"></a>配置Telegram机器人</h2></li>
+</ol>
+<p>Telegram后，出现以下配置教程</p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163017053.png" srcset="/img/loading.gif" lazyload alt="image-20260127163017053"></p>
+<p>打开Telegram，搜索“@botfather” 发送 &#x2F;newbot。给你的机器人命名。再复制bot token到终端输入。</p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163100604.png" srcset="/img/loading.gif" lazyload alt="image-20260127163100604"></p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163230250.png" srcset="/img/loading.gif" lazyload alt="image-20260127163230250"></p>
+<h2 id="5-配置skills和hooks"><a href="#5-配置skills和hooks" class="headerlink" title="5. 配置skills和hooks"></a>5. 配置skills和hooks</h2><p>选择需要添加到skills，也可以跳过，之后再添加，hooks也是一样。</p>
+<h2 id="6-检测服务是否在运行"><a href="#6-检测服务是否在运行" class="headerlink" title="6. 检测服务是否在运行"></a>6. 检测服务是否在运行</h2><p>命令行输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">ss -lntp | grep 18789<br></code></pre></div></td></tr></table></figure>
+
+<p>有输出结果就表示启动成功了。</p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163158149.png" srcset="/img/loading.gif" lazyload alt="image-20260127163158149"></p>
+<p>注意，这里如果没有任何输出就是启动失败，未运行成功，可能就需要写一个systemd service来启动。</p>
+<h2 id="7-Telegram配对"><a href="#7-Telegram配对" class="headerlink" title="7.  Telegram配对"></a>7.  Telegram配对</h2><p>打开<strong>Telegram，和刚刚创建的机器人对话 &#x2F;start, 这个时候会出现一个配对码</strong></p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163213071.png" srcset="/img/loading.gif" lazyload alt="image-20260127163213071"></p>
+<p>再回到服务器，终端输入clawdbot pairing approve telegram + 你的配对码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">clawdbot pairing approve telegram ZEGWXXXX<br></code></pre></div></td></tr></table></figure>
+
+<p>如果出现clawdbot: command not found的错误，重启终端再输入以上命令</p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163359897.png" srcset="/img/loading.gif" lazyload alt="image-20260127163359897"></p>
+<p>成功后再给你的机器人发送一条消息，现在你就有一个7x24小时的私人AI助理了。</p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163414649.png" srcset="/img/loading.gif" lazyload alt="image-20260127163414649"></p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a><strong>示例</strong></h2><p>让clawdbot成为你的私人理财助手：</p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127163430408.png" srcset="/img/loading.gif" lazyload alt="image-20260127163430408"></p>
+<p>Windows用户安装方法就第一个步骤不一样，在PowerShell中运行  iwr -useb <a target="_blank" rel="noopener" href="https://t.co/fMGQunVRTq">https://clawd.bot/install.ps1</a> | iex</p>
+<p>针对国内的方案，飞书，如下</p>
+<h1 id="1-创建飞书机器人"><a href="#1-创建飞书机器人" class="headerlink" title="1. 创建飞书机器人"></a>1. 创建飞书机器人</h1><p>进入开发者后台，创建机器人</p>
+<p><a target="_blank" rel="noopener" href="https://open.feishu.cn/document/develop-an-echo-bot/introduction">https://open.feishu.cn/document/develop-an-echo-bot/introduction</a></p>
+<p>点击创建应用，按照引导创建机器人</p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194339589.png" srcset="/img/loading.gif" lazyload alt="image-20260129194339589"></p>
+<p>创建完后点击发布，然后点查看应用</p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194347992.png" srcset="/img/loading.gif" lazyload alt="image-20260129194347992"></p>
+<p>应用页面的AppID和App Secret之后会用到</p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194357707.png" srcset="/img/loading.gif" lazyload alt="image-20260129194357707"></p>
+<h1 id="2-桥接Clawdbot和飞书机器人"><a href="#2-桥接Clawdbot和飞书机器人" class="headerlink" title="2. 桥接Clawdbot和飞书机器人"></a>2. 桥接Clawdbot和飞书机器人</h1><p>接下来就要用到我刚刚开源的这个桥接软件了，这个库是用Go写的，直接使用编译后的二进制文件，不依赖复杂的开发环境。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wy51ai/moltbotCNAPP">https://github.com/wy51ai/moltbotCNAPP</a></p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194416077.png" srcset="/img/loading.gif" lazyload alt="image-20260129194416077"></p>
+<p>MacOS，Linux用户，如果有全局梯子，建议直接用命令行下载。如果终端下载失败就从Release页面下载，从Release页面下载后重命名为clawdbot-bridge，并通过chmod +x clawdbot-bridge给文件权限。</p>
+<p>Windows用户推荐从Release页面下载，从Release页面下载后需要把文件重命名为clawdbot-bridge.exe。</p>
+<p>下载完成后，在<strong>clawdbot-bridge文件所在的目录</strong>打开终端：</p>
+<p>MacOS和Linux用户输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">./clawdbot-bridge start fs_app_id=cli_xxx fs_app_secret=yyy<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194431238.png" srcset="/img/loading.gif" lazyload alt="image-20260129194431238"></p>
+<p>出现Started提示后，就表示启动成功了。</p>
+<p>Windows用户输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">./clawdbot-bridge.exe start fs_app_id=cli_xxx fs_app_secret=yyy<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194444597.png" srcset="/img/loading.gif" lazyload alt="image-20260129194444597"></p>
+<p>如果要停止或者查看状态等操作，可以执行以下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">./clawdbot-bridge start     <span class="hljs-comment"># 后台启动</span><br>./clawdbot-bridge stop      <span class="hljs-comment"># 停止</span><br>./clawdbot-bridge restart   <span class="hljs-comment"># 重启</span><br>./clawdbot-bridge status    <span class="hljs-comment"># 查看状态</span><br>./clawdbot-bridge run       <span class="hljs-comment"># 前台运行（方便调试）</span><br></code></pre></div></td></tr></table></figure>
+
+<p>启动成功后，打开飞书，进入工作台，打开刚刚创建的机器人，试试与它对话吧。</p>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194506238.png" srcset="/img/loading.gif" lazyload alt="image-20260129194506238"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
