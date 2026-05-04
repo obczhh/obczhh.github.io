@@ -1,0 +1,758 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="安装docker 安装minikube(minikube 可以在 macOS、Linux 和 Windows 上快速搭建本地 Kubernetes 集群。我们自豪地专注于帮助应用程序开发者和新的 Kubernetes 用户。) 启动minikube: Container 容器：例子 go代码 123456789101112131415package mainimport (    &quot;io">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes 教程 (k8s)">
+<meta property="og:url" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="安装docker 安装minikube(minikube 可以在 macOS、Linux 和 Windows 上快速搭建本地 Kubernetes 集群。我们自豪地专注于帮助应用程序开发者和新的 Kubernetes 用户。) 启动minikube: Container 容器：例子 go代码 123456789101112131415package mainimport (    &quot;io">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-17-36-22-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-20-30-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-24-34-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-26-23-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-29-03-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-30-38-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-52-51-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-53-36-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-55-41-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-00-32-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-00-55-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-01-03-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-03-38-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-11-09-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-11-56-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-12-45-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-14-23-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-18-38-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-20-41-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-09-51-34-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-09-58-58-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-10-17-42-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-10-26-23-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-10-46-38-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-10-55-41-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-11-05-14-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-11-11-42-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-11-15-46-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-11-17-47-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-11-22-55-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-12-19-28-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-16-23-40-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-16-23-50-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-16-37-49-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-16-40-18-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-04-28-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-04-40-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-06-31-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-40-33-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-40-40-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-42-45-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-44-16-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-54-14-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-54-18-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-57-00-image.png">
+<meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-05-00-11-53-image.png">
+<meta property="article:published_time" content="2026-04-27T07:31:59.000Z">
+<meta property="article:modified_time" content="2026-05-04T16:11:53.469Z">
+<meta property="article:author" content="0ldcat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-17-36-22-image.png">
+  
+  
+  <title>Kubernetes 教程 (k8s) - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"😶‍🌫️","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Kubernetes 教程 (k8s)">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2026-04-27 15:31" pubdate>
+        2026年4月27日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      24k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      199 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Kubernetes 教程 (k8s)</h1>
+            
+            <div class="markdown-body">
+              <p>安装docker</p>
+<p>安装minikube(minikube 可以在 macOS、Linux 和 Windows 上快速搭建本地 Kubernetes 集群。我们自豪地专注于帮助应用程序开发者和新的 Kubernetes 用户。)</p>
+<p>启动minikube:</p>
+<h1 id="Container-容器："><a href="#Container-容器：" class="headerlink" title="Container 容器："></a><strong>Container 容器：</strong></h1><p>例子 go代码</p>
+<figure class="highlight go"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br>    <span class="hljs-string">&quot;io&quot;</span><br>    <span class="hljs-string">&quot;net/http&quot;</span><br>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">hello</span><span class="hljs-params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;<br>    io.WriteString(w, <span class="hljs-string">&quot;[v1] Hello, Kubernetes!&quot;</span>)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    http.HandleFunc(<span class="hljs-string">&quot;/&quot;</span>, hello)<br>    http.ListenAndServe(<span class="hljs-string">&quot;:3000&quot;</span>, <span class="hljs-literal">nil</span>)<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>下面就是 Go 代码对应的 <code>Dockerfile</code>，简单的方案是直接使用 golang 的 alpine 镜像来打包，但是因为我们后续练习需要频繁的推送镜像到 DockerHub 和拉取镜像到 k8s 集群中，为了优化网络速度，我们选择先在 <code>golang:1.16-buster</code> 中将上述 Go 代码编译成二进制文件，再将二进制文件复制到 <code>base-debian10</code> 镜像中运行，要在同一个文件夹中</p>
+<figure class="highlight docker"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs docker">   <span class="hljs-comment"># Dockerfile</span><br><span class="hljs-keyword">FROM</span> golang:<span class="hljs-number">1.16</span>-buster AS builder<br><span class="hljs-keyword">RUN</span><span class="language-bash"> <span class="hljs-built_in">mkdir</span> /src</span><br><span class="hljs-keyword">ADD</span><span class="language-bash"> . /src</span><br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /src</span><br><br><span class="hljs-keyword">RUN</span><span class="language-bash"> go <span class="hljs-built_in">env</span> -w GO111MODULE=auto</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> go build -o main .</span><br><br><span class="hljs-keyword">FROM</span> gcr.io/distroless/base-debian10<br><br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /</span><br><br><span class="hljs-keyword">COPY</span><span class="language-bash"> --from=builder /src/main /main</span><br><span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">3000</span><br><span class="hljs-keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="hljs-string">&quot;/main&quot;</span>]</span><br></code></pre></div></td></tr></table></figure>
+
+<p>然后通过docker build命令</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-17-36-22-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>推送的话使用push</p>
+<h1 id="Pod（容器拖车）"><a href="#Pod（容器拖车）" class="headerlink" title="Pod（容器拖车）"></a><strong>Pod（容器拖车）</strong></h1><figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-comment"># nginx.yaml</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Pod</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">nginx-pod</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">containers:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">nginx-container</span><br>      <span class="hljs-attr">image:</span> <span class="hljs-string">nginx</span><br></code></pre></div></td></tr></table></figure>
+
+<p>其中 <code>kind</code> 表示我们要创建的资源是 <code>Pod</code> 类型， <code>metadata.name</code> 表示要创建的 pod 的名字，这个名字需要是唯一的。 <code>spec.containers</code> 表示要运行的容器的名称和镜像名称。镜像默认来源 <code>DockerHub</code>。</p>
+<p>运行kubectl  apply -f nginx.yaml 创建NGINX的pod<img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-20-30-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后通过kubectl get pods 查看是否正常启动，之后通过kubectl port-forward nginx-pod 4000:80 命令将Nginx的默认端口映射为4000，使用curl访问</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-24-34-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>使用kubectl exec -it name – &#x2F;bin&#x2F;bash 进入当前pod的shell</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-26-23-image.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="pod和container的区别"><a href="#pod和container的区别" class="headerlink" title="pod和container的区别"></a>pod和container的区别</h1><p>嵌套关系，上文的nginx容器最里层，nginx外层为container，最外层为pod</p>
+<p>也就是nginx运行在container容器中，container容器本质是进程，而pod是管理这一组进程的资源</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-29-03-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>pod自然可以管理多个container，而这，也是k8s如何处理服务之间复杂关系的一环</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-30-38-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>pod其他命令：</p>
+<p>使用logs或者logs -f 查看pod命令，通过exec -it 进入</p>
+<p>使用delete pod 或者 delete -f nginx.yaml 的方法删除资源</p>
+<h1 id="deployment（调度员）"><a href="#deployment（调度员）" class="headerlink" title="deployment（调度员）"></a>deployment（调度员）</h1><p>创建一个deployment.yaml，用于管理</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">apps/v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Deployment</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">hellok8s-deployment</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">replicas:</span> <span class="hljs-number">1</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">matchLabels:</span><br>      <span class="hljs-attr">app:</span> <span class="hljs-string">hellok8s</span><br>  <span class="hljs-attr">template:</span><br>    <span class="hljs-attr">metadata:</span><br>      <span class="hljs-attr">labels:</span><br>        <span class="hljs-attr">app:</span> <span class="hljs-string">hellok8s</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">containers:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">image:</span> <span class="hljs-string">guangzhengli/hellok8s:v1</span><br>          <span class="hljs-attr">name:</span> <span class="hljs-string">hellok8s-container</span><br></code></pre></div></td></tr></table></figure>
+
+<p>kind，告诉k8s这是一个部署的控制器，负责pod的自动维护和升级，metadata，命名名称，spec里面，repliceas表示副本数量，如果挂了，会再发起一个，selector表示选择器，里面的matchlables表示只选择hellok8s这个标签的pod。接下来是模板，定义新的pod会是什么样子的，这里表示和上面的一样。之后是容器配置，contatiners，image表示镜像地址，name表示拉取之后的名字</p>
+<p>创建对应的yaml文件后，使用apply创建对应的容器，然后查看get，查看调度员</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-52-51-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>get pod查看容器</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-53-36-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>这里每次创建，后面的名称都会发生变化，这里使用删除，将其删除，他会自动生成一个新的</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-55-41-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>接下来我们通过自动扩容来加深这个知识点，当我们想要将 <code>hellok8s:v1</code> 的资源扩容到 3 个副本时，只需要将 <code>replicas</code> 的值设置成 3，接着重新输入 <code>kubectl apply -f deployment.yaml</code> 即可</p>
+<p>可以在 <code>kubectl apply</code> 之前通过新建窗口执行 <code>kubectl get pods --watch</code> 命令来观察 pod 启动和删除的记录，想要减少副本数时也很简单，你可以尝试将副本数随意增大或者缩小，再通过 <code>watch</code> 来观察它的状态。<img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-00-32-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-00-55-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-01-03-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>升级</p>
+<p>将升级版本，推送到hub仓库中<img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-03-38-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-11-09-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>接着编写 <code>v2</code> 版本的 deployment 资源文件。</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-11-56-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-12-45-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>运行，映射端口，curl访问</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-14-23-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>如果按照上面的升级方式，会引来一个问题，也就是服务短时间不可用，因为所有的pod升级到v2之后，需要等待完成，这时候就需要使用滚动更新</p>
+<h2 id="滚动更新"><a href="#滚动更新" class="headerlink" title="滚动更新"></a>滚动更新</h2><p>在 deployment 的资源定义中, <code>spec.strategy.type</code> 有两种选择:</p>
+<ul>
+<li><strong>RollingUpdate:</strong> 逐渐增加新版本的 pod，逐渐减少旧版本的 pod。</li>
+<li><strong>Recreate:</strong> 在新版本的 pod 增加前，先将所有旧版本 pod 删除。</li>
+</ul>
+<p>大多数情况下我们会采用滚动更新 (RollingUpdate) 的方式，滚动更新又可以通过 <code>maxSurge</code> 和 <code>maxUnavailable</code> 字段来控制升级 pod 的速率，具体可以详细看<a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/deployment/">官网定义</a>。：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#max-surge"><strong>maxSurge:</strong></a> 最大峰值，用来指定可以创建的超出期望 Pod 个数的 Pod 数量。</li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#max-unavailable,"><strong>maxUnavailable:</strong></a> 最大不可用，用来指定更新过程中不可用的 Pod 的个数上限。</li>
+</ul>
+<p>我们先输入命令回滚我们的 deployment，输入 <code>kubectl describe pod</code> 会发现 deployment 已经把 <code>v2</code> 版本的 pod 回滚到 <code>v1</code> 的版本。</p>
+<p>使用命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">kubectl rollout undo deployment hellok8s-deployment<br></code></pre></div></td></tr></table></figure>
+
+<p>回滚</p>
+<p>查看</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-18-38-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>除了上面的命令，还可以用 <code>history</code> 来查看历史版本，<code>--to-revision=2</code> 来回滚到指定版本。</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">kubectl rollout history deployment hellok8s-deployment<br>kubectl rollout undo deployment/hellok8s-deployment --to-revision=2<br></code></pre></div></td></tr></table></figure>
+
+<p>接着设置 <code>strategy=rollingUpdate</code> , <code>maxSurge=1</code> , <code>maxUnavailable=1</code> 和 <code>replicas=3</code> 到 deployment.yaml 文件中。这个参数配置意味着最大可能会创建 4 个 hellok8s pod (replicas + maxSurge)，最小会有 2 个 hellok8s pod 存活 (replicas - maxUnavailable)。</p>
+<p><strong><code>strategy: rollingUpdate</code></strong>: 告诉 K8s，当镜像版本从 <code>v1</code> 变成 <code>v2</code> 时，不要一次性全部关掉旧的，而是“边拆旧房，边盖新房”。</p>
+<p><strong><code>maxSurge: 1</code></strong>:</p>
+<p><strong>含义</strong>：更新过程中，允许比预期副本数（<code>replicas: 3</code>）<strong>多出</strong>几个。</p>
+<p><strong>效果</strong>：K8s 会先起 1 个新版的 Pod。此时集群里会有 $3 + 1 &#x3D; 4$ 个 Pod 在运行。</p>
+<p><strong><code>maxUnavailable: 1</code></strong>:</p>
+<p><strong>含义</strong>：更新过程中，允许最多有几个 Pod 处于<strong>不可用</strong>状态。</p>
+<p><strong>效果</strong>：在起新版的同时，K8s 会停掉 1 个旧版的 Pod。</p>
+<p>假设你现在有 3 个 <code>v1</code> 版本的 Pod，执行 <code>apply</code> 更新到 <code>v2</code>：</p>
+<p><strong>第一步</strong>：K8s 启动 1 个 <code>v2</code> Pod（<code>maxSurge</code> 限制）。</p>
+<p><strong>第二步</strong>：确认新 Pod 正常后，停止 1 个 <code>v1</code> Pod（<code>maxUnavailable</code> 限制）。</p>
+<p><strong>第三步</strong>：循环往复，直到 3 个 Pod 全部变成 <code>v2</code>。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">apps/v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Deployment</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">hellok8s-deployment</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">strategy:</span><br>     <span class="hljs-attr">rollingUpdate:</span><br>      <span class="hljs-attr">maxSurge:</span> <span class="hljs-number">1</span><br>      <span class="hljs-attr">maxUnavailable:</span> <span class="hljs-number">1</span><br>  <span class="hljs-attr">replicas:</span> <span class="hljs-number">3</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">matchLabels:</span><br>      <span class="hljs-attr">app:</span> <span class="hljs-string">hellok8s</span><br>  <span class="hljs-attr">template:</span><br>    <span class="hljs-attr">metadata:</span><br>      <span class="hljs-attr">labels:</span><br>        <span class="hljs-attr">app:</span> <span class="hljs-string">hellok8s</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">containers:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">image:</span> <span class="hljs-string">guangzhengli/hellok8s:v2</span><br>        <span class="hljs-attr">name:</span> <span class="hljs-string">hellok8s-container</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-00-20-41-image.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="存活探针-livenessProb"><a href="#存活探针-livenessProb" class="headerlink" title="存活探针 (livenessProb)"></a>存活探针 (livenessProb)</h1><p>活探测器来确定什么时候要重启容器。</p>
+<p>例如，存活探测器可以探测到应用死锁（应用程序在运行，但是无法继续执行后面的步骤)d 的情况。 </p>
+<p>重启这种状态下的容器有助于提高应用的可用性，即使其中存在缺陷。</p>
+<p>接下来写一个bug接口，来了解存活探针的的运行机制</p>
+<p>写一个 <code>/healthz</code> 接口来说明 <code>livenessProb</code> 如何使用。 <code>/healthz</code> 接口会在启动成功的 15s 内正常返回 200 状态码，在 15s 后，会一直返回 500 的状态码。</p>
+<figure class="highlight go"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br>    <span class="hljs-string">&quot;fmt&quot;</span><br>    <span class="hljs-string">&quot;io&quot;</span><br>    <span class="hljs-string">&quot;net/http&quot;</span><br>    <span class="hljs-string">&quot;time&quot;</span><br>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">hello</span><span class="hljs-params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;<br>    io.WriteString(w, <span class="hljs-string">&quot;[v2] Hello, Kubernetes!&quot;</span>)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    started := time.Now()<br>    http.HandleFunc(<span class="hljs-string">&quot;/healthz&quot;</span>, <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;<br>        duration := time.Since(started)<br>        <span class="hljs-keyword">if</span> duration.Seconds() &gt; <span class="hljs-number">15</span> &#123;<br>            w.WriteHeader(<span class="hljs-number">500</span>)<br>            w.Write([]<span class="hljs-type">byte</span>(fmt.Sprintf(<span class="hljs-string">&quot;error: %v&quot;</span>, duration.Seconds())))<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            w.WriteHeader(<span class="hljs-number">200</span>)<br>            w.Write([]<span class="hljs-type">byte</span>(<span class="hljs-string">&quot;ok&quot;</span>))<br>        &#125;<br>    &#125;)<br><br>    http.HandleFunc(<span class="hljs-string">&quot;/&quot;</span>, hello)<br>    http.ListenAndServe(<span class="hljs-string">&quot;:3000&quot;</span>, <span class="hljs-literal">nil</span>)<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>编写对应的 <code>Dockerfile</code> 文件。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dockerfile"><span class="hljs-comment"># Dockerfile</span><br><span class="hljs-keyword">FROM</span> golang:<span class="hljs-number">1.16</span>-buster AS builder<br><span class="hljs-keyword">RUN</span><span class="language-bash"> <span class="hljs-built_in">mkdir</span> /src</span><br><span class="hljs-keyword">ADD</span><span class="language-bash"> . /src</span><br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /src</span><br><br><span class="hljs-keyword">RUN</span><span class="language-bash"> go <span class="hljs-built_in">env</span> -w GO111MODULE=auto</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> go build -o main .</span><br><br><span class="hljs-keyword">FROM</span> gcr.io/distroless/base-debian10<br><br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /</span><br><br><span class="hljs-keyword">COPY</span><span class="language-bash"> --from=builder /src/main /main</span><br><span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">3000</span><br><span class="hljs-keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="hljs-string">&quot;/main&quot;</span>]</span><br></code></pre></div></td></tr></table></figure>
+
+<p><code>Dockerfile</code> 的编写和原来保持一致，我们把 <code>tag</code> 修改为 <code>liveness</code> 并推送到远程仓库。</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-09-51-34-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>之后编写deployment，使用存活探测</p>
+<p>这里使用http get 方式请求，请求go代码中定义的和healthz接口，periodseconds定义了间隔3秒检测一次接口存活，initialdelayseconds定义了执行探测前等待三秒</p>
+<p>如果服务器访问接口，会返回成功代码，则为存活，失败，会被杀死</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json">apiVersion<span class="hljs-punctuation">:</span> apps/v1<br>kind<span class="hljs-punctuation">:</span> Deployment<br>metadata<span class="hljs-punctuation">:</span><br>  name<span class="hljs-punctuation">:</span> hellok8s-deployment<br>spec<span class="hljs-punctuation">:</span><br>  strategy<span class="hljs-punctuation">:</span><br>     rollingUpdate<span class="hljs-punctuation">:</span><br>      maxSurge<span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><br>      maxUnavailable<span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><br>  replicas<span class="hljs-punctuation">:</span> <span class="hljs-number">3</span><br>  selector<span class="hljs-punctuation">:</span><br>    matchLabels<span class="hljs-punctuation">:</span><br>      app<span class="hljs-punctuation">:</span> hellok8s<br>  template<span class="hljs-punctuation">:</span><br>    metadata<span class="hljs-punctuation">:</span><br>      labels<span class="hljs-punctuation">:</span><br>        app<span class="hljs-punctuation">:</span> hellok8s<br>    spec<span class="hljs-punctuation">:</span><br>      containers<span class="hljs-punctuation">:</span><br>        - image<span class="hljs-punctuation">:</span> guangzhengli/hellok8s<span class="hljs-punctuation">:</span>liveness<br>          name<span class="hljs-punctuation">:</span> hellok8s-container<br>          livenessProbe<span class="hljs-punctuation">:</span><br>            httpGet<span class="hljs-punctuation">:</span><br>              path<span class="hljs-punctuation">:</span> /healthz<br>              port<span class="hljs-punctuation">:</span> <span class="hljs-number">3000</span><br>            initialDelaySeconds<span class="hljs-punctuation">:</span> <span class="hljs-number">3</span><br>            periodSeconds<span class="hljs-punctuation">:</span> <span class="hljs-number">3</span><br></code></pre></div></td></tr></table></figure>
+
+<p>使用watch查看，会发现一直处于重启中</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-09-58-58-image.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="就绪探针"><a href="#就绪探针" class="headerlink" title="就绪探针"></a>就绪探针</h1><p>就绪探测器可以知道容器何时准备好接受请求流量，<strong>当一个 Pod 内的所有容器都就绪时，才能认为该 Pod 就绪</strong>。 这种信号的一个用途就是控制哪个 Pod 作为 Service 的后端。 若 Pod 尚未就绪，会被从 Service 的负载均衡器中剔除。</p>
+<p>在真正的环境中，如果需要升级的版本有问题，就不应该让其升级成功，kubelet使用就绪探针可以知道容器什么时候接受此流量，配合rollingupate的功能下，也不允许继续下去，否则全部升级完成就会导致服务不可用。</p>
+<p>先制作一个有问题的版本</p>
+<figure class="highlight go"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br>    <span class="hljs-string">&quot;io&quot;</span><br>    <span class="hljs-string">&quot;net/http&quot;</span><br>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">hello</span><span class="hljs-params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;<br>    io.WriteString(w, <span class="hljs-string">&quot;[v2] Hello, Kubernetes!&quot;</span>)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    http.HandleFunc(<span class="hljs-string">&quot;/healthz&quot;</span>, <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;<br>            w.WriteHeader(<span class="hljs-number">500</span>)<br>    &#125;)<br><br>    http.HandleFunc(<span class="hljs-string">&quot;/&quot;</span>, hello)<br>    http.ListenAndServe(<span class="hljs-string">&quot;:3000&quot;</span>, <span class="hljs-literal">nil</span>)<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>然后build之后push</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-10-17-42-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>接下来修改deployment文件，<a target="_blank" rel="noopener" href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#probe-v1-core">探针</a>有很多配置文件</p>
+<p><code>initialDelaySeconds</code>：容器启动后要等待多少秒后才启动存活和就绪探测器， 默认是 0 秒，最小值是 0。</p>
+<p><code>periodSeconds</code>：执行探测的时间间隔（单位是秒）。默认是 10 秒。最小值是 1。</p>
+<p><code>timeoutSeconds</code>：探测的超时后等待多少秒。默认值是 1 秒。最小值是 1。</p>
+<p><code>successThreshold</code>：探测器在失败后，被视为成功的最小连续成功数。默认值是 1。 存活和启动探测的这个值必须是 1。最小值是 1。</p>
+<p><code>failureThreshold</code>：当探测失败时，Kubernetes 的重试次数。 对存活探测而言，放弃就意味着重新启动容器。 对就绪探测而言，放弃意味着 Pod 会被打上未就绪的标签。默认值是 3。最小值是 1。</p>
+<figure class="highlight docker"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs docker">apiVersion: apps/v1<br>kind: Deployment<br>metadata:<br>  name: hellok8s-deployment<br>spec:<br>  strategy:<br>     rollingUpdate:<br>      maxSurge: <span class="hljs-number">1</span><br>      maxUnavailable: <span class="hljs-number">1</span><br>  replicas: <span class="hljs-number">3</span><br>  selector:<br>    matchLabels:<br>      app: hellok8s<br>  template:<br>    metadata:<br>      labels:<br>        app: hellok8s<br>    spec:<br>      containers:<br>        - image: guangzhengli/hellok8s:bad<br>          name: hellok8s-container<br>          readinessProbe:<br>            httpGet:<br>              path: /healthz<br>              port: <span class="hljs-number">3000</span><br>            initialDelaySeconds: <span class="hljs-number">1</span><br>            successThreshold: <span class="hljs-number">5</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-10-26-23-image.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="service"><a href="#service" class="headerlink" title="service"></a>service</h1><p>kubernetes提供了一个叫service的资源管理功能，对pod进行统一管理，如端口，流量重定向，和负载均衡。</p>
+<p>Service 位于 pod 的前面，负责接收请求并将它们传递给它后面的所有pod。一旦服务中的 Pod 集合发生更改，Endpoints 就会被更新，请求的重定向自然也会导向最新的 pod。</p>
+<h2 id="clusterIP"><a href="#clusterIP" class="headerlink" title="clusterIP"></a>clusterIP</h2><p>构造一个GO的v3，build加push</p>
+<figure class="highlight go"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br>    <span class="hljs-string">&quot;fmt&quot;</span><br>    <span class="hljs-string">&quot;io&quot;</span><br>    <span class="hljs-string">&quot;net/http&quot;</span><br>    <span class="hljs-string">&quot;os&quot;</span><br>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">hello</span><span class="hljs-params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;<br>    host, _ := os.Hostname()<br>    io.WriteString(w, fmt.Sprintf(<span class="hljs-string">&quot;[v3] Hello, Kubernetes!, From host: %s&quot;</span>, host))<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    http.HandleFunc(<span class="hljs-string">&quot;/&quot;</span>, hello)<br>    http.ListenAndServe(<span class="hljs-string">&quot;:3000&quot;</span>, <span class="hljs-literal">nil</span>)<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-10-46-38-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>修改deployment.yaml，然后apply</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">apps/v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Deployment</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">hellok8s-deployment</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">replicas:</span> <span class="hljs-number">3</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">matchLabels:</span><br>      <span class="hljs-attr">app:</span> <span class="hljs-string">hellok8s</span><br>  <span class="hljs-attr">template:</span><br>    <span class="hljs-attr">metadata:</span><br>      <span class="hljs-attr">labels:</span><br>        <span class="hljs-attr">app:</span> <span class="hljs-string">hellok8s</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">containers:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">image:</span> <span class="hljs-string">zwwab/hellok8s:v3</span><br>          <span class="hljs-attr">name:</span> <span class="hljs-string">hellok8s-container</span><br></code></pre></div></td></tr></table></figure>
+
+<p>接下来是 <code>Service</code> 资源的定义，我们使用 <code>ClusterIP</code> 的方式定义 Service，通过 <code>kubernetes</code> 集群的内部 IP 暴露服务，当我们只需要让集群中运行的其他应用程序访问我们的 pod 时，就可以使用这种类型的Service。</p>
+<p>首先创建一个 service-hellok8s-clusterip.yaml 文件。</p>
+<figure class="highlight yml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Service</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">service-hellok8s-clusterip</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">type:</span> <span class="hljs-string">ClusterIP</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">hellok8s</span><br>  <span class="hljs-attr">ports:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">port:</span> <span class="hljs-number">3000</span><br>    <span class="hljs-attr">targetPort:</span> <span class="hljs-number">3000</span><br></code></pre></div></td></tr></table></figure>
+
+<p>执行 </p>
+<p>kubectl apply -f service-hellok8s-clusterip.yaml</p>
+<p>首先通过 <code>kubectl get endpoints</code> 来看看 Endpoint。被 selector 选中的 Pod，就称为 Service 的 Endpoints。它维护着 Pod 的 IP 地址，只要服务中的 Pod 集合发生更改，Endpoints 就会被更新。通过 <code>kubectl get pod -o wide</code> 命令获取 Pod 更多的信息，可以看到 3 个 Pod 的 IP 地址和 Endpoints 中是保持一致的，你可以试试增大或减少 Deployment 中 Pod 的 replicas，观察 Endpoints 会不会发生变化。</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-10-55-41-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>接着我们可以通过在集群其它应用中访问 <code>service-hellok8s-clusterip</code> 的 IP 地址 <code>10.108.187.7</code> 来访问 <code>hellok8s:v3</code> 服务。</p>
+<p>这里通过在集群内创建一个 <code>nginx</code> 来访问 <code>hellok8s</code> 服务。创建后进入 <code>nginx</code> 容器来用 <code>curl</code> 命令访问 <code>service-hellok8s-clusterip</code> 。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Pod</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">nginx</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">nginx</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">containers:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">nginx-container</span><br>      <span class="hljs-attr">image:</span> <span class="hljs-string">nginx</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-11-05-14-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>我们使用exec进入容器shell之后，使用curl获取内容，返回的hostname也不一样，还可以自动负载君合。</p>
+<p>除了上述的 <code>ClusterIp</code> 的方式外，Kubernetes <code>ServiceTypes</code> 允许指定你所需要的 Service 类型，默认是 <code>ClusterIP</code>。<code>Type</code> 的值包括如下：</p>
+<ol>
+<li><p><code>ClusterIP</code>：通过集群的内部 IP 暴露服务，选择该值时服务只能够在集群内部访问。 这也是默认的 <code>ServiceType</code>。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport"><code>NodePort</code></a>：通过每个节点上的 IP 和静态端口（<code>NodePort</code>）暴露服务。 <code>NodePort</code> 服务会路由到自动创建的 <code>ClusterIP</code> 服务。 通过请求 <code>&lt;节点 IP&gt;:&lt;节点端口&gt;</code>，你可以从集群的外部访问一个 <code>NodePort</code> 服务。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer"><code>LoadBalancer</code></a>：使用云提供商的负载均衡器向外部暴露服务。 外部负载均衡器可以将流量路由到自动创建的 <code>NodePort</code> 服务和 <code>ClusterIP</code> 服务上。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/services-networking/service/#externalname"><code>ExternalName</code></a>：通过返回 <code>CNAME</code> 和对应值，可以将服务映射到 <code>externalName</code> 字段的内容（例如，<code>foo.bar.example.com</code>）。 无需创建任何类型代理。</p>
+</li>
+</ol>
+<h2 id="Nodeport"><a href="#Nodeport" class="headerlink" title="Nodeport"></a>Nodeport</h2><p>我们知道<code>kubernetes</code> 集群并不是单机运行，它管理着多台节点即 <a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/architecture/nodes/">Node</a>，可以通过每个节点上的 IP 和静态端口（<code>NodePort</code>）暴露服务。如下图所示，如果集群内有两台 Node 运行着 <code>hellok8s:v3</code>，我们创建一个 <code>NodePort</code> 类型的 Service，将 <code>hellok8s:v3</code> 的 <code>3000</code> 端口映射到 Node 机器的 <code>30000</code> 端口 (在 30000-32767 范围内)，就可以通过访问 <code>http://node1-ip:30000</code> 或者 <code>http://node2-ip:30000</code> 访问到服务。</p>
+<p>也就是映射</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-11-11-42-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>这里以 <code>minikube</code> 为例，我们可以通过 <code>minikube ip</code> 命令拿到 k8s cluster node IP地址。下面的教程都以我本机的 <code>192.168.59.100</code> 为例，需要替换成你的 IP 地址。</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-11-15-46-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>接着以 NodePort 的 ServiceType 创建一个 Service 来接管 pod 流量。通过<code>minikube</code> 节点上的 IP <code>192.168.59.100</code> 暴露服务。</p>
+<p><code>NodePort</code> 服务会路由到自动创建的 <code>ClusterIP</code> 服务。</p>
+<p>通过请求 <code>&lt;节点 IP&gt;:&lt;节点端口&gt;</code> – <code>192.168.59.100</code>:30000，你可以从集群的外部访问一个 <code>NodePort</code> 服务，最终重定向到 <code>hellok8s:v3</code> 的 <code>3000</code> 端口。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Service</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">service-hellok8s-nodeport</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">type:</span> <span class="hljs-string">NodePort</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">hellok8s</span><br>  <span class="hljs-attr">ports:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">port:</span> <span class="hljs-number">3000</span><br>    <span class="hljs-attr">nodePort:</span> <span class="hljs-number">30000</span><br></code></pre></div></td></tr></table></figure>
+
+<p>创建 <code>service-hellok8s-nodeport</code> Service 后，使用 <code>curl</code> 命令或者浏览器访问 <code>http://192.168.67.2:30000</code> 可以得到结果。</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-11-17-47-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-11-22-55-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="LoadBalancer"><a href="#LoadBalancer" class="headerlink" title="LoadBalancer"></a>LoadBalancer</h2><p>是使用云提供商的负载均衡器向外部暴露服务。这里没有，使用minikube tunnel来模拟？</p>
+<p>但是和实际云环境有本质区别，所有有条件的话使用AWS…</p>
+<p><a target="_blank" rel="noopener" href="https://minikube.sigs.k8s.io/docs/handbook/accessing/#loadbalancer-access">Accessing apps | minikube</a></p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-12-19-28-image.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="Ingress"><a href="#Ingress" class="headerlink" title="Ingress"></a>Ingress</h1><p><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#ingress-v1beta1-networking-k8s-io">Ingress</a> 公开从集群外部到集群内<a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/services-networking/service/">服务</a>的 HTTP 和 HTTPS 路由。 流量路由由 Ingress 资源上定义的规则控制。Ingress 可为 Service 提供外部可访问的 URL、负载均衡流量、 SSL&#x2F;TLS，以及基于名称的虚拟托管。你必须拥有一个 <a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress-controllers">Ingress 控制器</a> 才能满足 Ingress 的要求。 仅创建 Ingress 资源本身没有任何效果。 <a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/services-networking/ingress-controllers">Ingress 控制器</a> 通常负责通过负载均衡器来实现 Ingress，例如 <code>minikube</code> 默认使用的是 <a target="_blank" rel="noopener" href="https://minikube.sigs.k8s.io/docs/tutorials/nginx_tcp_udp_ingress/">nginx-ingress</a>，目前 <code>minikube</code> 也支持 <a target="_blank" rel="noopener" href="https://minikube.sigs.k8s.io/docs/handbook/addons/kong-ingress/">Kong-Ingress</a>。</p>
+<p>Ingress 可以“简单理解”为服务的网关 Gateway，它是所有流量的入口，经过配置的路由规则，将流量重定向到后端的服务。</p>
+<p>在 <code>minikube</code> 中，可以通过下面命令开启 Ingress-Controller 的功能。默认使用的是 <a target="_blank" rel="noopener" href="https://minikube.sigs.k8s.io/docs/tutorials/nginx_tcp_udp_ingress/">nginx-ingress</a>。</p>
+<p>这边环境没法开启ingress功能，先放着，解决中。。。。。。</p>
+<h1 id="Namespace（测试空间）"><a href="#Namespace（测试空间）" class="headerlink" title="Namespace（测试空间）"></a>Namespace（测试空间）</h1><p>不同的环境来做开发和测试，例如 <code>dev</code> 环境给开发使用，<code>test</code> 环境给 QA 使用，k8s 提供了名为 Namespace 的资源来帮助隔离资源。在 Kubernetes 中，<strong>名字空间（Namespace）</strong> 提供一种机制，将同一集群中的资源划分为相互隔离的组。 同一名字空间内的资源名称要唯一，但跨名字空间时没有这个要求。 名字空间作用域仅针对带有名字空间的对象，例如 Deployment、Service 等。</p>
+<p>创建namespace.yaml，分别是dev和test</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Namespace</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">dev</span><br><br><span class="hljs-meta">---</span><br><span class="hljs-meta"></span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Namespace</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">test</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-16-23-40-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-16-23-50-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>那么如何在新的 namespace 下创建资源和获取资源呢？只需要在命令后面加上 <code>-n namespace</code> 即可。例如根据上面教程中，在名为 <code>dev</code> 的 namespace 下创建 <code>hellok8s:v3</code> 的 deployment 资源。</p>
+<p>kubectl apply -f deployment.yaml -n dev</p>
+<p>kubectl get pods -n dev</p>
+<h1 id="ConfigMap"><a href="#ConfigMap" class="headerlink" title="ConfigMap"></a>ConfigMap</h1><p>不同环境的数据库的地址往往是不一样的，那么如果在代码中写同一个数据库的地址，就会出现问题。</p>
+<p>K8S 使用 ConfigMap 来将你的配置数据和应用程序代码分开，将非机密性的数据保存到键值对中。ConfigMap 在设计上不是用来保存大量数据的。在 ConfigMap 中保存的数据不可超过 1 MiB。如果你需要保存超出此尺寸限制的数据，你可能考虑挂载存储卷。</p>
+<p>创建一个go代码</p>
+<figure class="highlight go"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br>    <span class="hljs-string">&quot;fmt&quot;</span><br>    <span class="hljs-string">&quot;io&quot;</span><br>    <span class="hljs-string">&quot;net/http&quot;</span><br>    <span class="hljs-string">&quot;os&quot;</span><br>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">hello</span><span class="hljs-params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;<br>    host, _ := os.Hostname()<br>    dbURL := os.Getenv(<span class="hljs-string">&quot;DB_URL&quot;</span>)<br>    io.WriteString(w, fmt.Sprintf(<span class="hljs-string">&quot;[v4] Hello, Kubernetes! From host: %s, Get Database Connect URL: %s&quot;</span>, host, dbURL))<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    http.HandleFunc(<span class="hljs-string">&quot;/&quot;</span>, hello)<br>    http.ListenAndServe(<span class="hljs-string">&quot;:3000&quot;</span>, <span class="hljs-literal">nil</span>)<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>build和push，然后删除其他的资源</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-16-37-49-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>接下来创建不同 namespace 的 configmap 来存放 <code>DB_URL</code>。</p>
+<p>创建 <code>hellok8s-config-dev.yaml</code> 文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">ConfigMap</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">hellok8s-config</span><br><span class="hljs-attr">data:</span><br>  <span class="hljs-attr">DB_URL:</span> <span class="hljs-string">&quot;http://DB_ADDRESS_DEV&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>创建 <code>hellok8s-config-test.yaml</code> 文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">ConfigMap</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">hellok8s-config</span><br><span class="hljs-attr">data:</span><br>  <span class="hljs-attr">DB_URL:</span> <span class="hljs-string">&quot;http://DB_ADDRESS_TEST&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>分别在 <code>dev</code> <code>test</code> 两个 namespace 下创建相同的 <code>ConfigMap</code>，名字都叫 hellok8s-config，但是存放的 Pair 对中 Value 值不一样。</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-28-16-40-18-image.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="Secret"><a href="#Secret" class="headerlink" title="Secret"></a>Secret</h1><p>Secret 用来存储加密信息 对于资源的编码</p>
+<p>这里将 Base64 编码过后的值，填入对应的 key - value 中。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-comment"># hellok8s-secret.yaml</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Secret</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">hellok8s-secret</span><br><span class="hljs-attr">data:</span><br>  <span class="hljs-attr">DB_PASSWORD:</span> <span class="hljs-string">&quot;ZGJfcGFzc3dvcmQK&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-comment"># hellok8s.yaml</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Pod</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">hellok8s-pod</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">containers:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">hellok8s-container</span><br>      <span class="hljs-attr">image:</span> <span class="hljs-string">guangzhengli/hellok8s:v5</span><br>      <span class="hljs-attr">env:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">DB_PASSWORD</span><br>          <span class="hljs-attr">valueFrom:</span><br>            <span class="hljs-attr">secretKeyRef:</span><br>              <span class="hljs-attr">name:</span> <span class="hljs-string">hellok8s-secret</span><br>              <span class="hljs-attr">key:</span> <span class="hljs-string">DB_PASSWORD</span><br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br>    <span class="hljs-string">&quot;fmt&quot;</span><br>    <span class="hljs-string">&quot;io&quot;</span><br>    <span class="hljs-string">&quot;net/http&quot;</span><br>    <span class="hljs-string">&quot;os&quot;</span><br>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">hello</span><span class="hljs-params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;<br>    host, _ := os.Hostname()<br>    dbPassword := os.Getenv(<span class="hljs-string">&quot;DB_PASSWORD&quot;</span>)<br>    io.WriteString(w, fmt.Sprintf(<span class="hljs-string">&quot;[v5] Hello, Kubernetes! From host: %s, Get Database Connect Password: %s&quot;</span>, host, dbPassword))<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    http.HandleFunc(<span class="hljs-string">&quot;/&quot;</span>, hello)<br>    http.ListenAndServe(<span class="hljs-string">&quot;:3000&quot;</span>, <span class="hljs-literal">nil</span>)<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在代码中读取 <code>DB_PASSWORD</code> 环境变量直接返回对应字符串</p>
+<p>Secret 的使用方法和前面教程中 ConfigMap 基本一致</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">docker build . -t guangzhengli/hellok8s:v5<br><br>docker push guangzhengli/hellok8s:v5<br><br>kubectl apply -f hellok8s-secret.yaml<br><br>kubectl apply -f hellok8s.yaml<br><br>kubectl port-forward hellok8s-pod 3000:3000<br></code></pre></div></td></tr></table></figure>
+
+<h1 id="Job"><a href="#Job" class="headerlink" title="Job"></a>Job</h1><p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-04-28-image.png" srcset="/img/loading.gif" lazyload></p>
+<p> 一次性资源 即job</p>
+<div>
+Job 会创建一个或者多个 Pod，并将继续重试 Pod 的执行，直到指定数量的 Pod 成功终止。 随着 Pod 成功结束，Job 跟踪记录成功完成的 Pod 个数。 当数量达到指定的成功个数阈值时，任务（即 Job）结束。 删除 Job 的操作会清除所创建的全部 Pod。 挂起 Job 的操作会删除 Job 的所有活跃 Pod，直到 Job 被再次恢复执行。
+
+<p>一种简单的使用场景下，你会创建一个 Job 对象以便以一种可靠的方式运行某 Pod 直到完成。 当第一个 Pod 失败或者被删除（比如因为节点硬件失效或者重启）时，Job 对象会启动一个新的 Pod。</p>
+</div>
+
+<p>创建一个资源定义</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">batch/v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Job</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">hello-job</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">parallelism:</span> <span class="hljs-number">3</span><br>  <span class="hljs-attr">completions:</span> <span class="hljs-number">5</span><br>  <span class="hljs-attr">template:</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">restartPolicy:</span> <span class="hljs-string">OnFailure</span><br>      <span class="hljs-attr">containers:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">echo</span><br>          <span class="hljs-attr">image:</span> <span class="hljs-string">busybox</span><br>          <span class="hljs-attr">command:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;/bin/sh&quot;</span><br>          <span class="hljs-attr">args:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;-c&quot;</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;for i in 9 8 7 6 5 4 3 2 1 ; do echo $i ; done&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>kind，告诉k8s这是一个job，pod运行结束的时候，状态会改变为complete。</p>
+<p>completions表示任务总量</p>
+<p>parallelism表示并发数量</p>
+<p>restartPolicy: Onfaiure 重启策略，如果崩了，就会pod内部重启，还有个参数为never，表示容器出错的话，标记为失败</p>
+<p>  <img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-04-40-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-06-31-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="CronJob"><a href="#CronJob" class="headerlink" title="CronJob"></a>CronJob</h2><p>Cronjob，可以理解为定时任务，创建基于时间调用job</p>
+<div>
+CronJob 用于执行周期性的动作，例如备份、报告生成等。 这些任务中的每一个都应该配置为周期性重复的（例如：每天/每周/每月一次）； 你可以定义任务开始执行的时间间隔。
+</div>
+
+<p>Cron 时间表语法</p>
+<figure class="highlight 1c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs 1c"><span class="hljs-meta"># ┌───────────── 分钟 (0 - 59)</span><br><span class="hljs-meta"># │ ┌───────────── 小时 (0 - 23)</span><br><span class="hljs-meta"># │ │ ┌───────────── 月的某天 (1 - 31)</span><br><span class="hljs-meta"># │ │ │ ┌───────────── 月份 (1 - 12)</span><br><span class="hljs-meta"># │ │ │ │ ┌───────────── 周的某天 (0 - 6)（周日到周一；在某些系统上，7 也是星期日）</span><br><span class="hljs-meta"># │ │ │ │ │                          或者是 sun，mon，tue，web，thu，fri，sat</span><br><span class="hljs-meta"># │ │ │ │ │</span><br><span class="hljs-meta"># │ │ │ │ │</span><br><span class="hljs-meta"># * * * * *</span><br></code></pre></div></td></tr></table></figure>
+
+<p>用法除了需要加上 cron 表达式之外，其余基本和 Job 保持一致。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">batch/v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">CronJob</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">hello-cronjob</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">schedule:</span> <span class="hljs-string">&quot;* * * * *&quot;</span> <span class="hljs-comment"># Every minute</span><br>  <span class="hljs-attr">jobTemplate:</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">template:</span><br>        <span class="hljs-attr">spec:</span><br>          <span class="hljs-attr">restartPolicy:</span> <span class="hljs-string">OnFailure</span><br>          <span class="hljs-attr">containers:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">echo</span><br>              <span class="hljs-attr">image:</span> <span class="hljs-string">busybox</span><br>              <span class="hljs-attr">command:</span><br>                <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;/bin/sh&quot;</span><br>              <span class="hljs-attr">args:</span><br>                <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;-c&quot;</span><br>                <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;for i in 9 8 7 6 5 4 3 2 1 ; do echo $i ; done&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>使用命令和job保持一致。。。</p>
+<h1 id="Helm"><a href="#Helm" class="headerlink" title="Helm"></a>Helm</h1><p>可以管理整个k8s应用，查找，使用、分享软件构建k8s最优方式</p>
+<p>helm 为 应用商店</p>
+<p>helm chart 为 安装包</p>
+<figure class="highlight nginx"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs nginx"><span class="hljs-attribute">Helm</span> 帮助您管理 Kubernetes 应用—— Helm Chart，Helm 是查找、分享和使用软件构建 Kubernetes 的最优方式。<br><br>复杂性管理 ——即使是最复杂的应用，Helm Chart 依然可以描述， 提供使用单点授权的可重复安装应用程序。<br><br>易于升级 ——随时随地升级和自定义的钩子消除您升级的痛苦。<br><br>分发简单 —— Helm Chart 很容易在公共或私有化服务器上发版，分发和部署站点。<br><br>回滚 —— 使用 helm rollback 可以轻松回滚到之前的发布版本。<br></code></pre></div></td></tr></table></figure>
+
+<p><code>helm repo add</code> 表示将我创建好的 hellok8s chart 添加到自己本地的仓库当中，这里我直接拿教程中的仓库地址使用</p>
+<p><code>helm install</code> 表示从仓库中安装 hellok8s&#x2F;hello-helm 到 k8s 集群当中。</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-40-33-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-40-40-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-42-45-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>创建完成后，使用kubectl get 查看所有的资源，一条helm命令即可完成资源的创建</p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-44-16-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-54-14-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-54-18-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="创建-helm-charts"><a href="#创建-helm-charts" class="headerlink" title="创建 helm charts"></a>创建 helm charts</h2><p>首先建议使用 <code>helm create</code> 命令来创建一个初始的 Chart，该命令默认会创建一些 k8s 资源定义的初始文件，并且会生成官网推荐的目录结构，如下所示</p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">helm create hello-helm<br><br>.<br>├── Chart<span class="hljs-selector-class">.yaml</span><br>├── charts<br>├── templates<br>│   ├── NOTES<span class="hljs-selector-class">.txt</span><br>│   ├── _helpers<span class="hljs-selector-class">.tpl</span><br>│   ├── deployment<span class="hljs-selector-class">.yaml</span><br>│   ├── hpa<span class="hljs-selector-class">.yaml</span><br>│   ├── ingress<span class="hljs-selector-class">.yaml</span><br>│   ├── service<span class="hljs-selector-class">.yaml</span><br>│   ├── serviceaccount<span class="hljs-selector-class">.yaml</span><br>│   └── tests<br>│       └── test-connection<span class="hljs-selector-class">.yaml</span><br>└── values.yaml<br></code></pre></div></td></tr></table></figure>
+
+<p>我们将默认生成在 templates 目录下面的 <code>yaml</code> 文件删除，用之前教程中 <code>yaml</code> 文件替换它，最终的结构长这样：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">.<br>├── Chart<span class="hljs-selector-class">.yaml</span><br>├── Dockerfile<br>├── _helpers<span class="hljs-selector-class">.tpl</span><br>├── charts<br>├── hello-helm-<span class="hljs-number">0.1</span>.<span class="hljs-number">0</span><span class="hljs-selector-class">.tgz</span><br>├── index<span class="hljs-selector-class">.yaml</span><br>├── <span class="hljs-selector-tag">main</span><span class="hljs-selector-class">.go</span><br>├── templates<br>│   ├── hellok8s-configmaps<span class="hljs-selector-class">.yaml</span><br>│   ├── hellok8s-deployment<span class="hljs-selector-class">.yaml</span><br>│   ├── hellok8s-secret<span class="hljs-selector-class">.yaml</span><br>│   ├── hellok8s-service<span class="hljs-selector-class">.yaml</span><br>│   ├── ingress<span class="hljs-selector-class">.yaml</span><br>│   ├── nginx-deployment<span class="hljs-selector-class">.yaml</span><br>│   └── nginx-service<span class="hljs-selector-class">.yaml</span><br>└── values.yaml<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-57-00-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>那自定义好了这些配置后，如何在 k8s 资源定义中使用这些配置信息呢？Helm 默认使用 <a target="_blank" rel="noopener" href="https://helm.sh/zh/docs/howto/charts_tips_and_tricks/">Go template 的方式</a> 来完成。</p>
+<p>例如之前教程中，将环境变量 <code>DB_URL</code> 定义在 k8s configmaps 中，那么该资源可以定义成如文件所示 <code>hellok8s-configmaps.yaml</code>。其中 <code>metadata.name</code> 的值是 <code>&#123;&#123; .Values.application.name &#125;&#125;-config</code>，意思是从 <code>values.yaml</code> 文件中获取 <code>application.name</code> 的值 <code>hellok8s</code>，拼接 <code>-config</code> 字符串，这样创建出来的 configmaps 资源名称就是 <code>hellok8s-config</code>。</p>
+<p>同理 <code>&#123;&#123; .Values.application.hellok8s.database.url &#125;&#125;</code> 就是获取值为 <code>http://DB_ADDRESS_DEFAULT</code> 放入 configmaps 对应 key 为 DB_URL 的 value 中。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">ConfigMap</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> &#123;&#123; <span class="hljs-string">.Values.application.name</span> &#125;&#125;<span class="hljs-string">-config</span><br><span class="hljs-attr">data:</span><br>  <span class="hljs-attr">DB_URL:</span> &#123;&#123; <span class="hljs-string">.Values.application.hellok8s.database.url</span> &#125;&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>最后，修改 <code>hellok8s-deployment</code> 文件，根据前面的教程，将 <code>metadata.name</code> <code>replicas</code> <code>image</code> <code>configMapKeyRef.name</code> <code>secretKeyRef.name</code> 等值修改成从 <code>values.yaml</code> 文件中获取。</p>
+<p>再添加代码中需要的 <code>NAMESPACE</code> 环境变量，从 <code>.Release.Namespace</code> <a target="_blank" rel="noopener" href="https://helm.sh/zh/docs/chart_template_guide/builtin_objects/">内置对象</a> 中获取。最后添加 <code>MESSAGE</code> 环境变量，直接从 <code>&#123;&#123; .Values.application.hellok8s.message &#125;&#125;</code> 中获取。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">apps/v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Deployment</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> &#123;&#123; <span class="hljs-string">.Values.application.name</span> &#125;&#125;<span class="hljs-string">-deployment</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">replicas:</span> &#123;&#123; <span class="hljs-string">.Values.application.hellok8s.replicas</span> &#125;&#125;<br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">matchLabels:</span><br>      <span class="hljs-attr">app:</span> <span class="hljs-string">hellok8s</span><br>  <span class="hljs-attr">template:</span><br>    <span class="hljs-attr">metadata:</span><br>      <span class="hljs-attr">labels:</span><br>        <span class="hljs-attr">app:</span> <span class="hljs-string">hellok8s</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">containers:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">image:</span> &#123;&#123; <span class="hljs-string">.Values.application.hellok8s.image</span> &#125;&#125;<br>          <span class="hljs-attr">name:</span> <span class="hljs-string">hellok8s-container</span><br>          <span class="hljs-attr">env:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">DB_URL</span><br>              <span class="hljs-attr">valueFrom:</span><br>                <span class="hljs-attr">configMapKeyRef:</span><br>                  <span class="hljs-attr">name:</span> &#123;&#123; <span class="hljs-string">.Values.application.name</span> &#125;&#125;<span class="hljs-string">-config</span><br>                  <span class="hljs-attr">key:</span> <span class="hljs-string">DB_URL</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">DB_PASSWORD</span><br>              <span class="hljs-attr">valueFrom:</span><br>                <span class="hljs-attr">secretKeyRef:</span><br>                  <span class="hljs-attr">name:</span> &#123;&#123; <span class="hljs-string">.Values.application.name</span> &#125;&#125;<span class="hljs-string">-secret</span><br>                  <span class="hljs-attr">key:</span> <span class="hljs-string">DB_PASSWORD</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">NAMESPACE</span><br>              <span class="hljs-attr">value:</span> &#123;&#123; <span class="hljs-string">.Release.Namespace</span> &#125;&#125;<br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">MESSAGE</span><br>              <span class="hljs-attr">value:</span> &#123;&#123; <span class="hljs-string">.Values.application.hellok8s.message</span> &#125;&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>修改 <code>ingress.yaml</code> 将 <code>metadata.name</code> 的值，其它没有变化</p>
+<p>nginx-deployment.yaml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">apps/v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Deployment</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">nginx-deployment</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">replicas:</span> &#123;&#123; <span class="hljs-string">.Values.application.nginx.replicas</span> &#125;&#125;<br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">matchLabels:</span><br>      <span class="hljs-attr">app:</span> <span class="hljs-string">nginx</span><br>  <span class="hljs-attr">template:</span><br>    <span class="hljs-attr">metadata:</span><br>      <span class="hljs-attr">labels:</span><br>        <span class="hljs-attr">app:</span> <span class="hljs-string">nginx</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">containers:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">image:</span> &#123;&#123; <span class="hljs-string">.Values.application.nginx.image</span> &#125;&#125;<br>        <span class="hljs-attr">name:</span> <span class="hljs-string">nginx-container</span><br></code></pre></div></td></tr></table></figure>
+
+<p><code>nginx-service.yaml</code> 和 <code>hellok8s-service.yaml</code> 没有变化。所有代码可以在 <a target="_blank" rel="noopener" href="https://github.com/guangzhengli/k8s-tutorials/tree/main/helm-charts/hello-helm">这里</a> 查看。</p>
+<p>稍微修改下默认生成的<code>Chart.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v2</span><br><span class="hljs-attr">name:</span> <span class="hljs-string">hello-helm</span><br><span class="hljs-attr">description:</span> <span class="hljs-string">A</span> <span class="hljs-string">k8s</span> <span class="hljs-string">tutorials</span> <span class="hljs-string">in</span> <span class="hljs-string">https://github.com/guangzhengli/k8s-tutorials</span><br><span class="hljs-attr">type:</span> <span class="hljs-string">application</span><br><span class="hljs-attr">version:</span> <span class="hljs-number">0.1</span><span class="hljs-number">.0</span><br><span class="hljs-attr">appVersion:</span> <span class="hljs-string">&quot;1.16.0&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>定义完成所有的 helm 资源后，首先<strong>将 <code>hellok8s:v6</code> 镜像打包推送到 DockerHub</strong>。</p>
+<p>之后即可在 <code>hello-helm</code> 的目录下执行 <code>helm upgrade</code> 命令进行安装，安装成功后，执行 curl 命令便能直接得到结果！查看 pod 和 service 等资源，便会发现 helm 能一键安装所有资源！</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">helm upgrade --install hello-helm --values values.yaml .<br><span class="hljs-comment"># Release &quot;hello-helm&quot; does not exist. Installing it now.</span><br><span class="hljs-comment"># NAME: hello-helm</span><br><span class="hljs-comment"># NAMESPACE: default</span><br><span class="hljs-comment"># STATUS: deployed</span><br><span class="hljs-comment"># REVISION: 1</span><br><br>curl http://192.168.59.100/hello<br><span class="hljs-comment"># [v6] Hello, Helm! Message from helm values: It works with Helm Values!, From namespace: default, From host: hellok8s-deployment-57d7df7964-m6gcc, Get Database Connect URL: http://DB_ADDRESS_DEFAULT, Database Connect Password: db_password</span><br><br>kubectl get pods<br><span class="hljs-comment"># NAME                                  READY   STATUS    RESTARTS   AGE</span><br><span class="hljs-comment"># hellok8s-deployment-f88f984c6-k8hpz   1/1     Running   0          32m</span><br><span class="hljs-comment"># hellok8s-deployment-f88f984c6-nzwg6   1/1     Running   0          32m</span><br><span class="hljs-comment"># hellok8s-deployment-f88f984c6-s89s7   1/1     Running   0          32m</span><br><span class="hljs-comment"># nginx-deployment-d47fd7f66-6w76b      1/1     Running   0          32m</span><br><span class="hljs-comment"># nginx-deployment-d47fd7f66-tsqj5      1/1     Running   0          32m</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="rollback"><a href="#rollback" class="headerlink" title="rollback"></a>rollback</h2><p>Helm 也提供了 Rollback 的功能，我们先修改一下 <code>message: &quot;It works with Helm Values[v2]!&quot;</code> 加上 [v2]。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs pgsql">application:  <span class="hljs-type">name</span>: hellok8s  hellok8s:    image: guangzhengli/hellok8s:v6    replicas: <span class="hljs-number">3</span>    message: &quot;It works with Helm Values[v2]!&quot;    <span class="hljs-keyword">database</span>:      url: &quot;http://DB_ADDRESS_DEFAULT&quot;      <span class="hljs-keyword">password</span>: &quot;db_password&quot;  nginx:    image: nginx    replicas: <span class="hljs-number">2</span><br></code></pre></div></td></tr></table></figure>
+
+<p>再执行 <code>helm upgrade</code> 命令更新 k8s 资源，通过 <code>curl http://192.168.59.100/hello</code> 可以看到资源已经更新。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs cmake">➜  hello-helm git:(main) ✗ helm upgrade --<span class="hljs-keyword">install</span> hello-helm --values values.yaml .<span class="hljs-comment"># Release &quot;hello-helm&quot; has been upgraded. Happy Helming!NAME: hello-helmNAMESPACE: defaultSTATUS: deployedREVISION: 2curl http://192.168.59.100/hello# [v6] Hello, Helm! Message from helm values: It works with Helm Values[v2]!, From namespace: default, From host: hellok8s-deployment-598bbd6884-4b9bw, Get Database Connect URL: http://DB_ADDRESS_DEFAULT, Database Connect Password: db_password</span><br></code></pre></div></td></tr></table></figure>
+
+<p>如果这一次更新有问题的话，可以通过 <code>helm rollback</code> 快速回滚。通过下面命令看到，和 deployment 的 rollback 一样，回滚后 REVISION 版本都会增大到 3 而不是回滚到 1，回滚后使用 <code>curl</code> 命令返回的 v1 版本的字符串。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs pgsql">helm ls# <span class="hljs-type">NAME</span>            NAMESPACE       REVISION          STATUS          CHART                   APP <span class="hljs-keyword">VERSION</span># hello-helm      <span class="hljs-keyword">default</span>         <span class="hljs-number">2</span>                 deployed        hello-helm<span class="hljs-number">-0.1</span><span class="hljs-number">.0</span>        <span class="hljs-number">1.16</span><span class="hljs-number">.0</span> helm <span class="hljs-keyword">rollback</span> hello-helm <span class="hljs-number">1</span># <span class="hljs-keyword">Rollback</span> was a success! Happy Helming!helm ls# <span class="hljs-type">NAME</span>            NAMESPACE       REVISION          STATUS          CHART                   APP <span class="hljs-keyword">VERSION</span># hello-helm      <span class="hljs-keyword">default</span>         <span class="hljs-number">3</span>                 deployed        hello-helm<span class="hljs-number">-0.1</span><span class="hljs-number">.0</span>        <span class="hljs-number">1.16</span><span class="hljs-number">.0</span> curl http://<span class="hljs-number">192.168</span><span class="hljs-number">.59</span><span class="hljs-number">.100</span>/hello# [v6] Hello, Helm! Message <span class="hljs-keyword">from</span> helm <span class="hljs-keyword">values</span>: It works <span class="hljs-keyword">with</span> Helm <span class="hljs-keyword">Values</span>!, <span class="hljs-keyword">From</span> namespace: <span class="hljs-keyword">default</span>, <span class="hljs-keyword">From</span> host: hellok8s-deployment<span class="hljs-number">-57</span>d7df7964<span class="hljs-number">-482</span>xw, <span class="hljs-keyword">Get</span> <span class="hljs-keyword">Database</span> <span class="hljs-keyword">Connect</span> URL: http://DB_ADDRESS_DEFAULT, <span class="hljs-keyword">Database</span> <span class="hljs-keyword">Connect</span> <span class="hljs-keyword">Password</span>: db_password<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="多环境配置"><a href="#多环境配置" class="headerlink" title="多环境配置"></a>多环境配置</h2><p>使用 Helm 也很容易多环境部署，新建 <code>values-dev.yaml</code> 文件，里面内容自定义 <code>dev</code> 环境需要的配置信息。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs pgsql">application:  hellok8s:    message: &quot;It works with Helm Values values-dev.yaml!&quot;    <span class="hljs-keyword">database</span>:      url: &quot;http://DB_ADDRESS_DEV&quot;      <span class="hljs-keyword">password</span>: &quot;db_password_dev&quot;<br></code></pre></div></td></tr></table></figure>
+
+<p>可以多次指定’–values -f’参数，最后（最右边）指定的文件优先级最高，这里最右边的是 <code>values-dev.yaml</code> 文件，所以 <code>values-dev.yaml</code> 文件中的值会覆盖 <code>values.yaml</code> 中相同的值，<code>-n dev</code> 表示在名字为 dev 的 namespace 中创建 k8s 资源，执行完成后，我们可以通过 <code>curl</code> 命令看到返回的字符串中读取的是 <code>values-dev.yaml</code> 文件的配置，并且 <code>From namespace = dev</code>。</p>
+<figure class="highlight leaf"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs leaf">helm upgrade --install hello-helm -f values.yaml -f values-dev.yaml -n dev .<span class="hljs-punctuation">#</span> Release &quot;hello-helm&quot; does not exist. Installing it now.<span class="hljs-punctuation">#</span> NAME: hello-helm<span class="hljs-punctuation">#</span> NAMESPACE: dev<span class="hljs-punctuation">#</span> STATUS: deployed<span class="hljs-punctuation">#</span> REVISION: 1curl http://192.168.59.100/hello<span class="hljs-punctuation">#</span> [v6] Hello, Helm! Message from helm values: It works with Helm Values values-dev.yaml!, From namespace: dev, From host: hellok8s-deployment-f5fff9df-89sn6, Get Database Connect URL: http://DB_ADDRESS_DEV, Database Connect Password: db_password_devkubectl get pods -n dev<span class="hljs-punctuation">#</span> NAME                                 READY   STATUS    RESTARTS   AGE<span class="hljs-punctuation">#</span> hellok8s-deployment-f5fff9df-89sn6   1/1     Running   0          4m23s<span class="hljs-punctuation">#</span> hellok8s-deployment-f5fff9df-tkh6g   1/1     Running   0          4m23s<span class="hljs-punctuation">#</span> hellok8s-deployment-f5fff9df-wmlpb   1/1     Running   0          4m23s<span class="hljs-punctuation">#</span> nginx-deployment-d47fd7f66-cdlmf     1/1     Running   0          4m23s<span class="hljs-punctuation">#</span> nginx-deployment-d47fd7f66-cgst2     1/1     Running   0          4m23s<br></code></pre></div></td></tr></table></figure>
+
+<p>除此之外，还可以使用 ‘–set-file’ 设置独立的值，类似于 <code>helm upgrade --install hello-helm -f values.yaml -f values-dev.yaml --set application.hellok8s.message=&quot;It works with set helm values&quot; -n dev .</code> 方式在命令中设置 values 的值，可以随意修改相关配置，此方法在 CICD 中经常用到。</p>
+<h2 id="helm-chart-打包和发布"><a href="#helm-chart-打包和发布" class="headerlink" title="helm chart 打包和发布"></a>helm chart 打包和发布</h2><p>上面的例子展示了我们可以用一行命令在一个新的环境中安装所有需要的 k8s 资源！那么如何将 helm chart 打包、分发和下载呢？在官网中，提供了两种教程，一种是以 <a target="_blank" rel="noopener" href="https://helm.sh/zh/docs/howto/chart_repository_sync_example/">GCS 存储的教程</a>，还有一种是以 <a target="_blank" rel="noopener" href="https://helm.sh/zh/docs/howto/chart_releaser_action/">GitHub Pages 存储的教程</a>。</p>
+<p>这里我们使用第二种，并且使用 <a target="_blank" rel="noopener" href="https://github.com/helm/chart-releaser-action">chart-releaser-action</a> 来做自动发布，该 action 会默认生成 helm chart 发布到 <code>gh-pages</code> 分支上，本教程的 hellok8s helm chart 就发布在了本仓库的<a target="_blank" rel="noopener" href="https://github.com/guangzhengli/k8s-tutorials/tree/gh-pages/">gh-pages</a> 分支上的 <code>index.yaml</code> 文件中。</p>
+<p>在使用 action 自动生成 chart 之前，我们可以先熟悉一下如何手动生成，在 <code>hello-helm</code> 目录下，执行 <code>helm package</code> 将chart目录打包到chart归档中。<code>helm repo index</code> 命令可以基于包含打包chart的目录，生成仓库的索引文件 <code>index.yaml</code>。</p>
+<p>最后，可以使用 <code>helm upgrade --install *.tgz</code> 命令将该指定包进行安装使用。</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">helm</span> package hello-helm# Successfully packaged chart and saved it to: /Users/guangzheng.li/workspace/k8s-tutorials/hello-helm/hello-helm-<span class="hljs-number">0</span>.<span class="hljs-number">1</span>.<span class="hljs-number">0</span>.tgzhelm repo index .helm upgrade --install hello-helm hello-helm-<span class="hljs-number">0</span>.<span class="hljs-number">1</span>.<span class="hljs-number">0</span>.tgz<br></code></pre></div></td></tr></table></figure>
+
+<p>基于上面的步骤，你可能已经想到，所谓的 helm 打包和发布，就是 <code>hello-helm-0.1.0.tgz</code> 文件和 <code>index.yaml</code> 生成和上传的一个过程。而 helm 下载和安装，就是如何将 <code>.tgz</code> 和 <code>index.yaml</code> 文件下载和 <code>helm upgrade --install</code> 的过程。</p>
+<p>接下来我们发布生成的 hellok8s helm chart，先将手动生成的 <code>hello-helm-0.1.0.tgz</code> 和 <code>index.yaml</code> 文件删除，后续使用 GitHub action 自动生成和发布这两个文件。</p>
+<p>GitHub action 的代码可以参考 <a target="_blank" rel="noopener" href="https://helm.sh/zh/docs/howto/chart_releaser_action/">官网文档</a> 或者本仓库 <code>.github/workflows/release.yml</code> 文件。代表当 push 代码到远程仓库时，将 <code>helm-charts</code> 目录下的所有 charts 自动打包和发布到 <code>gh-pages</code> 分支去(需要保证 <code>gh-pages</code> 分支已经存在，否则会报错)。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-type">name</span>: <span class="hljs-keyword">Release</span> Chartson:  push:    branches:      - mainjobs:  <span class="hljs-keyword">release</span>:    # depending <span class="hljs-keyword">on</span> <span class="hljs-keyword">default</span> permission settings <span class="hljs-keyword">for</span> your org (contents being <span class="hljs-keyword">read</span>-<span class="hljs-keyword">only</span> <span class="hljs-keyword">or</span> <span class="hljs-keyword">read</span>-<span class="hljs-keyword">write</span> <span class="hljs-keyword">for</span> workloads), you will have <span class="hljs-keyword">to</span> <span class="hljs-keyword">add</span> permissions    # see: https://docs.github.com/en/actions/<span class="hljs-keyword">security</span>-guides/automatic-token-authentication#modifying-the-permissions-<span class="hljs-keyword">for</span>-the-github_token    permissions:      contents: <span class="hljs-keyword">write</span>    runs-<span class="hljs-keyword">on</span>: ubuntu-latest    steps:      - <span class="hljs-type">name</span>: Checkout        uses: actions/checkout@v2        <span class="hljs-keyword">with</span>:          <span class="hljs-keyword">fetch</span>-depth: <span class="hljs-number">0</span>      - <span class="hljs-type">name</span>: Configure Git        run: |          git config <span class="hljs-keyword">user</span>.name &quot;$GITHUB_ACTOR&quot;          git config <span class="hljs-keyword">user</span>.email &quot;$GITHUB_ACTOR@users.noreply.github.com&quot;      - <span class="hljs-type">name</span>: Install Helm        uses: azure/setup-helm@v1        <span class="hljs-keyword">with</span>:          <span class="hljs-keyword">version</span>: v3<span class="hljs-number">.8</span><span class="hljs-number">.1</span>      - <span class="hljs-type">name</span>: Run chart-releaser        uses: helm/chart-releaser-action@v1<span class="hljs-number">.4</span><span class="hljs-number">.0</span>        <span class="hljs-keyword">with</span>:           charts_dir: helm-charts        env:          CR_TOKEN: &quot;$&#123;&#123; secrets.GITHUB_TOKEN &#125;&#125;&quot;<br></code></pre></div></td></tr></table></figure>
+
+<p>接着配置仓库的 <code>Settings -&gt; Pages -&gt; Build and deployment -&gt; Branch</code>，选择 <code>gh-pages</code> 分支，GitHub 会自动在 <code>https://username.github.io/project</code> 发布 helm chart。</p>
+<h1 id="Dashboard"><a href="#Dashboard" class="headerlink" title="Dashboard"></a>Dashboard</h1><h2 id="kubernetes-dashboard"><a href="#kubernetes-dashboard" class="headerlink" title="kubernetes dashboard"></a>kubernetes dashboard</h2><blockquote>
+<p>Dashboard 是基于网页的 Kubernetes 用户界面。 你可以使用 Dashboard 将容器应用部署到 Kubernetes 集群中，也可以对容器应用排错，还能管理集群资源。 你可以使用 Dashboard 获取运行在集群中的应用的概览信息，也可以创建或者修改 Kubernetes 资源 （如 Deployment，Job，DaemonSet 等等）。 例如，你可以对 Deployment 实现弹性伸缩、发起滚动升级、重启 Pod 或者使用向导创建新的应用。</p>
+</blockquote>
+<p>在本地 minikube 环境，可以直接通过下面命令开启 Dashboard。更多用法可以参考官网或者自行探索。</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">minikube dashboard</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-05-00-11-53-image.png" srcset="/img/loading.gif" lazyload></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
