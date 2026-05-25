@@ -1,0 +1,2029 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1、基础（可补充）智能体类型： 反射智能体 学习型智能体 基于内部决策架构的分类 基于时间反应性的分类 反应式智能体 提示词工程prompt通用模板 123456789101112131415161718192021222324252627282930# 角色你是一名【角色定位，如：数据分析师 &#x2F; 业务分析师 &#x2F; 政策研究员】。# 任务你的任务是基于给定的输入数据进行【分析 &#x2F; 总结 &#x2F; 对比 &#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="agent智能体学习">
+<meta property="og:url" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="1、基础（可补充）智能体类型： 反射智能体 学习型智能体 基于内部决策架构的分类 基于时间反应性的分类 反应式智能体 提示词工程prompt通用模板 123456789101112131415161718192021222324252627282930# 角色你是一名【角色定位，如：数据分析师 &#x2F; 业务分析师 &#x2F; 政策研究员】。# 任务你的任务是基于给定的输入数据进行【分析 &#x2F; 总结 &#x2F; 对比 &#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-22-51-54-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-22-57-10-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-07-42-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-10-02-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-15-59-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-17-33-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-18-15-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-18-57-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-19-24-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-19-33-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-19-39-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-26-06-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-26-21-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-26-29-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-26-46-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-26-52-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-27-28-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-27-33-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-36-49-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-37-03-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-40-14-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-40-49-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-41-13-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-48-14-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-48-25-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-48-51-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-50-34-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-50-56-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-52-45-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-53-28-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-53-35-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-53-53-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-54-01-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-54-10-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-54-18-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-54-26-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-54-32-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-13-16-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-13-22-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-13-28-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-13-34-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-13-47-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-14-00-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-14-22-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-15-58-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-16-40-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-17-00-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-20-58-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-21-20-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-21-32-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-22-27-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-23-07-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-23-27-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-23-48-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-18-10-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-37-07-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-20-51-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-24-09-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-24-30-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-25-38-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-25-43-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-26-28-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-26-46-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-33-54-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-37-46-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-39-44-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-40-28-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-40-41-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-41-25-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-41-39-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-42-37-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-45-00-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-46-20-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-46-43-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-46-50-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-46-57-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-47-21-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-47-50-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-48-07-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-48-18-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-48-31-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-48-40-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-10-55-21-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-11-06-49-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-11-28-16-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-11-50-42-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-11-59-19-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-23-20-21-38-image.png">
+<meta property="og:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-23-14-53-image.png">
+<meta property="article:published_time" content="2026-05-20T04:32:33.000Z">
+<meta property="article:modified_time" content="2026-05-23T12:23:55.978Z">
+<meta property="article:author" content="0ldcat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-22-51-54-image.png">
+  
+  
+  <title>agent智能体学习 - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"...","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="agent智能体学习">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2026-05-20 12:32" pubdate>
+        2026年5月20日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      49k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      413 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">agent智能体学习</h1>
+            
+            <div class="markdown-body">
+              <h1 id="1、基础（可补充）"><a href="#1、基础（可补充）" class="headerlink" title="1、基础（可补充）"></a>1、基础（可补充）</h1><p>智能体类型：</p>
+<p>反射智能体</p>
+<p>学习型智能体</p>
+<p>基于内部决策架构的分类</p>
+<p>基于时间反应性的分类</p>
+<p>反应式智能体</p>
+<h2 id="提示词工程prompt"><a href="#提示词工程prompt" class="headerlink" title="提示词工程prompt"></a>提示词工程prompt</h2><p>通用模板</p>
+<figure class="highlight markdown"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs markdown"><span class="hljs-section"># 角色</span><br>你是一名【角色定位，如：数据分析师 / 业务分析师 / 政策研究员】。<br><br><span class="hljs-section"># 任务</span><br>你的任务是基于给定的输入数据进行【分析 / 总结 / 对比 / 评估】。<br><br><span class="hljs-section"># 背景/上下文</span><br>【历史记录总结】。<br>【参考资料】。<br><br><span class="hljs-section"># 输入数据</span><br>&lt;&lt;&lt;<br>&#123;在此粘贴输入数据&#125;<br>&gt;&gt;&gt;<br><br><span class="hljs-section"># 输出格式</span><br><span class="hljs-bullet">-</span> 使用表格形式输出<br><span class="hljs-bullet">-</span> 表格中必须包含以下列：<br><span class="hljs-bullet"> 1.</span> 关键发现<br><span class="hljs-bullet"> 2.</span> 支撑数据（来自输入数据的原文或摘要）<br><span class="hljs-bullet"> 3.</span> 结论<br><span class="hljs-bullet"> 4.</span> 建议<br><span class="hljs-bullet">-</span> 表格下方需给出整体结论说明<br><br><span class="hljs-section"># 质量与约束</span><br><span class="hljs-bullet">-</span> 仅基于输入数据进行分析<br><span class="hljs-bullet">-</span> 不得编造、推测或引入外部信息<br><span class="hljs-bullet">-</span> 若输入数据不足以支撑结论，必须明确标注为“信息不足”<br><span class="hljs-bullet">-</span> 不允许为了完整性而补充假设<br><br></code></pre></div></td></tr></table></figure>
+
+<p>例子</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs asciidoc"><span class="hljs-strong">**# 角色**</span><br>你现在是一名 <span class="hljs-strong">**专业商业广告导演、品牌策划师、脚本创意总监**</span>，擅长为 Tiktok、抖音、小红书、电商平台制作高转化产品视频。<br><br><span class="hljs-strong">**# 任务**</span><br>你的任务：<span class="hljs-strong">**根据产品信息创作一支约 20 秒的故事短片级商品介绍视频脚本**</span>，并严格按以下 3 个部分输出。<br><br><span class="hljs-strong">**# 输出**</span><br><span class="hljs-strong">**格式要求【必须输出以下 2 部分】**</span><br><span class="hljs-strong">**1. outline（视频整体大纲）**</span><br>以自然段文本形式输出，需包含：<br><span class="hljs-bullet">* </span>视频定位（带货、种草、功能展示等）<br><span class="hljs-bullet">* </span>目标受众画像（性别、年龄、需求）<br><span class="hljs-bullet">* </span>视频风格（科技感、生活感、快节奏等）<br><span class="hljs-bullet">* </span>视频结构（例如：0–3s 抓眼、3–5s 痛点、5–15s 卖点故事化、15–20s 情绪收束 + CTA）<br><span class="hljs-bullet">* </span>故事走向与主题表达<br><span class="hljs-bullet">* </span>氛围与视觉基调建议<br><br><span class="hljs-strong">**要求**</span>：浓缩完整故事脉络 + 产品价值呈现方式，字数约 150–300 字。<br><br><span class="hljs-strong">**2. contents（分镜脚本和旁白数组）**</span><br>输出为 <span class="hljs-strong">**数组，每个元素为一个镜头的JSON字符串，名为content**</span>。<br>content包含两个字段：<span class="hljs-strong">**script**</span>和<span class="hljs-strong">**aside**</span><br><br><span class="hljs-strong">**2.1 script（分镜脚本）**</span><br>输出为 <span class="hljs-strong">**一个镜头的字符串**</span>。<br>每个镜头 <span class="hljs-strong">**时长 0.5–5 秒**</span>，全片总时长约 20 秒。<br>每个镜头字符串需包含：<br></code></pre></div></td></tr></table></figure>
+<p>【镜头编号】<br>【画面描述】（景别&#x2F;构图&#x2F;人物动作&#x2F;产品动作）<br>【旁白&#x2F;字幕】<br>【拍摄手法】（特写&#x2F;推镜&#x2F;俯拍&#x2F;转场&#x2F;光效等）<br>【时长】X 秒<br>【情绪&#x2F;节奏】</p>
+<figure class="highlight gams"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs gams"><span class="hljs-comment">**要求：**</span><br><span class="hljs-comment">* 开头前 3–5 秒必须强抓注意</span><br><span class="hljs-comment">* 故事化、画面执行明确、镜头语言专业</span><br><span class="hljs-comment">* 卖点通过情节自然呈现，而不是堆砌参数</span><br><span class="hljs-comment">* 节奏符合短视频平台呈现方式</span><br><span class="hljs-comment">* 镜头数量可 3-5 个（依内容需要）</span><br><br><span class="hljs-comment">**2.2 aside（旁白）**</span><br><span class="hljs-comment">* 输出为字符串，是该镜头的旁白文本</span><br><span class="hljs-comment">* 若镜头无旁白，则使用 `&quot;无旁白&quot;`</span><br><br><span class="hljs-comment">**# 约束**</span><br><span class="hljs-comment">**写作风格要求**</span><br><span class="hljs-comment">* 专业但易懂</span><br><span class="hljs-comment">* 画面感强，镜头语言表达清晰</span><br><span class="hljs-comment">* 情绪节奏鲜明、卖点突出、推动购买</span><br><span class="hljs-comment">* 每个镜头方案可真实落地拍摄</span><br><span class="hljs-comment">* 全片故事流畅、有戏剧张力</span><br><span class="hljs-comment">* 充分“抓眼”与“爽点”设计</span><br><br><span class="hljs-comment">**# 输入**</span><br>产品信息如下<br>【<span class="hljs-number">1.</span> 产品名称】<br>添可极客智能洗地机<br><br>【<span class="hljs-number">2.</span> 参数信息】<br>转速：<span class="hljs-number">92000</span> 转/分钟<br>续航时间：<span class="hljs-number">70</span> <span class="hljs-built_in">min</span><br>清水箱容量：<span class="hljs-number">1000</span> ml<br>品牌：TINECO/添可<br>型号：FW52010ECN<br>电压：<span class="hljs-number">220</span>V<br>是否智能：否<br>电器基站功能：滚刷烘干<br>适用地面材质：木地板、瓷砖、大理石<br>附加功能：高温全链速干、除菌、延边清扫、防毛发缠绕、拖布自清洁<br>最大吸入功率：<span class="hljs-number">75</span> AW<br>污水箱容量：<span class="hljs-number">690</span> 毫升<br>清水箱容量：<span class="hljs-number">1000</span> ml<br>质保周期：<span class="hljs-number">2</span> 年<br>颜色分类：【AI全向助力】添可极客<br><br>【<span class="hljs-number">3.</span> 产品特点】<br>智能洗地机 芙万 Fold X90<br><span class="hljs-number">90</span>°小折叠，女神好帮手<br><span class="hljs-number">3.9</span>kg超轻量，自动上热水<br>镇店爆款：添可极客<br>全网都在夸的洗地机<br>买过的人都说好<br>净顽渍 安静洗 <span class="hljs-number">14</span>天无异味<br>AI全向助力 <span class="hljs-number">22000</span>Pa大吸力<br>恒压活水高效洗<br>一键Turbo祛顽渍<br>安静模式免打扰<br><span class="hljs-number">22000</span>Pa龙卷吸<br>AI全向助力<br>毛发<span class="hljs-number">0</span>缠<span class="hljs-number">0</span>逃逸<br><span class="hljs-number">70</span><span class="hljs-built_in">min</span>长续航<br><span class="hljs-number">400</span>平方米清洁面积<br>抗菌祛味棒 <span class="hljs-number">14</span>天无异味<br><span class="hljs-number">99.99</span>%电解水除菌<br>双模式烘干<br>小于等于<span class="hljs-number">45</span>dB（A）静烘/<span class="hljs-number">5</span><span class="hljs-built_in">min</span>速干<br><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="RAG"><a href="#RAG" class="headerlink" title="RAG"></a>RAG</h2><p>虽然 RAG 常被一句话概括成“先检索，再生成”，但在工程上，它通常分成两个阶段：</p>
+<p><strong>阶段一：知识库构建（离线）</strong></p>
+<ul>
+<li>读取原始文档</li>
+<li>做清洗和切分</li>
+<li>用嵌入模型把文本块转成向量</li>
+<li>把文本块、向量和元数据写入向量数据库</li>
+</ul>
+<p><strong>阶段二：检索与生成（在线）</strong></p>
+<ul>
+<li>用户发起问题</li>
+<li>将问题向量化</li>
+<li>从知识库中召回相关片段</li>
+<li>把片段与问题一起组装进 Prompt</li>
+<li>交给大模型生成最终回答</li>
+</ul>
+<p>这条链可以拆成：</p>
+<ul>
+<li><strong>索引阶段</strong>解决“资料怎么准备好”</li>
+<li><strong>问答阶段</strong>解决“资料怎么在提问时被找出来并用上”</li>
+</ul>
+<p>需要RAG:</p>
+<ul>
+<li>需要接入<strong>企业内部资料</strong>、产品文档、FAQ、制度手册、接口说明等私有知识</li>
+<li>需要回答<strong>最新信息</strong>、时效性很强的问题</li>
+<li>希望回答结果能附带<strong>依据和来源</strong></li>
+<li>希望在不改模型参数的情况下，快速迭代知识内容</li>
+</ul>
+<p>典型场景包括：</p>
+<ul>
+<li>企业知识库问答</li>
+<li>智能客服与售后助手</li>
+<li>研发文档问答</li>
+<li>运维排障助手</li>
+<li>合同、制度、政策、课程讲义等文档问答</li>
+</ul>
+<p>实现方式</p>
+<p><strong>（1）在线平台</strong></p>
+<p>例如 Cherry Studio、ima、Dify、FastGPT、RAGFlow 等。优点是上手快、可视化、验证快，适合入门或快速搭原型。</p>
+<p><strong>（2）离线客户端</strong></p>
+<p>例如本地知识库客户端、桌面 AI 工具，适合个人知识管理和轻量实验。</p>
+<p><strong>（3）借助框架或纯代码实现</strong></p>
+<p>例如基于 LangChain、LangGraph 或纯 Python 自己搭建完整的文档加载、切分、向量化、检索和生成流程。这种方式灵活度最高，也最接近真实项目开发。</p>
+<h2 id="微调"><a href="#微调" class="headerlink" title="微调"></a>微调</h2><p>微调（Fine-tuning）是指在已经训练好的基础模型上，继续用特定数据做训练，使模型在某类任务、某种风格或某种输出形式上表现更稳定。</p>
+<p>在工程语境里，可以记住这句话：<strong>微调主要是在改模型的“行为方式”，而不是在给模型外挂一套知识库。</strong></p>
+<p>它最常见的目标包括：</p>
+<ul>
+<li>让模型更稳定地遵循指令</li>
+<li>让模型输出固定格式，例如 JSON、SQL、标签、分类结果</li>
+<li>让模型更符合某种业务风格、品牌口吻或术语习惯</li>
+<li>让模型在某类任务上更稳，例如分类、抽取、代码补全、客服回复</li>
+</ul>
+<p>需要特别提醒的是，微调虽然也可能让模型“记住一些样例”，但它<strong>并不适合承载高频变化的知识</strong>。如果知识经常变，仍然应该优先考虑 RAG 或外部知识源。</p>
+<h3 id="微调方式"><a href="#微调方式" class="headerlink" title="微调方式"></a>微调方式</h3><p>随着模型越来越大，全参数微调并不是大多数团队的首选。工程上更常见的是参数高效微调。</p>
+<p><strong>（1）全参数微调（Full Fine-tuning）</strong></p>
+<p>更新模型全部参数，理论上上限更高，但训练资源和显存开销都很大，适合资源充足、目标明确的场景。</p>
+<p><strong>（2）参数高效微调（PEFT, Parameter-Efficient Fine-Tuning）</strong></p>
+<p>这类方法的核心思路是：<strong>尽量少改参数，用更低成本获得可接受的效果。</strong></p>
+<p>最常见的两种是：</p>
+<ul>
+<li><strong>LoRA</strong>：冻结原模型大部分参数，只训练新增的低秩适配参数。</li>
+<li><strong>QLoRA</strong>：在 LoRA 基础上结合低比特量化，进一步降低显存占用。</li>
+</ul>
+<p><strong>（3）其他高效方法</strong></p>
+<ul>
+<li><code>Adapter Tuning</code>：在模型层间插入小型适配器模块</li>
+<li><code>Prefix Tuning</code>：在输入前添加可学习的虚拟前缀</li>
+<li><code>P-Tuning v2</code>：在模型每一层添加可训练的提示向量</li>
+</ul>
+<p>这些方法你在入门阶段不必死记公式，但要建立一个工程认知： <strong>今天大多数团队如果自己做微调，优先考虑的通常不是全参，而是 LoRA &#x2F; QLoRA 这类 PEFT 路线。</strong></p>
+<h2 id="智能体开发"><a href="#智能体开发" class="headerlink" title="智能体开发"></a>智能体开发</h2><p>在经典 AI 语境里，智能体（Agent）指能够感知环境、做出决策并执行动作，以实现目标的系统。</p>
+<p>在大模型应用开发里，可以先用一句更工程化的话来理解：</p>
+<p><strong>智能体 &#x3D; 大模型 + 工具 + 状态 + 执行流程</strong></p>
+<p>也就是说，智能体并不只是“会聊天的模型”，而是一个能够：</p>
+<ul>
+<li>理解用户目标</li>
+<li>决定下一步做什么</li>
+<li>选择是否调用工具</li>
+<li>接收工具结果</li>
+<li>基于结果继续决策</li>
+<li>直到完成任务的系统</li>
+</ul>
+<p>五大核心要素通常包括：</p>
+<ul>
+<li>大语言模型（LLM）</li>
+<li>记忆系统（Memory）</li>
+<li>工具调用（Tools）</li>
+<li>规划决策（Planning）</li>
+<li>行动执行（Action）</li>
+</ul>
+<h3 id="工具调用实现方式"><a href="#工具调用实现方式" class="headerlink" title="工具调用实现方式"></a>工具调用实现方式</h3><p><strong>1、定义</strong></p>
+<p>Tool Calls &#x2F; Function Calling（函数调用，也常写作 Function Call、Tool Calling、工具调用）是模型和外部工具交互的一种标准能力。模型不会自己真的调用天气接口、数据库或发邮件接口，而是会根据工具描述，先输出“应该调用哪个工具、传什么参数”，然后由你的代码真正执行。</p>
+<p>也就是说：</p>
+<ul>
+<li><strong>模型负责决定</strong></li>
+<li><strong>程序负责执行</strong></li>
+</ul>
+<p><strong>2、流程</strong></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-22-51-54-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>3、演示【重要】</strong></p>
+<p>以 DeepSeek 官方 API 为例演示 Tool Calls &#x2F; Function Calling。整体流程共五步：</p>
+<p>① 告诉模型「有哪些工具、用户说了什么」；</p>
+<p>② 模型决定「要调哪个工具、传什么参数」并返回；</p>
+<p>③ 我们的代码真正执行工具拿到结果；</p>
+<p>④ 把工具结果塞回对话发给模型；</p>
+<p>⑤ 模型根据结果生成最终回复。</p>
+<p>（1）步骤一：<strong>定义工具 + 发用户消息</strong></p>
+<p><strong>作用：</strong> 把「用户问了什么」和「你现在允许模型用哪些工具」一次性交给模型。模型没有内置天气接口，只有你通过 <code>tools</code> 传了 <code>get_weather</code> 的 name、description 和 parameters，它才知道可以调用这个工具。</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">curl https://api.deepseek.com/chat/completions \<br> -H &quot;Content-Type: application/json&quot; \<br> -H &quot;Authorization: Bearer $&#123;API_KEY&#125;&quot; \<br> -d &#x27;&#123;<br> &quot;model&quot;: &quot;deepseek-v4-flash&quot;,<br> &quot;messages&quot;: [<br>    &#123;<br>     &quot;role&quot;: &quot;system&quot;,<br>     &quot;content&quot;: &quot;你是个智能天气查询助手，根据用户的提问自主调用工具&quot;<br>    &#125;,<br>    &#123;<br>     &quot;role&quot;: &quot;user&quot;,<br>     &quot;content&quot;: &quot;北京市天气如何？&quot;<br>    &#125;<br>  ],<br>   &quot;tools&quot;: [<br>    &#123;<br>     &quot;type&quot;: &quot;function&quot;,<br>     &quot;function&quot;: &#123;<br>      &quot;name&quot;: &quot;get_weather&quot;,<br>      &quot;description&quot;: &quot;根据用户输入的城市信息，获取该城市的天气&quot;,<br>      &quot;parameters&quot;: &#123;<br>       &quot;type&quot;: &quot;object&quot;,<br>       &quot;properties&quot;: &#123;<br>        &quot;city&quot;: &#123;<br>         &quot;type&quot;: &quot;string&quot;,<br>         &quot;description&quot;: &quot;城市名称，只保留最细粒度的地区名称&quot;<br>        &#125;<br>       &#125;,<br>       &quot;required&quot;: [&quot;city&quot;]<br>      &#125;<br>     &#125;<br>    &#125;<br>   ]<br>  &#125;&#x27;<br><br></code></pre></div></td></tr></table></figure>
+
+<p>（2）步骤二：<strong>模型返回“要调哪个工具、参数是什么”</strong></p>
+<p><strong>作用：</strong>模型根据上下文判断需要查天气，于是返回 <code>tool_calls</code>。注意这里它只是“提出调用请求”，并没有真的去执行天气接口。</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;7cccd00d-f0a5-4b2e-872c-a54bdb767796&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;object&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;chat.completion&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;created&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1767176438</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;model&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deepseek-v4-flash&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;choices&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>    <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;index&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;role&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;assistant&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;我来帮您查询北京市的天气情况。&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;tool_calls&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>          <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;index&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;call_00_Kpq3g6mPl9BYlZIe1NSNm3Cs&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;function&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;function&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>              <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;get_weather&quot;</span><span class="hljs-punctuation">,</span><br>              <span class="hljs-attr">&quot;arguments&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&#123;\&quot;city\&quot;: \&quot;北京\&quot;&#125;&quot;</span><br>            <span class="hljs-punctuation">&#125;</span><br>          <span class="hljs-punctuation">&#125;</span><br>        <span class="hljs-punctuation">]</span><br>      <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;logprobs&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;finish_reason&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;tool_calls&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;usage&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;prompt_tokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">336</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;completion_tokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">52</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;total_tokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">388</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;prompt_tokens_details&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;cached_tokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;prompt_cache_hit_tokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;prompt_cache_miss_tokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">336</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;system_fingerprint&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;fp_eaab8d114b_prod0820_fp8_kvcache&quot;</span><br><span class="hljs-punctuation">&#125;</span><br><br></code></pre></div></td></tr></table></figure>
+
+<p>（3）步骤三：<strong>在本地&#x2F;服务端真正执行工具</strong></p>
+<p><strong>作用：</strong> 你的程序根据步骤二里的 <code>name</code> 和 <code>arguments</code> 去真正执行天气函数或第三方 API 请求，并得到真实结果。这里为了教学，直接给出假设返回值。</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;temp&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2℃&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;text&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;晴&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;wind&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;西北风3级&quot;</span><br><span class="hljs-punctuation">&#125;</span><br><br></code></pre></div></td></tr></table></figure>
+
+<p>（4）步骤四：<strong>把工具结果塞回对话，再请求模型</strong></p>
+<p><strong>作用：</strong> 模型必须“看到”工具执行结果，才能生成最终面向用户的自然语言回答。</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">curl https://api.deepseek.com/chat/completions \<br>  -H &quot;Content-Type: application/json&quot; \<br>  -H &quot;Authorization: Bearer $&#123;API_KEY&#125;&quot; \<br>  -d &#x27;&#123;<br>  &quot;model&quot;: &quot;deepseek-v4-flash&quot;,<br>  &quot;messages&quot;: [<br>        &#123;<br>          &quot;role&quot;: &quot;system&quot;,<br>          &quot;content&quot;: &quot;你是个智能天气查询助手，根据用户的提问自主调用工具&quot;<br>        &#125;,<br>        &#123;<br>          &quot;role&quot;: &quot;user&quot;,<br>          &quot;content&quot;: &quot;北京市天气如何？&quot;<br>        &#125;,<br>        &#123;<br>            &quot;role&quot;: &quot;assistant&quot;,<br>            &quot;content&quot;: &quot;我来帮您查询北京市的天气情况。&quot;,<br>            &quot;tool_calls&quot;: [<br>                &#123;<br>                    &quot;index&quot;: 0,<br>                    &quot;id&quot;: &quot;call_00_Kpq3g6mPl9BYlZIe1NSNm3Cs&quot;,<br>                    &quot;type&quot;: &quot;function&quot;,<br>                    &quot;function&quot;: &#123;<br>                        &quot;name&quot;: &quot;get_weather&quot;,<br>                        &quot;arguments&quot;: &quot;&#123;\&quot;city\&quot;: \&quot;北京\&quot;&#125;&quot;<br>                    &#125;<br>                &#125;<br>            ]<br>        &#125;,<br>        &#123;<br>          &quot;role&quot;: &quot;tool&quot;,<br>          &quot;tool_call_id&quot;: &quot;call_00_Kpq3g6mPl9BYlZIe1NSNm3Cs&quot;,<br>          &quot;content&quot;: &quot;&#123;\&quot;temp\&quot;:\&quot;2℃\&quot;,\&quot;text\&quot;:\&quot;晴\&quot;,\&quot;wind\&quot;:\&quot;西北风3级\&quot;&#125;&quot;<br>        &#125;<br>      ],<br>      &quot;tools&quot;: [<br>        &#123;<br>          &quot;type&quot;: &quot;function&quot;,<br>          &quot;function&quot;: &#123;<br>            &quot;name&quot;: &quot;get_weather&quot;,<br>            &quot;description&quot;: &quot;根据用户输入的城市信息，获取该城市的天气&quot;,<br>            &quot;parameters&quot;: &#123;<br>              &quot;type&quot;: &quot;object&quot;,<br>              &quot;properties&quot;: &#123;<br>                &quot;city&quot;: &#123;<br>                  &quot;type&quot;: &quot;string&quot;,<br>                  &quot;description&quot;: &quot;城市名称，只保留最细粒度的地区名称&quot;<br>                &#125;<br>              &#125;,<br>              &quot;required&quot;: [&quot;city&quot;]<br>            &#125;<br>          &#125;<br>        &#125;<br>      ]<br>    &#125;&#x27;<br><br></code></pre></div></td></tr></table></figure>
+
+<p>（5）步骤五：<strong>模型根据工具结果生成最终回复</strong></p>
+<p><strong>作用：</strong> 这一步模型不再返回 <code>tool_calls</code>，而是直接给用户最终答案。</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;4f5f2133-6519-497e-aecc-2bd25a37c747&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;object&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;chat.completion&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;created&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1767177264</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;model&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deepseek-v4-flash&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;choices&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>    <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;index&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;role&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;assistant&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;根据查询结果，北京市当前的天气情况如下：\n\n- **温度**：2℃\n- **天气状况**：晴\n- **风力**：西北风3级\n\n今天北京天气晴朗，温度在2℃左右，风力不大，是个不错的天气。建议您外出时适当保暖，虽然天气晴朗但温度还是偏低的。&quot;</span><br>      <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;logprobs&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;finish_reason&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;stop&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;usage&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;prompt_tokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">422</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;completion_tokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">70</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;total_tokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">492</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;prompt_tokens_details&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;cached_tokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">384</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;prompt_cache_hit_tokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">384</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;prompt_cache_miss_tokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">38</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;system_fingerprint&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;fp_eaab8d114b_prod0820_fp8_kvcache&quot;</span><br><span class="hljs-punctuation">&#125;</span><br><br></code></pre></div></td></tr></table></figure>
+
+<p>Function Calling 的不足</p>
+<p><strong>（1）工具实现与复用成本高</strong></p>
+<p>很多工具是某个项目自己定义的，和业务环境耦合较重，不容易跨团队、跨客户端复用。</p>
+<p><strong>（2）规范碎片化</strong></p>
+<p>不同模型厂商的工具调用格式、字段命名、细节行为并不完全一致，维护成本会逐渐上升。</p>
+<p><strong>（3）可靠性依赖工具描述质量</strong></p>
+<p>工具描述不清、参数 schema 不完整时，模型就更容易调错工具或传错参数。</p>
+<h3 id="MCP"><a href="#MCP" class="headerlink" title="MCP"></a>MCP</h3><p>MCP（Model Context Protocol，模型上下文协议）是一套面向 AI 应用与外部能力连接的开放协议。它的核心含义是：</p>
+<p><strong>MCP 是把“工具、资源、提示模板”等能力按统一方式暴露出来的一层标准接口。</strong></p>
+<p>MCP 更关注的是“<strong>怎么统一接入和复用外部能力</strong>”，而不仅仅是“模型会不会调某个函数”。</p>
+<p>MCP 就像 AI 世界的 USB-C 接口。只要某个能力按 MCP 标准暴露出来，支持 MCP 的不同 AI 应用就可以更容易地发现和使用它。</p>
+<p><strong>Function Calling 与 MCP 的关系与区别</strong></p>
+<p>Function Calling 和 MCP 不是同一个东西，但经常会一起出现。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-22-57-10-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>更容易记的方式是：</p>
+<ul>
+<li><strong>Function Calling</strong>：模型侧的调用能力</li>
+<li><strong>MCP</strong>：工具侧的标准化暴露方式</li>
+</ul>
+<p>MCP 本质上是对“工具接入”做了进一步标准化。除了 Tools，它还支持 Resources 和 Prompts。</p>
+<p>最常用的是 <strong>Tools</strong>，但它的设计范围比传统 Function Calling 更大。</p>
+<p>可以这样理解：</p>
+<ul>
+<li><strong>MCP 是协议</strong></li>
+<li><strong>天气 MCP Server 是实现了该协议的服务</strong></li>
+<li><strong>Cherry Studio 是支持该协议的客户端</strong></li>
+<li><strong>DeepSeek &#x2F; 其他模型仍然在负责理解用户意图并决定是否调用工具</strong></li>
+</ul>
+<p>所以当你在 Cherry Studio 里连接了天气 MCP Server，再问“北京天气怎么样”时，背后不是模型自己突然学会了天气接口，而是：</p>
+<ol>
+<li>客户端把可用工具列表告诉模型</li>
+<li>模型决定调用 <code>get_weather</code></li>
+<li>客户端通过 MCP 调用对应 Server</li>
+<li>Server 返回天气结果</li>
+<li>模型再把结果组织成自然语言</li>
+</ol>
+<p><strong>大模型如何知道“什么时候调”“调哪一个”？</strong></p>
+<ul>
+<li><p><strong>什么时候调？</strong> 因为客户端会把当前所有可用工具及其描述发给模型，模型根据用户问题和工具描述，判断是否需要调用。</p>
+</li>
+<li><p><strong>调哪一个？</strong> 因为每个工具都有 <code>name</code>、<code>description</code>、<code>parameters</code>，模型会根据用户问题和工具描述进行匹配。</p>
+</li>
+</ul>
+<p>所以模型并不是“认识 MCP”本身，而是认识“这次请求里有哪些可用工具”。</p>
+<h2 id="智能体开发方式"><a href="#智能体开发方式" class="headerlink" title="智能体开发方式"></a>智能体开发方式</h2><h3 id="在线平台开发"><a href="#在线平台开发" class="headerlink" title="在线平台开发"></a><strong>在线平台开发</strong></h3><p>例如 Dify、Coze。这类方式上手快，适合做可视化编排和快速原型。</p>
+<h3 id="基于框架开发"><a href="#基于框架开发" class="headerlink" title="基于框架开发"></a><strong>基于框架开发</strong></h3><p>例如 LangChain、LangGraph、<strong>pydantic AI</strong>。这类方式自由度更高，更适合真实项目开发和复杂业务逻辑落地。</p>
+<table>
+<thead>
+<tr>
+<th><strong>维度</strong></th>
+<th><strong>LangChain (传统链)</strong></th>
+<th><strong>Pydantic AI (严谨结构化)</strong></th>
+<th><strong>LangGraph (复杂状态图)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>核心形状</strong></td>
+<td><strong>直线</strong> ──&gt;</td>
+<td><strong>单向转换</strong> ──&gt;</td>
+<td><strong>网状&#x2F;循环</strong> 🔄</td>
+</tr>
+<tr>
+<td><strong>最擅长的事</strong></td>
+<td>简单的、按部就班的 RAG 知识库检索或单向问答。</td>
+<td>生产环境中，要求高并发、<strong>输入&#x2F;输出数据格式绝对不能错</strong>的严谨工具调用。</td>
+<td>极其复杂的<strong>多智能体协同（Multi-Agent）</strong>、需要反复自我迭代纠错、或者需要人类中途介入修改（Human-in-the-loop）的复杂工作流。</td>
+</tr>
+<tr>
+<td><strong>状态管理</strong></td>
+<td>很弱，基本只支持保存对话上下文历史（Memory）。</td>
+<td>适中，支持通过依赖注入（Deps）在运行中共享上下文。</td>
+<td><strong>强到变态</strong>。自带<strong>多时空穿梭（Time Travel）和持久化</strong>功能。应用崩溃了能原地复活，甚至能让运行暂停，等人工审批后再继续。</td>
+</tr>
+</tbody></table>
+<h3 id><a href="#" class="headerlink" title></a></h3><h2 id="工作流"><a href="#工作流" class="headerlink" title="工作流"></a>工作流</h2><p>工作流（Workflow）是一种更强调<strong>固定步骤和可控执行</strong>的设计模式。它通常用于把复杂任务拆成一系列明确步骤，并按预设顺序执行。</p>
+<p>例如：先分类、再检索、再生成、再校验、再输出。</p>
+<p>这类场景不一定需要 Agent 临场自由决策，更适合工作流。</p>
+<h3 id="工作流（Workflow）和-Agent-怎么区分"><a href="#工作流（Workflow）和-Agent-怎么区分" class="headerlink" title="工作流（Workflow）和 Agent 怎么区分"></a><strong>工作流（Workflow）和 Agent 怎么区分</strong></h3><p>这是实际项目里非常重要的判断。</p>
+<table>
+<thead>
+<tr>
+<th>场景特征</th>
+<th>更适合什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>步骤固定、顺序明确、强调可控和稳定</td>
+<td>工作流（Workflow）</td>
+</tr>
+<tr>
+<td>步骤不固定、需要动态选工具和持续决策</td>
+<td>Agent</td>
+</tr>
+</tbody></table>
+<p><strong>固定部分用工作流（Workflow），动态部分再交给 Agent。</strong></p>
+<p><code>电商问数</code> 就很适合拿来理解这件事。它不是放任模型完全自由发挥，而是先做召回、再做生成、再做校验和执行，整体更接近 <strong>工作流（Workflow）主导 + 大模型参与关键节点决策</strong> 的工程思路。</p>
+<h3 id="工作流开发方式"><a href="#工作流开发方式" class="headerlink" title="工作流开发方式"></a><strong>工作流开发方式</strong></h3><p>（1）Dify、Coze 等在线平台开发工作流</p>
+<p>（2）基于 LangChain &#x2F; LangGraph 等框架开发工作流</p>
+<h1 id="2、搭建企业私有RAG"><a href="#2、搭建企业私有RAG" class="headerlink" title="2、搭建企业私有RAG"></a>2、搭建企业私有RAG</h1><p><strong>流程说明：</strong></p>
+<p>整张图分为<strong>两个阶段</strong>：上方是<strong>知识库构建</strong>，下方是<strong>查询与答案生成</strong>。结合前文“为什么需要 RAG”可以发现，它真正做的是：把本地文档先变成一个可检索的知识库，再在用户提问时动态查资料，并把资料增强进模型输入。</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>英文名</th>
+<th>中文名</th>
+<th>在做什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>阶段一：知识库构建</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>Local Documents</td>
+<td>本地文档</td>
+<td>流程起点：你的 PDF、Word、Markdown、TXT 等原始文件，是私有知识库的数据来源。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Unstructured Loader</td>
+<td>非结构化加载器</td>
+<td>读取并解析各种格式的本地文档，从中抽出纯文本，统一成后续可处理的格式。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Text</td>
+<td>文本</td>
+<td>加载器产出的纯文本内容。</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Text Splitter</td>
+<td>文本分割器</td>
+<td>把长文本按规则切成小块，便于嵌入和放入 LLM 上下文。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Text Chunks</td>
+<td>文本块</td>
+<td>分割后得到的一段段文本，是后续嵌入和检索的基本单位。</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Embedding</td>
+<td>嵌入</td>
+<td>用嵌入模型把每个文本块转成向量。语义相近的块，向量距离也更近。</td>
+</tr>
+<tr>
+<td>7</td>
+<td>VectorStore</td>
+<td>向量存储</td>
+<td>把文本块的向量、原文和元数据存入向量数据库，支持后续按相似度检索。</td>
+</tr>
+<tr>
+<td><strong>阶段二：查询与答案生成</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Query</td>
+<td>查询</td>
+<td>用户用自然语言提出的问题或请求。</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Embedding</td>
+<td>嵌入</td>
+<td>用<strong>同一套</strong>嵌入模型把用户查询也转成向量，保证和知识库在同一向量空间里。</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Query Vector</td>
+<td>查询向量</td>
+<td>用户查询的向量表示。用它去向量库里找最相关的文档块。</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Vector Similarity</td>
+<td>向量相似度</td>
+<td>在向量存储中做相似度搜索，找出与问题最接近的文本块。</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Related Text Chunks</td>
+<td>相关文本块</td>
+<td>检索得到的文本片段，是回答问题时最关键的依据。</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Prompt Template</td>
+<td>提示模板</td>
+<td>把“用户问题 + 检索结果”组装成一段结构化输入。这里对应 RAG 里的“增强”。</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Prompt</td>
+<td>提示</td>
+<td>最终送入大模型的内容。</td>
+</tr>
+<tr>
+<td>15</td>
+<td>LLM</td>
+<td>大语言模型</td>
+<td>基于检索结果和用户问题生成答案。这里对应 RAG 里的“生成”。</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Answer</td>
+<td>答案</td>
+<td>模型基于检索到的资料给出的最终回答。</td>
+</tr>
+</tbody></table>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-07-42-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>理解为：本地的文档或者资料被切分成多个向量数据，或者向量块，然后用户提问，也被分成多个数据向量和向量块，然后根据向量进行对比，RAG精准查询到需要的资料</p>
+<ul>
+<li><strong>知识库</strong>：承载外部知识的整体容器，可能包含文档、分块、向量、元数据、检索配置等。</li>
+<li><strong>向量库</strong>：知识库内部用于做相似度检索的存储组件，不等于整个知识库。</li>
+<li><strong>Embedding</strong>：把文本变成向量的模型或过程。</li>
+<li><strong>Prompt 增强</strong>：把检索结果真正交给模型的那一步。</li>
+</ul>
+<p>二次理解</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-10-02-image.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="知识库"><a href="#知识库" class="headerlink" title="知识库"></a>知识库</h3><p>工具分成三类</p>
+<ol>
+<li><strong>个人轻量型</strong>：上手快、图形化强、适合个人或小团队先做 Demo。</li>
+<li><strong>平台协作型</strong>：不仅能做知识库，还能接工作流、应用发布、团队协作。</li>
+<li><strong>复杂文档解析型</strong>：重点是文档理解质量，尤其适合长 PDF、复杂表格、扫描件。</li>
+</ol>
+<p>核心定位与技术特点</p>
+<p><strong>AnythingLLM、Cherry Studio</strong>：<code>桌面/图形化 AI 助手 + 知识库（RAG）</code>，支持对接云模型与本地模型，适合<code>个人/小团队</code>快速验证。在“多租户治理、复杂系统集成、生产化观测”等方面通常不如平台型产品。</p>
+<p><strong>Dify、FastGPT</strong>：<code>LLM 应用与工作流编排平台</code>，支持创建知识库，并把知识库接到对话应用、工作流、Agent 中，更适合“从 Demo 走向团队协作和应用交付”的场景。</p>
+<p><strong>RAGFlow</strong>：强调<code>复杂文档解析</code>、<code>高精度混合检索</code>、<code>重排</code>、<code>可视化干预</code>，适合把“文档解析质量”和“召回质量”看得很重的场景。官方介绍中也明确强调了多格式 ETL、Hybrid Search 与 Re-ranking 能力。</p>
+<p>场景：</p>
+<p><strong>1. 个人知识管理（轻量级）</strong></p>
+<ul>
+<li>需求：快速验证、低预算、个人&#x2F;小团队使用，以“先跑起来”为主。</li>
+<li>推荐工具：Cherry Studio &#x2F; AnythingLLM &#x2F; ima</li>
+<li>理由：<ul>
+<li>部署和操作简单，上手快</li>
+<li>适合接在线模型 API，也可接本地模型</li>
+<li>更适合做“个人知识助手”而不是复杂业务平台</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. 应用化交付与团队协作（平台型场景）</strong></p>
+<ul>
+<li>需求：将知识库能力封装成可复用 AI 应用、支持多人协作、工作流编排、权限与版本管理。</li>
+<li>推荐工具：Dify &#x2F; FastGPT</li>
+<li>理由：<ul>
+<li>知识库只是整个平台的一部分，后续还能接工作流、工具调用、Agent</li>
+<li>更适合与业务系统集成</li>
+<li>更贴近“内部产品交付”而不是单机个人使用</li>
+</ul>
+</li>
+</ul>
+<p><strong>3. 企业级文档解析（高精度需求）</strong></p>
+<ul>
+<li>需求：处理复杂版式、长 PDF、扫描件、图文混排、表格等，强调解析质量与引用可追溯。</li>
+<li>推荐工具：RAGFlow</li>
+<li>理由：<ul>
+<li>更强调文档理解与检索精度</li>
+<li>支持混合检索、重排与更强的文档处理链路</li>
+<li>适合把“RAG 效果”当成核心竞争力的场景</li>
+</ul>
+</li>
+</ul>
+<p>工具的使用：</p>
+<p>Cherry Studio 更适合被理解成一个“<strong>个人向、桌面化、模型聚合型 AI 工作台</strong>”。它的优势不是企业平台能力，而是：上手快；图形化强；适合个人快速搭知识库和多模型对比。</p>
+<p><strong>小白友好</strong>：Cherry Studio 致力于降低技术门槛，零基础用户也能快速上手，让用户更专注于工作、学习或创作本身。</p>
+<p><strong>一问多答</strong>：支持同一问题通过多个模型同时生成回复，方便对比不同模型的表现。</p>
+<p><strong>助手市场</strong>：内置千余个行业专用助手，涵盖翻译、编程、写作等场景，同时支持自定义助手。</p>
+<p><strong>服务商模型聚合</strong>：支持 OpenAI、Gemini、Anthropic、Azure 等规范的三方服务商接入，兼容性较强。</p>
+<p><strong>数据安全</strong>：支持全本地场景使用，结合本地大模型时，更适合对数据安全较敏感的用户。</p>
+<h3 id="LLM的使用"><a href="#LLM的使用" class="headerlink" title="LLM的使用"></a>LLM的使用</h3><h4 id="Cherry-Studio"><a href="#Cherry-Studio" class="headerlink" title="Cherry Studio"></a>Cherry Studio</h4><p>在 Cherry Studio 里，知识库问答并不是“只要上传文件就行”。你至少要先把<strong>聊天模型</strong>和<strong>Embedding 模型</strong>两个角色理解清楚：</p>
+<ul>
+<li><strong>聊天模型（LLM）</strong>：负责最后生成回答。</li>
+<li><strong>Embedding 模型</strong>：负责把文档和问题变成向量，用于检索。</li>
+</ul>
+<p>这也是为什么先要完成模型接入。</p>
+<p>使用：下载Cherry Studio，接入API（文章中使用的是硅基流动），然后知识库接入，添加嵌入模型</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-15-59-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-17-33-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-18-15-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>这里支持不同格式文件、文件夹、网页地址、大段文本内容等多种方式添加到知识库。</p>
+<p>（这里使用文章截图）</p>
+<p>检索</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-18-57-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>这里展示的是“先搜知识库”的能力。此时系统还没有让大模型长篇生成，而是在数据库中基于 RAG 思路做召回。可以看到相关片段和匹配得分，这一步非常适合用来做效果排查。</p>
+<p>基于知识库生成<img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-19-24-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>选中后，提问：</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-19-33-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-19-39-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>这一步对应的才是“完整 RAG”：先检索，再增强上下文，再由模型生成答案。</p>
+<p>补充：增强文档解析能力：</p>
+<p>如果上传文件中有手写内容、复杂表格、扫描件或复杂公式，解析效果会较差。此时可以先用专门的文档解析工具做预处理，再把处理后的内容上传到知识库。</p>
+<p>使用工具：Doc2X</p>
+<p>网址：<a target="_blank" rel="noopener" href="https://doc2x.noedgeai.com/">https://doc2x.noedgeai.com/</a></p>
+<p>这里你要建立一个很实用的工程意识：</p>
+<ul>
+<li><strong>RAG 效果 &#x3D; 文档质量 × 解析质量 × 检索质量 × 模型生成质量</strong></li>
+<li>不是所有问题都该怪模型，很多问题其实发生在前面的数据链路里</li>
+</ul>
+<p>Cherry Studio 这整套流程理解成：</p>
+<ol>
+<li>接好聊天模型</li>
+<li>接好 Embedding 模型</li>
+<li>上传文档并建知识库</li>
+<li>先检索相关内容</li>
+<li>再基于知识库生成回答</li>
+</ol>
+<h4 id="ima"><a href="#ima" class="headerlink" title="ima"></a>ima</h4><p> <strong>ima</strong> 更像“更偏 C 端、更轻量、上手成本更低的知识助手”。它特别适合初学者快速体验“把资料接进模型”这件事。</p>
+<ul>
+<li><strong>操作简单、零上手成本</strong>：界面和流程都很直观，更偏普通用户使用。</li>
+<li><strong>多端同步</strong>：支持客户端、小程序、网页等多端访问与同步。</li>
+<li><strong>共享知识库</strong>：支持将知识库分享给他人，方便协作与传递。</li>
+<li><strong>模型与入口</strong>：支持腾讯混元大模型、DeepSeek-R1 满血版；可通过微信等入口提问，模型基于知识库生成答案。</li>
+</ul>
+<p>在入门阶段，ima 的价值主要是：<strong>非常容易先建立“知识库问答”的使用直觉</strong>。它的可定制化不如 Dify，但上手门槛更低。</p>
+<p>这里继续使用文章截图:</p>
+<p><a target="_blank" rel="noopener" href="https://ima.qq.com/">https://ima.qq.com/</a></p>
+<p>下载完成后，新建知识库</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-26-06-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-26-21-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-26-29-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后就会基于知识库生成</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-26-46-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-26-52-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>这部分最值得你体会的是：即使平台界面和 Cherry Studio 不同，但底层做的事情仍然是同一套逻辑：</p>
+<ul>
+<li>把文件导入</li>
+<li>变成可检索内容</li>
+<li>用户提问</li>
+<li>检索知识</li>
+<li>基于知识回答</li>
+</ul>
+<p>结合网页：</p>
+<p>步骤 1：在微信公众号中搜索相关主题的文章，并将它们加入到 ima。</p>
+<p>步骤 2：在 ima 中新建个人知识库，将相关文章加入到此知识库。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-27-28-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-27-33-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>文章导入完成后，即可生成知识库，并基于大模型进行检索与问答。</p>
+<p><strong>知识库不等于“上传 PDF”</strong>。只要资料能整理成可用文本，它就有机会成为知识库的一部分。</p>
+<h4 id="Dify"><a href="#Dify" class="headerlink" title="Dify"></a>Dify</h4><p>Dify（DefineModify）是一个开源的大语言模型(LLM)应用开发平台，由<code>苏州语灵人工智能</code>推出。和 Cherry Studio、ima 相比，它更偏向“<strong>应用平台 + 工作流平台 + 知识库平台</strong>”的综合形态。</p>
+<p>这意味着 Dify 里的知识库不只是“让你自己问答”的工具，还可以继续被接到：</p>
+<ul>
+<li>聊天应用</li>
+<li>工作流</li>
+<li>Agent</li>
+<li>API 对外服务</li>
+</ul>
+<p>结合官方文档可以这样理解 Dify 知识库：</p>
+<ul>
+<li>知识库是你自有数据的集合</li>
+<li>每个知识库可以包含多个文档</li>
+<li>每个文档最终会被切成多个分段（chunks）</li>
+<li>应用在运行时会从这些分段中检索相关内容，再交给模型生成回答</li>
+</ul>
+<p>Dify 更像“知识库要进入产品和工作流体系”。</p>
+<p>Dify 提供了相对完整的可视化界面来管理文档、分段、检索策略和应用接入。</p>
+<p>Dify 支持多种源数据格式，包括：</p>
+<ul>
+<li><strong>长文本内容</strong>：TXT、Markdown、DOCX、HTML、JSON、PDF</li>
+<li><strong>结构化数据</strong>：CSV、Excel</li>
+</ul>
+<p>Dify 官方知识库文档的表述看，知识库里最核心的对象关系是：</p>
+<ul>
+<li><strong>Knowledge Base（知识库）</strong>：整体容器</li>
+<li><strong>Document（文档）</strong>：导入的文件或数据源</li>
+<li><strong>Chunk（分段）</strong>：文档切分后的可检索片段</li>
+</ul>
+<p> <strong>Embedding 模型</strong>与 <strong>Rerank 模型</strong></p>
+<p>      一个是将所有整理成向量然后挑选，一个是通过挑选的来精选</p>
+<p>构建：</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-36-49-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>上传知识:</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-37-03-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>分段设置：</p>
+<p>知识库文档中若有 URL、邮箱等，也可以在预处理时过滤掉。</p>
+<p><strong>分段设置说明（这些项是干嘛的、对知识库有什么影响）</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>作用</th>
+<th>对知识库的影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>分段标识符</strong></td>
+<td>决定“按什么边界”把长文切成小块。<code>\n</code> &#x3D; 按换行切，<code>\n\n</code> &#x3D; 按空行切。</td>
+<td>选得合适，切出来的块语义更完整；选得不合适，可能把一整段话切碎，后面检索就容易只命中半句。</td>
+</tr>
+<tr>
+<td><strong>分段最大长度</strong></td>
+<td>单块文本的字数 &#x2F; 字符上限，超过就再切一刀。</td>
+<td>设太大，单块里无关内容太多，容易把噪音带进 Prompt；设太小，语义被拆散，召回容易漏关键信息。一般可从 200～800 字（或约 100～500 token）起步，再按文档类型调。</td>
+</tr>
+<tr>
+<td><strong>分段重叠长度</strong></td>
+<td>相邻两块之间重复一段文字，避免边界处语义断裂。</td>
+<td>有一定重叠，边界上的句子不容易被截断；重叠太大则会造成内容重复、存储浪费和检索噪声。</td>
+</tr>
+</tbody></table>
+<p>黄金参数（适合绝大多数常规文档）</p>
+<p>如果使用的是像 <strong>BGE-M3</strong> 或 OpenAI 的 Embedding 模型，以下是工业界最常用的基础配置：</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>推荐数值</strong></th>
+<th><strong>核心考量</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Chunk Size</strong></td>
+<td><strong>512 ~ 1000 个 Token&#x2F;字</strong></td>
+<td>这个长度足够容纳 2-3 个完整的段落，既有足够的语义，又不会因为太长导致核心重点被稀释。</td>
+</tr>
+<tr>
+<td><strong>Chunk Overlap</strong></td>
+<td><strong>10% ~ 20%</strong> （即 50 ~ 200 字）</td>
+<td>确保一到两句话被完整复制到下一段，足以保留主语、因果关系等上下文线索。</td>
+</tr>
+</tbody></table>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-40-14-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>选择 <strong>Embedding 模型</strong>与 <strong>Rerank 模型</strong>，也可以设置 Top K，也就是选出最相似的前 n 条。还可以设置 Score 阈值，即筛选文本的相似度下限。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-40-49-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>混合检索：既包括向量检索（可选用 Rerank 模型做精排），也包含全文检索。</p>
+<p><strong>检索设置说明（这些项是干嘛的、对知识库有什么影响）</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>作用</th>
+<th>对知识库的影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Embedding 模型</strong></td>
+<td>把“文档块”和“用户问题”都变成向量，用来算语义相似度。</td>
+<td>建库和检索必须用<strong>同一个</strong> Embedding 模型，否则向量不在同一个空间里，检索效果会明显变差。</td>
+</tr>
+<tr>
+<td><strong>向量检索</strong></td>
+<td>用问题向量在向量库里找“最像”的文档块。</td>
+<td>是 RAG 的核心检索步骤，没有它就无法按语义从知识库中召回内容。</td>
+</tr>
+<tr>
+<td><strong>Rerank 模型</strong></td>
+<td>在向量检索拿到一批候选块后，再用专门模型对“问题 + 每条候选”打更精细的相关性分。</td>
+<td>不开 Rerank 时，只靠向量相似度，有时会混进“看起来相关但答非所问”的片段；开启后通常能显著提升最终送给模型的上下文质量，但也会增加延迟与成本。</td>
+</tr>
+<tr>
+<td><strong>Top K</strong></td>
+<td>检索时最多取几条文档块交给后续步骤。</td>
+<td>K 太小，可能漏掉关键信息；K 太大，又容易把无关内容塞进上下文，增加噪音与 token 开销。一般可先试 5，再根据效果微调。</td>
+</tr>
+<tr>
+<td><strong>Score 阈值</strong></td>
+<td>相似度下限，只有达到阈值的块才会被保留。</td>
+<td>阈值高，结果更干净但可能漏召回；阈值低，信息更全但噪音变多。排查效果时，可以根据“找不到内容”还是“召回太杂”来升降阈值。</td>
+</tr>
+<tr>
+<td><strong>混合检索</strong></td>
+<td>同时做向量检索和全文检索，再合并、去重、排序。</td>
+<td>当文档里既有自然语言段落，又有条目编号、专有名词、法条编号时，混合检索通常比纯向量检索更稳。</td>
+</tr>
+</tbody></table>
+<p>设置完成后，保存并处理即可。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-41-13-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>测试：</p>
+<h1 id="低代码平台"><a href="#低代码平台" class="headerlink" title="低代码平台"></a>低代码平台</h1><p>平台智能体最常见的五个组成部分：</p>
+<ol>
+<li><strong>大模型（LLM）</strong>：负责理解需求、生成内容、做局部推理。</li>
+<li><strong>记忆（Memory）</strong>：负责保存上下文、用户信息、阶段性结论。</li>
+<li><strong>工具（Tool Use）</strong>：负责联网搜索、查库、调用外部接口。</li>
+<li><strong>规划 &#x2F; 流程（Planning &#x2F; Workflow）</strong>：负责把复杂任务拆成多个步骤。</li>
+<li><strong>行动（Action）</strong>：负责真正执行查询、写入、调用、返回结果。</li>
+</ol>
+<p><strong>大模型（LLM）是大脑</strong></p>
+<ul>
+<li>负责理解用户意图、生成回答、组织语言和局部推理。</li>
+<li>但模型本身并不等于整个智能体，它只是“核心决策器”。</li>
+</ul>
+<p><strong>记忆（Memory）解决“要记住什么”的问题</strong></p>
+<ul>
+<li><p><strong>短期记忆</strong>：主要是当前对话上下文，受上下文窗口限制。</p>
+</li>
+<li><p><strong>长期记忆</strong>：跨轮次、跨任务保留信息，平台里往往通过变量、数据库、知识库或总结机制来近似实现。</p>
+</li>
+</ul>
+<p>平台学习里，最容易把“机器人”“工作流”“Agent”混在一起。为了后面不乱，我们先把三种常见形态分开：</p>
+<h2 id="level-1：提示词型智能体"><a href="#level-1：提示词型智能体" class="headerlink" title="level 1：提示词型智能体"></a><strong>level 1：提示词型智能体</strong></h2><ul>
+<li>主要靠提示词塑造角色、语气、边界和回答方式。</li>
+<li>适合聊天助手、写作助手、陪伴助手、轻量客服等场景。</li>
+</ul>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-48-14-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-48-25-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>说明：模型温度：温度越高，输出的内容越有创意性。</p>
+<h2 id="level-2：工作流型应用"><a href="#level-2：工作流型应用" class="headerlink" title="level 2：工作流型应用"></a><strong>level 2：工作流型应用</strong></h2><ul>
+<li><p>主要靠固定步骤和节点编排完成任务。</p>
+</li>
+<li><p>适合报告生成、数据清洗、分类打标、内容生产流水线等固定流程任务。</p>
+<p>工作流</p>
+</li>
+</ul>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-48-51-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>工作流最适合的场景，可以直接概括成一句话：<strong>任务步骤大致确定，希望过程可见、可控、可复用时，优先工作流。</strong></p>
+<h2 id="level-3：更自主的-Agent-型应用"><a href="#level-3：更自主的-Agent-型应用" class="headerlink" title="level 3：更自主的 Agent 型应用"></a><strong>level 3：更自主的 Agent 型应用</strong></h2><ul>
+<li>模型围绕一个目标，自主进行任务拆分、工具选择和过程推进。</li>
+<li>更灵活，但也更难控、更难调试。</li>
+</ul>
+<p>平台选型视角看 Coze、Dify、n8n 的区别。对你来说，不必追求一次把所有平台都学会，更重要的是先知道它们各自适合什么项目。</p>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>Coze（扣子）</th>
+<th>Dify</th>
+<th>n8n</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>平台定位</td>
+<td>更偏零代码智能体与内容应用平台</td>
+<td>更偏大模型应用开发平台</td>
+<td>更偏通用自动化与流程编排平台</td>
+</tr>
+<tr>
+<td>适用用户</td>
+<td>零技术背景的个人、小团队、自媒体运营者</td>
+<td>开发者、技术团队、需要定制化 AI 的企业</td>
+<td>开发者和需要复杂自动化的企业</td>
+</tr>
+<tr>
+<td>核心优势</td>
+<td>上手快、模板多、发布方便、字节生态联动明显</td>
+<td>工作流、知识库、API、私有化与企业化能力更强</td>
+<td>集成能力强、节点多、开源程度高</td>
+</tr>
+<tr>
+<td>学习曲线</td>
+<td>低</td>
+<td>中</td>
+<td>较高</td>
+</tr>
+<tr>
+<td>扩展性</td>
+<td>有限（主要依赖预设模板和插件）</td>
+<td>中等（支持自定义模型和外部工具）</td>
+<td>极强（400+节点，支持代码自定义）</td>
+</tr>
+<tr>
+<td>部署方式</td>
+<td>支持云端托管和私有化部署</td>
+<td>支持云端和私有化部署</td>
+<td>支持自托管和云端部署</td>
+</tr>
+<tr>
+<td>成本</td>
+<td>免费版+积分制付费套餐</td>
+<td>免费版+分层付费计划</td>
+<td>完全开源，自托管只需服务器费用</td>
+</tr>
+<tr>
+<td>趋势</td>
+<td>不错的使用体验，个人用户增长迅速</td>
+<td>在企业用户中的影响力不断扩大</td>
+<td>在企业级市场保持着稳定的用户基础</td>
+</tr>
+</tbody></table>
+<p>优点与缺点分析：</p>
+<ul>
+<li><p>Coze 的优缺点：</p>
+<ul>
+<li>Coze 的最大优点是<strong>上手极其简单</strong>，提供 100+预制模板，无需编写代码就能快速搭建 AI 应用。它与字节系产品（抖音、飞书等）深度集成，一键发布到多个平台。免费版提供基础功能，试错成本低。</li>
+<li>Coze 的局限性在于功能较浅，复杂逻辑难以实现。数据云端存储（虽支持私有化部署，但<strong>插件开发者生态仍闭源</strong>，<strong>私有化部署版本不如云托管版本易用</strong>） ，对企业数据安全有顾虑。深度集成能力弱于 n8n 和 Dify。</li>
+</ul>
+</li>
+<li><p>Dify 的优缺点：</p>
+<ul>
+<li>Dify 的突出优势在于<strong>大模型应用开发能力强</strong>，内置多种模型接口和 RAG 框架。提供<strong>企业级功能</strong>如多模型热切换、权限管理和操作审计。在<strong>低代码和高扩展性</strong>之间取得了良好平衡。</li>
+<li>Dify 的缺点是<strong>模型调用成本较高</strong>，依赖第三方 API 付费接口。对非技术用户仍有一定门槛，需理解“向量数据库”等概念。</li>
+</ul>
+</li>
+<li><p>n8n 的优缺点：</p>
+<ul>
+<li>n8n 的核心优势是<strong>开源免费且数据完全自主</strong>，满足严格合规需求。拥有<strong>强大的集成能力</strong>，支持 400+预建节点，几乎可以连接任何系统。可视化+代码双模式兼顾易用性与扩展性。</li>
+<li>n8n 的主要缺点是<strong>学习门槛较高</strong>，需要理解 API 概念和工作流逻辑。中文资源相对较少，深度功能需参考英文文档。</li>
+</ul>
+</li>
+</ul>
+<p>扣子使用，在此不再赘述，关于模型的设置</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-50-34-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>关于 temperature（温度）：</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-50-56-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>温度（Temperature）控制模型输出的随机程度。<strong>温度越低</strong>（接近 0），回答越稳定、一致、偏保守，适合事实问答、代码等；<strong>温度越高</strong>（接近 1 或更大），回答越随机、有创意、多样，适合创意写作、头脑风暴等。情感类、开放对话可适当调高，需精确一致时建议调低。</p>
+<h3 id="Dify智能体"><a href="#Dify智能体" class="headerlink" title="Dify智能体"></a>Dify智能体</h3><p>ify 为 AI Agent 提供了 50 多种内置工具，如谷歌搜索、DALL·E、Stable Diffusion 和 WolframAlpha 等。</p>
+<p>它的具体功能如下：</p>
+<ul>
+<li>基于<code>Agent</code>架构构建智能体应用</li>
+<li>基于<code>RAG</code>构建私有知识库应用</li>
+<li>基于<code>Workflow</code>构建智能工作流应用</li>
+</ul>
+<p>和扣子功能很相似，都是低代码平台</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-52-45-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>但是Dify 可以本地化部署，保证数据的安全。</p>
+<h4 id="时事评论agent测试："><a href="#时事评论agent测试：" class="headerlink" title="时事评论agent测试："></a>时事评论agent测试：</h4><p>创建agent</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-53-28-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-53-35-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>配置</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-53-53-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>借助大模型提供提示词：</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-54-01-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>测试</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-54-10-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>日志</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-54-18-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-54-26-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-21-23-54-32-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>工作流（WorkFlow）是为完成某项任务或业务流程而设计的一系列<code>自动化步骤的有序组合</code>。它通过标准化、协调不同环节的人员、系统或资源，实现流程的高效执行与监控，最终达成特定目标。</p>
+<h3 id="工作流-1"><a href="#工作流-1" class="headerlink" title="工作流"></a>工作流</h3><p><strong>为什么需要工作流？</strong></p>
+<p>在大模型的应用中，某些复杂的需求很难通过单一的问答解决，此时可以引入工作流，通过一系列任务节点的链式调用以实现复杂需求。</p>
+<blockquote>
+<p>比如 1：电商的订单处理：审核用户下单，触发库存检查，库存充足就生成物流单，并触发财务系统完成收款对账。如果库存不足，则触发补货或通知用户……</p>
+<p>比如 2：AI 批改学生作业：学生提交作业 → 系统识别错误 → 生成反馈 → 推荐练习</p>
+<p>比如 3：企业审批流程：员工提交申请 → 系统自动分发给审批人 → 记录结果并归档</p>
+<p>比如 4：自媒体智能体：输入爆款视频 → 提取爆款标题并重新生成新视频大纲 → 根据分镜头生成图片 → 图片生成视频 → 视频配合字幕整合完成</p>
+</blockquote>
+<p>PPT创建工作流，参考：<a target="_blank" rel="noopener" href="https://didilili.github.io/ai-agents-from-zero/#/%E6%A1%88%E4%BE%8B%E4%B8%8E%E6%BA%90%E7%A0%81-1-Coze&Dify%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%99%BA%E8%83%BD%E4%BD%93/3.1-Coze%E6%A1%88%E4%BE%8B%EF%BC%9A%E4%B8%80%E9%94%AE%E7%94%9F%E6%88%90%E8%A1%8C%E4%B8%9A%E8%B0%83%E7%A0%94PPT/3.1-%E4%B8%80%E9%94%AE%E7%94%9F%E6%88%90%E8%A1%8C%E4%B8%9A%E8%B0%83%E7%A0%94PPT">https://didilili.github.io/ai-agents-from-zero/#/%E6%A1%88%E4%BE%8B%E4%B8%8E%E6%BA%90%E7%A0%81-1-Coze&amp;Dify%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%99%BA%E8%83%BD%E4%BD%93/3.1-Coze%E6%A1%88%E4%BE%8B%EF%BC%9A%E4%B8%80%E9%94%AE%E7%94%9F%E6%88%90%E8%A1%8C%E4%B8%9A%E8%B0%83%E7%A0%94PPT/3.1-%E4%B8%80%E9%94%AE%E7%94%9F%E6%88%90%E8%A1%8C%E4%B8%9A%E8%B0%83%E7%A0%94PPT</a></p>
+<p>爆款视频制作：<a target="_blank" rel="noopener" href="https://didilili.github.io/ai-agents-from-zero/#/%E6%A1%88%E4%BE%8B%E4%B8%8E%E6%BA%90%E7%A0%81-1-Coze&Dify%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%99%BA%E8%83%BD%E4%BD%93/3.2-Coze%E6%A1%88%E4%BE%8B%EF%BC%9A%E5%A4%8D%E5%88%BB%E7%88%86%E6%AC%BE%E8%A7%86%E9%A2%91/3.2-%E5%A4%8D%E5%88%BB%E7%88%86%E6%AC%BE%E8%A7%86%E9%A2%91">https://didilili.github.io/ai-agents-from-zero/#/%E6%A1%88%E4%BE%8B%E4%B8%8E%E6%BA%90%E7%A0%81-1-Coze&amp;Dify%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%99%BA%E8%83%BD%E4%BD%93/3.2-Coze%E6%A1%88%E4%BE%8B%EF%BC%9A%E5%A4%8D%E5%88%BB%E7%88%86%E6%AC%BE%E8%A7%86%E9%A2%91/3.2-%E5%A4%8D%E5%88%BB%E7%88%86%E6%AC%BE%E8%A7%86%E9%A2%91</a></p>
+<h2 id="低代码平台智能体的调用"><a href="#低代码平台智能体的调用" class="headerlink" title="低代码平台智能体的调用"></a>低代码平台智能体的调用</h2><p>文章提供了多个低代码平台的API调用，总体看不难，这里略过</p>
+<h2 id="低代码平台Windows部署扣子"><a href="#低代码平台Windows部署扣子" class="headerlink" title="低代码平台Windows部署扣子"></a>低代码平台Windows部署扣子</h2><p>为什么本地部署：</p>
+<ul>
+<li><strong>数据边界</strong>：业务数据是否必须留在内网或企业自有环境中。</li>
+<li><strong>交付方式</strong>：是否需要把平台、模型和业务系统一起交付给客户。</li>
+<li><strong>运维可控性</strong>：是否能自己控制版本、日志、网络和资源。</li>
+</ul>
+<p>不管部署的是 Coze Studio、Dify，还是 Coze Loop，第一次跑通时都围绕同一条主线：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>要完成的事</th>
+<th>容易出错的地方</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. 环境准备</td>
+<td>安装 Docker，必要时安装 Git、Go</td>
+<td>Docker 未启动、网络代理或镜像源不可用</td>
+</tr>
+<tr>
+<td>2. 获取代码</td>
+<td>下载或克隆官方仓库</td>
+<td>GitHub 慢、目录层级找错</td>
+</tr>
+<tr>
+<td>3. 修改配置</td>
+<td>配置模型、端口或 <code>.env</code></td>
+<td>API Key、Endpoint、端口、文件位置写错</td>
+</tr>
+<tr>
+<td>4. 启动服务</td>
+<td>执行 Docker Compose 命令</td>
+<td>没在正确目录执行、镜像拉取失败、端口被占用</td>
+</tr>
+<tr>
+<td>5. 浏览器验证</td>
+<td>打开本地地址并完成初始化</td>
+<td>页面能打开但模型不可用，或服务未完全启动</td>
+</tr>
+</tbody></table>
+<p>安装docker</p>
+<p>Coze Studio 可以通过 Git 克隆，也可以直接下载 ZIP 包。两种方式选一种即可。</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs crmsh">git <span class="hljs-keyword">clone</span> <span class="hljs-title">https</span>://github.com/coze-dev/coze-studio.git<br></code></pre></div></td></tr></table></figure>
+
+<p>首次启动 Coze Studio 开源版之前，需要先配置模型服务。否则即使页面能打开，创建 Agent 或工作流时也无法选择可用模型。</p>
+<p>进入 <code>coze-studio</code> 根目录，在地址栏输入 <code>cmd</code> 并按回车：</p>
+<p>先复制火山方舟豆包模型的模板文件：</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">copy</span> backend\conf\model\template\model_template_ark_doubao-seed-<span class="hljs-number">1</span>.<span class="hljs-number">6</span>.yaml backend\conf\model\ark_doubao-seed-<span class="hljs-number">1</span>.<span class="hljs-number">6</span>.yaml<br></code></pre></div></td></tr></table></figure>
+
+<p>配置文件里关键的是三个字段：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>Coze Studio 中的模型 ID，由开发者自定义，必须是非零整数且全局唯一</td>
+</tr>
+<tr>
+<td><code>meta.conn_config.api_key</code></td>
+<td>在线模型服务的 API Key</td>
+</tr>
+<tr>
+<td><code>meta.conn_config.model</code></td>
+<td>在线模型服务的模型 ID；以火山方舟为例，这里填写 Endpoint ID</td>
+</tr>
+</tbody></table>
+<p>模型上线后不要随意修改 <code>id</code>。如果只是学习测试，可以先按示例给一个 5 位以上纯数字。</p>
+<h3 id="创建端点（云大模型）"><a href="#创建端点（云大模型）" class="headerlink" title="创建端点（云大模型）"></a>创建端点（云大模型）</h3><p>文章这里选择火山引擎</p>
+<p>进入“在线推理”页面，选择“自定义推理接入点”，点击“创建推理接入点”。<img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-13-16-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-13-22-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-13-28-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-13-34-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>创建完成后复制 Endpoint ID。注意：模型名称下方的 ID 就是后面要填入配置文件的 Endpoint。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-13-47-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>打开前面复制出来的 <code>backend\conf\model\ark_doubao-seed-1.6.yaml</code>。</p>
+<p>先把 <code>id</code> 改成任意 5 位以上纯数字。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-14-00-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>再把 API Key 和 Endpoint 写入对应位置，保存并关闭文件。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-14-22-image.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="本地模型"><a href="#本地模型" class="headerlink" title="本地模型"></a>本地模型</h3><p>Ollama 路线适合更关注私有化、离线可用和数据可控的场景。不过它对本机硬件要求更高，模型速度和效果也取决于你拉取的模型以及电脑资源。</p>
+<p>先在本机安装 Ollama，并拉取一个模型，例如：</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">ollama</span> pull qwen2.<span class="hljs-number">5</span>:<span class="hljs-number">7</span>b<br></code></pre></div></td></tr></table></figure>
+
+<p>然后在 Coze Studio 项目中找到 Ollama 模型配置模板 <code>model_template_ollama.yaml</code>，复制并重命名为 <code>model_ollama.yaml</code>，放到 <code>backend/conf/model/</code> 目录下。</p>
+<p>修改配置文件中的：</p>
+<ul>
+<li><code>base_url</code>：通常填写 <code>http://host.docker.internal:11434</code></li>
+<li><code>model</code>：填写你通过 Ollama 拉取的模型名，例如 <code>qwen2.5:7b</code></li>
+</ul>
+<p>启动：</p>
+<p>模型配置完成后，进入项目中的 <code>docker</code> 目录。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-15-58-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>接着复制环境配置文件：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dockerfile"><span class="hljs-keyword">copy</span><span class="language-bash"> .env.example .<span class="hljs-built_in">env</span></span><br></code></pre></div></td></tr></table></figure>
+
+<p>Windows 下使用 <code>copy</code>；Linux &#x2F; macOS 下可使用 <code>cp .env.example .env</code>。</p>
+<p>在 <code>coze-studio\docker</code> 目录中执行：</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim">docker compose --<span class="hljs-keyword">profile</span> <span class="hljs-string">&#x27;*&#x27;</span> <span class="hljs-keyword">up</span> -d<br></code></pre></div></td></tr></table></figure>
+
+<p>这条命令会通过 Compose 启用所有 profile，并在后台启动服务。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-16-40-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>浏览器访问：</p>
+<figure class="highlight dts"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dts"><span class="hljs-symbol">http:</span><span class="hljs-comment">//localhost:8888/</span><br></code></pre></div></td></tr></table></figure>
+
+<p>登录后即可进入 Coze Studio 主界面。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-17-00-image.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="Coze-Loop"><a href="#Coze-Loop" class="headerlink" title="Coze Loop"></a>Coze Loop</h4><p>更偏“效果管理”和“运行观测”。它可以帮助开发者做 Prompt 调试、评测集管理、实验对比、Trace 追踪和自动化评测。</p>
+<p>如果说 Coze Studio 解决的是“把智能体做出来”，那么 Coze Loop 解决的是“上线前后怎么评估、追踪和持续优化”。因此它不是第一天必须安装，但在真实项目里很有价值。</p>
+<p>git clone <a target="_blank" rel="noopener" href="https://gitee.com/shkstart/coze-loop.git">https://gitee.com/shkstart/coze-loop.git</a></p>
+<p>模型配置</p>
+<p>编辑下面这个文件：</p>
+<figure class="highlight moonscript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs moonscript">coze-loop-main\release\deployment\docker-compose\conf\model_config.yaml<br><br></code></pre></div></td></tr></table></figure>
+
+<p>以火山方舟为例，需要修改：</p>
+<ul>
+<li><code>api_key</code>：火山方舟 API Key，可参考前面 Coze Studio 的创建方式。</li>
+<li><code>model</code>：火山方舟模型接入点的 Endpoint ID。</li>
+</ul>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-20-58-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>接着打开：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs arduino">coze-loop-main\release\deployment\docker-compose\.env<br></code></pre></div></td></tr></table></figure>
+
+<p>将 <code>COZE_LOOP_APP_OPENAPI_PORT</code> 改为 <code>8889</code> 或其他未被占用端口。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-21-20-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>再打开同目录下的 <code>docker-compose.yml</code>，确认引用 <code>$&#123;COZE_LOOP_APP_OPENAPI_PORT&#125;</code> 的端口与 <code>.env</code> 中保持一致。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-21-32-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>进入：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs arduino">coze-loop-main\release\deployment\docker-compose<br><br></code></pre></div></td></tr></table></figure>
+
+<p>执行：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">docker compose -f docker-compose<span class="hljs-selector-class">.yml</span> <span class="hljs-attr">--env-file</span> <span class="hljs-selector-class">.env</span> <span class="hljs-attr">--profile</span> <span class="hljs-string">&quot;*&quot;</span> up -d<br></code></pre></div></td></tr></table></figure>
+
+<p>如果希望在前台查看完整日志，可去掉 <code>-d</code>。首次启动建议先前台运行，方便观察启动过程：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">docker compose -f docker-compose<span class="hljs-selector-class">.yml</span> <span class="hljs-attr">--env-file</span> <span class="hljs-selector-class">.env</span> <span class="hljs-attr">--profile</span> <span class="hljs-string">&quot;*&quot;</span> up<br></code></pre></div></td></tr></table></figure>
+
+<p>首次启动需要拉取镜像、构建本地镜像，可能耗时较久。看到以下日志，说明部署基本完成。<img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-22-27-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>浏览器访问：</p>
+<figure class="highlight dts"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dts"><span class="hljs-symbol">http:</span><span class="hljs-comment">//localhost:8082</span><br></code></pre></div></td></tr></table></figure>
+
+<p>功能预览：</p>
+<h5 id="用于提示词预览与调试。"><a href="#用于提示词预览与调试。" class="headerlink" title="用于提示词预览与调试。"></a>用于提示词预览与调试。</h5><p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-23-07-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>点击详细：</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-23-27-image.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="Playground-（大模型仪表盘）"><a href="#Playground-（大模型仪表盘）" class="headerlink" title="Playground （大模型仪表盘）"></a>Playground （大模型仪表盘）</h5><p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-23-48-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>…….</p>
+<h2 id="低代码平台Windows部署dify"><a href="#低代码平台Windows部署dify" class="headerlink" title="低代码平台Windows部署dify"></a>低代码平台Windows部署dify</h2><p>GitHub 地址：<a target="_blank" rel="noopener" href="https://github.com/langgenius/Dify">GitHub - langgenius&#x2F;dify: Production-ready platform for agentic workflow development. · GitHub</a></p>
+<p>进入 Dify 仓库下的 <code>docker</code> 目录，将 <code>.env.example</code> 复制并就和 Dify 云平台基本一致了重命名为 <code>.env</code>。</p>
+<p>然后按需修改 <code>.env</code> 中的配置，例如端口。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-18-10-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>第一次部署最常改的是端口。如果本机 <code>80</code> 端口被其他程序占用，可以改成 <code>8100</code>、<code>8080</code> 或其他未被占用端口。</p>
+<p>启动dify：</p>
+<p>进入 Dify 仓库下的 <code>docker</code> 目录：</p>
+<p>执行 docker compose up -d</p>
+<p>后续再次执行 <code>docker compose up -d</code>，通常就是启动已有服务。</p>
+<p>浏览器访问：</p>
+<ul>
+<li>默认端口：<code>http://localhost</code></li>
+<li>如果你把端口改成了 <code>8100</code>：<code>http://localhost:8100</code></li>
+</ul>
+<p>本地版的使用方式就和 Dify 云平台基本一致了。</p>
+<h1 id="企业级大模型部署"><a href="#企业级大模型部署" class="headerlink" title="企业级大模型部署"></a>企业级大模型部署</h1><p><strong>企业级私有化部署</strong>：在自有机房或云服务器上部署 <strong>Dify</strong>（应用层）和 <strong>Xinference</strong>（模型托管与推理层），实现数据不出域、成本可控、模型版本可管的完整链路。内容偏实战，涉及租云服务器、装 Docker、部署 Dify、租 GPU 服务器、部署 LLM&#x2F;Embedding&#x2F;Rerank 及 Dify 对接自建模型。</p>
+<p>所以企业部署的目标，从来都不只是“把 Dify 装上去”，而是把它变成一套可持续维护的基础设施。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>第三方 API</th>
+<th>企业级部署</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>安全合规</strong></td>
+<td>敏感数据泄漏</td>
+<td>数据掌握在企业手中</td>
+</tr>
+<tr>
+<td><strong>成本预算</strong></td>
+<td>高频调用成本不可控</td>
+<td>成本可预测（服务器购买&#x2F;租赁和运维<br>成本）</td>
+</tr>
+<tr>
+<td><strong>能力可控</strong></td>
+<td>黑箱与版本漂移</td>
+<td>推理性能、模型版本可定制</td>
+</tr>
+<tr>
+<td><strong>可靠性</strong></td>
+<td>延迟、吞吐不可控</td>
+<td>内网低延迟、弹性扩缩容自由调整<br>吞吐量</td>
+</tr>
+<tr>
+<td><strong>运维治理</strong></td>
+<td>模型服务不透明，不利于定位故障</td>
+<td>模型服务可观测，支持故障定位和治理</td>
+</tr>
+</tbody></table>
+<h2 id="技术架构"><a href="#技术架构" class="headerlink" title="技术架构"></a>技术架构</h2><ul>
+<li><p><code>应用层</code></p>
+<ul>
+<li>典型代表：Dify</li>
+<li>负责 Agent、Workflow、RAG、知识库、提示词、前端交互和平台管理</li>
+</ul>
+<p>以下为一个整体</p>
+</li>
+<li><p><code>模型托管层</code></p>
+<ul>
+<li>典型代表：Xinference</li>
+<li>负责统一托管 LLM、Embedding、Rerank，并对外暴露服务</li>
+</ul>
+</li>
+<li><p><code>推理引擎层</code></p>
+<ul>
+<li>典型代表：vLLM、SGLang、TEI、Ollama、llama.cpp</li>
+<li>负责真正加载模型并在 CPU &#x2F; GPU 上执行推理</li>
+</ul>
+<p>以上为一个整体</p>
+</li>
+<li><p><code>接入方式</code></p>
+<ul>
+<li>上层通常通过 OpenAI-compatible API 或平台插件完成对接</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-00-37-07-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="部署dify"><a href="#部署dify" class="headerlink" title="部署dify"></a>部署dify</h2><p>云服务器部署docker，安装 Dify 之前, 请确保你的机器已满足最低安装要求：</p>
+<ul>
+<li>CPU &gt;&#x3D; 2 Core</li>
+<li>RAM &gt;&#x3D; 4 GiB</li>
+</ul>
+<p>在<code>/opt</code>下创建一个 dify 目录，用于存储 dify 源码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /opt<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">mkdir</span> dify <span class="hljs-comment">#用于存储dify源码包</span><br></code></pre></div></td></tr></table></figure>
+
+<p>进行解压：</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-comment">#进入dify目录,在opt目录下执行：</span><br><span class="hljs-attribute">cd</span> ./dify<br><span class="hljs-comment">#解压</span><br><span class="hljs-attribute">sudo</span> tar -zxvf dify-<span class="hljs-number">0</span>.<span class="hljs-number">15</span>.<span class="hljs-number">5</span>.tar.gz<br><br><span class="hljs-attribute">cd</span> /opt/dify/dify-<span class="hljs-number">0</span>.<span class="hljs-number">15</span>.<span class="hljs-number">5</span><br><br><span class="hljs-attribute">pwd</span> # 输出 /opt/dify/dify-<span class="hljs-number">0</span>.<span class="hljs-number">15</span>.<span class="hljs-number">5</span><br></code></pre></div></td></tr></table></figure>
+
+<ol>
+<li><p>进入 Dify 源代码的 Docker 目录：</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">cd</span> /opt/dify/dify-<span class="hljs-number">0</span>.<span class="hljs-number">15</span>.<span class="hljs-number">5</span>/docker<br></code></pre></div></td></tr></table></figure>
+</li>
+<li><p>复制环境配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">cp</span> .env.example .<span class="hljs-built_in">env</span><br></code></pre></div></td></tr></table></figure></li>
+</ol>
+<ul>
+<li><p>如果版本是 Docker Compose V2，使用以下命令（课程对应版本）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> docker compose up -d<br></code></pre></div></td></tr></table></figure>
+</li>
+<li><p>如果版本是 Docker Compose V1，使用以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> docker-compose up -d<br></code></pre></div></td></tr></table></figure></li>
+</ul>
+<p>说明：Docker 会自动帮你：拉取需要的镜像 → 创建容器 → 按顺序启动所有服务 → 后台运行。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-20-51-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>你可以前往管理员初始化页面设置管理员账户：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs avrasm"><span class="hljs-meta"># 服务器环境</span><br><span class="hljs-symbol">http:</span>//your_server_ip/install   <span class="hljs-meta">#your_server_ip即为配置的腾讯云服务器地址</span><br></code></pre></div></td></tr></table></figure>
+
+<p>进行注册登录即可</p>
+<p>为避免案例中的竞价实例被释放，可以在控制台中的快照中设置快照策略，即使被释放了也能保存快照，从而快速恢复</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-24-09-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>如果想调用线上的 LLM，则可以用 Dify 选择线上的模型运营商。比如说可以在模型运营商中选择 DeepSeek。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-24-30-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="本地大模型"><a href="#本地大模型" class="headerlink" title="本地大模型"></a>本地大模型</h2><p>部署 Xinference，进而部署私有的大模型。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-25-38-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-25-43-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>GPU服务器：</p>
+<p><strong>平台地址：</strong><a target="_blank" rel="noopener" href="https://www.autodl.com/">https://www.autodl.com/</a></p>
+<blockquote>
+<p>AutoDL 服务器的资源比较紧俏，且比较贵</p>
+<ul>
+<li>一台机器开机一个小时平均花费 2 元</li>
+<li><code>建议</code>：一般早上开始工作的时候开机，在结束一天工作的时候关机。</li>
+</ul>
+</blockquote>
+<p>单卡 4090 作为我们的服务器，我们需要租赁一台服务器部署 Xinference。</p>
+<p>注意：AutoDL 官方文档中默认会将实例的 <strong>6006</strong> 和 <strong>6008</strong> 端口映射为自定义服务入口。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-26-28-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>镜像</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-26-46-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>界面中的「框架」是 AutoDL 预装好的基础环境，不同框架用途不同，可做大致区分：</p>
+<table>
+<thead>
+<tr>
+<th>框架</th>
+<th>简要说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>PyTorch</strong></td>
+<td>主流深度学习框架，用于训练和推理。vLLM、Xinference 等推理栈多基于 PyTorch，<strong>本教程部署 Xinference 建议选此项</strong>。</td>
+</tr>
+<tr>
+<td><strong>TensorFlow</strong></td>
+<td>另一大深度学习框架，生态多用于训练与部署，与 PyTorch 二选一即可。</td>
+</tr>
+<tr>
+<td><strong>Miniconda</strong></td>
+<td>轻量版 conda，只提供 Python 与包管理，无预装深度学习框架，适合自己从零配环境。</td>
+</tr>
+<tr>
+<td><strong>tritonserver</strong></td>
+<td>NVIDIA Triton 推理服务，用于高性能模型部署，多与 TensorRT 等配合使用。</td>
+</tr>
+<tr>
+<td><strong>JAX</strong></td>
+<td>面向数值计算与研究的框架，强调高性能与函数式写法，偏研究&#x2F;实验场景。</td>
+</tr>
+<tr>
+<td><strong>PaddlePaddle</strong></td>
+<td>百度开源深度学习平台，国内生态常用。</td>
+</tr>
+<tr>
+<td><strong>TensorRT</strong></td>
+<td>NVIDIA 的推理优化库，侧重在 NVIDIA GPU 上加速推理，常与推理服务一起用。</td>
+</tr>
+<tr>
+<td><strong>Gromacs</strong></td>
+<td>分子动力学模拟软件，与深度学习无直接关系，属科学计算&#x2F;生物物理方向。</td>
+</tr>
+</tbody></table>
+<p>完成之后，连接。</p>
+<p>为下载一些外网的资源（比如 GitHub、HuggingFace 等），需要在<strong>当前终端中</strong>开启<code>学术资源加速</code></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-33-54-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>将图中框选的一行复制到终端输入即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">source</span> /etc/network_turbo<br></code></pre></div></td></tr></table></figure>
+
+<p>可执行 <code>unset http_proxy &amp;&amp; unset https_proxy</code> 取消当前终端代理。</p>
+<p>部署xinference</p>
+<p>创建conda环境：</p>
+<p>AutoDL 的系统盘大小为 30GB，数据盘大小为 50GB，conda 的默认工作路径在系统盘下，Xinference 全家桶需要的空间比较大，可能导致系统盘被占满，因此将 conda 环境创建在数据盘下。</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">conda</span> create -p /root/autodl-tmp/conda_envs/xinfer_env python=<span class="hljs-number">3</span>.<span class="hljs-number">10</span><br></code></pre></div></td></tr></table></figure>
+
+<p>初始化：</p>
+<p>conda init bash<br>source ~&#x2F;.bashrc</p>
+<p>激活：</p>
+<p>conda deactivate<br>conda activate &#x2F;root&#x2F;autodl-tmp&#x2F;conda_envs&#x2F;xinfer_env</p>
+<p>验证是否成功， <code>python</code> 和 <code>pip</code> 的路径均指向该 conda 环境目录，则创建成功。</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">which</span> python<br><br><span class="hljs-built_in">which</span> pip<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="部署XInference"><a href="#部署XInference" class="headerlink" title="部署XInference"></a>部署XInference</h4><p>AutoDL 学术加速默认使用阿里云作为 PyPI 源，该镜像环境中可能缺少 XInference 所需的 num2words 等依赖而导致报错，因此将清华源作为备用源。</p>
+<figure class="highlight axapta"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs axapta">pip install <span class="hljs-string">&quot;xinference[vllm,embedding,rerank,transformers]==1.16.0&quot;</span> \<br>--extra-<span class="hljs-keyword">index</span>-url https:<span class="hljs-comment">//pypi.tuna.tsinghua.edu.cn/simple</span><br></code></pre></div></td></tr></table></figure>
+
+<p>可以把安装服务放在后台</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim">nohup pip install <span class="hljs-string">&quot;xinference[vllm,embedding,rerank,transformers]==1.16.0&quot;</span> --extra-<span class="hljs-built_in">index</span>-url https://pypi.tuna.tsinghua.edu.<span class="hljs-keyword">cn</span>/simple &gt;xinfer_install.<span class="hljs-built_in">log</span> <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> &amp;<br></code></pre></div></td></tr></table></figure>
+
+<p>日志记录在 xinfer_install.log，执行以下命令可以监听日志</p>
+<figure class="highlight stan"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stan"><span class="hljs-built_in">tail</span> -F xinfer_install.<span class="hljs-built_in">log</span><br></code></pre></div></td></tr></table></figure>
+
+<p>启动服务端：</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">XINFERENCE_MODEL_SRC</span>=modelscope xinference-local --host <span class="hljs-number">0.0.0.0</span> --port <span class="hljs-number">6006</span><br></code></pre></div></td></tr></table></figure>
+
+<p>XINFERENCE_MODEL_SRC&#x3D;modelscope 的作用是将默认的模型仓库从<strong>Huggingface</strong>更换为<strong>魔搭</strong>。</p>
+<p>–host：指定监听网卡，0.0.0.0 表示监听所有网卡的请求</p>
+<p>–port：指定服务端口，默认 9997</p>
+<p>AutoDL 的云 GPU 服务器默认会将 6006 和 6008 映射为服务，Xinference 服务端监听了 6006 端口，访问对应链接即可访问 Xinference 的 WebUI。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-37-46-image.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="部署本地大模型"><a href="#部署本地大模型" class="headerlink" title="部署本地大模型"></a>部署本地大模型</h3><p>我们可以让 Xinference 平台帮我们从模型仓库下载并启动模型，前提是该模型被官方收录并支持。</p>
+<p>以 Qwen3-0.6B 为例，参考官方文档</p>
+<blockquote>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-39-44-image.png" srcset="/img/loading.gif" lazyload></p>
+</blockquote>
+<p>Xinference 把模型分成了很多模型族，每个模型族都包含一系列不同规模的模型，通过不同的属性配置区分。Qwen3-0.6B 的模型族为 qwen3，配置如上图所示。</p>
+<p>新起一个连接窗口：激活 conda 环境</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">conda activate <span class="hljs-regexp">/root/</span>autodl-tmp<span class="hljs-regexp">/conda_envs/</span>xinfer_env<br></code></pre></div></td></tr></table></figure>
+
+<p>开启学术加速：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">source</span> /etc/network_turbo<br></code></pre></div></td></tr></table></figure>
+
+<p>启动命令如下：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">xinference launch \<br>  <span class="hljs-attr">--model-engine</span> vllm \<br>  <span class="hljs-attr">--model-name</span> qwen3 \<br>  <span class="hljs-attr">--size-in-billions</span> <span class="hljs-number">0</span>_6 \<br>  <span class="hljs-attr">--model-format</span> pytorch \<br>  <span class="hljs-attr">--quantization</span> <span class="hljs-attribute">none</span> \<br>  <span class="hljs-attr">--model-uid</span> Qwen3-<span class="hljs-number">0.6</span>B \<br>  <span class="hljs-attr">--gpu_memory_utilization</span> <span class="hljs-number">0.6</span> \<br>  <span class="hljs-attr">--max_model_len</span> <span class="hljs-number">1024</span> \<br>  <span class="hljs-attr">--endpoint</span> http:<span class="hljs-comment">//localhost:6006</span><br></code></pre></div></td></tr></table></figure>
+
+<p><code>--model-engine vllm</code>：底层推理引擎</p>
+<p><code>--model-name qwen3</code>：模型族</p>
+<p><code>--size-in-billions 0_6</code>：模型规模，以 10 亿为单位</p>
+<p><code>--model-format pytorch</code>：权重文件格式</p>
+<p><code>--quantization none</code>：是否量化</p>
+<p><code>--model-uid Qwen3-0.6B</code>：模型 uid，用于在 Xinference 中唯一区分模型，可以省略，由系统生成</p>
+<p><code>--gpu_memory_utilization 0.6</code>：vLLM 参数，模型占用 GPU 显存的百分比（示例中为 0.6，可按需调整）</p>
+<p><code>--max_model_len 1024</code>：vLLM 参数，模型支持的上下文长度</p>
+<p><code>--endpoint</code>：Xinference 服务端入口</p>
+<p>此时服务端可以看到模型正在下载。</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-40-28-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>模型部署完成</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-40-41-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>如果模型在本地：</p>
+<p>如果模型权重已被预下载到本地，可以执行以下命令。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs stylus">xinference launch \<br>  <span class="hljs-attr">--model-engine</span> vllm \<br>  <span class="hljs-attr">--model-name</span> qwen3 \<br>  <span class="hljs-attr">--size-in-billions</span> <span class="hljs-number">0</span>_6 \<br>  <span class="hljs-attr">--model-format</span> pytorch \<br>  <span class="hljs-attr">--quantization</span> <span class="hljs-attribute">none</span> \<br>  <span class="hljs-attr">--model-path</span> <span class="hljs-string">&quot;$&#123;your_model_path&#125;&quot;</span> \<br>  <span class="hljs-attr">--model-uid</span> Qwen3-<span class="hljs-number">0.6</span>B \<br>  <span class="hljs-attr">--gpu_memory_utilization</span> <span class="hljs-number">0.6</span> \<br>  <span class="hljs-attr">--max_model_len</span> <span class="hljs-number">1024</span> \<br>  <span class="hljs-attr">--endpoint</span> http:<span class="hljs-comment">//localhost:6006</span><br></code></pre></div></td></tr></table></figure>
+
+<p><code>--model-path</code>：模型权重本地存储路径。</p>
+<p>测试：</p>
+<p>查看部署情况</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli">xinference list \<br>  <span class="hljs-params">--endpoint</span> http:<span class="hljs-string">//localhost</span><span class="hljs-function">:6006</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-41-25-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>WEBUI</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-41-39-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>发送请求：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli">curl http:<span class="hljs-string">//localhost</span><span class="hljs-function">:6006</span>/v1/chat/completions -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> -d &#x27;&#123;<br>        <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;Qwen3-0.6B&quot;</span>,<br>        <span class="hljs-string">&quot;messages&quot;</span>: [<br>                &#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;你是个乐于助人的助理。&quot;</span>&#125;,<br>                &#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;你好啊&quot;</span>&#125;<br>        ]<br>&#125;&#x27;<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-42-37-image.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="部署embedding模型（嵌入模型）"><a href="#部署embedding模型（嵌入模型）" class="headerlink" title="部署embedding模型（嵌入模型）"></a>部署embedding模型（嵌入模型）</h3><p>云端部署</p>
+<figure class="highlight applescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs applescript">xinference <span class="hljs-built_in">launch</span> \<br>  <span class="hljs-comment">--model-name bge-small-zh-v1.5 \</span><br>  <span class="hljs-comment">--model-type embedding \</span><br>  <span class="hljs-comment">--endpoint http://localhost:6006</span><br></code></pre></div></td></tr></table></figure>
+
+<p><code>--model-name</code>：模型名称</p>
+<p><code>--model-type</code>：模型类型</p>
+<p>本地文件部署：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli">xinference launch \<br>  <span class="hljs-params">--model-name</span> bge-small-zh-v1.5 \<br>  <span class="hljs-params">--model-type</span> embedding \<br>  <span class="hljs-params">--model-path</span> <span class="hljs-string">&quot;$&#123;your_model_path&#125;&quot;</span> \<br>  <span class="hljs-params">--endpoint</span> http:<span class="hljs-string">//localhost</span><span class="hljs-function">:6006</span><br></code></pre></div></td></tr></table></figure>
+
+<p><code>--model-path</code>：本地模型路径（模型权重所在目录）</p>
+<p>测试：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli">xinference list \<br>  <span class="hljs-params">--endpoint</span> http:<span class="hljs-string">//localhost</span><span class="hljs-function">:6006</span><br></code></pre></div></td></tr></table></figure>
+
+<p>测试:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs cpp">curl http:<span class="hljs-comment">//localhost:6006/v1/embeddings \</span><br><span class="hljs-comment">  -H &quot;Content-Type: application/json&quot; \</span><br><span class="hljs-comment">  -d &#x27;&#123;</span><br>    <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;bge-small-zh-v1.5&quot;</span>,<br>    <span class="hljs-string">&quot;input&quot;</span>: <span class="hljs-string">&quot;这是一个用于测试的中文句子&quot;</span><br>  &#125;&#x27;<br></code></pre></div></td></tr></table></figure>
+
+<p>响应如下:</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-45-00-image.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="部署rerank模型"><a href="#部署rerank模型" class="headerlink" title="部署rerank模型"></a>部署rerank模型</h3><p>部署：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs applescript">xinference <span class="hljs-built_in">launch</span> \<br>  <span class="hljs-comment">--model-name bge-reranker-base \</span><br>  <span class="hljs-comment">--model-type rerank \</span><br>  <span class="hljs-comment">--endpoint http://localhost:6006</span><br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs cpp">curl http:<span class="hljs-comment">//localhost:6006/v1/rerank \</span><br><span class="hljs-comment">  -H &#x27;Content-Type: application/json&#x27; \</span><br><span class="hljs-comment">  -d &#x27;</span><br>&#123;<br>  <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;bge-reranker-base&quot;</span>,<br>  <span class="hljs-string">&quot;query&quot;</span>: <span class="hljs-string">&quot;Apple&quot;</span>,<br>  <span class="hljs-string">&quot;documents&quot;</span>: [<br>    <span class="hljs-string">&quot;鸡蛋&quot;</span>,<br>    <span class="hljs-string">&quot;苹果&quot;</span>,<br>    <span class="hljs-string">&quot;good&quot;</span>,<br>    <span class="hljs-string">&quot;香蕉&quot;</span><br>  ],<br>  <span class="hljs-string">&quot;instruction&quot;</span>: <span class="hljs-string">&quot;基于查询结果重排序&quot;</span>,<br>  <span class="hljs-string">&quot;top_n&quot;</span>: <span class="hljs-number">4</span><br>&#125;<br>&#x27;<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-46-20-image.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="dify对接"><a href="#dify对接" class="headerlink" title="dify对接"></a>dify对接</h3><p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-46-43-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-46-50-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-46-57-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>添加llm：</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-47-21-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>在 Xinference 插件下可以看到模型，则配置成功</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-47-50-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>embedding模型：</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-48-07-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-48-18-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>rerank模型：</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-48-31-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-09-48-40-image.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="lanchain"><a href="#lanchain" class="headerlink" title="lanchain"></a>lanchain</h1><ul>
+<li><strong>Models</strong>：模型与模型调用，对应本教程的 Model I&#x2F;O、模型接入</li>
+<li><strong>Memory</strong>：对话历史、会话状态、长期记忆</li>
+<li><strong>Retrieval</strong>：文档加载、切分、向量化、检索、RAG</li>
+<li><strong>Chains</strong>：固定流程组合、LCEL、Runnable</li>
+<li><strong>Agents</strong>：工具调用、自主决策、多步任务</li>
+<li><strong>Callbacks</strong>：日志、Tracing、调试、监控、评估</li>
+</ul>
+<p>路线</p>
+<ul>
+<li><strong>想把模型调起来</strong>：先学 <strong>Model I&#x2F;O</strong></li>
+<li><strong>想把固定步骤串起来</strong>：学 <strong>Chain &#x2F; LCEL</strong></li>
+<li><strong>想让系统记住上下文</strong>：学 <strong>Memory</strong></li>
+<li><strong>想让模型接外部知识</strong>：学 <strong>Retrieval &#x2F; RAG</strong></li>
+<li><strong>想让模型调用工具、做多步任务</strong>：学 <strong>Tools &#x2F; Agents</strong></li>
+<li><strong>想知道系统为什么答成这样</strong>：学 <strong>Callbacks &#x2F; Tracing &#x2F; LangSmith</strong></li>
+</ul>
+<h3 id="LangChain-代码"><a href="#LangChain-代码" class="headerlink" title="LangChain 代码"></a>LangChain 代码</h3><p>LangChain 可以通过不同集成包接入很多模型提供商，官方提供了完整的 Provider 列表：</p>
+<ul>
+<li><strong>Providers Overview</strong>：<a target="_blank" rel="noopener" href="https://docs.langchain.com/oss/python/integrations/providers/overview">LangChain Python integrations - Docs by LangChain</a></li>
+</ul>
+<p>无论你最终接的是阿里百炼、DeepSeek、OpenAI，还是其他兼容 OpenAI 协议的平台，绝大多数场景都绕不开三项信息：</p>
+<ul>
+<li><strong>API Key</strong>：你是谁，用来鉴权</li>
+<li><strong>模型名</strong>：你要调哪个模型</li>
+<li><strong>Base URL</strong>：请求要发到哪里</li>
+</ul>
+<p>安装完环境之后，查看配置信息：</p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-10-55-21-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-11-06-49-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>完成第一次对话：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI  <span class="hljs-comment"># 1. 更改为 ChatOpenAI</span><br><br><span class="hljs-comment"># 设置你的阿里云魔搭/DashScope 密钥</span><br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-11&quot;</span><br><br><span class="hljs-comment"># 2. 初始化 ChatOpenAI 实例</span><br>llm = ChatOpenAI(<br>    model=<span class="hljs-string">&quot;qwen3.6-flash&quot;</span>, <br>    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span>, <br>    temperature=<span class="hljs-number">0.9</span>, <br>    max_tokens=<span class="hljs-number">1024</span><br>)<br><br><span class="hljs-comment"># 3. 必须使用 .invoke() 方法进行调用</span><br><span class="hljs-keyword">try</span>:<br>    response = llm.invoke(<span class="hljs-string">&quot;你好,你是谁&quot;</span>)<br>    <span class="hljs-built_in">print</span>(response.content)  <span class="hljs-comment"># 输出 AI 的回复</span><br><span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;调用 ChatOpenAI 失败:&quot;</span>, e)   <br><br><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-11-28-16-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>多模型共存：</p>
+<ul>
+<li>日常客服问答，用一个便宜稳定的模型</li>
+<li>复杂推理或代码生成，用更擅长推理的模型</li>
+<li>某些企业还会同时保留在线模型和本地模型作为备选</li>
+</ul>
+<p>调用方式同样，只是apibase不同</p>
+<h3 id="invoke和stream区别"><a href="#invoke和stream区别" class="headerlink" title="invoke和stream区别"></a>invoke和stream区别</h3><p><code>invoke()</code>：一次性返回完整结果。<br>适合：</p>
+<ul>
+<li>简单问答</li>
+<li>后台处理</li>
+<li>不需要实时展示中间输出的场景</li>
+</ul>
+<p><code>stream()</code>：边生成边返回。<br>适合：</p>
+<ul>
+<li>命令行实时输出</li>
+<li>聊天界面打字机效果</li>
+<li>长文本生成</li>
+<li>用户等待体验更敏感的场景</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><span class="hljs-keyword">import</span> os<br><br><span class="hljs-comment">#invoke()`：一次性返回完整结果。</span><br><span class="hljs-comment">#stream()`：边生成边返回。</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">init_llm_client</span>():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;正在初始化 ChatOpenAI 客户端...&quot;</span>)<br>    os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-0dd6ea409b96477d86688f90fb51c915&quot;</span><br>    llm = ChatOpenAI(<br>        model=<span class="hljs-string">&quot;qwen3.6-flash&quot;</span>,<br>        openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span>,<br>        temperature=<span class="hljs-number">0.9</span>,<br>        max_tokens=<span class="hljs-number">1024</span><br>    )<br><br>    <span class="hljs-keyword">return</span> llm<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>    <span class="hljs-keyword">try</span>:<br>        llm = init_llm_client()<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;ChatOpenAI 客户端初始化成功！&quot;</span>)<br>        response = llm.invoke(<span class="hljs-string">&quot;你好,你是谁&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;AI 回复:&quot;</span>, response.content)<br><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n正在使用 stream() 方法获取回复...&quot;</span>)<br>        <span class="hljs-comment"># 使用for循环 逐块获取回复 并输出 这里调用了 stream() 方法</span><br>        <span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> llm.stream(<span class="hljs-string">&quot;你好,介绍一下langchain_openai&quot;</span>):<br>            <span class="hljs-built_in">print</span>(chunk.content, end=<span class="hljs-string">&#x27;&#x27;</span>)  <span class="hljs-comment"># 逐块输出 AI 的回复</span><br>        <span class="hljs-built_in">print</span>()  <span class="hljs-comment"># 换行</span><br><br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;调用 ChatOpenAI 失败:&quot;</span>, e)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    main()<br></code></pre></div></td></tr></table></figure>
+
+<p>batch：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-comment"># 构造一个包含 3 个独立提问的列表</span><br>tasks = [<br>    <span class="hljs-string">&quot;分析日志A：192.168.1.1...&quot;</span>,<br>    <span class="hljs-string">&quot;分析日志B：10.0.0.4...&quot;</span>,<br>    <span class="hljs-string">&quot;分析日志C：172.16.2.3...&quot;</span><br>]<br><br><span class="hljs-comment"># 一行代码，并发齐头并进</span><br>results = llm.batch(tasks)<br><br><span class="hljs-comment"># 返回的 results 是一个包含 3 个 AIMessage 的列表，顺序和 tasks 完全一致</span><br><span class="hljs-keyword">for</span> response <span class="hljs-keyword">in</span> results:<br>    <span class="hljs-built_in">print</span>(response.content)<br></code></pre></div></td></tr></table></figure>
+
+
+
+
+
+<h2 id="model-I-O"><a href="#model-I-O" class="headerlink" title="model I&#x2F;O"></a>model I&#x2F;O</h2><p><strong>Model I&#x2F;O</strong> 是 LangChain 中专门负责“<strong>如何和模型打交道</strong>”的模块。它关心的就是：<strong>模型输入怎么组织、模型怎么调用、模型输出怎么处理</strong>，这三件事加在一起，就是 Model I&#x2F;O。</p>
+<p><strong>Model I&#x2F;O &#x3D; Format（输入格式化）→ Predict（模型调用）→ Parse（输出解析）</strong></p>
+<p>这三个词，是后续 LangChain 学习里最值得反复记住的一条主线。</p>
+<ul>
+<li><strong>Format（输入格式化）</strong>：把原始业务输入整理成模型更容易理解的形式，例如 Prompt 模板、多角色消息、变量填充等。</li>
+<li><strong>Predict（模型调用）</strong>：通过 LangChain 的统一接口调用不同模型提供商，例如 OpenAI、DeepSeek、阿里百炼、Ollama 等。</li>
+<li><strong>Parse（输出解析）</strong>：把模型返回的自然语言结果转成更稳定、程序更好处理的形式，例如字符串、JSON、结构化对象等。</li>
+</ul>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-11-50-42-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>就是给模型定义身份，然后使用大模型调用，对于此身份，能完成的工作，使用大模型进行，然后最后在格式化输出</p>
+<p>模型类型:</p>
+<p>最常用的为chatmodel</p>
+<table>
+<thead>
+<tr>
+<th>模型类型</th>
+<th>输入形式</th>
+<th>输出形式</th>
+<th>主要特点</th>
+<th>典型场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>LLM</strong></td>
+<td>纯文本字符串</td>
+<td>文本字符串</td>
+<td>更偏传统“文本补全”接口，无天然多角色结构</td>
+<td>单轮生成、摘要、改写、补全</td>
+</tr>
+<tr>
+<td><strong>Chat Model</strong></td>
+<td>字符串或消息列表</td>
+<td><code>AIMessage</code></td>
+<td>更贴近对话，支持多角色消息与更丰富元数据</td>
+<td>智能助手、客服、多轮对话、Agent</td>
+</tr>
+<tr>
+<td><strong>Embeddings</strong></td>
+<td>文本或文本列表</td>
+<td>向量</td>
+<td>把文本转成语义向量，不负责生成文本</td>
+<td>RAG、检索、相似度计算、聚类</td>
+</tr>
+</tbody></table>
+<p><strong>LLM 风格：</strong></p>
+<figure class="highlight abnf"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs abnf"><span class="hljs-attribute">prompt</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;请用一句话解释什么是 LangChain&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Chat Model 风格：</strong></p>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">messages</span> = [<br>    &#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;你是一个技术助教&quot;</span>&#125;,<br>    &#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;请用一句话解释什么是 LangChain&quot;</span>&#125;,<br>]<br></code></pre></div></td></tr></table></figure>
+
+<p>从真实项目角度看，Chat Model 通常更适合现代 AI 应用，因为它：</p>
+<ul>
+<li>更自然地支持 system &#x2F; user &#x2F; assistant 角色</li>
+<li>更适合多轮对话</li>
+<li>返回结果通常带有更多元数据</li>
+<li>更容易和 Tools、Agent、Structured Output 结合</li>
+<li></li>
+</ul>
+<p>下面是最常见、也最值得先掌握的一组参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>作用</th>
+<th>可以怎么理解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>model</code></td>
+<td>模型名称或标识符</td>
+<td>你要调哪个模型，例如 <code>qwen-plus</code>、<code>deepseek-v4-flash</code></td>
+</tr>
+<tr>
+<td><code>model_provider</code></td>
+<td>提供商 &#x2F; 协议来源</td>
+<td>按哪种 provider 或协议创建底层客户端，例如 <code>&quot;openai&quot;</code>、<code>&quot;deepseek&quot;</code></td>
+</tr>
+<tr>
+<td><code>api_key</code></td>
+<td>接口鉴权凭证</td>
+<td>没它通常就无法调用</td>
+</tr>
+<tr>
+<td><code>base_url</code></td>
+<td>接口根地址</td>
+<td>请求发到哪里，兼容接口时尤其常见</td>
+</tr>
+<tr>
+<td><code>temperature</code></td>
+<td>随机性 &#x2F; 创造性控制</td>
+<td>越低越稳定，越高越发散</td>
+</tr>
+<tr>
+<td><code>max_tokens</code></td>
+<td>最大生成长度</td>
+<td>回答最多生成多少 token，也影响费用</td>
+</tr>
+<tr>
+<td><code>timeout</code></td>
+<td>超时时间</td>
+<td>请求最长等多久</td>
+</tr>
+<tr>
+<td><code>max_retries</code></td>
+<td>失败重试次数</td>
+<td>临时异常时自动重试几次</td>
+</tr>
+<tr>
+<td><code>stop</code></td>
+<td>停止词</td>
+<td>生成到某些位置时强制停止</td>
+</tr>
+</tbody></table>
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-11-59-19-image.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><strong><code>temperature</code></strong> 管“风格和发散度”</li>
+<li><strong><code>max_tokens</code></strong> 管“长度和成本”</li>
+</ul>
+<h2 id="ollama"><a href="#ollama" class="headerlink" title="ollama"></a>ollama</h2><p>因为本地电脑配置不足以支持运行本地模型，所以这里用代码理解，不实际操作</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_ollama <span class="hljs-keyword">import</span> ChatOllama<br><br>model = ChatOllama(<br>    model=<span class="hljs-string">&quot;qwen:4b&quot;</span>,<br>    base_url=<span class="hljs-string">&quot;http://localhost:11434&quot;</span>,<br>)<br><br><span class="hljs-built_in">print</span>(model.invoke(<span class="hljs-string">&quot;什么是 LangChain，100 字以内&quot;</span>).content)<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="消息列表写法"><a href="#消息列表写法" class="headerlink" title="消息列表写法"></a>消息列表写法</h2><p>例子1</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_core.messages <span class="hljs-keyword">import</span> HumanMessage<br><span class="hljs-keyword">from</span> langchain_ollama <span class="hljs-keyword">import</span> ChatOllama<br><br>ollama_llm = ChatOllama(model=<span class="hljs-string">&quot;qwen3:8b&quot;</span>)<br>messages = [HumanMessage(content=<span class="hljs-string">&quot;你好，请介绍一下你自己&quot;</span>)]<br>resp = ollama_llm.invoke(messages)<br><span class="hljs-built_in">print</span>(resp.content)<br></code></pre></div></td></tr></table></figure>
+
+<p>例子2</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_core.messages <span class="hljs-keyword">import</span> SystemMessage, HumanMessage, AIMessage<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><br>llm = ChatOpenAI(model=<span class="hljs-string">&quot;gpt-4o&quot;</span>)<br><br><span class="hljs-comment"># 构造一个完整的对话上下文历史</span><br>messages = [<br>    SystemMessage(content=<span class="hljs-string">&quot;你是一个精通 Python 的数据工程师。&quot;</span>),<br>    <br>    <span class="hljs-comment"># 第一轮对话</span><br>    HumanMessage(content=<span class="hljs-string">&quot;JSON 怎么转 CSV？&quot;</span>),<br>    AIMessage(content=<span class="hljs-string">&quot;你可以使用 Python 内置的 csv 和 json 库，或者用 pandas...&quot;</span>),<br>    <br>    <span class="hljs-comment"># 第二轮对话（当前用户的提问）</span><br>    HumanMessage(content=<span class="hljs-string">&quot;如果是几千万条的非标准大文件，用哪种方案内存占用最少？&quot;</span>)<br>]<br><br><span class="hljs-comment"># 把这个带有角色的消息列表丢给模型</span><br>response = llm.invoke(messages)<br><span class="hljs-built_in">print</span>(response.content)<br></code></pre></div></td></tr></table></figure>
+
+<p>我们可以把大模型的对话界面想象成一场“剧本杀”：</p>
+<ul>
+<li><p><strong>SystemMessage（系统消息）</strong>：就是给大模型下的“角色剧本”&#x2F;“人设卡”<strong>。<br>大模型在读到这段话时，就会立刻入戏。不管用户后面问什么，它都会戴着这个角色的面具来回答。这就是你说的</strong>“前置提示词”。</p>
+</li>
+<li><p><strong>HumanMessage（人类消息）</strong>：就是演员入戏之后，<strong>“台下的观众（用户）突然向它抛出的提问或对白”</strong>。</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_core.messages <span class="hljs-keyword">import</span> SystemMessage, HumanMessage<br><br>messages = [<br>    <span class="hljs-comment"># 1. 设定角色（前置洗脑提示词）</span><br>    SystemMessage(content=<span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        你现在是一个顶级的 Blue Team（蓝队）防御专家。</span><br><span class="hljs-string">        接下来的对话中，用户会向你发送各种服务器日志或命令。</span><br><span class="hljs-string">        你必须保持极度警惕，分析其中是否存在黑客攻击、Web 漏洞利用或恶意后门。</span><br><span class="hljs-string">        回答要求：</span><br><span class="hljs-string">        1. 必须用严谨、客观的专业术语。</span><br><span class="hljs-string">        2. 如果发现威胁，立刻指出并给出应急响应防御建议。</span><br><span class="hljs-string">        3. 绝对不要说任何废话。</span><br><span class="hljs-string">    &quot;&quot;&quot;</span>),<br>    <br>    <span class="hljs-comment"># 2. 用户的实际提问/丢给它的数据</span><br>    HumanMessage(content=<span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        帮我分析一下这段 Nginx 日志有没有问题：</span><br><span class="hljs-string">        192.168.1.105 - - [22/May/2026:14:32:10] &quot;GET /index.php?id=1%20AND%201=1 HTTP/1.1&quot; 200 4523 &quot;-&quot; &quot;Mozilla/5.0&quot;</span><br><span class="hljs-string">    &quot;&quot;&quot;</span>)<br>]<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="提示词"><a href="#提示词" class="headerlink" title="提示词"></a>提示词</h2><p><strong>Prompt（提示词）</strong>，就是你发给大模型的输入内容。</p>
+<p>最简单的 Prompt，是一句自然语言，比如“什么是 LangChain？”；再进一步，你会给它增加角色，比如“你是一名法律顾问，请用 50 字介绍广告法”；再往后，为了让代码可复用、可维护、可协作，你会把这段输入写成模板，并把会变化的部分改成占位符。这就是从“随手提问”走向“工程化输入管理”的过程。</p>
+<p>在真实项目中，Prompt 通常承担几件事：</p>
+<ul>
+<li>告诉模型它是谁，要扮演什么角色。</li>
+<li>告诉模型当前任务是什么，回答边界是什么。</li>
+<li>告诉模型输出格式应该长什么样。</li>
+<li>把用户问题、历史对话、检索结果、工具结果组合成一次完整输入。</li>
+</ul>
+<p>比如下面这些真实开发场景，本质上都离不开本章内容：</p>
+<ul>
+<li><strong>智能客服</strong>：需要系统提示词规定语气、身份和拒答策略。</li>
+<li><strong>企业知识库问答</strong>：需要把“检索出来的上下文 + 用户问题”组合成一条清晰提示。</li>
+<li><strong>多轮聊天</strong>：需要把历史对话插回当前输入，而不是每轮都从头问。</li>
+<li><strong>结构化输出</strong>：需要提前在 Prompt 里写清楚输出格式要求，方便后面交给解析器处理。</li>
+<li><strong>团队协作与 A&#x2F;B 测试</strong>：需要把 Prompt 模板从代码里抽出来，放到 JSON &#x2F; YAML 中做版本管理。</li>
+</ul>
+<p>也就是说，<strong>模型能力决定上限，Prompt 设计决定你能不能稳定接近这个上限。</strong></p>
+<h3 id="提示词模板"><a href="#提示词模板" class="headerlink" title="提示词模板"></a>提示词模板</h3><p><strong>PromptTemplate（提示词模板）</strong> 的地位就像是传统编程里的 <strong>“函数”</strong>。</p>
+<p><strong>使用 PromptTemplate 就是把提示词给</strong>“变量化”。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>template</code></td>
+<td>模板字符串，内部可包含 <code>&#123;变量名&#125;</code> 占位符</td>
+</tr>
+<tr>
+<td><code>input_variables</code></td>
+<td>调用时需要传入的变量名列表</td>
+</tr>
+<tr>
+<td><code>partial_variables</code></td>
+<td>在模板创建阶段就预先固定的一部分变量</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> PromptTemplate<br><br><span class="hljs-comment"># 1. 创建一个“漏洞漏洞描述生成器”的模板</span><br><span class="hljs-comment"># 这里的 &#123;cve_id&#125; 和 &#123;vulnerability_type&#125; 就是占位符（变量）</span><br>vuln_template = PromptTemplate.from_template(<br>    <span class="hljs-string">&quot;你是一个资深漏洞分析师。请针对 CVE 编号为 &#123;cve_id&#125; 的 &#123;vulnerability_type&#125; 漏洞，写一篇 200 字的危害简报。&quot;</span><br>)<br><span class="hljs-comment"># 此时，这个模板只是一个空壳子，大模型是无法直接读懂它的。</span><br><span class="hljs-comment">#之后格式化：</span><br><span class="hljs-comment"># 2. 格式化：填入真实的数据</span><br><span class="hljs-comment"># 比如今天爆出了一个 SQL 注入漏洞</span><br>real_prompt = vuln_template.<span class="hljs-built_in">format</span>(<br>    cve_id=<span class="hljs-string">&quot;CVE-2026-9999&quot;</span>, <br>    vulnerability_type=<span class="hljs-string">&quot;SQL 注入&quot;</span><br>)<br><br><span class="hljs-built_in">print</span>(real_prompt)<br><span class="hljs-comment"># 输出结果（大括号被完美替换了）：</span><br><span class="hljs-comment"># &quot;你是一个资深漏洞分析师。请针对 CVE 编号为 CVE-2026-9999 的 SQL 注入 漏洞，写一篇 200 字的危害简报。&quot;</span><br><br><span class="hljs-comment"># 接下来你就可以把这个 real_prompt 丢给 llm.invoke() 了。</span><br></code></pre></div></td></tr></table></figure>
+
+<p>复用：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-comment"># 3. 复用：手里有 3 个不同的漏洞，用同一个模板批量生产</span><br>vulnerabilities = [<br>    &#123;<span class="hljs-string">&quot;cve_id&quot;</span>: <span class="hljs-string">&quot;CVE-2026-0001&quot;</span>, <span class="hljs-string">&quot;vulnerability_type&quot;</span>: <span class="hljs-string">&quot;权限绕过&quot;</span>&#125;,<br>    &#123;<span class="hljs-string">&quot;cve_id&quot;</span>: <span class="hljs-string">&quot;CVE-2026-0002&quot;</span>, <span class="hljs-string">&quot;vulnerability_type&quot;</span>: <span class="hljs-string">&quot;远程代码执行&quot;</span>&#125;,<br>    &#123;<span class="hljs-string">&quot;cve_id&quot;</span>: <span class="hljs-string">&quot;CVE-2026-0003&quot;</span>, <span class="hljs-string">&quot;vulnerability_type&quot;</span>: <span class="hljs-string">&quot;跨站脚本 (XSS)&quot;</span>&#125;<br>]<br><br><span class="hljs-comment"># 批量复用模板生成完整的 Prompt 列表</span><br>templated_prompts = [vuln_template.<span class="hljs-built_in">format</span>(**vuln) <span class="hljs-keyword">for</span> vuln <span class="hljs-keyword">in</span> vulnerabilities]<br><br><span class="hljs-comment"># 顺手接一个 batch 并发，几秒钟搞定 3 个漏洞的简报审计！</span><br><span class="hljs-comment"># responses = llm.batch(templated_prompts)</span><br></code></pre></div></td></tr></table></figure>
+
+<p>进阶：更符合现代聊天模型的 ChatPromptTemplate</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate<br><br><span class="hljs-comment"># 🏗️ 1. 创建（包含角色和占位符）</span><br>chat_template = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个精通 &#123;language&#125; 语言的安全开发专家。&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;请帮我写一个安全的 &#123;task&#125; 代码示例，注意防范常见的安全漏洞。&quot;</span>)<br>])<br><br><span class="hljs-comment"># 🧪 2. 格式化</span><br><span class="hljs-comment"># 场景 A：想生成一个 Go 语言的账户登录代码</span><br>prompt_a = chat_template.format_messages(language=<span class="hljs-string">&quot;Go&quot;</span>, task=<span class="hljs-string">&quot;账户密码登录&quot;</span>)<br><br><span class="hljs-comment"># ♻️ 3. 复用（模板完全不动，只换参数）</span><br><span class="hljs-comment"># 场景 B：想生成一个 Python 的文件上传代码</span><br>prompt_b = chat_template.format_messages(language=<span class="hljs-string">&quot;Python&quot;</span>, task=<span class="hljs-string">&quot;文件上传并保存&quot;</span>)<br><br><span class="hljs-comment"># 扔给大模型</span><br><span class="hljs-comment"># response = llm.invoke(prompt_b)</span><br></code></pre></div></td></tr></table></figure>
+
+<p>所以你可以把 <code>ChatPromptTemplate</code> 简单理解成：<strong>“面向多角色消息的模板系统”。</strong></p>
+<h4 id="MessagesPlaceholder记忆功能"><a href="#MessagesPlaceholder记忆功能" class="headerlink" title="MessagesPlaceholder记忆功能"></a>MessagesPlaceholder记忆功能</h4><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate, MessagesPlaceholder<br><span class="hljs-keyword">from</span> langchain_core.messages <span class="hljs-keyword">import</span> HumanMessage, AIMessage, SystemMessage<br><br><span class="hljs-comment"># 🏗️ 1. 创建带有“记忆占位符”的聊天提示词模板</span><br>prompt_template = ChatPromptTemplate.from_messages([<br>    <span class="hljs-comment"># 固定不动的系统人设</span><br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个资深的渗透测试助手。&quot;</span>),<br>    <br>    <span class="hljs-comment"># ⭐️ 核心：消息占位符。它的名字叫 &quot;history_box&quot;</span><br>    <span class="hljs-comment"># 它在模板里就像一个弹性的口袋，里面装 0 条或者 100 条历史消息都行</span><br>    MessagesPlaceholder(variable_name=<span class="hljs-string">&quot;history_box&quot;</span>),<br>    <br>    <span class="hljs-comment"># 用户当下的最新提问</span><br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;&#123;current_question&#125;&quot;</span>)<br>])<br><br><span class="hljs-comment"># =======================================================</span><br><span class="hljs-comment"># 🧪 2. 格式化：模拟多轮对话</span><br><span class="hljs-comment"># =======================================================</span><br><br><span class="hljs-comment"># 假设这是我们从数据库或内存里捞出来的“历史聊天记录列表”</span><br>past_memory = [<br>    HumanMessage(content=<span class="hljs-string">&quot;我发现了一个开着 80 端口的 Web 站点。&quot;</span>),<br>    AIMessage(content=<span class="hljs-string">&quot;收到。针对 80 端口的 Web 站点，建议首要对 Web 服务横向目录进行爬取，或检查是否存在常见 OWASP Top 10 漏洞。&quot;</span>)<br>]<br><br><span class="hljs-comment"># 格式化模板，把历史消息列表和当前提问一起塞进去</span><br>real_messages = prompt_template.format_messages(<br>    history_box=past_memory, <span class="hljs-comment"># 👈 这一整串消息对象列表，会被完美“平铺”到占位符的位置</span><br>    current_question=<span class="hljs-string">&quot;我已经扫描了目录，发现了一个隐蔽的 /admin 登录页面。&quot;</span><br>)<br><br><span class="hljs-comment"># =======================================================</span><br><span class="hljs-comment"># 🌐 3. 最终在底层编译出来的完整消息序列：</span><br><span class="hljs-comment"># =======================================================</span><br><span class="hljs-comment"># [</span><br><span class="hljs-comment">#     SystemMessage(content=&quot;你是一个资深的渗透测试助手。&quot;),</span><br><span class="hljs-comment">#     HumanMessage(content=&quot;我发现了一个开着 80 端口的 Web 站点。&quot;),         # 来自占位符</span><br><span class="hljs-comment">#     AIMessage(content=&quot;收到。针对 80 端口的 Web 站点...&quot;),                # 来自占位符</span><br><span class="hljs-comment">#     HumanMessage(content=&quot;我已经扫描了目录，发现了一个隐蔽的 /admin...&quot;)  # 来自最新的 current_question</span><br><span class="hljs-comment"># ]</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>自己用例测试：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> langchain_core.messages <span class="hljs-keyword">import</span> HumanMessage, AIMessage, SystemMessage <span class="hljs-comment"># 在内核的消息中引入 SystemMessage、HumanMessage 和 AIMessage 类</span><br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate, MessagesPlaceholder <span class="hljs-comment"># 在内核的提示词模板中引入 ChatPromptTemplate 和 MessagesPlaceholder 类</span><br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI <span class="hljs-comment"># 从 langchain_openai 包中引入 ChatOpenAI 类</span><br><span class="hljs-comment">#system_message 是系统角色消息，human_message 是用户输入消息，aimessage 是模型回复消息，messagesplaceholder 是一个占位符，用于在提示词模板中动态插入消息历史</span><br><span class="hljs-comment">#ChatPromptTemplate 是一个提示词模板类，支持在模板中使用 MessagesPlaceholder 来动态插入消息历史，ChatOpenAI 是一个大模型客户端类，用于与阿里云魔搭/DashScope 兼容模式的模型进行交互</span><br><br><br><span class="hljs-comment"># 1. 初始化 ChatOpenAI 实例</span><br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk15&quot;</span> <span class="hljs-comment"># 设置环境变量，填入你的阿里云魔搭/DashScope 密钥</span><br>llm = ChatOpenAI(<br>    model=<span class="hljs-string">&quot;qwen3.6-flash&quot;</span>,<br>    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span>,<br>    temperature=<span class="hljs-number">0.9</span>,<br>    max_tokens=<span class="hljs-number">1024</span><br>) <span class="hljs-comment"># 初始化 ChatOpenAI 实例，指定模型、API 基础 URL、温度和最大 token 数量</span><br><br><br><span class="hljs-comment"># 2. 定义一个包含 MessagesPlaceholder 的提示词模板</span><br><span class="hljs-comment"># 这个模板中包含了一个 MessagesPlaceholder 占位符，模型在生成回复时会把之前的消息历史插入到这个占位符的位置，保持上下文连续</span><br>prompt_template = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span> , <span class="hljs-string">&quot;你是一个网络安全自动化分析助手。如果用户的问题需要查询特定漏洞或端口，请务必调用对应的工具协助回答。&quot;</span>),<br>    <span class="hljs-comment">#预留插入消息历史的占位符，模型会把之前的消息历史插入到这个位置，保持上下文连续</span><br>    MessagesPlaceholder(variable_name=<span class="hljs-string">&quot;memory_history&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;&#123;user_question&#125;&quot;</span>) <span class="hljs-comment"># 这里的 &#123;user_question&#125; 是一个变量占位符，模型会把用户输入的问题插入到这里</span><br>])<br><br><span class="hljs-comment"># 3. 这是一个历史对话，存储了用户发送以及AI的答复，历史对话数据以及用户输入</span><br><span class="hljs-comment"># 这里我们模拟了一个用户提问的场景，用户输入了一个关于 CVE 编号的问题</span><br>chat_history = [<br>    HumanMessage(content=<span class="hljs-string">&quot;你好,我是小明，查询 CVE-2021-44228 漏洞的信息&quot;</span>), <span class="hljs-comment"># 用户输入的消息，询问关于 CVE-2021-44228 漏洞的信息</span><br>    AIMessage(content=<span class="hljs-string">&quot;好的，我正在查询 CVE-2021-44228 漏洞的信息，漏洞为 Log4j 远程代码执行漏洞&quot;</span>) <span class="hljs-comment"># 模型回复的消息，表示正在查询漏洞信息</span><br>]<br><br><span class="hljs-comment"># 4. 新的提问</span><br>current_user_question = <span class="hljs-string">&quot;我是谁,CVE-2021-44228这个漏洞的危害是什么？&quot;</span> <span class="hljs-comment"># 用户当前的问题，询问 CVE-2021-44228 漏洞的危害</span><br><br><span class="hljs-comment"># 5. 使用提示词模板生成最终的消息列表，包含系统消息、历史对话和当前用户输入</span><br>final_messages = prompt_template.format_messages(<br>    memory_history=chat_history, <span class="hljs-comment"># 把之前的历史对话传入占位符，模型会把它们插入到提示词模板中</span><br>    user_question=current_user_question <span class="hljs-comment"># 把当前用户的问题传入变量占位符，模型会把它插入到提示词模板中</span><br>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;完整提示词消息列表: &quot;</span> + <span class="hljs-built_in">str</span>(final_messages)) <span class="hljs-comment"># 输出最终生成的消息列表，看看它是否正确包含了系统消息、历史对话和当前用户输入</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;-&quot;</span>*<span class="hljs-number">50</span>)<br>response = llm.invoke(final_messages) <span class="hljs-comment"># 使用 ChatOpenAI 实例调用模型，传入最终生成的消息列表，模型会根据这些消息生成回复</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;模型回复: &quot;</span> + response.content) <span class="hljs-comment"># 输出模型的回复内容，看看它是否正确理解了提示词中的信息并给出了合理的回答</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-23-20-21-38-image.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="外部加载提示词"><a href="#外部加载提示词" class="headerlink" title="外部加载提示词"></a>外部加载提示词</h3><p>在实际的企业级大模型开发中，<strong>把提示词（Prompt）从 Python 代码中抽离出来，存放到独立的 JSON 或 YAML 文件里</strong>，是一项非常关键的工程实践（通常称为 Prompt 的“配置化”或“资产化”）。</p>
+<p>这样做最大的好处是：<strong>非开发人员（如产品经理、安全运营专家）可以直接去修改 JSON&#x2F;YAML 文件里的提示词文本，而不需要动任何一行 Python 代码。</strong></p>
+<p>假设我们在项目的根目录下创建了一个叫 prompts 的文件夹，并在里面放入两种格式的文件。</p>
+<p>json格式：</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;lc_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;langchain&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;prompts&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;ChatPromptTemplate&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;messages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>    <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;role&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;system&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;你是一个资深的恶意代码分析师。你正在使用 &#123;tool_name&#125; 进行安全审计。&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;role&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;user&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;请帮我审计以下可疑代码片段是否有后门：\n&#123;code_content&#125;&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">]</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>yaml格式：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">_type:</span> <span class="hljs-string">chat</span>  <span class="hljs-comment"># 告诉 LangChain 这是一个 ChatPromptTemplate</span><br><span class="hljs-attr">messages:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">role:</span> <span class="hljs-string">system</span><br>    <span class="hljs-attr">content:</span> <span class="hljs-string">&quot;你是一个资深的恶意代码分析师。你正在使用 &#123;tool_name&#125; 进行安全审计。&quot;</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">role:</span> <span class="hljs-string">user</span><br>    <span class="hljs-attr">content:</span> <span class="hljs-string">|</span><br><span class="hljs-string">      请帮我审计以下可疑代码片段是否有后门：</span><br><span class="hljs-string">      &#123;code_content&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>加载与使用：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> load_prompt<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><br><span class="hljs-comment"># 1. 初始化你的本地或云端大模型整体后端</span><br>llm = ChatOpenAI(<br>    model=<span class="hljs-string">&quot;qwen3.6-flash&quot;</span>, <br>    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span>,<br>    openai_api_key=<span class="hljs-string">&quot;sk-***&quot;</span><br>)<br><br><span class="hljs-comment"># 🚀 2. 核心：从外部文件一键加载 PromptTemplate</span><br><span class="hljs-comment"># 无论是 .yaml 还是 .json，加载方法完全一模一样</span><br>template = load_prompt(<span class="hljs-string">&quot;prompts/security_agent.yaml&quot;</span>)<br><span class="hljs-comment"># 如果想读 JSON，直接换路径即可：</span><br><span class="hljs-comment"># template = load_prompt(&quot;prompts/security_agent.json&quot;)</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;--- 成功载入外部模板 ---&quot;</span>)<br><br><span class="hljs-comment"># 3. 格式化模板（将真实的变量注入进去）</span><br>real_messages = template.format_messages(<br>    tool_name=<span class="hljs-string">&quot;Ghidra&quot;</span>,<br>    code_content=<span class="hljs-string">&quot;import os; os.system(&#x27;rm -rf /&#x27;)&quot;</span><br>)<br><br><span class="hljs-comment"># 4. 扔给大模型运行</span><br>response = llm.invoke(real_messages)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n[AI 审计报告]:&quot;</span>)<br><span class="hljs-built_in">print</span>(response.content)<br></code></pre></div></td></tr></table></figure>
+
+<p>独立大文件加载：</p>
+<p>如果你的 SystemMessage 极其庞大（比如包含长达几千字的样本规则），强行塞进 JSON 容易由于格式转义（如 \n 或双引号）导致文件崩溃。此时更推荐用 <strong>纯文本文件 + Python 内置读取</strong> 的原生方式，然后用 ChatPromptTemplate 组装：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate<br><br><span class="hljs-comment"># 直接用标准 Python 读纯文本文件，不需要任何心智负担</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;prompts/system_rules.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>) <span class="hljs-keyword">as</span> f:<br>    system_dark_prompt = f.read()<br><br><span class="hljs-comment"># 在代码里组装</span><br>template = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, system_dark_prompt), <span class="hljs-comment"># 这里面也可以带 &#123;variables&#125;</span><br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;&#123;user_input&#125;&quot;</span>)<br>])<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="完整测试"><a href="#完整测试" class="headerlink" title="完整测试"></a>完整测试</h3><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model<br><span class="hljs-keyword">from</span> langchain_core.messages <span class="hljs-keyword">import</span> SystemMessage, HumanMessage<br><span class="hljs-keyword">import</span> asyncio<br><span class="hljs-keyword">import</span> os<br><br><span class="hljs-comment"># 设置你的阿里云魔搭/DashScope 密钥</span><br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-111&quot;</span><br>model = init_chat_model(<br>    model=<span class="hljs-string">&quot;qwen3.6-flash&quot;</span>,<br>    model_provider=<span class="hljs-string">&quot;openai&quot;</span>,<br>    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span>,<br>    temperature=<span class="hljs-number">0.9</span>,<br>    max_tokens=<span class="hljs-number">1024</span><br>)<br><span class="hljs-comment"># 1. 使用 SystemMessage 定义系统角色和指令</span><br><span class="hljs-comment"># 2. 使用 HumanMessage 定义用户输入</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">demo_messages</span>():<br>    messages = [<br>        SystemMessage(content=<span class="hljs-string">&quot;你是我的人工智能助手，协助我解答问题。&quot;</span>), <span class="hljs-comment"># 定义系统角色和指令</span><br>        HumanMessage(content=<span class="hljs-string">&quot;你好,你是谁&quot;</span>)<br>    ]<br>    <br>    ressponse = model.invoke(messages)<br>    <span class="hljs-built_in">print</span>(ressponse.content)<br><span class="hljs-comment"># 也可以直接使用字典列表的形式定义消息，模型会自动识别角色和内容</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">demo_dict_messages</span>():<br>    message = [<br>        &#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;你是我的人工智能助手，协助我解答问题。&quot;</span>&#125;,<br>        &#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;你好,你是谁&quot;</span>&#125;<br>        ]<br>    reposponse = model.invoke(message)<br>    <span class="hljs-built_in">print</span>(reposponse.content)<br><br><span class="hljs-comment"># 3. 还可以使用异步方式调用模型，适用于需要并发处理的场景</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">demo_async_messages</span>():<br>    messages = [<br>        SystemMessage(content=<span class="hljs-string">&quot;你是我的人工智能助手，协助我解答问题。&quot;</span>),<br>        HumanMessage(content=<span class="hljs-string">&quot;你好,你是谁&quot;</span>)<br>    ]<br>    response = <span class="hljs-keyword">await</span> model.ainvoke(messages)<br>    <span class="hljs-built_in">print</span>(response.content)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=== 使用 SystemMessage 和 HumanMessage 定义消息 ===&quot;</span>)<br>    demo_messages()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n=== 使用字典列表定义消息 ===&quot;</span>)<br>    demo_dict_messages()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n=== 使用异步方式调用模型 ===&quot;</span>)<br>    asyncio.run(demo_async_messages())<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/20/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A0/2026-05-22-23-14-53-image.png" srcset="/img/loading.gif" lazyload></p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>项目里最常见的用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SystemMessage</code></td>
+<td>系统消息，通常用于规定角色、风格、边界、输出格式</td>
+<td>设定人设、回答规则、拒答策略</td>
+</tr>
+<tr>
+<td><code>HumanMessage</code></td>
+<td>用户消息，对应用户当前输入</td>
+<td>放用户问题、补充条件、后续追问</td>
+</tr>
+<tr>
+<td><code>AIMessage</code></td>
+<td>模型回复消息</td>
+<td>保存上一轮回复，支持多轮上下文</td>
+</tr>
+<tr>
+<td><code>ToolMessage</code></td>
+<td>工具执行结果消息</td>
+<td>把外部工具&#x2F;函数的返回结果回传给模型</td>
+</tr>
+</tbody></table>
+<p>LangChain 的类名叫 <code>HumanMessage</code>，但很多平台的角色字段写的是 <code>user</code>。**这不是冲突，而是不同层的命名习惯。你可以把它们理解成同一个角色。</p>
+<h3 id="systemmeages的重要性"><a href="#systemmeages的重要性" class="headerlink" title="systemmeages的重要性"></a>systemmeages的重要性</h3><p>很多新手会把系统提示词和用户问题混在一段字符串里写，这样虽然也能跑，但可维护性很差。更稳妥的做法是把“规则”和“问题”拆开：</p>
+<ul>
+<li><strong>SystemMessage</strong> 负责定义系统层规则</li>
+<li><strong>HumanMessage</strong> 负责承载当前用户问题</li>
+</ul>
+<p>在真实项目里，SystemMessage 往往决定：</p>
+<ul>
+<li>回答口吻是否专业</li>
+<li>是否允许推测</li>
+<li>是否必须引用上下文</li>
+<li>是否必须按 JSON 输出</li>
+<li>是否需要保守拒答</li>
+</ul>
+<p>在真实项目里，SystemMessage 往往决定：</p>
+<ul>
+<li>回答口吻是否专业</li>
+<li>是否允许推测</li>
+<li>是否必须引用上下文</li>
+<li>是否必须按 JSON 输出</li>
+<li>是否需要保守拒答</li>
+</ul>
+<p><strong>系统提示词是行为边界，用户提示词是当前任务。</strong></p>
+<h2 id="工具调用（function）"><a href="#工具调用（function）" class="headerlink" title="工具调用（function）"></a>工具调用（function）</h2><p>简单代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">from</span> langchain_core.messages <span class="hljs-keyword">import</span> HumanMessage, AIMessage, SystemMessage, ToolMessage<br><span class="hljs-keyword">from</span> langchain_core.tools <span class="hljs-keyword">import</span> tool<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-comment"># 1. 定义本地 Python 真实执行的工具函数</span><br><span class="hljs-comment"># ==========================================</span><br><br><span class="hljs-meta">@tool</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">query_cve_info</span>(<span class="hljs-params">cve_id: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>: <span class="hljs-comment"># 这个函数会被大模型调用，cve_id 是从大模型那里提取的参数 str 类型</span><br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    根据给定的 CVE 漏洞编号，查询该漏洞的详细描述、受影响版本及漏洞类型。</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-comment"># 这里模拟真实的数据库查询或 API 请求</span><br>    database = &#123;<br>        <span class="hljs-string">&quot;CVE-2026-9999&quot;</span>: <span class="hljs-string">&quot;Log4j 远程代码执行漏洞。由于没有对 JNDI 输入进行过滤，攻击者可构造恶意请求远程控制服务器。受影响版本: 2.0-beta9 至 2.14.1。&quot;</span>,<br>        <span class="hljs-string">&quot;CVE-2026-8888&quot;</span>: <span class="hljs-string">&quot;Spring Framework 权限绕过漏洞。特定的路由配置不当导致安全拦截失效。受影响版本: 5.3.0 至 5.3.18。&quot;</span><br>    &#125;<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n[本地系统动作] 🔍 正在查询本地漏洞库，寻找: <span class="hljs-subst">&#123;cve_id&#125;</span> ...&quot;</span>)<br>    <span class="hljs-keyword">return</span> database.get(cve_id, <span class="hljs-string">f&quot;未在漏洞库中找到关于 <span class="hljs-subst">&#123;cve_id&#125;</span> 的记录。&quot;</span>)<br><br><br><span class="hljs-meta">@tool</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_service_by_port</span>(<span class="hljs-params">port: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    根据输入的端口号（Port），返回常见网络服务协议名称及默认关联应用。</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    ports_map = &#123;<br>        <span class="hljs-number">22</span>: <span class="hljs-string">&quot;SSH (安全外壳协议，常用于远程管理)&quot;</span>,<br>        <span class="hljs-number">80</span>: <span class="hljs-string">&quot;HTTP (超文本传输协议，未加密的Web服务)&quot;</span>,<br>        <span class="hljs-number">443</span>: <span class="hljs-string">&quot;HTTPS (安全超文本传输协议，加密Web服务)&quot;</span>,<br>        <span class="hljs-number">3306</span>: <span class="hljs-string">&quot;MySQL (数据库服务)&quot;</span>,<br>        <span class="hljs-number">6379</span>: <span class="hljs-string">&quot;Redis (内存缓存服务)&quot;</span><br>    &#125;<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n[本地系统动作] 🔌 正在检索常见端口映射表，目标端口: <span class="hljs-subst">&#123;port&#125;</span> ...&quot;</span>)<br>    <span class="hljs-keyword">return</span> ports_map.get(port, <span class="hljs-string">f&quot;端口 <span class="hljs-subst">&#123;port&#125;</span> 为非常规端口，无默认映射。&quot;</span>)<br><br><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-comment"># 2. 初始化大模型整体后端并绑定工具</span><br><span class="hljs-comment"># ==========================================</span><br><br><span class="hljs-comment"># 准备工具箱</span><br>tools_box = [query_cve_info, get_service_by_port]<br><br><span class="hljs-comment"># 初始化大模型客户端</span><br>llm = ChatOpenAI(<br>    model=<span class="hljs-string">&quot;qwen3.6-flash&quot;</span>, <br>    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span>,<br>    openai_api_key=os.environ.get(<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>, <span class="hljs-string">&quot;sk-0dd6ea409b96477d86688f90fb51c915&quot;</span>), <span class="hljs-comment"># 填入你的真实密钥</span><br>    temperature=<span class="hljs-number">0.0</span> <span class="hljs-comment"># 做工具调用时，通常把随机性设为0，确保提取参数极度精准</span><br>)<br><br><span class="hljs-comment"># ⭐️ 核心魔法：使用 .bind_tools 将工具的 schema（描述和参数结构）强行注入给大模型</span><br>model_with_tools = llm.bind_tools(tools_box) <span class="hljs-comment"># 现在这个 model_with_tools 就是一个“增强版”的大模型实例，具备了调用工具的能力</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;增强版模型实例: &quot;</span> + <span class="hljs-built_in">str</span>(model_with_tools)) <span class="hljs-comment"># 输出这个增强版模型的实例信息，可以看到它已经绑定了工具</span><br><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-comment"># 3. 完整的消息流闭环交互测试</span><br><span class="hljs-comment"># ==========================================</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">run_security_agent_flow</span>(<span class="hljs-params">user_question: <span class="hljs-built_in">str</span></span>): <span class="hljs-comment"># 这个函数模拟一个完整的安全分析助手的对话流程，输入是用户的问题字符串</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n🚀 用户提问: &#x27;<span class="hljs-subst">&#123;user_question&#125;</span>&#x27;&quot;</span>)<br>    <br>    <span class="hljs-comment"># 构造初始对话队列</span><br>    messages = [<br>        SystemMessage(content=<span class="hljs-string">&quot;你是一个网络安全自动化分析助手。如果用户的问题需要查询特定漏洞或端口，请务必调用对应的工具协助回答。&quot;</span>),<br>        HumanMessage(content=user_question)<br>    ]<br>    <br>    <span class="hljs-comment"># ---- 步骤 A: 第一次调用模型 ----</span><br>    <span class="hljs-comment"># 大模型不会直接给出答案，而是分析问题，并吐出工具调用的指令（Tool Calls）</span><br>    <span class="hljs-comment"># 这里调用了增强版模型，模型会根据 SystemMessage 的指令分析 HumanMessage 的问题，判断是否需要调用工具，并返回一个 AIMessage，其中可能包含 tool_calls 字段</span><br>    <span class="hljs-comment"># 在tools的基础上 模型会自动学习到“如果用户提问中包含CVE编号，就调用 query_cve_info 工具；如果提问中包含端口号，就调用 get_service_by_port 工具”</span><br>    <span class="hljs-comment"># first_response 返回值是一个 AIMessage 对象，里面可能包含 content（模型的自然语言回复）和 tool_calls（模型提取出的工具调用信息列表）</span><br>    first_response = model_with_tools.invoke(messages) <br>    messages.append(first_response) <span class="hljs-comment"># 把 AI 的回复也加入消息历史，保持上下文完整</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;现在消息为&quot;</span> + messages[-<span class="hljs-number">1</span>].content) <span class="hljs-comment"># 输出 AI 的回复内容，看看模型是否正确分析了问题并提出了工具调用需求</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;---  模型第一次分析完毕，正在检查是否需要调用工具... ---&quot;</span>)<br>    <span class="hljs-comment"># 检查大模型有没有提出“想要调用工具”的需求</span><br>    <span class="hljs-comment"># first_response.tool_calls 是一个列表，里面包含了模型提取出的工具调用信息（工具名称、参数、会话ID等），返回值是一个列表，可能包含多个工具调用</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;模型提取出的工具调用信息: <span class="hljs-subst">&#123;first_response.tool_calls&#125;</span>&quot;</span>) <span class="hljs-comment"># 输出模型提取出的工具调用信息，看看它是否正确识别了需要调用的工具和参数</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> first_response.tool_calls:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;💡 [AI 提示] 此问题不需要调用工具，直接给出最终回答：&quot;</span>)<br>        <span class="hljs-built_in">print</span>(first_response.content)<br>        <span class="hljs-keyword">return</span><br>        <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n🤖 [AI 思考] 发现需要使用外部工具！&quot;</span>)<br>    <br>    <span class="hljs-comment"># ---- 步骤 B: 遍历并执行工具（支持模型单次触发多个工具调用） ----</span><br>    <span class="hljs-comment">#如果模型提取出了工具调用需求，我们就需要遍历 first_response.tool_calls 列表，拿到每个工具调用的细节（工具名称、参数、会话ID）。</span><br>    <span class="hljs-comment"># 然后找到对应的 Python 函数执行，并把结果封装成 ToolMessage 送回模型</span><br>    <span class="hljs-comment"># tool_call是个变量 代表每一个工具调用的细节，tool_name是工具名称，tool_args是工具参数，tool_id是大模型生成的唯一会话ID</span><br>    <span class="hljs-keyword">for</span> tool_call <span class="hljs-keyword">in</span> first_response.tool_calls:<br>        tool_name = tool_call[<span class="hljs-string">&quot;name&quot;</span>]<br>        tool_args = tool_call[<span class="hljs-string">&quot;args&quot;</span>]<br>        tool_id = tool_call[<span class="hljs-string">&quot;id&quot;</span>] <span class="hljs-comment"># 👈 拿到大模型随机生成的唯一会话 ID</span><br>        <br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;👉 准备调用工具: <span class="hljs-subst">&#123;tool_name&#125;</span> | 解析出的参数: <span class="hljs-subst">&#123;tool_args&#125;</span> | 会话ID: <span class="hljs-subst">&#123;tool_id&#125;</span>&quot;</span>)<br>        <br>        <span class="hljs-comment"># 寻找对应的真实 Python 函数并执行</span><br>        <span class="hljs-keyword">if</span> tool_name == <span class="hljs-string">&quot;query_cve_info&quot;</span>:<br>            raw_result = query_cve_info.invoke(tool_args)<br>        <span class="hljs-keyword">elif</span> tool_name == <span class="hljs-string">&quot;get_service_by_port&quot;</span>:<br>            raw_result = get_service_by_port.invoke(tool_args)<br>        <span class="hljs-keyword">else</span>:<br>            raw_result = <span class="hljs-string">&quot;未找到此工具&quot;</span><br>            <br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;📥 拿到工具执行结果: <span class="hljs-subst">&#123;raw_result&#125;</span>&quot;</span>)<br>        <br>        <span class="hljs-comment"># ⭐️ 核心：将结果包装成 ToolMessage，并使用 tool_call_id 严格对齐，塞入消息历史</span><br>        <span class="hljs-comment"># tool_call_id 是大模型生成的唯一会话 ID，模型会根据这个 ID 来匹配工具调用和工具结果，确保它们在对话历史中正确关联</span><br>        tool_message = ToolMessage(<br>            content=<span class="hljs-built_in">str</span>(raw_result),<br>            tool_call_id=tool_id<br>        )<br>        <span class="hljs-comment"># 这个 tool_message 就是我们本地执行工具后的结果，它会被大模型识别为对应工具调用的结果</span><br>        <span class="hljs-comment"># 模型会把它和之前的工具调用（tool_call）进行匹配，知道这是对哪个工具调用的回复，然后基于这个结果继续生成后续的回复</span><br>        messages.append(tool_message)<br>        <br>    <span class="hljs-comment"># ---- 步骤 C: 第二次调用模型 ----</span><br>    <span class="hljs-comment"># 此时把包含 System + Human + AIMessage(申请工具) + ToolMessage(工具结果) 的大整包再次发给模型</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n🧠 [AI 思考] 工具数据已收集完毕，正在组织语言汇总简报...&quot;</span>)<br>    final_response = model_with_tools.invoke(messages)<br>    <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n================== 📝 AI 最终分析简报 ==================&quot;</span>)<br>    <span class="hljs-built_in">print</span>(final_response.content)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=========================================================&quot;</span>)<br><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-comment"># 4. 测试不同的场景</span><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br><br>    <span class="hljs-comment"># 场景一：测试单个工具触发</span><br>    run_security_agent_flow(<span class="hljs-string">&quot;我们在公网扫描时发现了 3306 端口，请问这是什么服务？是否有风险？&quot;</span>)<br>    <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">50</span> + <span class="hljs-string">&quot;\n&quot;</span>)<br>    <br>    <span class="hljs-comment"># 场景二：同时触发两个工具并发调用（大模型可以一次性给出两个 tool_calls）</span><br>    run_security_agent_flow(<span class="hljs-string">&quot;帮我查一下 CVE-2026-9999 的漏洞详情，顺便告诉我服务器上开着的 22 端口是做什么的？&quot;</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p>后续见part2…..</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

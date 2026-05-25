@@ -1,0 +1,1032 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="输出解析器把模型的文本输出转成程序易用的结构化数据（如字符串、JSON、强类型对象）。     输出解析器（Output Parser），就是站在模型输出和程序最终要用的数据之间的一层转换器。 它的核心任务是：把模型返回的内容，从“面向人阅读”的文本，转成“面向程序处理”的结构化结果。 这条链可以拆成：  Prompt 负责把输入整理好，告诉模型“你要怎么回答”； Model 负责生成结果，真正“">
+<meta property="og:type" content="article">
+<meta property="og:title" content="agent智能体学习2">
+<meta property="og:url" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="输出解析器把模型的文本输出转成程序易用的结构化数据（如字符串、JSON、强类型对象）。     输出解析器（Output Parser），就是站在模型输出和程序最终要用的数据之间的一层转换器。 它的核心任务是：把模型返回的内容，从“面向人阅读”的文本，转成“面向程序处理”的结构化结果。 这条链可以拆成：  Prompt 负责把输入整理好，告诉模型“你要怎么回答”； Model 负责生成结果，真正“">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-23-21-29-43-image.png">
+<meta property="og:image" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-23-21-55-08-image.png">
+<meta property="og:image" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-09-43-20-image.png">
+<meta property="og:image" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-10-24-23-image.png">
+<meta property="og:image" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-10-37-58-image.png">
+<meta property="og:image" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-20-55-28-image.png">
+<meta property="og:image" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-21-56-08-image.png">
+<meta property="og:image" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-21-56-17-image.png">
+<meta property="og:image" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-22-12-55-image.png">
+<meta property="og:image" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-22-29-56-image.png">
+<meta property="og:image" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-25-15-12-48-image.png">
+<meta property="og:image" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-25-15-38-05-image.png">
+<meta property="og:image" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-25-16-06-58-image.png">
+<meta property="og:image" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-25-21-46-33-image.png">
+<meta property="article:published_time" content="2026-05-23T12:23:23.000Z">
+<meta property="article:modified_time" content="2026-05-25T13:47:52.838Z">
+<meta property="article:author" content="0ldcat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-23-21-29-43-image.png">
+  
+  
+  <title>agent智能体学习2 - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"...","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="agent智能体学习2">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2026-05-23 20:23" pubdate>
+        2026年5月23日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      33k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      278 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">agent智能体学习2</h1>
+            
+            <div class="markdown-body">
+              <h1 id="输出解析器"><a href="#输出解析器" class="headerlink" title="输出解析器"></a>输出解析器</h1><p>把模型的<strong>文本输出</strong>转成程序易用的<strong>结构化数据</strong>（如字符串、JSON、强类型对象）。    </p>
+<p><strong>输出解析器（Output Parser）</strong>，就是站在<strong>模型输出</strong>和<strong>程序最终要用的数据</strong>之间的一层转换器。</p>
+<p>它的核心任务是：把模型返回的内容，从“面向人阅读”的文本，转成“面向程序处理”的结构化结果。</p>
+<p>这条链可以拆成：</p>
+<ul>
+<li>Prompt 负责把输入整理好，告诉模型“<strong>你要怎么回答</strong>”；</li>
+<li>Model 负责生成结果，真正“<strong>生成回答</strong>”；</li>
+<li>Output Parser 负责把结果转成字符串、JSON 或对象，把这份回答“<strong>整理成程序好用的样子</strong>”。</li>
+</ul>
+<p>为什么要输出解析器：</p>
+<p>真实项目里，模型输出通常还要继续流向别的程序模块，例如：</p>
+<ul>
+<li>存进数据库；</li>
+<li>返回给前端页面渲染；</li>
+<li>交给下一个工作流节点；</li>
+<li>作为 Agent、工具、接口调用的参数；</li>
+<li>进入风控、审核、统计、报表逻辑。</li>
+</ul>
+<p>程序更希望拿到的是：</p>
+<ul>
+<li>一个字符串；</li>
+<li>一个 JSON 字典；</li>
+<li>一个字段固定的对象；</li>
+<li>一个带校验规则的强类型数据结构。</li>
+</ul>
+<h2 id="常见的输出解析器分类"><a href="#常见的输出解析器分类" class="headerlink" title="常见的输出解析器分类"></a>常见的输出解析器分类</h2><table>
+<thead>
+<tr>
+<th>解析器</th>
+<th>最终结果</th>
+<th>适用场景</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>StrOutputParser</code></td>
+<td>字符串 <code>str</code></td>
+<td>只需要展示文本，不需要拆字段</td>
+<td>最简单，通常就是取出模型输出正文内容</td>
+</tr>
+<tr>
+<td><code>JsonOutputParser</code></td>
+<td>Python <code>dict</code> &#x2F; <code>list</code></td>
+<td>希望模型返回 JSON，再交给程序继续处理</td>
+<td>适合字段抽取、接口返回、工作流参数传递</td>
+</tr>
+<tr>
+<td><code>PydanticOutputParser</code></td>
+<td>Pydantic 对象</td>
+<td>需要强类型和运行时校验</td>
+<td>适合对字段类型、长度、范围有明确要求的业务场景</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>输出解析器</strong>：更强调“模型已经输出了，我怎么把它转成程序可用的数据”；</li>
+</ul>
+<h3 id="StrOutPutParser"><a href="#StrOutPutParser" class="headerlink" title="StrOutPutParser:"></a>StrOutPutParser:</h3><p> LangChain 里最简单的输出解析器。它做的事情非常直接：<strong>把模型返回内容取出来，当作字符串使用</strong>。它<strong>不做结构化解析</strong>，也不关心字段、键名、数据类型，只关心“把最终文本拿到手”。</p>
+<p>约等于invoke，但是为什么还要使用stroutputparser？</p>
+<p>主要有三点：</p>
+<ul>
+<li><strong>链式统一</strong>：后续可以自然写成 <code>prompt | model | parser</code>。</li>
+<li><strong>接口一致</strong>：今天是字符串，明天想切成 JSON，只要换 parser，不必重写整体结构。</li>
+<li><strong>可读性更强</strong>：代码语义变成“这里是输出解析环节”，对初学者和团队协作都更友好。</li>
+</ul>
+<h3 id="JsonOutputPareser"><a href="#JsonOutputPareser" class="headerlink" title="JsonOutputPareser"></a>JsonOutputPareser</h3><p>可以将模型的<strong>自由文本输出</strong>解析为<strong>结构化 JSON</strong>。</p>
+<p>我们希望模型不要只回答一句话，而是直接返回：</p>
+<figure class="highlight css"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs css">&#123;<br>  &quot;<span class="hljs-selector-tag">q</span>&quot;: <span class="hljs-string">&quot;...&quot;</span>,<br>  <span class="hljs-string">&quot;a&quot;</span>: <span class="hljs-string">&quot;...&quot;</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>或者：</p>
+<figure class="highlight css"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs css">&#123;<br>  &quot;<span class="hljs-selector-tag">time</span>&quot;: <span class="hljs-string">&quot;...&quot;</span>,<br>  <span class="hljs-string">&quot;person&quot;</span>: <span class="hljs-string">&quot;...&quot;</span>,<br>  <span class="hljs-string">&quot;event&quot;</span>: <span class="hljs-string">&quot;...&quot;</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>用法：</p>
+<p>直接在提示词中要求使用json</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">chat_prompt = ChatPromptTemplate.from_messages(<br>    [<br>        (<br>            <span class="hljs-string">&quot;system&quot;</span>,<br>            <span class="hljs-string">&quot;你是一个&#123;role&#125;，请简短回答我提出的问题，结果返回json格式，q字段表示问题，a字段表示答案。&quot;</span>,<br>        ),<br>        (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;请回答:&#123;question&#125;&quot;</span>),<br>    ]<br>)<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>适合模型先正常输出，再由程序把结果转成字符串、JSON 或对象。</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_core.output_parsers <span class="hljs-keyword">import</span> JsonOutputParser<br><br>parser = JsonOutputParser()<br><br>result = model.invoke(<span class="hljs-string">&quot;请用 JSON 返回：name、age&quot;</span>)<br>data = parser.invoke(result)<br><span class="hljs-built_in">print</span>(data)<br></code></pre></div></td></tr></table></figure>
+
+<p>这种方式的特点很直接：先让模型生成结果，再由 parser 负责解析。</p>
+<p>所以它特别适合传统的 <code>prompt | model | parser</code> 链式调用。</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-comment"># 模型返回的可能是带 JSON 的文本</span><br>result = model.invoke(prompt)<br>logger.info(<span class="hljs-string">f&quot;模型原始输出:\n<span class="hljs-subst">&#123;result&#125;</span>&quot;</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span> * <span class="hljs-number">60</span>)<br><br><span class="hljs-comment"># 创建 JSON 解析器（不绑 Pydantic 时，解析结果为 dict/list）</span><br>parser = JsonOutputParser()<br><span class="hljs-comment"># 尝试从 result 的 content 中解析出 JSON</span><br>response = parser.invoke(result)<br>logger.info(<span class="hljs-string">f&quot;解析后的结构化结果:\n<span class="hljs-subst">&#123;response&#125;</span>&quot;</span>)<br>logger.info(<span class="hljs-string">&quot;\n&quot;</span>)<br>logger.info(<span class="hljs-string">f&quot;结果类型: <span class="hljs-subst">&#123;<span class="hljs-built_in">type</span>(response)&#125;</span>&quot;</span>)  <span class="hljs-comment"># &lt;class &#x27;dict&#x27;&gt;arser()</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="Get-fromat-instructions"><a href="#Get-fromat-instructions" class="headerlink" title="Get_fromat_instructions"></a>Get_fromat_instructions</h3><p>当结构开始复杂时，手写“请返回 JSON，包含 a、b、c 字段……”就容易写漏、写乱、写不严谨。</p>
+<p>这时更稳妥的办法是：<strong>让解析器自己生成格式说明，再拼进 Prompt</strong>。</p>
+<p><img src="/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-23-21-29-43-image.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-comment">#这里主要示范get_format_instructions方法的使用，get_format_instructions方法是一个非常实用的工具，</span><br><span class="hljs-comment"># 它可以帮助我们快速生成符合特定格式要求的提示词模板，尤其适用于需要模型输出结构化数据的场景。</span><br><br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate,MessagesPlaceholder<br><span class="hljs-keyword">from</span> langchain_core.output_parsers <span class="hljs-keyword">import</span> JsonOutputParser<br><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field<br><br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-1&quot;</span><br>llm = ChatOpenAI(<br>    model=<span class="hljs-string">&quot;qwen3.6-flash&quot;</span>,<br>    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span>,<br>)<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">PersonInfo</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):<span class="hljs-comment"># 定义一个 Pydantic 模型，描述我们希望模型输出的结构化数据格式 BaseModel为父类，Field用于定义字段的描述和约束</span><br>    name: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">&quot;姓名&quot;</span>)<br>    age: <span class="hljs-built_in">int</span> = Field(description=<span class="hljs-string">&quot;年龄&quot;</span>)<br>    city: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">&quot;城市&quot;</span>) <br><br><span class="hljs-comment"># 初始化一个 JsonOutputParser，传入我们定义的 Pydantic 模型，这样解析器就知道如何把模型的输出转换成符合 PersonInfo 结构的对象</span><br>parser = JsonOutputParser(pydantic_object=PersonInfo) <br><span class="hljs-comment"># 调用 get_format_instructions 方法，获取一段文本，这段文本包含了模型需要遵守的输出格式说明，模型会根据这段说明来生成符合要求的输出</span><br>format_instructions = parser.get_format_instructions() <br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;模型输出格式说明:\n&quot;</span> + format_instructions) <span class="hljs-comment"># 输出这个格式说明，看看它是什么样子的</span><br><br>chat_prompt = ChatPromptTemplate.from_messages([<br>    <span class="hljs-comment"># system 消息里，我们只写一个平平无奇的变量占位符 &#123;instructions&#125;</span><br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个信息提取助手，专门从用户的输入中提取结构化的个人信息。请严格按照以下格式说明来输出结果：\n&#123;format_instructions&#125;&quot;</span>), <br>    <span class="hljs-comment"># human 消息里，我们也只留一个最简单的变量占位符 &#123;text&#125;</span><br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;请从以下文本中提取个人信息：\n&#x27;&#123;text&#125;&#x27;&quot;</span>)<br>])<br><br><span class="hljs-comment"># 也就是把format_instructions注入到提示词模板中，这样模型在生成回复时就会自动包含这个格式说明了，我们只需要在调用模型时传入用户输入的文本就行了</span><br>final_prompt = chat_prompt.partial(instructions=format_instructions)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;最终提示词模板:\n&quot;</span> + <span class="hljs-built_in">str</span>(final_prompt))<br><br>input_text = <span class="hljs-string">&quot;我叫小明，今年30岁，住在北京。&quot;</span> <span class="hljs-comment"># 这是我们要让模型提取信息的文本</span><br><span class="hljs-comment">#input_text 是用户输入的文本，format_instructions 是模型输出格式说明，这两个变量会被注入到提示词模板中，生成最终的消息列表 prompt_messages</span><br>prompt_messages = final_prompt.format_messages(text=input_text,format_instructions=format_instructions)<br><br><span class="hljs-comment">#查看最后结构</span><br>result = llm.invoke(prompt_messages)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;模型原始输出:\n&quot;</span> + result.content) <span class="hljs-comment"># 输出模型的原始回复，看看它是否按照格式说明生成了符合要求的输出</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-23-21-55-08-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="常见结构化输出方案"><a href="#常见结构化输出方案" class="headerlink" title="常见结构化输出方案"></a>常见结构化输出方案</h2><p>除了“输出解析器”以外，LangChain 还提供了更进一步的<strong>结构化输出（Structured Output）</strong>能力。</p>
+<p>“事前就规定模型应该按什么结构输出”。这里会经常出现一个词：<strong>schema</strong>。</p>
+<p><strong>schema</strong> 可以看成“<strong>数据结构说明书</strong>”或“<strong>输出格式规范</strong>”。 它描述的是：一份数据应该包含哪些字段、每个字段是什么类型、哪些字段必填，以及有时还会补充字段长度、取值范围、枚举值等约束。</p>
+<p>例如，如果规定模型输出一个人物信息：</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;张三&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;age&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">20</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>那么这个 schema 想表达的其实就是：</p>
+<ul>
+<li>必须有 <code>name</code> 字段；</li>
+<li>必须有 <code>age</code> 字段；</li>
+<li><code>name</code> 应该是字符串；</li>
+<li><code>age</code> 应该是整数。</li>
+</ul>
+<p><strong>结构化输出的本质，就是先定义 schema，再让模型按这个 schema 输出结果。</strong></p>
+<p>官方常见的结构化输出方案有三种：</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>定义方式</th>
+<th>最终结果</th>
+<th>是否支持运行时校验</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TypedDict</code></td>
+<td>Python 标准库 <code>typing.TypedDict</code></td>
+<td><code>dict</code></td>
+<td>否</td>
+<td>只需要固定字段结构，不需要严格校验</td>
+</tr>
+<tr>
+<td><code>Pydantic</code></td>
+<td><code>BaseModel</code> + <code>Field(...)</code></td>
+<td>Pydantic 对象</td>
+<td>是</td>
+<td>需要强类型、范围、长度、必填项校验</td>
+</tr>
+<tr>
+<td><code>JSON Schema</code></td>
+<td>标准 JSON Schema 字典</td>
+<td>通常为 <code>dict</code></td>
+<td>视具体实现而定</td>
+<td>需要跨语言、跨系统共享结构协议</td>
+</tr>
+</tbody></table>
+<p>在 LangChain 中，这些结构通常会和下面这种方式配合使用：</p>
+<figure class="highlight gams"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs gams"><span class="hljs-keyword">model</span>.with_structured_output(...)<br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li><p><code>with_structured_output(...)</code> 是“让模型按这个结构输出并自动解析”的入口。</p>
+</li>
+<li><p><strong>结构化输出</strong>：更强调“在模型输出之前，我先规定好它应该长什么样”。</p>
+</li>
+</ul>
+<p>适合模型本身支持 ,优先<code>with_structured_output(...)</code>，LangChain 直接约束模型输出结构并自动解析。</p>
+<h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> TypedDict<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span>(<span class="hljs-title class_ inherited__">TypedDict</span>):<br>    name: <span class="hljs-built_in">str</span><br>    age: <span class="hljs-built_in">int</span><br><br><br>structured_model = model.with_structured_output(Person)<br>result = structured_model.invoke(<span class="hljs-string">&quot;请返回一个人物信息&quot;</span>)<br><span class="hljs-built_in">print</span>(result)<br></code></pre></div></td></tr></table></figure>
+
+<p>这种方式不再需要单独手写 parser，而是由 <code>with_structured_output(...)</code> 统一完成“约束输出 + 自动解析”，更适合现代模型已经支持原生结构化输出的场景。</p>
+<p>结构化输出常见有三种 schema 方式：</p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>返回结果常见形态</th>
+<th>是否自带运行时校验</th>
+<th>适合什么场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>TypedDict</strong></td>
+<td><code>dict</code></td>
+<td>否</td>
+<td>结构清晰、字段固定，但校验要求不高</td>
+</tr>
+<tr>
+<td><strong>Pydantic</strong></td>
+<td>Pydantic 对象</td>
+<td>是</td>
+<td>需要强类型、范围校验、长度校验、字段验证</td>
+</tr>
+<tr>
+<td><strong>JSON Schema</strong></td>
+<td><code>dict</code></td>
+<td>取决于具体使用方式</td>
+<td>需要与外部协议对齐、跨语言协作</td>
+</tr>
+</tbody></table>
+<p>这里还经常会配合一个写法：<strong>Annotated</strong>，它不是第四种 schema，而是给字段补充说明信息的一种方式。</p>
+<h3 id="TypedDict-和-pydantic"><a href="#TypedDict-和-pydantic" class="headerlink" title="TypedDict 和 pydantic"></a>TypedDict 和 pydantic</h3><h4 id="TypedDict"><a href="#TypedDict" class="headerlink" title="TypedDict"></a>TypedDict</h4><p><code>TypedDict</code> 来自 Python 标准库 <code>typing</code>，它的作用是：描述一个字典应该有哪些键、每个键是什么类型。它更像是一张<strong>结构说明书</strong>。</p>
+<p>对 LangChain 来说，这张说明书很有用，因为它可以据此引导模型输出固定结构，再解析成 Python 字典。</p>
+<p>它更偏“说明结构”</p>
+<p><code>Annotated</code> 也是 Python 标准库 <code>typing</code> 里的能力。它的作用不是“换一种类型”，而是：在原有类型上附加一段元数据或说明。</p>
+<p>例如：</p>
+<figure class="highlight axapta"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs axapta">Annotated[<span class="hljs-built_in">str</span>, <span class="hljs-string">&quot;动物名称&quot;</span>]<br></code></pre></div></td></tr></table></figure>
+
+<p>它本质上还是 <code>str</code>，只是额外挂了一段“这是动物名称”的说明。LangChain 可以利用这些说明生成更清晰的 schema 描述，让模型更容易理解每个字段该填什么。</p>
+<p> [字段名]: Annotated[ [数据类型], “[大模型能看懂的注释&#x2F;描述]” ]</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> typing_extensions <span class="hljs-keyword">import</span> TypedDict, Annotated<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Animal</span>(<span class="hljs-title class_ inherited__">TypedDict</span>):<br>    <span class="hljs-comment">#  [字段名]: Annotated[ [数据类型], &quot;[大模型能看懂的注释/描述]&quot; ]</span><br>    animal: Annotated[<span class="hljs-built_in">str</span>, <span class="hljs-string">&quot;动物的英文或中文名称，例如 Elephant&quot;</span>]<br>    emoji: Annotated[<span class="hljs-built_in">str</span>, <span class="hljs-string">&quot;代表该动物的 emoji 表情，例如 🐘&quot;</span>]<br></code></pre></div></td></tr></table></figure>
+
+<p>例子</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> TypedDict, Annotated<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-0dd6ea409b96477d86688f90fb51c915&quot;</span><br>model = ChatOpenAI(<br>    model=<span class="hljs-string">&quot;qwen-plus&quot;</span>, <span class="hljs-comment">#需要没有思考的版本</span><br>    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span>,<br>)<br><span class="hljs-comment">#动物例子</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Animal</span>(<span class="hljs-title class_ inherited__">TypedDict</span>):<br>    animal: Annotated[<span class="hljs-built_in">str</span>, <span class="hljs-string">&quot;动物名称&quot;</span>]<br>    emoji: Annotated[<span class="hljs-built_in">str</span>, <span class="hljs-string">&quot;动物表情&quot;</span>]<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">AnimalList</span>(<span class="hljs-title class_ inherited__">TypedDict</span>):<br>    animals: Annotated[<span class="hljs-built_in">list</span>[Animal], <span class="hljs-string">&quot;动物列表&quot;</span>]<br><br><br><span class="hljs-comment">#年龄例子</span><br>age = Annotated[<span class="hljs-built_in">int</span>,<span class="hljs-string">&quot;年龄范围18-60岁&quot;</span>] <span class="hljs-comment"># 定义一个年龄的类型注解，表示这是一个整数，并且它的含义是年龄范围在18到60岁之间&quot;]</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span>(<span class="hljs-title class_ inherited__">TypedDict</span>):<br>    name: Annotated[<span class="hljs-built_in">str</span>,<span class="hljs-string">&quot;name&quot;</span>] <span class="hljs-comment"># 定义一个 Person 的 TypedDict，包含一个 name 字段，类型是字符串，并且注释为 &quot;name&quot;</span><br>    age: <span class="hljs-built_in">int</span><br>    age2 : age <span class="hljs-comment"># 定义一个 age 字段，类型是前面定义的 age 注解，表示这是一个年龄范围在18到60岁之间的整数</span><br><br><br>message = (<span class="hljs-string">&quot;请列举三种动物，并用表情符号表示它们。&quot;</span>)<br>llm = model.with_structured_output(AnimalList,method=<span class="hljs-string">&quot;function_calling&quot;</span>) <span class="hljs-comment"># 这里我们指定了输出格式为 AnimalList，并且使用 tool_calls 方法来获取结构化输出</span><br><span class="hljs-comment">#print(llm)</span><br>result = llm.invoke(message)<br><span class="hljs-built_in">print</span>(result)<br><br><span class="hljs-comment"># ==========================================年龄例子==========================================</span><br>message2 = (<span class="hljs-string">&quot;请列举一个人的姓名和年龄，年龄必须在18-60岁之间。&quot;</span>)<br>llm2 = model.with_structured_output(Person,method=<span class="hljs-string">&quot;function_calling&quot;</span>) <br>result2 = llm2.invoke(message2)<br><span class="hljs-built_in">print</span>(result2)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-09-43-20-image.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="pydantic"><a href="#pydantic" class="headerlink" title="pydantic"></a>pydantic</h4><p><strong>Pydantic</strong> 解决的是：“这个数据不仅要长得像，而且必须真的合法。”</p>
+<p>Pydantic 是 Python 生态里非常常用的数据校验库。它可以在创建对象时对字段做：类型检查；范围检查；长度检查；定义校验。这也是为什么它在真实业务开发里非常重要。</p>
+<p>例子：</p>
+<p>这里class类定义格式，然后使用一个字段验证器验证描述是否为空，为空就抛出错误，之后使用output_parsers的Pydantic…的方法来解析，存放到parser中，结果为格式化</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Product</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):<br>    name: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">&quot;产品名称&quot;</span>)<br>    category: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">&quot;产品类别&quot;</span>)<br>    description: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">&quot;产品描述&quot;</span>)<br><span class="hljs-meta">    @field_validator(<span class="hljs-params"><span class="hljs-string">&quot;description&quot;</span></span>) </span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">description_must_not_be_empty</span>(<span class="hljs-params">cls, v</span>): <span class="hljs-comment"># 这个方法是一个字段验证器，它会在模型实例化时自动调用，用来验证 description 字段的值是否符合要求</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> v:<br>            <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">&quot;描述不能为空&quot;</span>)<br>        <span class="hljs-keyword">return</span> v<br><br>parser = PydanticOutputParser(pydantic_object=Product)<br><span class="hljs-built_in">print</span>(parser.get_format_instructions()) <span class="hljs-comment"># 输出模型输出格式说明，看看它是什么样子的</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-10-24-23-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>完整用例：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> Annotated<br><span class="hljs-keyword">from</span> langchain_core.output_parsers <span class="hljs-keyword">import</span> PydanticOutputParser<br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate<br><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field,ValidationError, field_validator<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><span class="hljs-keyword">import</span> os<br><br><span class="hljs-comment">#使用annotated 加 pydantic 来效验</span><br><span class="hljs-comment"># ge参数表示这个字段的值必须大于或等于0，le参数表示这个字段的值必须小于或等于100，这样就确保了 age 字段的值必须在0到100之间</span><br><span class="hljs-comment"># Age = Annotated[int, Field(ge=0, le=100,description=&quot;年龄必须在0到100之间&quot;)] </span><br><br><span class="hljs-comment"># class Person(BaseModel):</span><br><span class="hljs-comment">#     name : str</span><br><span class="hljs-comment">#     age : int </span><br><span class="hljs-comment">#     age2 : Age</span><br><br><br><span class="hljs-comment"># try:</span><br><span class="hljs-comment">#     p = Person(name=&quot;小明&quot;,age=30,age2=150) # 这里我们故意把 age2 的值设置为 150，超出了我们在 Age 注解中定义的范围，这样就会触发验证错误</span><br><span class="hljs-comment"># except ValidationError as e:</span><br><span class="hljs-comment">#     print(&quot;验证错误:&quot;, e) </span><br><br><br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-11&quot;</span><br>model = ChatOpenAI(<br>    model=<span class="hljs-string">&quot;qwen-plus&quot;</span>, <span class="hljs-comment">#没有思考的版本</span><br>    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span>,<br>)<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Product</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):<br>    name: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">&quot;产品名称&quot;</span>)<br>    category: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">&quot;产品类别&quot;</span>)<br>    description: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">&quot;产品描述&quot;</span>)<br><span class="hljs-meta">    @field_validator(<span class="hljs-params"><span class="hljs-string">&quot;description&quot;</span></span>) </span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">description_must_not_be_empty</span>(<span class="hljs-params">cls, v</span>): <span class="hljs-comment"># 这个方法是一个字段验证器，它会在模型实例化时自动调用，用来验证 description 字段的值是否符合要求</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> v:<br>            <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">&quot;描述不能为空&quot;</span>)<br>        <span class="hljs-keyword">return</span> v<br><br><span class="hljs-comment"># 定义一个模具 固定数据格式</span><br>parser = PydanticOutputParser(pydantic_object=Product)<br><span class="hljs-comment"># 调用 get_format_instructions 方法，获取一段文本，这段文本包含了模型需要遵守的输出格式说明，模型会根据这段说明来生成符合要求的输出</span><br>format_instructions = parser.get_format_instructions()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;模型输出格式说明:\n&quot;</span> + format_instructions) <span class="hljs-comment"># 输出这个格式说明，看看它是什么样子的</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">50</span> + <span class="hljs-string">&quot;\n&quot;</span>) <br><br><span class="hljs-comment">#我们把这个 format_instructions 注入到提示词模板中，这样模型在生成回复时就会自动包含这个格式说明了，我们只需要在调用模型时传入用户输入的文本就行了</span><br>prompt_template = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个产品信息提取助手，专门从用户的输入中提取结构化的产品信息。请严格按照以下格式说明来输出结果：\n&#123;format_instructions&#125;&quot;</span>), <br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;请从以下文本中提取产品信息：\n&#x27;&#123;text&#125;&#x27;&quot;</span>)<br>])<br><br><span class="hljs-comment"># 这里我们把 format_instructions 和用户输入的文本都传入到提示词模板中，生成最终的消息列表</span><br>prompt = prompt_template.<span class="hljs-built_in">format</span>(format_instructions=format_instructions,text=<span class="hljs-string">&quot;我想买一台苹果手机，最好是最新款的，要求拍照效果好，电池续航时间长。&quot;</span>) <br><br>ruslt = model.invoke(prompt)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;模型原始输出:\n&quot;</span> + ruslt.content) <span class="hljs-comment"># 模型原始回复</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">50</span> + <span class="hljs-string">&quot;\n&quot;</span>)<br>response = parser.parse(ruslt.content) <br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;解析后的结构化数据对象:\n&quot;</span> + <span class="hljs-built_in">str</span>(response)) <span class="hljs-comment"># 输出解析后</span><br><span class="hljs-built_in">print</span>(response.name) <span class="hljs-comment"># 输出产品名称</span><br><span class="hljs-built_in">print</span>(response.category) <span class="hljs-comment"># 输出产品类别</span><br><span class="hljs-built_in">print</span>(response.description) <span class="hljs-comment"># 输出产品描述</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-10-37-58-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>当你遇到下面这些需求时，通常就该优先考虑 Pydantic：</p>
+<ul>
+<li>要把结果写进数据库，不能容忍字段类型乱掉；</li>
+<li>要把模型输出接到订单、审批、风控、报表等业务系统；</li>
+<li>某些字段必须满足范围、枚举、长度等限制；</li>
+<li>希望一旦数据不合法，就立刻抛错，而不是悄悄放过。</li>
+</ul>
+<p>一句话总结：</p>
+<p><strong>Pydantic 适合“我要的不只是结构化，而是可验证、可托底、可工程化的数据”。</strong></p>
+<h2 id="二者对应的场景"><a href="#二者对应的场景" class="headerlink" title="二者对应的场景"></a>二者对应的场景</h2><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>如果不做解析，常见问题</th>
+<th>更合适的做法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>聊天问答、文案润色、摘要展示</td>
+<td>只需要显示文本，结构要求低</td>
+<td><code>StrOutputParser</code></td>
+</tr>
+<tr>
+<td>从文本里抽取字段，如“问题&#x2F;答案”“时间&#x2F;人物&#x2F;事件”</td>
+<td>文本不稳定，后续逻辑难写</td>
+<td><code>JsonOutputParser</code></td>
+</tr>
+<tr>
+<td>给前端卡片、表单、列表页返回固定字段</td>
+<td>字段缺失或字段名漂移会影响渲染</td>
+<td><code>with_structured_output(TypedDict)</code></td>
+</tr>
+<tr>
+<td>给数据库、审批流、订单系统写入严格数据</td>
+<td>需要校验类型、范围、长度</td>
+<td><code>PydanticOutputParser</code> 或 <code>with_structured_output(Pydantic)</code></td>
+</tr>
+<tr>
+<td>与外部系统按统一协议对接</td>
+<td>需要语言无关、协议明确</td>
+<td><code>JSON Schema</code></td>
+</tr>
+</tbody></table>
+<h2 id="输出解析器常用方法"><a href="#输出解析器常用方法" class="headerlink" title="输出解析器常用方法"></a>输出解析器常用方法</h2><h3 id="动作1"><a href="#动作1" class="headerlink" title="动作1"></a>动作1</h3><p>开发中我们常直接使用 <code>parser.invoke(result)</code>。</p>
+<h3 id="动作2"><a href="#动作2" class="headerlink" title="动作2"></a>动作2</h3><p><strong>事前帮你约束模型输出</strong>。</p>
+<p>最常见的方法就是：</p>
+<figure class="highlight ocaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ocaml"><span class="hljs-keyword">parser</span>.get_format_instructions<span class="hljs-literal">()</span><br></code></pre></div></td></tr></table></figure>
+
+<p>它会返回一段格式说明文字，告诉模型：应该输出什么结构；有哪些字段；每个字段是什么类型；是否只能返回 JSON；是否不能加额外解释文字。</p>
+<p>这段说明通常会被拼进 Prompt 中，让模型一开始就尽量按可解析格式输出，从而降低解析失败率。</p>
+<h1 id="LCEL与链式调用"><a href="#LCEL与链式调用" class="headerlink" title="LCEL与链式调用"></a>LCEL与链式调用</h1><p><strong>LCEL</strong> 是 <strong>LangChain Expression Language</strong> 的缩写，中文通常叫 <strong>LangChain 表达式语言</strong>。它的作用很直接：<strong>用一种声明式、可组合的方式，把多个 Runnable 连接起来。</strong></p>
+<p>乐高积木拼装语法，LangChain 官方发明的一种 <strong>简写语法</strong>。它允许你用最少的代码、像拼积木一样，把提示词（Prompt）、大模型（LLM）、解析器（Parser）等各种组件串成一条流水线。</p>
+<p>chain &#x3D; prompt | model | parser</p>
+<p>runnable就是直接调用chain，什么invoke，stream等..</p>
+<p>最经典的 LCEL 写法就是：</p>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">chain</span> = prompt | model | parser<br><span class="hljs-attr">result</span> = chain.invoke(&#123;<span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;什么是 LangChain？&quot;</span>&#125;)<br></code></pre></div></td></tr></table></figure>
+
+<p>这种写法更像在表达“流程本身”，而不是只是在堆代码。</p>
+<ul>
+<li><p>用 LCEL 连接出来的结果，本身还可以继续参与组合：</p>
+</li>
+<li><p>一条顺序链可以放进分支链</p>
+</li>
+<li><p>一条顺序链可以放进并行链</p>
+</li>
+<li><p>并行链的输出还可以继续交给下一步处理</p>
+</li>
+</ul>
+<p>而且在很多常见场景里，LCEL 还会帮我们自动处理“前一步结果如何传给下一步”这类重复性工作。只有当前后节点的输入输出结构不匹配时，我们才需要自己插入 <code>lambda</code> 或 <code>RunnableLambda</code> 做一次映射。</p>
+<h3 id="RunnableSequence概念"><a href="#RunnableSequence概念" class="headerlink" title="RunnableSequence概念"></a>RunnableSequence概念</h3><p><code>RunnableSequence</code> 就是我们天天在写的 <code>|</code> 管道符。它的核心逻辑是 <strong>“前人的输出，是后人的输入”</strong>。数据像接力赛一样，一棒传一棒，单线向前冲。</p>
+<p>当你写下：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">chain = prompt | model | parser<br></code></pre></div></td></tr></table></figure>
+
+<p>LangChain 在后台其实是用 <code>RunnableSequence</code> 把它们包了起来，等同于：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_core.runnables <span class="hljs-keyword">import</span> RunnableSequence<br><br><span class="hljs-comment"># 这两种写法在底层完全是一模一样的！</span><br>chain = RunnableSequence(prompt, model, parser)<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="RunnableParallel概念"><a href="#RunnableParallel概念" class="headerlink" title="RunnableParallel概念"></a>RunnableParallel概念</h3><p>多线发展，多线并发，</p>
+<p>现实业务往往不是单线发展的。比如：你拿到一个恶意IP（用户输入），你希望<strong>同时</strong>去查它的威胁情报、去查它的地理位置、去查它的历史漏洞，最后把这三者的结果<strong>汇总</strong>在一起丢给大模型分析。</p>
+<p>这种 <strong>“一个输入，同时分发给多个组件并行处理，最后合并成一个字典输出”</strong> 的场景，就是 <code>RunnableParallel</code> 的本领。它在后台会<strong>自动开启多线程</strong>进行并发调用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs Plaintext">                     ┌──&gt; (分支A: 提取动物) ──&gt; &#123;&quot;animal&quot;: &quot;狮子&quot;&#125; ──┐<br>[用户输入: 原始文本] ─┼──&gt; (分支B: 提取颜色) ──&gt; &#123;&quot;color&quot;: &quot;金色&quot;&#125;  ──┼─&gt; [合并成一个大字典]<br>                     └──&gt; (分支C: 情感分析) ──&gt; &#123;&quot;sentiment&quot;: &quot;正&quot;&#125; ──┘<br></code></pre></div></td></tr></table></figure>
+
+<p>在 LangChain 里，你甚至不需要显式引入 <code>RunnableParallel</code> 这个类，<strong>直接用 Python 的字典 <code>&#123;&#125;</code> 配合 <code>|</code> 管道符</strong>，LangChain 就会自动把它识别并编译成 <code>RunnableParallel</code></p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_core.runnables <span class="hljs-keyword">import</span> RunnableParallel, RunnablePassthrough<br><br><span class="hljs-comment"># 假设我们有两个不同的链：一个提动物，一个提颜色</span><br>animal_chain = prompt_animal | model | parser_animal<br>color_chain = prompt_color | model | parser_color<br><br><span class="hljs-comment"># ✨ 华丽的并联编排：</span><br><span class="hljs-comment"># 用户的输入文本会【同时】喂给 animal 和 color 两个分支，并发执行！</span><br>parallel_chain = RunnableParallel(<br>    animal=animal_chain,<br>    color=color_chain,<br>    raw_text=RunnablePassthrough() <span class="hljs-comment"># 原样保留用户输入的原始文本</span><br>)<br><br><span class="hljs-comment"># 或者用最常用的【字典简写】（效果完全一样）：</span><br><span class="hljs-comment"># parallel_chain = &#123; &quot;animal&quot;: animal_chain, &quot;color&quot;: color_chain, &quot;raw_text&quot;: RunnablePassthrough() &#125;</span><br><br><span class="hljs-comment"># 一键调用</span><br>result = parallel_chain.invoke(<span class="hljs-string">&quot;那只金色的狮子正在咆哮。&quot;</span>)<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-comment"># 输出结果会自动合并成一个字典：</span><br><span class="hljs-comment"># &#123;</span><br><span class="hljs-comment">#    &quot;animal&quot;: &#123;&quot;name&quot;: &quot;狮子&quot;, &quot;emoji&quot;: &quot;🦁&quot;&#125;,</span><br><span class="hljs-comment">#    &quot;color&quot;: &quot;金色&quot;,</span><br><span class="hljs-comment">#    &quot;raw_text&quot;: &quot;那只金色的狮子正在咆哮。&quot;</span><br><span class="hljs-comment"># &#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>结合RAG，用于理解</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-comment"># 1. 第一阶段：【并联】准备原料</span><br><span class="hljs-comment"># 大模型需要两个原料：检索出来的上下文（context）和用户的问题（question）</span><br>setup_and_retrieval = &#123;<br>    <span class="hljs-string">&quot;context&quot;</span>: retriever | format_docs, <span class="hljs-comment"># 提取上下文并格式化</span><br>    <span class="hljs-string">&quot;question&quot;</span>: RunnablePassthrough()   <span class="hljs-comment"># 原样保留用户的提问</span><br>&#125;<br><br><span class="hljs-comment"># 2. 第二阶段：【串联】把原料喂给流水线</span><br><span class="hljs-comment"># 整个链的逻辑：【并联准备好的字典数据】 ──&gt; 喂给 Prompt ──&gt; 喂给 LLM ──&gt; 最终解析</span><br>rag_chain = setup_and_retrieval | prompt | model | StrOutputParser()<br><br><span class="hljs-comment"># 3. 运行</span><br>rag_chain.invoke(<span class="hljs-string">&quot;针对这个特定漏洞，红队通常的权限维持手法是什么？&quot;</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p><code>rag_chain = setup_and_retrieval | prompt | model | StrOutputParser()</code></p>
+<ol>
+<li><p><strong><code>setup_and_retrieval</code></strong> 是一个 <code>RunnableParallel</code>（并联）。它一边派人去向量数据库捞漏洞情报（<code>retriever</code>），一边把你的问题死死记住，两者<strong>并发</strong>进行。</p>
+</li>
+<li><p>捞完之后，它打包吐出一个包含 <code>&#123;&quot;context&quot;: &quot;...&quot;, &quot;question&quot;: &quot;...&quot;&#125;</code> 的大字典。</p>
+</li>
+<li><p>接着遇到了第一根竖线 <code>|</code>，进入 <code>RunnableSequence</code>（串联）。这个大字典被<strong>精准投喂</strong>给 <code>prompt</code>。</p>
+</li>
+<li><p><code>prompt</code> 把字典里的变量填进模板，变成一长串文本吐出来。</p>
+</li>
+<li><p>遇到第二根竖线 <code>|</code>，文本被<strong>精准投喂</strong>给 <code>model</code> 进行推理。</p>
+</li>
+<li><p>遇到第三根竖线 <code>|</code>，模型的原始输出被投喂给 <code>StrOutputParser</code>，洗掉废话，直接给用户呈现最终答案。</p>
+</li>
+</ol>
+<p> LCEL 背后的几种核心组合思想：</p>
+<ul>
+<li><strong>顺序组合</strong>：前一步输出作为下一步输入</li>
+<li><strong>条件路由</strong>：根据输入选择不同链</li>
+<li><strong>并行组合</strong>：同一输入同时喂给多条链</li>
+</ul>
+<p><code>RunnableLambda</code> 则相当于在组合过程中插入一段你自己的 Python 逻辑，让你可以做：</p>
+<ul>
+<li>中间结果调试</li>
+<li>输入结构映射</li>
+<li>输出结果整理</li>
+<li>简单业务判断</li>
+</ul>
+<h3 id="LCEL和chain的关系"><a href="#LCEL和chain的关系" class="headerlink" title="LCEL和chain的关系"></a>LCEL和chain的关系</h3><p>这一点特别容易混淆，所以单独强调一下：</p>
+<ul>
+<li><strong>LCEL 是什么</strong>：它是构建流程的一种表达方式，重点在“怎么写”。</li>
+<li><strong>Chain 是什么</strong>：它是通过 LCEL 或其他组合方式构建出来的可执行流程，重点在“最后得到了什么”。</li>
+</ul>
+<p>所以可以先用一句最容易记的话来理解：<strong>LCEL 是构建链的方法，Chain 是构建出来的流程。</strong></p>
+<h1 id="Chain结构"><a href="#Chain结构" class="headerlink" title="Chain结构"></a>Chain结构</h1><p><strong>Chain（链）</strong> 可以简单理解成：<strong>把多个 Runnable 按某种规则组合起来后，形成的一段可执行流程。</strong></p>
+<p>这段流程可以很简单，也可以很复杂：</p>
+<ul>
+<li>简单时，就是 <code>prompt | model</code></li>
+<li>常见时，是 <code>prompt | model | parser</code></li>
+<li>复杂时，可能是分支 + 并行 + 自定义函数节点混合组成的流程</li>
+</ul>
+<p>链本身也是 Runnable。</p>
+<ul>
+<li>一条顺序链可以作为 <code>RunnableBranch</code> 的分支</li>
+<li>一条顺序链可以放进 <code>RunnableParallel</code></li>
+<li>并行结果还可以继续交给后面的节点处理</li>
+</ul>
+<p>与前面的内容来看，一条链会是：</p>
+<ol>
+<li><strong>Prompt</strong>：组织输入</li>
+<li><strong>Model</strong>：调用模型生成结果</li>
+<li><strong>Parser</strong>：把结果解析成业务更容易使用的形式</li>
+</ol>
+<p>也就是：</p>
+<figure class="highlight coq"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs coq">chain = prompt | <span class="hljs-type">model</span> | <span class="hljs-type">parser</span><br></code></pre></div></td></tr></table></figure>
+
+<h1 id="链式调用"><a href="#链式调用" class="headerlink" title="链式调用"></a>链式调用</h1><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>典型写法 &#x2F; 类名</th>
+<th>执行方式</th>
+<th>输入 → 输出</th>
+<th>典型场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>顺序链</strong></td>
+<td><code>prompt ｜ model ｜ parser</code>&#x2F;<code>RunnableSequence</code></td>
+<td>一步接一步执行</td>
+<td>单输入 → 单输出</td>
+<td>最基础的问答、抽取、摘要</td>
+</tr>
+<tr>
+<td><strong>分支链</strong></td>
+<td><code>RunnableBranch(...)</code></td>
+<td>按条件只走其中一条子链</td>
+<td>单输入 → 单输出</td>
+<td>意图路由、多语言路由</td>
+</tr>
+<tr>
+<td><strong>多步串行链</strong></td>
+<td>多条子链继续用 <code>｜</code> 串联</td>
+<td>前一步结果给后一步</td>
+<td>单输入 → 单输出</td>
+<td>先总结再翻译、先整理再生成</td>
+</tr>
+<tr>
+<td><strong>并行链</strong></td>
+<td><code>RunnableParallel(&#123;...&#125;)</code></td>
+<td>多条子链同时执行</td>
+<td>单输入 → 多输出</td>
+<td>中英文同时生成、多模型并跑</td>
+</tr>
+<tr>
+<td><strong>函数链</strong></td>
+<td><code>RunnableLambda(func)</code></td>
+<td>在链中插入 Python 函数</td>
+<td>取决于函数</td>
+<td>字段映射、调试、轻量业务逻辑</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>只有一条直线流程</strong>：先用顺序链</li>
+<li><strong>要按条件切换不同流程</strong>：用分支链</li>
+<li><strong>要把多个模型调用前后串起来</strong>：用多步串行链</li>
+<li><strong>要同一输入同时跑多条链</strong>：用并行链</li>
+<li><strong>要插入自定义 Python 逻辑</strong>：用函数链</li>
+</ul>
+<h2 id="RunnableSequence使用"><a href="#RunnableSequence使用" class="headerlink" title="RunnableSequence使用"></a>RunnableSequence使用</h2><p><code>RunnableSequence</code> 是最常见、也最重要的链类型之一。LangChain 官方参考里明确说明，它几乎出现在所有基础链式流程中。</p>
+<p>它的核心规则很简单：<strong>前一个 Runnable 的输出，直接作为后一个 Runnable 的输入。</strong></p>
+<p>本质是个顺序链</p>
+<p>你也可以显式写成：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_core.runnables <span class="hljs-keyword">import</span> RunnableSequence<br><br>chain = RunnableSequence(first=prompt, middle=[model], last=parser)<br></code></pre></div></td></tr></table></figure>
+
+<p>这类链最典型的场景，就是把前面几章的核心内容一次性串起来：</p>
+<ul>
+<li>Prompt 组织输入</li>
+<li>Model 调用模型</li>
+<li>Parser 把输出转成字符串或结构化结果</li>
+</ul>
+<p>代码例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_classic.schema <span class="hljs-keyword">import</span> StrOutputParser<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate<br><span class="hljs-keyword">import</span> os<br><br><br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-1&quot;</span><br>llm = ChatOpenAI(<br>    model=<span class="hljs-string">&quot;qwen3.6-plus&quot;</span>, <span class="hljs-comment">#需要没有思考的版本</span><br>    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span><br>)<br><br><br>chat_prompt = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个信息提取助手，解答用户的问题，并且把答案按照特定格式输出。&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;请回答以下问题，问题是：&#123;user_question&#125;&quot;</span>)<br>])<br>parser = StrOutputParser()<br><br><span class="hljs-comment"># 这里我们把提示词模板和大模型客户端串联起来，形成一个简单的链式调用，</span><br><span class="hljs-comment"># 用户输入一个问题，模型根据提示词生成回复，然后我们用 parser 来解析这个回复，看看它是否符合我们预期的格式要求</span><br>chain = chat_prompt | llm | parser<br>response = chain.invoke(&#123;<span class="hljs-string">&quot;user_question&quot;</span>: <span class="hljs-string">&quot;我想买一台苹果手机，最好是最新款的，要求拍照效果好，电池续航时间长。&quot;</span>&#125;)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;模型回复:\n&quot;</span> + response)<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="RunnableBranch"><a href="#RunnableBranch" class="headerlink" title="RunnableBranch"></a>RunnableBranch</h2><p>如果顺序链解决的是“按顺序做”，那么 <code>RunnableBranch</code> 解决的就是：<strong>根据输入内容，决定走哪条链。</strong></p>
+<p>它很像编程里的 <code>if / elif / else</code>，只是现在被放进了 Runnable 体系中。典型结构是：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs lisp">RunnableBranch(<br>    (条件<span class="hljs-number">1</span>, 链<span class="hljs-number">1</span>),<br>    (条件<span class="hljs-number">2</span>, 链<span class="hljs-number">2</span>),<br>    默认链,<br>)<br></code></pre></div></td></tr></table></figure>
+
+<p>项目里非常常见，比如：</p>
+<ul>
+<li>根据语言选择不同翻译链</li>
+<li>根据用户意图选择不同客服流程</li>
+<li>根据问题类型选择不同 Prompt 或模型</li>
+</ul>
+<p>测试：</p>
+<ul>
+<li>输入里有“日语”关键词，走日语翻译链</li>
+<li>输入里有“俄语”关键词，走韩语翻译链</li>
+<li>否则默认走英语翻译链</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> langchain_classic.schema <span class="hljs-keyword">import</span> StrOutputParser<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate<br><span class="hljs-keyword">from</span> langchain_core.runnables <span class="hljs-keyword">import</span> RunnableBranch<br><br><br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-1&quot;</span><br>llm = ChatOpenAI(<br>    model=<span class="hljs-string">&quot;qwen3.6-plus&quot;</span>,<br>    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span><br>)<br><span class="hljs-comment"># 这里我们定义了三个不同的提示词模板，分别针对英语、日语和俄语的学习助手场景，每个模板都包含一个 system 消息来设定角色和任务，以及一个 human 消息来接受用户输入的问题</span><br>englich_prompt = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个英语翻译,帮助用户翻译任何语言的文本成中文。&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;请用英语回答以下问题：&#123;question&#125;&quot;</span>)<br>])<br><br>jpanese_prompt = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个日语翻译,帮助用户翻译任何语言的文本成中文。&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;请用日语回答以下问题：&#123;question&#125;&quot;</span>)<br>])<br><br>russian_prompt = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个俄语翻译,帮助用户翻译任何语言的文本成中文。&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;请用俄语回答以下问题：&#123;question&#125;&quot;</span>)<br>])<br><br><span class="hljs-comment">#确定用户输入的语言类型,默认英语</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">detect_language</span>(<span class="hljs-params">user_input</span>):<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">any</span>(char <span class="hljs-keyword">in</span> user_input <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;english&quot;</span><br>    <span class="hljs-keyword">elif</span> <span class="hljs-built_in">any</span>(char <span class="hljs-keyword">in</span> user_input <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;あいうえおアイウエオ&quot;</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;japanese&quot;</span><br>    <span class="hljs-keyword">elif</span> <span class="hljs-built_in">any</span>(char <span class="hljs-keyword">in</span> user_input <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ&quot;</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;russian&quot;</span><br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;english&quot;</span><br> <span class="hljs-comment"># 这是用户输入的测试文本，你可以替换成其他语言的文本来测试</span><br>test_input = <span class="hljs-string">&quot;Привет, как дела?&quot;</span> <span class="hljs-comment"># 这是一段俄语文本，意思是“你好，你怎么样？”我们希望模型能够识别出这是俄语，并使用对应的提示词模板来生成回复</span><br><span class="hljs-comment"># 定义一个字符串输出解析器，用于解析模型的回复</span><br>parser = StrOutputParser() <br><span class="hljs-comment"># 这里我们使用 RunnableBranch 来根据用户输入的语言类型，动态选择对应的提示词模板和模型调用链路</span><br><span class="hljs-comment"># 实现多语言的智能回复功能，RunnableBranch 会根据传入的条件函数来判断用户输入的语言类型，然后选择对应的提示词模板和模型调用链路来生成回复</span><br>chain = RunnableBranch(<br>    (<span class="hljs-keyword">lambda</span> inputs: detect_language(inputs[<span class="hljs-string">&quot;question&quot;</span>]) == <span class="hljs-string">&quot;english&quot;</span>, englich_prompt | llm | parser),<br>    (<span class="hljs-keyword">lambda</span> inputs: detect_language(inputs[<span class="hljs-string">&quot;question&quot;</span>]) == <span class="hljs-string">&quot;japanese&quot;</span>, jpanese_prompt | llm | parser),<br>    (<span class="hljs-keyword">lambda</span> inputs: detect_language(inputs[<span class="hljs-string">&quot;question&quot;</span>]) == <span class="hljs-string">&quot;russian&quot;</span>, russian_prompt | llm | parser),<br>    (englich_prompt | llm | parser) <span class="hljs-comment"># </span><br>)<br><br>response = chain.invoke(&#123;<span class="hljs-string">&quot;question&quot;</span>: test_input&#125;) <span class="hljs-comment"># 调用这个链式结构，传入用户输入的问题，模型会根据输入的语言类型自动选择对应的提示词模板和模型调用链路来生成回复</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;模型回复:\n&quot;</span> + response) <span class="hljs-comment"># 输出模型的回复</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-20-55-28-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Multi-Step-Chain"><a href="#Multi-Step-Chain" class="headerlink" title="Multi-Step Chain"></a>Multi-Step Chain</h2><p><strong>如何把多条子链首尾串起来，形成多步串行流程。</strong></p>
+<ul>
+<li>第一步不是最终结果</li>
+<li>第二步依赖第一步结果</li>
+<li>中间还可能需要做一次结构映射</li>
+</ul>
+<p>这类串行链在项目里特别常见，比如：</p>
+<ul>
+<li>先摘要，再翻译</li>
+<li>先提取要点，再生成报告</li>
+<li>先检索，再重写，再结构化</li>
+</ul>
+<p>这里定义提示词模板，</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> langchain_classic.schema <span class="hljs-keyword">import</span> StrOutputParser<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate<br><br><br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-1&quot;</span><br>llm = ChatOpenAI(<br>    model=<span class="hljs-string">&quot;qwen3.6-plus&quot;</span>,<br>    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span>,<br>)<br><br>chat_prompt = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个讲故事的人，讲解的故事要有趣味性，内容要涉及社会面。&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;请讲一个关于&#123;topic&#125;的有趣故事。&quot;</span>)<br>])<br><br><span class="hljs-comment"># 用户输入一个话题，模型根据提示词生成一个有趣的故事，然后我们用 parser 来解析这个故事，看看它是否符合我们预期的格式要求</span><br>parser1 = StrOutputParser()<br><span class="hljs-comment"># 这里我们把提示词模板和大模型客户端串联起来，形成一个简单的链式调用</span><br>chain1 = chat_prompt | llm | parser1<br>response = chain1.invoke(&#123;<span class="hljs-string">&quot;topic&quot;</span>: <span class="hljs-string">&quot;找工作&quot;</span>&#125;)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span>*<span class="hljs-number">20</span> + <span class="hljs-string">&quot;第一轮对话结束，模型的回复如下:&quot;</span> + <span class="hljs-string">&quot;*&quot;</span>*<span class="hljs-number">20</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;模型回复:\n&quot;</span> + response)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span>*<span class="hljs-number">20</span> + <span class="hljs-string">&quot;现在我们要基于模型的回复进行第二轮对话了&quot;</span> + <span class="hljs-string">&quot;*&quot;</span>*<span class="hljs-number">20</span>)<br><br>chat_prompt2 = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是个翻译家，将所有内容翻译成英文。&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;请翻译这段话: &#123;text&#125;&quot;</span>)<br>])<br>parser2 = StrOutputParser()<br>chain2 = chat_prompt2 | llm | parser2<br><br>full_chain = chain1 | (<span class="hljs-keyword">lambda</span> inputs: &#123;<span class="hljs-string">&quot;text&quot;</span>: inputs&#125;) | chain2<br><br>final_response = full_chain.invoke(&#123;<span class="hljs-string">&quot;topic&quot;</span>: <span class="hljs-string">&quot;找工作&quot;</span>&#125;)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;模型回复:\n&quot;</span> + final_response)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span>*<span class="hljs-number">20</span> + <span class="hljs-string">&quot;第二轮对话结束:&quot;</span> + <span class="hljs-string">&quot;*&quot;</span>*<span class="hljs-number">20</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-21-56-08-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-21-56-17-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Runnableparallel"><a href="#Runnableparallel" class="headerlink" title="Runnableparallel"></a>Runnableparallel</h2><p><code>RunnableParallel</code> 解决的是另一个常见问题：<strong>同一份输入，我想同时交给多条链处理。</strong></p>
+<p>它的核心特点是：多条子链共享同一输入、同时执行，最后再把结果按键汇总成一个 <code>dict</code>。</p>
+<p><strong>并行链不是“写在一起”，而是真的在“同一输入下多路执行”。</strong></p>
+<p>例如：</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">parallel_chain</span> = RunnableParallel(&#123;<br>    <span class="hljs-string">&quot;chinese&quot;</span>: chain1,<br>    <span class="hljs-string">&quot;english&quot;</span>: chain2,<br>&#125;)<br></code></pre></div></td></tr></table></figure>
+
+<p>除了显式使用 <code>RunnableParallel(...)</code>，LCEL 里还有一个非常实用的写法：<strong>直接用字典表达并行结构</strong>。例如：</p>
+<figure class="highlight 1c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs 1c">parallel_then_summary <span class="hljs-punctuation">=</span> &#123;<br>    <span class="hljs-string">&quot;paragraph_1&quot;</span><span class="hljs-punctuation">:</span> chain1<span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;paragraph_2&quot;</span><span class="hljs-punctuation">:</span> chain2<span class="hljs-punctuation">,</span><br>&#125; <span class="hljs-string">| summary_chain</span><br></code></pre></div></td></tr></table></figure>
+
+<p>这段写法的含义是：</p>
+<ol>
+<li>先并行运行 <code>chain1</code> 和 <code>chain2</code></li>
+<li>把结果汇总成一个字典</li>
+<li>再把这个字典交给后面的 <code>summary_chain</code></li>
+</ol>
+<p>这类写法在实际项目里很常见，因为很多业务并不是“并行完就结束”，而是“并行生成多个结果后，再统一分析或总结”。</p>
+<p>调用后返回结果可能像这样：</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;chinese&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;english&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;...&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-comment">#并行链</span><br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate<br><span class="hljs-keyword">from</span> langchain_core.runnables <span class="hljs-keyword">import</span> RunnableParallel<br><span class="hljs-keyword">from</span> langchain_classic.schema <span class="hljs-keyword">import</span> StrOutputParser<br><br><br><br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-1&quot;</span><br><br>llm = ChatOpenAI(<br>    model=<span class="hljs-string">&quot;qwen3.6-plus&quot;</span>,<br>    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span><br>)<br><br>chat_prompt1 = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个英语故事员,请根据用户输入的话题讲一个300字有趣的故事。&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;请讲一个关于&#123;topic&#125;的有趣故事。&quot;</span>)<br>])<br><br>perser1 = StrOutputParser()<br>chain1 = chat_prompt1 | llm | perser1<br><br><br>chat_prompt2 = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个中文故事员,请根据用户输入的话题讲一个300字有趣的故事。&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;请讲一个关于&#123;topic&#125;的有趣故事。&quot;</span>)<br>])<br>perser2 = StrOutputParser()<br>chain2 = chat_prompt2 | llm | perser2<br><br><span class="hljs-comment"># 这里我们使用 RunnableParallel 来并行执行 chain1 和 chain2，这样模型就会同时生成两个故事，一个用英语讲，一个用中文讲</span><br>full_chain = RunnableParallel(&#123;<span class="hljs-string">&quot;english_story&quot;</span>: chain1, <span class="hljs-string">&quot;chinese_story&quot;</span>: chain2&#125;)<br>response = full_chain.invoke(&#123;<span class="hljs-string">&quot;topic&quot;</span>: <span class="hljs-string">&quot;找工作&quot;</span>&#125;) <span class="hljs-comment"># 调用这个并行链，传入用户输入的话题，模型会同时生成两个故事，一个用英语讲，一个用中文讲</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;模型回复:\n&quot;</span> + <span class="hljs-built_in">str</span>(response)) <span class="hljs-comment"># 输出模型的回复，可以看到它同时返回了两个故事，一个是中文的，一个是英文的，分别对应 &quot;chinese_story&quot; 和 &quot;english_story&quot; 这两个键值对，方便我们后续使用和区分这两个故事的内容</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-22-12-55-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Runnablelambda"><a href="#Runnablelambda" class="headerlink" title="Runnablelambda"></a>Runnablelambda</h2><p>有了 <code>RunnableLambda</code>，这些逻辑就能被放回链内部。</p>
+<p>例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_core.runnables <span class="hljs-keyword">import</span> RunnableLambda<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug_print</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-built_in">print</span>(x)<br>    <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;input&quot;</span>: x&#125;<br><br>chain = chain1 | RunnableLambda(debug_print) | chain2<br></code></pre></div></td></tr></table></figure>
+
+<p>LangChain 还支持一种更省事的写法：直接把函数放在 <code>|</code> 中间，框架会自动包装成 Runnable。</p>
+<ul>
+<li><code>chain1 | debug_print | chain2</code></li>
+<li><code>chain1 | RunnableLambda(debug_print) | chain2</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-comment">#函数链 （RunnableLambda）示例代码 </span><br><span class="hljs-comment">#使用函数链 更改中间结果的格式</span><br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate<br><span class="hljs-keyword">from</span> langchain_core.runnables <span class="hljs-keyword">import</span> RunnableParallel<br><span class="hljs-keyword">from</span> langchain_classic.schema <span class="hljs-keyword">import</span> StrOutputParser<br><br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-1&quot;</span><br>llm = ChatOpenAI(<br>    model=<span class="hljs-string">&quot;qwen3.6-flash&quot;</span>,<span class="hljs-comment">#  需要没有思考的版本</span><br>    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span><br>)<br><span class="hljs-comment"># 这里我们定义了一个简单的 lambda 函数，接受一个输入字典，提取其中的 &quot;text&quot; 字段，对文本进行处理（这里我们把它转换成大写），然后返回一个新的字典，包含处理后的文本</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">lambda_func</span>(<span class="hljs-params">inputs</span>):<br>    process = inputs.upper()<br>    <span class="hljs-keyword">return</span> process<br><br><br>prompt1 = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个故事专家，讲解的故事要有趣味性，内容要涉及社会面。&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;请讲一个关于&#123;topic&#125;的有趣故事。&quot;</span>)<br>])<br>parser1 = StrOutputParser()<br>chain1 = prompt1 | llm | parser1<br><br>prompt2 = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个翻译家，将所有内容翻译成英文。&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;请翻译这段话: &#123;text&#125;&quot;</span>)<br>])<br>parser2 = StrOutputParser()<br>chain2 = prompt2 | llm | parser2<br><br><br><span class="hljs-comment"># 这里我们把 chain1 和 chain2 串联起来，形成一个多步骤的链式调用. 模型会先根据用户输入的话题生成一个有趣的故事，然后把这个故事作为输入传给第二个提示词模板，</span><br><span class="hljs-comment"># 让模型把它翻译成英文，最终输出翻译后的结果，然后我们在 chain2 和 lambda_func 之间插入了这个 lambda_func，这样模型生成的翻译结果就会被这个 lambda_func 处理一下（转换成大写），然后输出最终的结果</span><br>full_chain = chain1 | (<span class="hljs-keyword">lambda</span> inputs: &#123;<span class="hljs-string">&quot;text&quot;</span>: inputs&#125;) |  chain2 | lambda_func<br><br><br>response = full_chain.invoke(&#123;<span class="hljs-string">&quot;topic&quot;</span>: <span class="hljs-string">&quot;找工作&quot;</span>&#125;) <span class="hljs-comment"># 调用这个链式结构，传入用户输入的话题，模型会先生成一个有趣的故事，然后把这个故事翻译成英文，最后把翻译结果转换成大写输出</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;模型回复:\n&quot;</span> + <span class="hljs-built_in">str</span>(response)) <span class="hljs-comment"># 输出模型的回复，可以看到它</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-24-22-29-56-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>LangChain 里还有一些在实际项目里很常见、但初学阶段不必深入的 Runnable 组件。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>作用</th>
+<th>什么时候会用到</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>RunnablePassthrough</code></td>
+<td>接收输入后原样透传，也可顺手往输出中补充字段</td>
+<td>想保留原始输入、给结果加键、做轻量上下文拼装</td>
+</tr>
+<tr>
+<td><code>RunnableWithFallbacks</code></td>
+<td>为某个 Runnable 配置兜底逻辑，失败后回退到备用 Runnable</td>
+<td>模型调用失败、主链失败后自动切备用方案</td>
+</tr>
+<tr>
+<td><code>RunnableBinding</code></td>
+<td>为 Runnable 预绑定 <code>config</code>、默认参数等</td>
+<td>同一链在不同环境复用、可配置温度与模型等</td>
+</tr>
+</tbody></table>
+<p><strong>Runnable 世界并不只有“顺序、分支、并行、lambda”这几种，LangChain 其实提供了一整套可执行节点家族。</strong></p>
+<h1 id="记忆与历史对话"><a href="#记忆与历史对话" class="headerlink" title="记忆与历史对话"></a>记忆与历史对话</h1><p>记忆并不是一个“可有可无的高级特性”，而是多轮对话系统最基础的能力之一。它至少解决三类问题：</p>
+<ul>
+<li><strong>上下文连续性</strong>：让模型知道上一轮说过什么。</li>
+<li><strong>会话个性化</strong>：让模型记住用户在当前会话里提供的信息，如名字、偏好、任务背景。</li>
+<li><strong>多步任务承接</strong>：让模型把前一步结果作为后一步输入，而不是每轮都重新从零开始。</li>
+</ul>
+<p><strong>没有记忆，聊天系统就只是“连续发了很多次单轮请求”；有了记忆，它才真正开始像“对话”。</strong></p>
+<p><strong>记忆（Memory）</strong>，指的主要是短期记忆（Short-Term Memory）<strong>或</strong>对话历史（Chat History）。</p>
+<p>它的本质不是“模型真的记住了”，而是：<strong>程序把之前的消息保存下来，并在下一轮调用前，再把这些历史消息一并传给模型。</strong></p>
+<p>所以它更像一种“外部会话状态管理机制”，而不是模型参数层面的学习。</p>
+<p>如果只是</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-comment"># 第一轮：告诉模型「我叫张三」</span><br><span class="hljs-built_in">print</span>(chain.invoke(&#123;<span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;我叫张三，你叫什么?&quot;</span>&#125;))<br><br><span class="hljs-comment"># 第二轮：问「你知道我是谁吗？」——模型无法看到上一轮，会回答「我不知道」</span><br><span class="hljs-built_in">print</span>(chain.invoke(&#123;<span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;你知道我是谁吗?&quot;</span>&#125;))<br></code></pre></div></td></tr></table></figure>
+
+<p>这里模型并不知道你是谁。</p>
+<p>如果用更接近程序的方式来描述，一次带记忆的调用通常是这样发生的：</p>
+<p><strong>第一步：根据会话标识找到对应历史。</strong><br>比如通过 <code>session_id=&quot;user-001&quot;</code> 找到这位用户当前会话的消息列表。</p>
+<p><strong>第二步：把历史消息插入 Prompt。<code>MessagesPlaceholder(&quot;history&quot;)</code> 配合使用（见第一章的【MessagesPlaceholder记忆功能】）</strong></p>
+<p><strong>第三步：把“历史 + 当前问题”一起交给模型。</strong><br>这样模型看到的就不再只是当前一句话，而是完整上下文。</p>
+<p><strong>第四步：把本轮消息写回历史存储。</strong><br>也就是把：用户这一轮输入、模型这一轮回复，都追加进去，供下一轮再读取。</p>
+<h3 id="messageplaceholder与temp的关系"><a href="#messageplaceholder与temp的关系" class="headerlink" title="messageplaceholder与temp的关系"></a>messageplaceholder与temp的关系</h3><p>在对话历史场景里，你通常不会把历史消息一条条手写死在模板中，因为历史轮数与内容每轮都在变。更合理的做法是在模板里留一个“历史消息插槽”，运行时再把当前会话历史整块塞进去</p>
+<h3 id="session-id的意义"><a href="#session-id的意义" class="headerlink" title="session_id的意义"></a>session_id的意义</h3><p>只要涉及记忆，就会涉及一个关键问题：<strong>你怎么知道哪份历史属于哪位用户、哪次会话？</strong></p>
+<p>最常见的做法就是使用 <code>session_id</code>，它就是“当前会话的编号”。</p>
+<p>例如：</p>
+<ul>
+<li><code>user-001</code></li>
+<li><code>user-002</code></li>
+<li><code>chat-room-a</code></li>
+</ul>
+<h3 id="RunnableWithMessageHistory"><a href="#RunnableWithMessageHistory" class="headerlink" title="RunnableWithMessageHistory"></a>RunnableWithMessageHistory</h3><p>这里的逻辑是，用户输入，大模型执行第一遍之后，存入session中，在Runnablehistory获取sessionid和input和history，注入到提示词模板中，然后在次执行。</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> langchain_classic.prompts <span class="hljs-keyword">import</span> MessagesPlaceholder <span class="hljs-comment"># 这个类是用来占位消息历史的</span><br><span class="hljs-keyword">from</span> langchain_classic.schema <span class="hljs-keyword">import</span> StrOutputParser<br><span class="hljs-keyword">from</span> langchain_core.runnables <span class="hljs-keyword">import</span> RunnableConfig, RunnableWithMessageHistory<br><span class="hljs-keyword">from</span> langchain_core.chat_history <span class="hljs-keyword">import</span> InMemoryChatMessageHistory<br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate <span class="hljs-comment"># 这个类是用来创建聊天提示词模板的</span><br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-1&quot;</span><br><br>llm = ChatOpenAI(<br>    model=<span class="hljs-string">&quot;qwen3.6-plus&quot;</span>,<br>    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span><br>)<br><br>prompt = ChatPromptTemplate.from_messages([<br>    MessagesPlaceholder(variable_name=<span class="hljs-string">&quot;history&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;&#123;input&#125;&quot;</span>)<br>])<br>parser = StrOutputParser()<br>chain = prompt | llm | parser <span class="hljs-comment"># 这里我们把 prompt、llm 和 parser 串联起来，形成一个链式调用的结构</span><br><br>history = InMemoryChatMessageHistory() <span class="hljs-comment"># 放在内存里的列表，专门存 HumanMessage 和 AIMessage</span><br><br>runable = RunnableWithMessageHistory( <span class="hljs-comment">#先执行</span><br>    chain,<br>    get_session_history=<span class="hljs-keyword">lambda</span> session_id: history, <span class="hljs-comment">#自动把history注入模板中的占位符中，调用之后追加进去</span><br>    input_messages_key=<span class="hljs-string">&quot;input&quot;</span>,<br>    history_messages_key=<span class="hljs-string">&quot;history&quot;</span>   <span class="hljs-comment"># ✅ 正确：messages 是复数</span><br>)<br><br>config = &#123;<span class="hljs-string">&quot;configurable&quot;</span>: &#123;<span class="hljs-string">&quot;session_id&quot;</span>: <span class="hljs-string">&quot;user-001&quot;</span>&#125;&#125;<span class="hljs-comment"># 创建一个可运行配置对象，用来配置可运行的行为</span><br><br>ruslt1 = runable.invoke(&#123;<span class="hljs-string">&quot;input&quot;</span>: <span class="hljs-string">&quot;你好，我叫李四，喜欢跑步&quot;</span>&#125;, config=config) <span class="hljs-comment"># 调用可运行对象，传入用户输入的消息和配置对象，这样模型就会根据提示词模板生成回复，并且把用户输入的消息存储在消息历史中</span><br>ruslt2 = runable.invoke(&#123;<span class="hljs-string">&quot;input&quot;</span>: <span class="hljs-string">&quot;我叫什么，喜欢什么运动？&quot;</span>&#125;, config=config) <span class="hljs-comment"># 再次调用可运行对象，传入新的用户输入的消息和配置对象，这样模型就会根据提示词模板生成回复，并且把新的用户输入的消息存储在消息历史中</span><br><br><span class="hljs-built_in">print</span>(ruslt1)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span>*<span class="hljs-number">30</span>)<br><span class="hljs-built_in">print</span>(ruslt2)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-25-15-12-48-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="多个session测试"><a href="#多个session测试" class="headerlink" title="多个session测试"></a>多个session测试</h2><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> langchain_classic.prompts <span class="hljs-keyword">import</span> MessagesPlaceholder <span class="hljs-comment"># 这个类是用来占位消息历史的</span><br><span class="hljs-keyword">from</span> langchain_classic.schema <span class="hljs-keyword">import</span> StrOutputParser<br><span class="hljs-keyword">from</span> langchain_core.runnables <span class="hljs-keyword">import</span> RunnableConfig, RunnableWithMessageHistory<br><span class="hljs-keyword">from</span> langchain_core.chat_history <span class="hljs-keyword">import</span> InMemoryChatMessageHistory<br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate <span class="hljs-comment"># 这个类是用来创建聊天提示词模板的</span><br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-1&quot;</span><br><br>llm = ChatOpenAI(<br>    model=<span class="hljs-string">&quot;qwen3.6-plus&quot;</span>,<br>    openai_api_base=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span><br>)<br><br><br><span class="hljs-comment">#存放</span><br>store = &#123;&#125; <br><span class="hljs-comment"># 获取会话ID</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_session_id</span>(<span class="hljs-params">session_id:<span class="hljs-built_in">str</span></span>):<br>    <span class="hljs-keyword">if</span> session_id <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> store:<br>        store[session_id] = InMemoryChatMessageHistory() <span class="hljs-comment"># 初始化一个空的消息历史记录</span><br>    <span class="hljs-keyword">return</span> store[session_id]<br><span class="hljs-comment"># 创建聊天提示词模板</span><br>chat_prompt = ChatPromptTemplate.from_messages([<br>    <span class="hljs-comment"># 系统提示</span><br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个专业的助手&quot;</span>),<br>    <span class="hljs-comment"># 消息历史占位符</span><br>    MessagesPlaceholder(variable_name=<span class="hljs-string">&quot;history&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;&#123;input&#125;&quot;</span>),<br>])<br><span class="hljs-comment"># 创建输出解析器</span><br>parser = StrOutputParser()<br>chain = chat_prompt | llm | parser<br><br>with_history = RunnableWithMessageHistory(<br>    chain,<br>    get_session_history=get_session_id,<br>    input_messages_key=<span class="hljs-string">&quot;input&quot;</span>,<br>    history_messages_key=<span class="hljs-string">&quot;history&quot;</span>,<br>)<br><br><br>cfg1 = &#123;<span class="hljs-string">&quot;configurable&quot;</span>: &#123;<span class="hljs-string">&quot;session_id&quot;</span>: <span class="hljs-string">&quot;user001&quot;</span>&#125;&#125;<br>cfg2 = &#123;<span class="hljs-string">&quot;configurable&quot;</span>: &#123;<span class="hljs-string">&quot;session_id&quot;</span>: <span class="hljs-string">&quot;user002&quot;</span>&#125;&#125;<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;user001&quot;</span>)<br><span class="hljs-comment"># 调用user001的会话</span><br>ruslt1 = with_history.invoke(&#123;<span class="hljs-string">&quot;input&quot;</span>: <span class="hljs-string">&quot;我叫张三&quot;</span>&#125;, config=cfg1)<br><span class="hljs-built_in">print</span>(ruslt1)   <br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span> * <span class="hljs-number">20</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;user002&quot;</span>)<br><span class="hljs-comment"># 调用user002的会话</span><br>ruslt2 = with_history.invoke(&#123;<span class="hljs-string">&quot;input&quot;</span>: <span class="hljs-string">&quot;我叫李四,&quot;</span>&#125;, config=cfg2)<br><span class="hljs-built_in">print</span>(ruslt2)   <br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span> * <span class="hljs-number">20</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;user001&quot;</span>)<br><span class="hljs-comment"># 调用user001的会话</span><br>result1 = with_history.invoke(&#123;<span class="hljs-string">&quot;input&quot;</span>: <span class="hljs-string">&quot;你好，我叫什么？&quot;</span>&#125;, config=cfg1)<br><span class="hljs-built_in">print</span>(result1)   <br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span> * <span class="hljs-number">20</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;user002&quot;</span>)<br><span class="hljs-comment"># 调用user002的会话</span><br>result2 = with_history.invoke(&#123;<span class="hljs-string">&quot;input&quot;</span>: <span class="hljs-string">&quot;你好，我叫什么？&quot;</span>&#125;, config=cfg2)<br><span class="hljs-built_in">print</span>(result2)   <br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span> * <span class="hljs-number">20</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-25-15-38-05-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="InmemoryChatMessageHistory"><a href="#InmemoryChatMessageHistory" class="headerlink" title="InmemoryChatMessageHistory"></a>InmemoryChatMessageHistory</h2><p>直接调用</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> langchain_classic.prompts <span class="hljs-keyword">import</span> MessagesPlaceholder <span class="hljs-comment"># 这个类是用来占位消息历史的</span><br><span class="hljs-keyword">from</span> langchain_classic.schema <span class="hljs-keyword">import</span> StrOutputParser<br><span class="hljs-keyword">from</span> langchain_core.runnables <span class="hljs-keyword">import</span> RunnableConfig, RunnableWithMessageHistory<br><span class="hljs-keyword">from</span> langchain_core.chat_history <span class="hljs-keyword">import</span> InMemoryChatMessageHistory<br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate <span class="hljs-comment"># 这个类是用来创建聊天提示词模板的</span><br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-0dd6ea409b96477d86688f90fb51c915&quot;</span><br><br>llm = ChatOpenAI(<br>    model = <span class="hljs-string">&quot;qwen3.6-plus&quot;</span>,<br>    openai_api_base = <span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span><br>)<br><br>history = InMemoryChatMessageHistory() <span class="hljs-comment"># 直接创建一个空的消息历史记录</span><br><br>history.add_message(&#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;我叫张三&quot;</span>&#125;) <span class="hljs-comment"># 添加用户消息到消息历史中</span><br>result = llm.invoke(history.messages)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;first result&quot;</span>)<br><span class="hljs-built_in">print</span>(result)<br><br>history.add_message(result)<br>history.add_message(&#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;assistant&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>:<span class="hljs-string">&quot;我叫什么？&quot;</span>&#125;)<br>result2 = llm.invoke(history.messages)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;second result&quot;</span>)<br><span class="hljs-built_in">print</span>(result2)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span> * <span class="hljs-number">20</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-25-16-06-58-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Redis存储历史对话"><a href="#Redis存储历史对话" class="headerlink" title="Redis存储历史对话"></a>Redis存储历史对话</h2><p>最常用的命令有这些：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>PING</code></td>
+<td>检测服务是否存活</td>
+<td><code>PING</code> → 返回 <code>PONG</code></td>
+</tr>
+<tr>
+<td><code>SET key value</code></td>
+<td>设置字符串键值</td>
+<td><code>SET mykey &quot;hello&quot;</code></td>
+</tr>
+<tr>
+<td><code>GET key</code></td>
+<td>获取字符串值</td>
+<td><code>GET mykey</code></td>
+</tr>
+<tr>
+<td><code>DEL key [key ...]</code></td>
+<td>删除一个或多个键</td>
+<td><code>DEL mykey</code></td>
+</tr>
+<tr>
+<td><code>KEYS pattern</code></td>
+<td>按模式查找键（慎用于生产）</td>
+<td><code>KEYS *</code>、<code>KEYS message_store:*</code></td>
+</tr>
+<tr>
+<td><code>EXISTS key</code></td>
+<td>判断键是否存在</td>
+<td><code>EXISTS mykey</code> → 1 或 0</td>
+</tr>
+<tr>
+<td><code>TTL key</code></td>
+<td>查看键的剩余过期时间（秒）</td>
+<td><code>TTL mykey</code>，-1 表示永不过期</td>
+</tr>
+<tr>
+<td><code>EXPIRE key seconds</code></td>
+<td>设置键的过期时间</td>
+<td><code>EXPIRE mykey 3600</code></td>
+</tr>
+<tr>
+<td><code>DBSIZE</code></td>
+<td>当前数据库的键数量</td>
+<td><code>DBSIZE</code></td>
+</tr>
+<tr>
+<td><code>FLUSHDB</code></td>
+<td>清空当前数据库（慎用）</td>
+<td><code>FLUSHDB</code></td>
+</tr>
+</tbody></table>
+<p>代码实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> redis<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> langchain_classic.prompts <span class="hljs-keyword">import</span> MessagesPlaceholder <span class="hljs-comment"># 这个类是用来占位消息历史的</span><br><span class="hljs-keyword">from</span> langchain_classic.schema <span class="hljs-keyword">import</span> StrOutputParser<br><span class="hljs-keyword">from</span> langchain_core.runnables <span class="hljs-keyword">import</span> RunnableConfig, RunnableWithMessageHistory<br><span class="hljs-keyword">from</span> langchain_core.chat_history <span class="hljs-keyword">import</span> InMemoryChatMessageHistory<br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate <span class="hljs-comment"># 这个类是用来创建聊天提示词模板的</span><br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><span class="hljs-keyword">from</span> langchain_community.chat_message_histories <span class="hljs-keyword">import</span> RedisChatMessageHistory<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">check_redis</span>():<br>    r = redis.Redis(host=<span class="hljs-string">&#x27;localhost&#x27;</span>, port=<span class="hljs-number">6379</span>, db=<span class="hljs-number">0</span>)<br>    r.ping()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;redis is connected&quot;</span>)  <span class="hljs-comment"># 打印连接成功信息</span><br>    <span class="hljs-keyword">return</span> r<br><br>check_redis()<br><span class="hljs-comment"># 定义从Redis中获取消息历史记录的函数</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_redis_history</span>(<span class="hljs-params">session_id: <span class="hljs-built_in">str</span></span>): <br>    <span class="hljs-comment"># url 格式: redis://IP地址:端口/数据库编号</span><br>    <span class="hljs-comment"># session_id 是会话的唯一标识符，用于在Redis中存储和检索消息历史记录</span><br>    <span class="hljs-keyword">return</span> RedisChatMessageHistory(<br>        session_id=session_id, <br>        <span class="hljs-comment"># 连接Redis数据库</span><br>        url=<span class="hljs-string">&quot;redis://127.0.0.1:6379/0&quot;</span> <br>    )<br><br><br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&quot;sk-1&quot;</span><br>llm = ChatOpenAI(<br>    model = <span class="hljs-string">&quot;qwen3.6-plus&quot;</span>,<br>    openai_api_base = <span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span><br>)<br><br>chat_prompt = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个专业的助手&quot;</span>),<br>    MessagesPlaceholder(variable_name=<span class="hljs-string">&quot;history&quot;</span>),<br>    (<span class="hljs-string">&quot;ai&quot;</span>, <span class="hljs-string">&quot;&#123;history&#125;&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;&#123;input&#125;&quot;</span>),<br>])<br><br>parser = StrOutputParser()<br><span class="hljs-comment"># 创建链</span><br>chain = chat_prompt | llm | parser<br><span class="hljs-comment"># 创建可运行的链</span><br>runable = RunnableWithMessageHistory(<br>    chain,<br>    input_messages_key=<span class="hljs-string">&quot;input&quot;</span>,<br>    <span class="hljs-comment"># 从Redis中获取消息历史记录</span><br>    get_session_history=get_redis_history,<br>    history_messages_key=<span class="hljs-string">&quot;history&quot;</span>,<br>)<br><span class="hljs-comment"># 配置运行时参数</span><br>config = &#123;<span class="hljs-string">&quot;configurable&quot;</span>: &#123;<span class="hljs-string">&quot;session_id&quot;</span>: <span class="hljs-string">&quot;user_1&quot;</span>&#125;&#125; <br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;开始对话，输入exit退出&quot;</span>)<br><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>    question = <span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;\n请输入: &quot;</span>)<br>    <span class="hljs-keyword">if</span> question.lower() == <span class="hljs-string">&quot;exit&quot;</span>:<br>        <span class="hljs-keyword">break</span><br>    result = runable.invoke(&#123;<span class="hljs-string">&quot;input&quot;</span>: question&#125;, config)<br>    <span class="hljs-built_in">print</span>(result)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span> * <span class="hljs-number">20</span>) <br><br><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/23/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A02/2026-05-25-21-46-33-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>它和内存版相比，真正变化的核心只有一处：</p>
+<ul>
+<li><code>get_session_history(...)</code> 不再返回 <code>InMemoryChatMessageHistory</code></li>
+<li>而是返回 <code>RedisChatMessageHistory</code></li>
+</ul>
+<p><strong>链的读写逻辑没变，只是历史的存储后端换了。</strong></p>
+<ul>
+<li><code>RunnableWithMessageHistory</code> 负责“什么时候读写”</li>
+<li><code>RedisChatMessageHistory</code> 负责“历史存到哪里”</li>
+</ul>
+<p>两者是配合关系，不是替代关系。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

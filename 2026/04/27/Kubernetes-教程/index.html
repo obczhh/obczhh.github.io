@@ -16,12 +16,12 @@
   <meta name="author" content="0ldcat">
   <meta name="keywords" content="">
   
-    <meta name="description" content="安装docker 安装minikube(minikube 可以在 macOS、Linux 和 Windows 上快速搭建本地 Kubernetes 集群。我们自豪地专注于帮助应用程序开发者和新的 Kubernetes 用户。) 启动minikube: Container 容器：例子 go代码 123456789101112131415package mainimport (    &quot;io">
+    <meta name="description" content="安装docker 安装minikube(minikube 可以在 macOS、Linux 和 Windows 上快速搭建本地 Kubernetes 集群。 启动minikube: Container 容器：例子 go代码 123456789101112131415package mainimport (    &quot;io&quot;    &quot;net&#x2F;http&quot;)func">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kubernetes 教程 (k8s)">
 <meta property="og:url" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/index.html">
 <meta property="og:site_name" content="0ldcat_blog">
-<meta property="og:description" content="安装docker 安装minikube(minikube 可以在 macOS、Linux 和 Windows 上快速搭建本地 Kubernetes 集群。我们自豪地专注于帮助应用程序开发者和新的 Kubernetes 用户。) 启动minikube: Container 容器：例子 go代码 123456789101112131415package mainimport (    &quot;io">
+<meta property="og:description" content="安装docker 安装minikube(minikube 可以在 macOS、Linux 和 Windows 上快速搭建本地 Kubernetes 集群。 启动minikube: Container 容器：例子 go代码 123456789101112131415package mainimport (    &quot;io&quot;    &quot;net&#x2F;http&quot;)func">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-17-36-22-image.png">
 <meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-23-20-30-image.png">
@@ -70,7 +70,7 @@
 <meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-04-23-57-00-image.png">
 <meta property="og:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-05-05-00-11-53-image.png">
 <meta property="article:published_time" content="2026-04-27T07:31:59.000Z">
-<meta property="article:modified_time" content="2026-05-04T16:38:22.206Z">
+<meta property="article:modified_time" content="2026-05-23T12:46:02.938Z">
 <meta property="article:author" content="0ldcat">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2026/04/27/Kubernetes-%E6%95%99%E7%A8%8B/2026-04-27-17-36-22-image.png">
@@ -273,7 +273,7 @@
             
             <div class="markdown-body">
               <p>安装docker</p>
-<p>安装minikube(minikube 可以在 macOS、Linux 和 Windows 上快速搭建本地 Kubernetes 集群。我们自豪地专注于帮助应用程序开发者和新的 Kubernetes 用户。)</p>
+<p>安装minikube(minikube 可以在 macOS、Linux 和 Windows 上快速搭建本地 Kubernetes 集群。</p>
 <p>启动minikube:</p>
 <h1 id="Container-容器："><a href="#Container-容器：" class="headerlink" title="Container 容器："></a><strong>Container 容器：</strong></h1><p>例子 go代码</p>
 <figure class="highlight go"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br>    <span class="hljs-string">&quot;io&quot;</span><br>    <span class="hljs-string">&quot;net/http&quot;</span><br>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">hello</span><span class="hljs-params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;<br>    io.WriteString(w, <span class="hljs-string">&quot;[v1] Hello, Kubernetes!&quot;</span>)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    http.HandleFunc(<span class="hljs-string">&quot;/&quot;</span>, hello)<br>    http.ListenAndServe(<span class="hljs-string">&quot;:3000&quot;</span>, <span class="hljs-literal">nil</span>)<br>&#125;<br></code></pre></div></td></tr></table></figure>

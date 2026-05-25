@@ -1,0 +1,479 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="第一步： 购买一个服务器，或者你有现成的服务，我就直接用我梯子的服务器来搭建来 简直就是一举两得 ，（服务器选购） https:&#x2F;&#x2F;www.dmit.io&#x2F;aff.php?aff&#x3D;20440 拿到服务后 下载 SSH Keys 保存好这是你连接服务器的凭证 ，复制服务器 ip 地址 打开你任何的 agnet 发送你刚刚下载的文件 还有你的服务器ip 连接服务器  第二步 ： 成功连接服务器之后，找">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ai中转站搭建">
+<meta property="og:url" content="http://example.com/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="第一步： 购买一个服务器，或者你有现成的服务，我就直接用我梯子的服务器来搭建来 简直就是一举两得 ，（服务器选购） https:&#x2F;&#x2F;www.dmit.io&#x2F;aff.php?aff&#x3D;20440 拿到服务后 下载 SSH Keys 保存好这是你连接服务器的凭证 ，复制服务器 ip 地址 打开你任何的 agnet 发送你刚刚下载的文件 还有你的服务器ip 连接服务器  第二步 ： 成功连接服务器之后，找">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-14-02-image.png">
+<meta property="og:image" content="http://example.com/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-14-19-image.png">
+<meta property="og:image" content="http://example.com/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-14-35-image.png">
+<meta property="og:image" content="http://example.com/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-14-51-image.png">
+<meta property="og:image" content="http://example.com/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-15-24-image.png">
+<meta property="og:image" content="http://example.com/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-15-35-image.png">
+<meta property="og:image" content="http://example.com/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-16-13-image.png">
+<meta property="og:image" content="http://example.com/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-16-40-image.png">
+<meta property="og:image" content="http://example.com/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-16-50-image.png">
+<meta property="article:published_time" content="2026-05-16T09:13:09.000Z">
+<meta property="article:modified_time" content="2026-05-16T09:33:52.913Z">
+<meta property="article:author" content="0ldcat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-14-02-image.png">
+  
+  
+  <title>ai中转站搭建 - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"...","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="ai中转站搭建">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2026-05-16 17:13" pubdate>
+        2026年5月16日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.7k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ai中转站搭建</h1>
+            
+            <div class="markdown-body">
+              <p>第一步：</p>
+<p>购买一个服务器，或者你有现成的服务，我就直接用我梯子的服务器来搭建来</p>
+<p>简直就是一举两得 ，（服务器选购）</p>
+<p><a target="_blank" rel="noopener" href="https://www.dmit.io/aff.php?aff=20440">https://www.dmit.io/aff.php?aff=20440</a></p>
+<p>拿到服务后 下载 SSH Keys 保存好这是你连接服务器的凭证 ，复制服务器 ip 地址</p>
+<p>打开你任何的 agnet 发送你刚刚下载的文件 还有你的服务器ip 连接服务器</p>
+<p><img src="/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-14-02-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>第二步 ：</p>
+<p>成功连接服务器之后，找到你想要安装的 开源中转站连接 一般都是github连接</p>
+<p>我这里就是安装的Subapi 真的很强 ，因为今天我把市面上的都安装过了 。</p>
+<p>发送给agnet ： 帮我安装这个服务</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Wei-Shaw/sub2api">GitHub - Wei-Shaw&#x2F;sub2api: Sub2API-CRS2 一站式开源中转服务，让 Claude、Openai 、Gemini、Antigravity订阅统一接入，支持拼车共享，更高效分摊成本，原生工具无缝使用。 · GitHub</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/">github.com</a></p>
+<p>（没有域名后面可以不看了）- 并且部署到</p>
+<p><a target="_blank" rel="noopener" href="https://xxxxsss.com/">xxxxsss.com</a></p>
+<p>域名 。要是你不知道怎么解析的话 ，还有证书 流量保护 ai都会给你搞好</p>
+<p>还有绝招 ，让ai全权代理 。</p>
+<p>登陆你的</p>
+<p><a target="_blank" rel="noopener" href="https://cloudflare.com/">cloudflare.com</a></p>
+<p>右上角点头像 -点Profile - 进去后点击 -API Tokens</p>
+<p>最下面找到 Global API Key 点击查看 都是需要邮箱验证码的 。</p>
+<p>获取你的 Global API Key + 你的邮箱打包一起发给你的 agnet 。</p>
+<p><img src="/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-14-19-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>发送给 agnet 的内容 ：</p>
+<p><img src="/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-14-35-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>第三步 ：</p>
+<p>吃完饭回来查看桌面，会出现一个.md的使用说明文件 安装说明进行网站的登录设置。 这个中站站 还有新手 指引教程 真的人性化拉满 ，其他的就没有 。</p>
+<p><img src="/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-14-51-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>第四步 ： 也是最重要的</p>
+<p>如何绑定你的openai OAuth 授权登陆 ， 登陆你的面板点击 账号管理</p>
+<p>按照步骤选择下一步 ，这时候会给你一条授权的连接 ，复制在你的电脑上打开</p>
+<p>登陆你的openai 账号进行授权登陆 ，看你运气 要是授权不上的话</p>
+<p>就把下面这段话发给你的 ai 。</p>
+<ol>
+<li><p>确保终端里 SSH 隧道正在运行</p>
+</li>
+<li><p>浏览器切换到 SwitchyOmega 代理</p>
+</li>
+<li><p>打开 你的面板地址.com 管理面板</p>
+</li>
+<li><p>进入 <strong>账号管理</strong> → <strong>添加 OpenAI 账号</strong></p>
+</li>
+<li><p>浏览器会跳转到 OpenAI 登录页</p>
+</li>
+<li><p>输入 OpenAI 账号密码完成登录</p>
+</li>
+<li><p>登录成功后浏览器跳转到 <code>localhost:1455/auth/callback</code></p>
+</li>
+<li><p>Sub2API 自动处理回调，账号添加成功</p>
+</li>
+<li><p>切回直连，关闭终端里的 SSH 隧道</p>
+</li>
+</ol>
+<p>Gost 代理 | &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;gost-proxy.service | HTTP 代理转发服务 |</p>
+<p>| 住宅代理列表 | &#x2F;opt&#x2F;sub2api&#x2F;residential-proxies.txt | Webshare 住宅代理 |</p>
+<p><a target="_blank" rel="noopener" href="https://www.webshare.io/?referral_code=n0oy56txwyim">https://www.webshare.io/?referral_code=n0oy56txwyim</a></p>
+<p><img src="/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-15-24-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-15-35-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>这样你应该可以绑定上了 ， 让你的agnet 帮你测试一下 ， 可能会有两种可能</p>
+<p>一种是你的 agnet 可以调用 ，但是你调用不了</p>
+<p>第五 ：可能会出现</p>
+<p>Sub2API 需要通过代理访问 OpenAI，但你的 Webshare 代理全被 Cloudflare 拦截了。 这样的话 你去买 住宅 ip 就可以了 。</p>
+<p><a target="_blank" rel="noopener" href="https://x.com/libapi_/status/2050959968522940588">https://x.com/libapi_/status/2050959968522940588</a>  （买个1gb）</p>
+<p>然后下载把文件发给你的 agnet ，他会自己调用着 IP</p>
+<p><img src="/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-16-13-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>第六： 找个面板导入你的 apikey</p>
+<p>分享给你的朋友apikey base url ，这里推荐面板：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/EKKOLearnAI/hermes-web-ui">https://github.com/EKKOLearnAI/hermes-web-ui</a></p>
+<p><img src="/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-16-40-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/16/ai%E4%B8%AD%E8%BD%AC%E7%AB%99%E6%90%AD%E5%BB%BA/2026-05-16-17-16-50-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>扒皮哥第二弹：AI搭建中转站，一共也只需要4步 孙哥开了中转站后，大家都发现了中转站才是金矿。怎么才能参与其中分一杯羹呢？下面4步让AI帮你干活：</p>
+<ol>
+<li>购买服务器：<a target="_blank" rel="noopener" href="https://t.co/Yf8kQHHWBT">https://dmit.io/aff.php?aff=20440</a>，见你买的服务器IP和SSH Keys发给Agent。</li>
+<li>让 Agent 帮你安装：<a target="_blank" rel="noopener" href="https://t.co/OoERIrcl7b">https://github.com/Wei-Shaw/sub2api</a>，并且部署到 <a target="_blank" rel="noopener" href="https://t.co/xnRe7O12i0">http://xxxxsss.com</a> 域名。</li>
+<li>根据桌面新出现的 .md 文件设置网站登录。</li>
+<li>登陆你的openai 账号进行授权登陆。<br>现在好了，人人都能成为孙哥，人人都开中转站。大家一起挖金子~</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
