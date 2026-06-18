@@ -1,0 +1,945 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Tools工具调用理解 Tool（工具）、Tool Calling（工具调用）、Function Calling（函数调用） name、description、args、tool_calls、ToolMessage 这些关键对象。 Tool（工具），是给大模型准备的一项外部能力。它本质上通常就是一个可调用函数，只不过我们把它包装成模型能理解的形式，让模型知道：  这个工具叫什么 这个工具是干什么的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="agent智能体学习3">
+<meta property="og:url" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="Tools工具调用理解 Tool（工具）、Tool Calling（工具调用）、Function Calling（函数调用） name、description、args、tool_calls、ToolMessage 这些关键对象。 Tool（工具），是给大模型准备的一项外部能力。它本质上通常就是一个可调用函数，只不过我们把它包装成模型能理解的形式，让模型知道：  这个工具叫什么 这个工具是干什么的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-25-22-29-31-image.png">
+<meta property="og:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-25-22-53-30-image.png">
+<meta property="og:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-25-22-55-27-image.png">
+<meta property="og:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-25-23-20-07-image.png">
+<meta property="og:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-00-06-57-image.png">
+<meta property="og:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-11-26-39-image.png">
+<meta property="og:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-13-27-23-image.png">
+<meta property="og:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-13-32-27-image.png">
+<meta property="og:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-14-18-48-image.png">
+<meta property="og:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-14-45-26-image.png">
+<meta property="og:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-15-29-47-image.png">
+<meta property="og:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-15-29-52-image.png">
+<meta property="og:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-15-57-47-image.png">
+<meta property="og:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-16-02-43-image.png">
+<meta property="og:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-23-33-09-image.png">
+<meta property="article:published_time" content="2026-05-25T14:16:23.000Z">
+<meta property="article:modified_time" content="2026-05-26T15:53:14.803Z">
+<meta property="article:author" content="0ldcat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-25-22-29-31-image.png">
+  
+  
+  <title>agent智能体学习3 - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"...","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="agent智能体学习3">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2026-05-25 22:16" pubdate>
+        2026年5月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      20k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      165 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">agent智能体学习3</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Tools工具调用"><a href="#Tools工具调用" class="headerlink" title="Tools工具调用"></a>Tools工具调用</h1><p>理解 <strong>Tool（工具）</strong>、<strong>Tool Calling（工具调用）</strong>、<strong>Function Calling（函数调用）</strong></p>
+<p><code>name</code>、<code>description</code>、<code>args</code>、<code>tool_calls</code>、<code>ToolMessage</code> 这些关键对象。</p>
+<p><strong>Tool（工具）</strong>，是给大模型准备的一项<strong>外部能力</strong>。它本质上通常就是一个可调用函数，只不过我们把它包装成模型能理解的形式，让模型知道：</p>
+<ul>
+<li>这个工具叫什么</li>
+<li>这个工具是干什么的</li>
+<li>这个工具接收哪些参数</li>
+</ul>
+<p><strong>Tool Calling（工具调用）</strong> 或 <strong>Function Calling（函数调用）</strong>，说的是：<strong>模型在回答过程中，不直接给最终自然语言，而是先输出“我想调用某个工具，并附带参数”这一结构化意图。</strong></p>
+<p>然后要特别记住一条最重要的分工：</p>
+<ul>
+<li><strong>模型负责决定</strong>：要不要调用工具、调用哪个工具、传什么参数</li>
+<li><strong>程序负责执行</strong>：真正去调用函数 &#x2F; API &#x2F; 数据库 &#x2F; 业务服务，并把结果再送回模型</li>
+</ul>
+<p>Tool 不是“模型自己突然学会调用外部系统”，而是<strong>我们把外部能力以受控方式开放给模型使用</strong>。</p>
+<p>Tool 是外部能力本身，Tool Calling 是模型发起使用这项能力的过程。</p>
+<p>tool、tool calling、Agent三者关系</p>
+<table>
+<thead>
+<tr>
+<th><strong>概念</strong></th>
+<th><strong>角色</strong></th>
+<th><strong>属性</strong></th>
+<th><strong>例子</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Tool</strong></td>
+<td><strong>零件</strong></td>
+<td>静态的函数定义</td>
+<td>谷歌搜索 API、计算器</td>
+</tr>
+<tr>
+<td><strong>Tool Calling</strong></td>
+<td><strong>接口</strong></td>
+<td>模型生成的结构化指令</td>
+<td>产生 <code>calc(1+1)</code> 的 JSON 指令</td>
+</tr>
+<tr>
+<td><strong>Agent</strong></td>
+<td><strong>控制中枢</strong></td>
+<td>动态的、有逻辑的闭环</td>
+<td>一个能查机票、对比价格并自动订票的助手</td>
+</tr>
+</tbody></table>
+<p><strong>Tool</strong> (我有工具) ➡️ <strong>Tool Calling</strong> (我知道怎么用它) ➡️ <strong>Agent</strong> (我知道为了达成目标，需要按顺序多次调用不同的工具)</p>
+<h2 id="工具调用的工作方式"><a href="#工具调用的工作方式" class="headerlink" title="工具调用的工作方式"></a>工具调用的工作方式</h2><ol>
+<li>用户提出问题</li>
+<li>程序把“用户消息 + 工具定义”一起发给模型</li>
+<li>模型判断是否需要调用工具</li>
+<li>如果需要，模型返回 <code>tool_calls</code></li>
+<li>程序根据 <code>tool_calls</code> 真正执行工具</li>
+<li>程序把工具结果再放回消息流</li>
+<li>模型基于工具结果生成最终自然语言回复</li>
+</ol>
+<p><img src="/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-25-22-29-31-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>当使用 <code>bind_tools(...)</code> 把工具绑定给模型时，请求里除了用户问题，还会带上<strong>工具定义信息</strong>。</p>
+<ul>
+<li><strong>工具名称</strong>：例如 <code>get_weather</code></li>
+<li><strong>工具描述</strong>：也就是 docstring 或手动提供的 description</li>
+<li><strong>参数 schema</strong>：例如参数名、类型、字段说明</li>
+</ul>
+<p>模型看到的并不是“一个黑盒函数”，而是“一个带名字、带用途说明、带参数规则的结构化能力描述”。这也是为什么工具描述写得好不好，会直接影响工具调用效果：<strong>模型不是靠读你的函数体来理解工具，而主要是靠 <code>name</code>、<code>description</code>、<code>args_schema</code> 来推断“什么时候该用、应该怎么传参数”。</strong></p>
+<p>模型会输出工具调用意图，但<strong>模型不会替你执行工具</strong>。真正执行工具的一定是你的应用代码。</p>
+<p>这一步通常包括：</p>
+<ul>
+<li>读取模型返回的 <code>tool_calls</code></li>
+<li>找到对应工具</li>
+<li>取出参数</li>
+<li>执行 Python 函数、HTTP 请求、数据库查询或其他业务逻辑</li>
+<li>把结果重新回填给模型</li>
+</ul>
+<h2 id="tool-calls、aimessage、toolmessages三者关系"><a href="#tool-calls、aimessage、toolmessages三者关系" class="headerlink" title="tool_calls、aimessage、toolmessages三者关系"></a>tool_calls、aimessage、toolmessages三者关系</h2><p> 完整的执行链路</p>
+<p>我们把你的描述标准化为 5 个步骤：</p>
+<ol>
+<li><p><strong>用户提问</strong>：用户发送 <code>HumanMessage</code>（例如：“帮我查下北京的天气”）。</p>
+</li>
+<li><p>**模型决策 (AIMessage)**：模型发现需要工具，返回一个特殊的 <code>AIMessage</code>。</p>
+<ul>
+<li><p>这个消息里不一定有文字（content 可能是空的）。</p>
+</li>
+<li><p>但它一定包含一个 <strong><code>tool_calls</code></strong> 列表，里面记录了：<code>&#123;&quot;name&quot;: &quot;get_weather&quot;, &quot;args&quot;: &#123;&quot;city&quot;: &quot;Beijing&quot;&#125;, &quot;id&quot;: &quot;call_123&quot;&#125;</code>。</p>
+</li>
+</ul>
+</li>
+<li><p>**提取与分发 (Tool Calling)**：程序（你写的 Python 代码）看到 <code>tool_calls</code> 后，根据工具名字找到对应的函数，并把 <code>args</code> 传进去执行。</p>
+</li>
+<li><p>**生成反馈 (ToolMessage)**：函数运行完（比如返回了 <code>&quot;25度，晴&quot;</code>），你必须把它包装成 **<code>ToolMessage</code>**。</p>
+<ul>
+<li><strong>关键点</strong>：这个 <code>ToolMessage</code> 必须携带 <code>tool_call_id=&quot;call_123&quot;</code>。</li>
+</ul>
+</li>
+</ol>
+<p>这三个对象是最容易混淆、但又最关键的一组概念。</p>
+<table>
+<thead>
+<tr>
+<th>对象</th>
+<th>它出现在哪一轮</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>AIMessage.tool_calls</code></td>
+<td>模型决定要调用工具时</td>
+<td>表示“模型想调用哪个工具、参数是什么”</td>
+</tr>
+<tr>
+<td>工具执行结果</td>
+<td>程序执行工具后</td>
+<td>表示“真实运行后的结果”</td>
+</tr>
+<tr>
+<td><code>ToolMessage</code></td>
+<td>把工具结果送回模型时</td>
+<td>表示“这是某个工具执行后的返回消息”</td>
+</tr>
+</tbody></table>
+<p>什么时候不需要tools</p>
+<p>如果用户只是问：</p>
+<ul>
+<li>“什么是 LangChain？”</li>
+<li>“请解释一下 Python 装饰器”</li>
+<li>“帮我总结这段文本”</li>
+</ul>
+<p>Tool 的价值才会明显体现出来：<strong>需要实时数据</strong>；<strong>需要访问外部系统</strong>；<strong>需要高确定性执行</strong>；<strong>需要把模型输出落到真实动作上</strong>。</p>
+<h2 id="tool装饰器"><a href="#tool装饰器" class="headerlink" title="@tool装饰器"></a>@tool装饰器</h2><p>在 LangChain 里，最简单的工具定义方式就是使用 <strong><code>@tool</code></strong> 装饰器。</p>
+<p><strong>装饰器的作用，是在不改函数核心逻辑的前提下，给函数额外加上一层“框架可识别的能力”。</strong></p>
+<p>放到这里，<code>@tool</code> 做的事情就是：</p>
+<ul>
+<li>把一个普通 Python 函数包装成 LangChain Tool</li>
+<li>让它具备 <code>name</code>、<code>description</code>、<code>args</code> 等元信息</li>
+<li>让它能够被模型或 Agent 识别并调用</li>
+</ul>
+<p><code>@tool</code> 的意义，不是把函数“变复杂”，而是把函数“变成模型看得懂的工具”。**</p>
+<p>代码样例：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_core.tools <span class="hljs-keyword">import</span> tool <span class="hljs-comment"># 导入工具装饰器</span><br><span class="hljs-comment"># 定义工具</span><br><span class="hljs-meta">@tool</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">add_add</span>(<span class="hljs-params">a: <span class="hljs-built_in">int</span>,b: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:<br>    <span class="hljs-comment"># 定义工具的描述</span><br>    <span class="hljs-comment"># 这个描述会被用于生成提示词，帮助用户理解工具的功能</span><br>    <span class="hljs-string">&quot;&quot;&quot;Add two numbers together.&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">return</span> a + b<br><span class="hljs-comment"># 调用工具</span><br>result = add_add.invoke(&#123;<span class="hljs-string">&quot;a&quot;</span>:<span class="hljs-number">1</span>,<span class="hljs-string">&quot;b&quot;</span>:<span class="hljs-number">2</span>&#125;)<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span> * <span class="hljs-number">20</span>)<br><span class="hljs-built_in">print</span>(add_add.description)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-25-22-53-30-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="tool常用属性"><a href="#tool常用属性" class="headerlink" title="tool常用属性"></a>tool常用属性</h2><p>你在实际开发中，经常会看到下面几个属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>作用</th>
+<th>初学阶段怎么理解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td>工具名</td>
+<td>模型要调用谁，首先看这个名字</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>工具说明</td>
+<td>模型判断“什么时候该用这个工具”的最重要依据</td>
+</tr>
+<tr>
+<td><code>args</code></td>
+<td>参数结构</td>
+<td>模型知道“应该传什么参数、参数是什么类型”</td>
+</tr>
+<tr>
+<td><code>return_direct</code></td>
+<td>是否直接把结果返回给用户</td>
+<td>主要在 Agent 场景更常见</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong><code>description</code> 决定模型是否容易选中这个工具</strong></li>
+<li><strong><code>args</code> 决定模型是否容易传对参数</strong></li>
+</ul>
+<p>所以从工程实践上说，定义 Tool 时最怕的不是“函数实现难”，而是：名字取得太随意，描述写得太模糊，参数定义不清楚。</p>
+<p><img src="/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-25-22-55-27-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="工具描述"><a href="#工具描述" class="headerlink" title="工具描述"></a>工具描述</h2><p>很多人定义工具时，只写一句非常短的 docstring，比如“查天气”或“获取信息”。这样虽然勉强能跑，但在真实项目里通常不够好。更好的工具描述应该尽量让模型看懂三件事：</p>
+<ol>
+<li><strong>这个工具是干什么的</strong></li>
+<li><strong>什么时候应该调用</strong></li>
+<li><strong>关键参数应该怎么填</strong></li>
+</ol>
+<p>例如同样是天气工具：</p>
+<ul>
+<li>“查天气”</li>
+<li>“查询指定城市的当前天气，参数 loc 传城市英文名，如 Beijing、Shanghai”</li>
+</ul>
+<p>显然后者更容易让模型在正确场景下调用，也更容易传对参数。</p>
+<p>这也是为什么在项目里定义 Tool 时，通常不建议把 docstring 写得过于省略。<strong>Tool 描述不是给人随便看看，它本身就是模型决策的重要输入。</strong></p>
+<p>真实项目中，是下面这些能力的轻量封装：</p>
+<ul>
+<li>调第三方 API</li>
+<li>调内部服务</li>
+<li>查数据库</li>
+<li>跑检索</li>
+<li>执行某个稳定的业务动作</li>
+</ul>
+<p>所以 Tool 层的工程价值非常高。它相当于把“模型”和“业务系统”之间，插入了一层可控的能力边界。</p>
+<p>从架构上说，比较常见的组织方式是：</p>
+<ul>
+<li><strong>Tool 层</strong>：暴露给模型的工具定义</li>
+<li><strong>Service 层</strong>：真正的业务实现或 API 调用封装</li>
+<li><strong>Model &#x2F; Chain &#x2F; Agent 层</strong>：负责决定何时调用工具</li>
+</ul>
+<h2 id="schema和pydantic"><a href="#schema和pydantic" class="headerlink" title="schema和pydantic"></a>schema和pydantic</h2><p><strong>Schema</strong> 是一个抽象概念。它定义了<strong>数据的结构、格式和约束条件</strong>。</p>
+<ul>
+<li><p><strong>生活类比</strong>：你在银行填写的“开户申请表”。这张表规定了哪里填姓名（字符串）、哪里填年龄（数字）、哪里填电话（11位数字）。这张申请表的<strong>格式定义</strong>就是 Schema。</p>
+</li>
+<li><p><strong>开发语境</strong>：当你告诉 LLM 调用一个工具时，你需要给它一个 Schema，告诉它：“这个工具需要两个参数，<code>city</code> 必须是字符串，<code>days</code> 必须是 1 到 7 之间的整数。”</p>
+</li>
+</ul>
+<p><strong>Pydantic</strong> 是 Python 中最流行的<strong>数据验证工具库</strong>。它能把抽象的 Schema 变成实实在在的代码约束。</p>
+<ul>
+<li><strong>它的核心作用</strong>：当你定义了一个 Pydantic 模型，它会自动确保传进来的数据符合你定义的类型。如果类型不对，它会直接报错，而不是让错误的数据流进你的核心逻辑。</li>
+</ul>
+<p>LLM 本质上是概率模型，它输出的是文本。如果你要求它调用一个工具，它可能会输出：</p>
+<ul>
+<li><p><code>&quot;我建议给上海（25度）发个信息&quot;</code> （这是自然语言，程序读不懂）</p>
+</li>
+<li><p><code>&#123;&quot;city&quot;: &quot;上海&quot;, &quot;temp&quot;: 25&#125;</code> （这是 JSON，程序能读懂）</p>
+</li>
+</ul>
+<p><strong>Pydantic 的作用就是把“不确定”变为“确定”：</strong></p>
+<ol>
+<li><p><strong>强制类型约束</strong>：确保 <code>age</code> 一定是整数 <code>25</code>，而不是字符串 <code>&quot;二十五&quot;</code>。</p>
+</li>
+<li><p><strong>自动文档化</strong>：Pydantic 会自动生成 JSON Schema，告诉模型：这个参数叫什么、是什么类型、是否必填。</p>
+</li>
+<li><p><strong>数据校验</strong>：如果模型生成的参数不符合要求（比如邮件格式不对），Pydantic 会直接拦截并报错，而不是让程序带着错误运行导致崩溃。</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field, EmailStr<br><br><span class="hljs-comment"># 定义工具的参数结构</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">EmailSchema</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):<br>    <span class="hljs-comment"># EmailStr 会自动验证邮件格式</span><br>    email: EmailStr = Field(description=<span class="hljs-string">&quot;接收者的电子邮件地址，必须符合 standard email 格式&quot;</span>)<br>    content: <span class="hljs-built_in">str</span> = Field(description=<span class="hljs-string">&quot;邮件的正文内容&quot;</span>, min_length=<span class="hljs-number">10</span>)<br><br><span class="hljs-comment"># LangChain 中定义工具</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">send_email_tool</span>(<span class="hljs-params">email: <span class="hljs-built_in">str</span>, content: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;这是一个向用户发送邮件的工具。&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;邮件已成功发送至 <span class="hljs-subst">&#123;email&#125;</span>&quot;</span><br><br><span class="hljs-comment"># 当我们将 EmailSchema 绑定给模型时：</span><br><span class="hljs-comment"># 1. 模型会看到描述，知道 email 不能乱填。</span><br><span class="hljs-comment"># 2. 如果模型生成的 email 格式不对（如 &quot;abc.com&quot;），Pydantic 会抛出验证错误。</span><br></code></pre></div></td></tr></table></figure>
+
+<p>三个逻辑是：</p>
+<ul>
+<li><p><strong>定义 Pydantic 类</strong>：你规定了“模具”的形状（Schema）。</p>
+</li>
+<li><p><strong>传给 LLM</strong>：LLM 参照这个“模具”来组织它的 JSON 输出（Tool Calling）。</p>
+</li>
+<li><p><strong>解析与执行</strong>：程序用这个“模具”去接住 LLM 的输出，如果形状对得上，就执行函数；对不上，就要求模型重写。</p>
+</li>
+</ul>
+<p>使用pydantic实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel,Field<br><span class="hljs-keyword">from</span> langchain_core.tools <span class="hljs-keyword">import</span> tool<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">AddAddInput</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):<br>    a:<span class="hljs-built_in">int</span> = Field(description=<span class="hljs-string">&quot;The first number to add.&quot;</span>)<br>    b:<span class="hljs-built_in">int</span> = Field(description=<span class="hljs-string">&quot;The second number to add.&quot;</span>)<br><br><span class="hljs-comment"># 定义工具, 并指定输入参数的类型为 AddAddInput</span><br><span class="hljs-meta">@tool(<span class="hljs-params">args_schema=AddAddInput</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">add_add</span>(<span class="hljs-params">a: <span class="hljs-built_in">int</span> ,b: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;Add two numbers together.&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">return</span> a + b<br><br><br><span class="hljs-comment">#check tool name</span><br><span class="hljs-built_in">print</span>(add_add.name)<br><span class="hljs-built_in">print</span>()<br><span class="hljs-comment">#check tool args</span><br><span class="hljs-built_in">print</span>(add_add.args)<br><span class="hljs-built_in">print</span>()<br><span class="hljs-comment">#check tool description</span><br><span class="hljs-built_in">print</span>(add_add.description)<br><span class="hljs-built_in">print</span>()<br><span class="hljs-comment">#check tool return_direct, return_direct is function that return the result of the tool</span><br><span class="hljs-built_in">print</span>(add_add.return_direct)<br><span class="hljs-built_in">print</span>()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span> * <span class="hljs-number">20</span>)<br>result = add_add.invoke(&#123;<span class="hljs-string">&quot;a&quot;</span>:<span class="hljs-number">1</span>,<span class="hljs-string">&quot;b&quot;</span>:<span class="hljs-number">2</span>&#125;)<br><span class="hljs-built_in">print</span>(result)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span> * <span class="hljs-number">20</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p>定义好 Tool 后，还需要把它交给模型，这通常通过 <code>bind_tools(...)</code> 完成。</p>
+<p>LangChain 官方文档对这一点讲得很清楚：<strong>只有先把工具绑定给模型，后续模型调用时才有机会返回 <code>tool_calls</code>。</strong></p>
+<p>也就是说，<code>bind_tools([get_weather])</code> 的含义不是“现在就执行工具”，而是：</p>
+<p><strong>把 <code>get_weather</code> 这项能力声明给模型，告诉它：你之后如果判断有必要，可以调用这个工具。</strong></p>
+<p><img src="/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-25-23-20-07-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>模型收到用户问题后，可能出现两种情况：</p>
+<p><strong>不需要工具</strong>：直接返回自然语言答案；</p>
+<p><strong>需要工具</strong>：返回 <code>tool_calls</code>。</p>
+<p>一旦返回 <code>tool_calls</code>，就意味着模型在说：</p>
+<blockquote>
+<p>我建议调用这个工具，参数如下，请你们应用程序去真正执行。</p>
+</blockquote>
+<p>完整的获取天气状态代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-comment">#url = &quot;https://api.openweathermap.org/data/2.5/weather&quot;#</span><br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">from</span> langchain_classic.prompts <span class="hljs-keyword">import</span> PromptTemplate<br><span class="hljs-keyword">from</span> langchain_core.output_parsers <span class="hljs-keyword">import</span> StrOutputParser, JsonOutputKeyToolsParser<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">from</span> langchain_core.tools <span class="hljs-keyword">import</span> tool<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br><br>load_dotenv(encoding=<span class="hljs-string">&quot;utf-8&quot;</span>)<br>PROXY = &#123;<br>    <span class="hljs-string">&quot;http&quot;</span>: <span class="hljs-string">&quot;http://127.0.0.1:7890&quot;</span>,<br>    <span class="hljs-string">&quot;https&quot;</span>: <span class="hljs-string">&quot;http://127.0.0.1:7890&quot;</span>,<br>&#125;<br><br><span class="hljs-meta">@tool</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    查询指定城市的即时天气。</span><br><span class="hljs-string"></span><br><span class="hljs-string">    参数:</span><br><span class="hljs-string">        loc: 城市名称字符串。为了提高调用成功率，建议优先传英文城市名，</span><br><span class="hljs-string">             如 Beijing、Shanghai。</span><br><span class="hljs-string"></span><br><span class="hljs-string">    返回:</span><br><span class="hljs-string">        OpenWeather 当前天气接口返回的 JSON 字符串，包含气温、体感温度、</span><br><span class="hljs-string">        湿度、风速、天气描述等信息。</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    url = <span class="hljs-string">&quot;https://api.openweathermap.org/data/2.5/weather&quot;</span><br>    params = &#123;<br>        <span class="hljs-string">&quot;q&quot;</span>: city,<br>        <span class="hljs-string">&quot;appid&quot;</span>: os.environ[<span class="hljs-string">&quot;OPENWEATHER_API_KEY&quot;</span>],<br>        <span class="hljs-string">&quot;units&quot;</span>: <span class="hljs-string">&quot;metric&quot;</span>,<br>        <span class="hljs-string">&quot;lang&quot;</span>: <span class="hljs-string">&quot;zh_cn&quot;</span>,<br>    &#125;<br><br>    response = requests.get(url, params=params, timeout=<span class="hljs-number">10</span>, proxies=PROXY) <br>    data = response.json() <span class="hljs-comment"># 解析JSON响应</span><br>    <span class="hljs-keyword">return</span> json.dumps(data, ensure_ascii=<span class="hljs-literal">False</span>)<br><br><span class="hljs-comment"># response = get_weather.invoke(&#123;&quot;city&quot;: &quot;Beijing&quot;&#125;)</span><br><span class="hljs-comment"># print(response)</span><br><br>llm = ChatOpenAI(<br>    model = <span class="hljs-string">&quot;qwen3.6-plus&quot;</span>,<br>    api_key = os.environ[<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>],<br>    openai_api_base = <span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span> <span class="hljs-comment"># type: ignore</span><br>)<br><br><span class="hljs-comment">#这里将工具信息给大模型，大模型会根据工具信息来调用工具</span><br>llm_tool = llm.bind_tools([get_weather])<br>parser = JsonOutputKeyToolsParser(key_name=get_weather.name, first_tool_only=<span class="hljs-literal">True</span>)<br><span class="hljs-comment">#这个链 先调用llm_tool, 然后调用parser, 最后调用get_weather 一层一层传递参数</span><br>get_weather_chain = llm_tool | parser | get_weather<br><br><span class="hljs-comment"># 定义提示词模板 这里使用prompttemplate 是因为需要在提示词中插入变量 weather_json 的值</span><br>prompt = PromptTemplate.from_template(<br>    <span class="hljs-string">&quot;&quot;&quot;你将收到一段 JSON 格式的天气数据&#123;weather_json&#125;，请用简洁自然的方式将其转述给用户。</span><br><span class="hljs-string">    以下是天气 JSON 数据：</span><br><span class="hljs-string">    请将其转换为中文天气描述，例如：</span><br><span class="hljs-string">    &quot;北京现在天气：多云，气温 28℃，体感有点闷热（约 32℃），湿度 75%，微风（东南风 2 米/秒），</span><br><span class="hljs-string">    能见度很好，大约 10 公里。建议穿短袖短裤。适合做户外运动。&quot;&quot;&quot;</span><br>)<br><span class="hljs-comment"># 定义输出解析器 这里使用stroutputparser 是因为需要将大模型的输出转换为字符串格式</span><br>prompt_out = StrOutputParser()<br><span class="hljs-comment"># 最终链 先调用prompt, 然后调用llm, 最后调用prompt_out </span><br>out_chain = prompt | llm | prompt_out<br><br>full_chain = get_weather_chain | (<span class="hljs-keyword">lambda</span> x: &#123;<span class="hljs-string">&quot;weather_json&quot;</span>: x&#125;) | out_chain<br><br>result = full_chain.invoke(<span class="hljs-string">&quot;福州今天天气怎么样&quot;</span>)<br><span class="hljs-built_in">print</span>(result)<br></code></pre></div></td></tr></table></figure>
+
+<p>完整的逻辑：</p>
+<p>定义一个完整的获取天气的工具，声明为tool，使用jsondump解析回显，</p>
+<p>用户输入“福州今天天气怎么样”，然后进入fullchina，字符串先进入get_weather_chain，LLM 看到这句话 + 它被绑定的 get_weather 工具说明，决定调用工具，输出一个 AIMessage。</p>
+<p>里面带 tool_calls&#x3D;[{“name”:”get_weather”, “args”:{“city”:”Fuzhou”}}]，AIMessage 进入 parser，把 tool_calls 里的 args 抽出来，输出字典 {“city”: “Fuzhou”}。</p>
+<p>字典进入 get_weather 工具，真正发 HTTP 请求到 OpenWeather API，拿到响应后 json.dumps 成字符串返回，比如 ‘{“main”:{“temp”:26.5,…},”weather”:[…],…}’。</p>
+<p>这个 JSON 字符串流出 get_weather_chain，进入 lambda：lambda x: {“weather_json”: x}，被包装成 {“weather_json”: ‘{“main”:…}’} 这样的字典。</p>
+<p>字典进入 out_chain 的第一站 prompt，模板里的 {weather_json} 占位符被替换成那段 JSON 字符串，生成完整的提示词。</p>
+<p>提示词进入 llm（第二次调用 LLM，这次不是为了调工具，是为了润色），LLM 读完 JSON 数据，输出一段自然语言 AIMessage，内容类似 “福州现在天气：多云，气温 26℃……”。</p>
+<p>AIMessage 进入 prompt_out（StrOutputParser），抽出 .content 转成纯字符串。</p>
+<p>字符串作为 full_chain.invoke 的返回值，赋给 result，print 出来。</p>
+<p><img src="/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-00-06-57-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>所有核心概念都串起来了：</p>
+<ol>
+<li><strong>定义 Tool</strong></li>
+<li><strong>把 Tool 绑定给模型</strong></li>
+<li><strong>让模型返回工具调用意图</strong></li>
+<li><strong>解析工具调用参数</strong></li>
+<li><strong>真正执行工具</strong></li>
+<li><strong>把工具结果再加工成面向用户的自然语言回复</strong></li>
+</ol>
+<h1 id="向量数据库与embedding"><a href="#向量数据库与embedding" class="headerlink" title="向量数据库与embedding"></a>向量数据库与embedding</h1><p><strong>向量（Vector）</strong>、<strong>向量化（Embedding）</strong>、<strong>向量数据库（Vector Store &#x2F; Vector Database）</strong></p>
+<p><strong>文本先向量化，再写入向量库，再做相似性检索</strong></p>
+<h2 id="向量与向量化"><a href="#向量与向量化" class="headerlink" title="向量与向量化"></a>向量与向量化</h2><p><strong>向量（Vector）</strong> 本来是数学概念，指的是：<strong>用一组有顺序的数字来表示某个对象在空间中的位置或特征。</strong></p>
+<ul>
+<li>二维向量可以写成 <code>(x, y)</code></li>
+<li>三维向量可以写成 <code>(x, y, z)</code></li>
+<li>在 AI 场景里，常见的是几百维、上千维的高维向量，例如 <code>1024</code> 维、<code>1536</code> 维</li>
+</ul>
+<p><strong>向量就是一串数字，而这串数字可以拿来表示一段文本、一张图片，或者其他对象的“特征”。</strong></p>
+<p>把文本、图片、音频等原始内容，转换成向量的过程，通常就叫 <strong>向量化</strong>；在大模型与检索领域里，更常见的名字是 <strong>Embedding（嵌入）</strong>。</p>
+<p><strong>Embedding 模型会把句子、段落等原始文本转换成固定长度的数字向量，并尽量让语义相近的文本在向量空间里靠得更近。</strong></p>
+<p>Embedding 解决的是：</p>
+<ul>
+<li>文本本身不能直接做“语义上的数学比较”</li>
+<li>向量可以做距离和相似度计算</li>
+<li>所以只要把文本变成向量，就能做“按意思查找相近内容”</li>
+</ul>
+<p> Embedding 常被用在：语义搜索、推荐系统、文本聚类、去重与相似内容识别、RAG 检索增强生成。</p>
+<p>Embedding 的核心价值，不是“把文本编码成数字”这么简单，而是：<strong>它希望把“语义关系”映射成“空间关系”。</strong></p>
+<p>也就是说：语义接近的文本，向量更接近；语义差异大的文本，向量更远。比如：“我喜欢吃苹果”、“苹果是我最喜欢吃的水果”。</p>
+<p>这两句话虽然字面不完全一样，但语义接近，所以向量通常也会更接近。<br>而“我喜欢用苹果手机”虽然也有“苹果”两个字，但语义已经部分转向“手机品牌”，和前两句的关系就没那么近。</p>
+<p>这正是向量检索比关键词检索更强的地方：<strong>它找的是“意思接近”，不只是“词面一致”。</strong></p>
+<p>最核心的区别不在“能不能存数据”，而在“怎么查数据”。</p>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>传统关系型数据库 &#x2F; 普通 KV 存储</th>
+<th>向量数据库</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>核心查询方式</td>
+<td>精确匹配、范围查询、条件过滤</td>
+<td>相似性搜索、最近邻检索</td>
+</tr>
+<tr>
+<td>典型问题</td>
+<td>“id&#x3D;1001 的记录是什么？”</td>
+<td>“和这段文本语义最接近的内容是什么？”</td>
+</tr>
+<tr>
+<td>主要依据</td>
+<td>字段值相等、大小、排序</td>
+<td>向量距离 &#x2F; 相似度</td>
+</tr>
+<tr>
+<td>常见用途</td>
+<td>订单、用户、交易、配置</td>
+<td>RAG、搜索、推荐、去重、聚类</td>
+</tr>
+</tbody></table>
+<p>向量数据库里通常不只是“一个向量数组”，而是至少会包含下面几类信息：</p>
+<ul>
+<li><strong>原始内容</strong>：例如文本正文 <code>page_content</code></li>
+<li><strong>向量值</strong>：Embedding 模型算出来的高维数组</li>
+<li><strong>元数据</strong>：例如 <code>source</code>、<code>page</code>、<code>segment_id</code>、业务标签等</li>
+<li><strong>索引结构</strong>：用于加速相似度检索</li>
+</ul>
+<p>向量数据库真正做的是：<strong>把“内容 + 向量 + 元数据”组织起来，并支持按相似度查最相关内容。</strong></p>
+<p>生态里有哪些常见方案：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>简要说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>FAISS</strong></td>
+<td>偏本地、偏算法库，适合快速做向量检索实验</td>
+</tr>
+<tr>
+<td><strong>Chroma</strong></td>
+<td>轻量、好上手，适合本地原型验证</td>
+</tr>
+<tr>
+<td><strong>Milvus</strong></td>
+<td>开源专业向量数据库，适合大规模生产环境</td>
+</tr>
+<tr>
+<td><strong>Pgvector</strong></td>
+<td>PostgreSQL 扩展，适合已有 PG 体系的项目</td>
+</tr>
+<tr>
+<td><strong>Redis &#x2F; Redis Stack</strong></td>
+<td>既能做缓存，也能做向量检索，适合工程整合</td>
+</tr>
+<tr>
+<td><strong>Elasticsearch &#x2F; OpenSearch</strong></td>
+<td>搜索体系成熟，也支持向量搜索</td>
+</tr>
+</tbody></table>
+<h2 id="向量与RAG"><a href="#向量与RAG" class="headerlink" title="向量与RAG"></a>向量与RAG</h2><p>因为大多数人第一次接触向量数据库，往往就是在做 RAG。</p>
+<p>RAG 的底层链路通常是：</p>
+<ol>
+<li>把文档切成片段</li>
+<li>用 Embedding 模型把片段转成向量</li>
+<li>把“片段 + 向量 + 元数据”写入向量数据库</li>
+<li>用户提问时，把问题也转成向量</li>
+<li>在向量数据库里查最相关片段</li>
+<li>把片段和问题一起交给大模型生成答案</li>
+</ol>
+<p>也就是说，<strong>向量数据库是 RAG 的底层基础设施之一，但它本身不等于完整 RAG。</strong></p>
+<p><img src="/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-11-26-39-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="redis作为存储"><a href="#redis作为存储" class="headerlink" title="redis作为存储"></a>redis作为存储</h2><p>Redis 可以：</p>
+<ul>
+<li>创建向量索引</li>
+<li>存储向量和元数据</li>
+<li>做 KNN（最近邻）向量搜索</li>
+<li>结合元数据过滤做混合检索</li>
+</ul>
+<h3 id="Embedding文本向量化"><a href="#Embedding文本向量化" class="headerlink" title="Embedding文本向量化"></a>Embedding文本向量化</h3><p><strong>Embedding（嵌入）</strong> 是将文本字符串表示为向量（浮点数列表）的过程。通过计算向量之间的距离或相似度，可以衡量文本之间的相关性：<strong>距离越小（或相似度越高），相关性越高</strong>；距离越大，相关性越低。</p>
+<p><strong>常见应用包括：</strong></p>
+<ul>
+<li><strong>搜索</strong>：按与查询的相关性对结果排序</li>
+<li><strong>聚类</strong>：按文本相似性分组</li>
+<li><strong>推荐</strong>：根据相关文本推荐内容</li>
+<li><strong>异常检测</strong>：找出与多数内容相关性较低的异常点</li>
+<li><strong>多样性测量</strong>：分析相似性分布</li>
+<li><strong>分类</strong>：按与标签的相似性对文本分类</li>
+</ul>
+<p>LangChain 官方则进一步强调了两个 API：</p>
+<ul>
+<li><code>embed_query(text)</code>：把单条查询文本转成向量</li>
+<li><code>embed_documents(texts)</code>：把多条文档文本批量转成向量</li>
+</ul>
+<p>简单的 Hello 级示例，目标不是马上做检索，而是先看到：</p>
+<ul>
+<li>文本是怎么传给 Embedding 模型的</li>
+<li>返回结果结构大概长什么样</li>
+<li>向量通常是怎样的一串浮点数</li>
+</ul>
+<h3 id="dashscope-原生调用"><a href="#dashscope-原生调用" class="headerlink" title="dashscope 原生调用"></a>dashscope 原生调用</h3><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br><span class="hljs-keyword">from</span> http mport HTTPStatus<br><span class="hljs-keyword">import</span> dashscope<br><br><br>load_dotenv()<br><br>dashscope.api_key = os.environ[<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>]<br><br>input_text =<span class="hljs-string">&quot;hello&quot;</span><br><br>result = dashscope.TextEmbedding.call(<br>    model=<span class="hljs-string">&quot;text-embedding-v4&quot;</span>,<br>    <span class="hljs-built_in">input</span>=input_text,<br>)<br><br><span class="hljs-built_in">print</span>(result)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-13-27-23-image.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="Openai-兼容写法"><a href="#Openai-兼容写法" class="headerlink" title="Openai 兼容写法"></a>Openai 兼容写法</h3><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br><span class="hljs-keyword">from</span> http <span class="hljs-keyword">import</span> HTTPStatus<br><span class="hljs-keyword">import</span> dashscope<br><span class="hljs-keyword">from</span> openai <span class="hljs-keyword">import</span> OpenAI<br><br>load_dotenv()<br>input_text =<span class="hljs-string">&quot;衣服的质量杠杠的&quot;</span><br>llm = OpenAI(<br>    api_key = os.environ[<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>],<br>    openai_api_base = <span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span> <span class="hljs-comment"># type: ignore</span><br>)<br><span class="hljs-comment"># 调用模型获取嵌入向量</span><br>com = llm.embeddings.create(<br>    <span class="hljs-built_in">input</span>=input_text,<br>    model=<span class="hljs-string">&quot;text-embedding-v4&quot;</span>,<br>)<br><br><span class="hljs-built_in">print</span>(com)<br><span class="hljs-built_in">print</span>(com.data[<span class="hljs-number">0</span>].embedding)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-13-32-27-image.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="langchain"><a href="#langchain" class="headerlink" title="langchain"></a>langchain</h3><ul>
+<li><code>embed_query(text)</code>：单条查询文本向量化</li>
+<li><code>embed_documents(texts)</code>：多条文档文本批量向量化</li>
+</ul>
+<p>单条向量与多条向量:</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> langchain_community.embeddings <span class="hljs-keyword">import</span> DashScopeEmbeddings<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br>load_dotenv()<br><br>emb = DashScopeEmbeddings(<br>    model = <span class="hljs-string">&quot;text-embedding-v4&quot;</span>,<br>    dashscope_api_key = os.getenv(<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>)<br>)<br><span class="hljs-comment">#单条向量</span><br>text = <span class="hljs-string">&quot;你好哈哈哈&quot;</span><br><br><span class="hljs-comment">#使用定义好的大模型，然后请求emb，将文本传入</span><br>ruselt = emb.embed_query(text=text)<br><span class="hljs-comment">#print(ruselt)</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;lenght:<span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(ruselt)&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>()<br><span class="hljs-comment"># 多条文本 多个向量</span><br>doc = emb.embed_documents([<br>    <span class="hljs-string">&quot;hi&quot;</span>,<br>    <span class="hljs-string">&quot;age&quot;</span>,<br>    <span class="hljs-string">&quot;name&quot;</span>,<br>    <span class="hljs-string">&quot;good&quot;</span>,<br>    <span class="hljs-string">&quot;friend&quot;</span><br>])<br><br><span class="hljs-built_in">print</span>(doc)<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="embedding多模态"><a href="#embedding多模态" class="headerlink" title="embedding多模态"></a>embedding多模态</h3><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> dashscope<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br><br>load_dotenv()<br>dashscope.api_key = os.getenv(<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>)<br><br><br>resp = dashscope.MultiModalEmbedding.call(<br>    model=<span class="hljs-string">&quot;tongyi-embedding-vision-plus&quot;</span>,<br>    <span class="hljs-built_in">input</span>=[&#123;<span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;你好啊哈哈哈&quot;</span>&#125;]  <span class="hljs-comment"># 这里必须是 &quot;text&quot;</span><br>)<br><br><br>result = &#123;<br>    <span class="hljs-string">&quot;status_code&quot;</span>: resp.status_code,<br>    <span class="hljs-string">&quot;request_id&quot;</span>: <span class="hljs-built_in">getattr</span>(resp, <span class="hljs-string">&quot;request_id&quot;</span>, <span class="hljs-string">&quot;&quot;</span>),<br>    <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-built_in">getattr</span>(resp, <span class="hljs-string">&quot;code&quot;</span>, <span class="hljs-string">&quot;&quot;</span>),<br>    <span class="hljs-string">&quot;message&quot;</span>: <span class="hljs-built_in">getattr</span>(resp, <span class="hljs-string">&quot;message&quot;</span>, <span class="hljs-string">&quot;&quot;</span>),<br>    <span class="hljs-string">&quot;output&quot;</span>: resp.output,<br>    <span class="hljs-string">&quot;usage&quot;</span>: resp.usage,<br>&#125;<br><br><span class="hljs-comment"># 3. 检查是否请求成功再取值</span><br><span class="hljs-keyword">if</span> result[<span class="hljs-string">&quot;status_code&quot;</span>] == <span class="hljs-number">200</span>:<br>    <span class="hljs-comment"># ✅ 连着写方括号，去掉逗号！</span><br>    emb_v = result[<span class="hljs-string">&quot;output&quot;</span>][<span class="hljs-string">&quot;embeddings&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;embedding&quot;</span>]<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;成功获取向量，维度为: <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(emb_v)&#125;</span>&quot;</span>)<br>    <span class="hljs-comment"># 打印前 5 位看看数字</span><br>    <span class="hljs-built_in">print</span>(json.dumps(emb_v[:<span class="hljs-number">5</span>], ensure_ascii=<span class="hljs-literal">False</span>)) <br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;请求失败: <span class="hljs-subst">&#123;result[<span class="hljs-string">&#x27;message&#x27;</span>]&#125;</span>&quot;</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-14-18-48-image.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="通过向量计算语义相似度"><a href="#通过向量计算语义相似度" class="headerlink" title="通过向量计算语义相似度"></a>通过向量计算语义相似度</h3><p>在向量相似度计算里，常见指标有：</p>
+<ul>
+<li><strong>余弦相似度（Cosine Similarity）</strong></li>
+<li><strong>欧氏距离（Euclidean Distance）</strong></li>
+<li><strong>点积（Dot Product）</strong></li>
+</ul>
+<p>其中最适合入门先建立直觉的，通常是 <strong>余弦相似度</strong>。它关注的重点不是“两个向量长度有多像”，而是“两个向量方向有多接近”。对语义检索来说，这通常很有价值，因为我们更关心“意思是否接近”。</p>
+<p>余弦相似度公式：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs lisp">cos(<span class="hljs-name">theta</span>) = (<span class="hljs-name">A</span> · B) / (<span class="hljs-name">|A|</span> |B|)<br></code></pre></div></td></tr></table></figure>
+
+<p>它的结果通常在 <code>[-1, 1]</code> 范围内：</p>
+<ul>
+<li>越接近 <code>1</code>，通常表示越相似</li>
+<li>越接近 <code>0</code>，表示相关性较弱</li>
+<li>越接近 <code>-1</code>，表示方向相反</li>
+</ul>
+<h4 id="COSINE-余弦相似度-：比的是“长得像不像”"><a href="#COSINE-余弦相似度-：比的是“长得像不像”" class="headerlink" title="COSINE (余弦相似度)：比的是“长得像不像”"></a><strong>COSINE (余弦相似度)：比的是“长得像不像”</strong></h4><ul>
+<li><p><strong>逻辑</strong>：它不看箭头的长短，只看两个箭头的<strong>夹角</strong>。夹角越小，余弦值越接近 1，就越相似。</p>
+</li>
+<li><p><strong>场景</strong>：<strong>最适合文本检索</strong>。比如“苹果公司”和“关于苹果公司的最新财报”，这两段话长度不同，向量长度也不同，但它们聊的主题（方向）是一致的。</p>
+</li>
+</ul>
+<h4 id="L2-欧式距离-：比的是“离得远不远”"><a href="#L2-欧式距离-：比的是“离得远不远”" class="headerlink" title="L2 (欧式距离)：比的是“离得远不远”"></a><strong>L2 (欧式距离)：比的是“离得远不远”</strong></h4><ul>
+<li><p><strong>逻辑</strong>：就是两个点之间的<strong>直线距离</strong>。数值越小越相似。</p>
+</li>
+<li><p><strong>场景</strong>：常用于图像检索或对数值大小敏感的场景。</p>
+</li>
+</ul>
+<h4 id="IP-内积-：比的是“投影的大小”"><a href="#IP-内积-：比的是“投影的大小”" class="headerlink" title="IP (内积)：比的是“投影的大小”"></a><strong>IP (内积)：比的是“投影的大小”</strong></h4><ul>
+<li><p><strong>逻辑</strong>：它既看方向，也看箭头的长度。</p>
+</li>
+<li><p><strong>场景</strong>：某些高性能向量库（如 FAISS）默认使用这个。如果你的向量已经做过“归一化”（把所有箭头长度都缩放到 1），那么 <strong>IP 就等同于 COSINE</strong>。</p>
+</li>
+</ul>
+<p>所以当你看到某个向量库示例里写的是 <code>COSINE</code>、<code>L2</code> 或 <code>IP</code>，不要把它当成无关紧要的参数；它本质上决定了系统如何理解“相似”。</p>
+<p>精确检索和近似检索与索引：</p>
+<p>从思路上看，大致可以分成两类：</p>
+<ul>
+<li><strong>精确检索（Exact KNN &#x2F; FLAT）</strong>：把查询向量和库里的所有向量都算一遍，结果最直接，也最容易理解。</li>
+<li><strong>近似检索（ANN, Approximate Nearest Neighbor）</strong>：通过索引结构加速搜索，只近似地找到“最可能接近”的一批结果。</li>
+</ul>
+<p>为什么需要近似检索？因为数据一旦上规模，逐个比较会越来越慢。于是很多向量数据库会建立索引，用空间换时间。你在不同系统里经常会见到：</p>
+<ul>
+<li><strong>FLAT</strong>：更偏暴力搜索，准确但慢</li>
+<li><strong>HNSW</strong>：工程里很常见的 ANN 索引，通常能在召回率和延迟之间取得较好平衡</li>
+</ul>
+<p>代码，多句话转换成向量，在比较：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> dashscope<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br>load_dotenv()<br>dashscope.api_key = os.getenv(<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>)<br><br>texts = [<span class="hljs-string">&quot;我喜欢吃苹果&quot;</span>,<span class="hljs-string">&quot;苹果是我最爱吃的水果&quot;</span>,<span class="hljs-string">&quot;我喜欢用苹果手机&quot;</span>]<br><br>results = []<br><br><span class="hljs-comment">#然后把列表的多段文字，逐一进行接口转换成embedding</span><br><span class="hljs-keyword">for</span> text <span class="hljs-keyword">in</span> texts:<br>    input_data = [&#123;<span class="hljs-string">&quot;text&quot;</span>:text&#125;] <span class="hljs-comment">#打包进入字典</span><br>    llm = dashscope.MultiModalEmbedding.call(<br>        model=<span class="hljs-string">&quot;multimodal-embedding-v1&quot;</span>,<br>        api_key=os.getenv(<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>),<br>        base_url=<span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span>,<br>        <span class="hljs-built_in">input</span>=input_data <span class="hljs-comment">#传入内容</span><br>    )<br>    <span class="hljs-built_in">print</span>(llm[<span class="hljs-string">&quot;output&quot;</span>][<span class="hljs-string">&quot;embeddings&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;embedding&quot;</span>])<br>    <span class="hljs-keyword">if</span> llm.status_code == <span class="hljs-number">200</span>:<br>        result = llm.output[<span class="hljs-string">&quot;embeddings&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;embedding&quot;</span>] <span class="hljs-comment">#取出列表em的第一个值的em</span><br>        results.append(result)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">cosine_sim</span>(<span class="hljs-params">v1,v2</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;计算两个向量的余弦相似度：点积 / (模长之积)，结果越接近 1 一般越相似&quot;&quot;&quot;</span><br>    dot_product = np.dot(v1, v2)<br>    norm_vec1 = np.linalg.norm(v1)<br>    norm_vec2 = np.linalg.norm(v2)<br>    <span class="hljs-keyword">return</span> dot_product / (norm_vec1 * norm_vec2)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;文本相似度比较结果:&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><br><span class="hljs-comment">#选中第一个文本</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(texts)):<br>    <span class="hljs-comment">#选中第二个文本</span><br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(i + <span class="hljs-number">1</span>,<span class="hljs-built_in">len</span>(texts)):<br>        <span class="hljs-comment">#计算</span><br>        similarity = cosine_sim(results[i],results[j])<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;文本<span class="hljs-subst">&#123;i+<span class="hljs-number">1</span>&#125;</span> vs 文本<span class="hljs-subst">&#123;j+<span class="hljs-number">1</span>&#125;</span>:&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  文本<span class="hljs-subst">&#123;i+<span class="hljs-number">1</span>&#125;</span>: <span class="hljs-subst">&#123;texts[i]&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  文本<span class="hljs-subst">&#123;j+<span class="hljs-number">1</span>&#125;</span>: <span class="hljs-subst">&#123;texts[j]&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  余弦相似度: <span class="hljs-subst">&#123;similarity :<span class="hljs-number">.4</span>f&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;-&quot;</span> * <span class="hljs-number">40</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-14-45-26-image.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>重点不是“必须用哪一个模型”，而是<strong>拿到向量后怎么做相似度计算</strong></li>
+<li>当两句话主题更接近时，余弦相似度通常会更高</li>
+</ul>
+<p>项目中，相似度的结果</p>
+<p>这类分数在真实项目里最常见的用途有：</p>
+<ul>
+<li><strong>语义检索排序</strong>：把最相关的文本排在前面</li>
+<li><strong>文本去重</strong>：判断两段内容是否高度重复</li>
+<li><strong>推荐</strong>：找相似商品、相似文章、相似问题</li>
+<li><strong>聚类分析</strong>：把语义相近的内容分成一组</li>
+</ul>
+<h2 id="向量库的写入与检索"><a href="#向量库的写入与检索" class="headerlink" title="向量库的写入与检索"></a>向量库的写入与检索</h2><h3 id="把document列表写入redis"><a href="#把document列表写入redis" class="headerlink" title="把document列表写入redis"></a>把document列表写入redis</h3><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> langchain_community.embeddings <span class="hljs-keyword">import</span> DashScopeEmbeddings<br><span class="hljs-keyword">from</span> langchain_community.vectorstores <span class="hljs-keyword">import</span> Redis<br><span class="hljs-keyword">from</span> langchain_core.documents <span class="hljs-keyword">import</span> Document<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br><br>load_dotenv()<br><br><br>llm = DashScopeEmbeddings(<br>    model=<span class="hljs-string">&quot;text-embedding-v4&quot;</span>,<br>    dashscope_api_key=os.getenv(<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>)<br>)<br><br><br>texts = [<br>    <span class="hljs-string">&quot;我最爱吃苹果了，和使用苹果手机了&quot;</span>,<br>    <span class="hljs-string">&quot;我不爱吃苹果,我只用华为手机&quot;</span>,<br>    <span class="hljs-string">&quot;我既喜欢吃苹果，也喜欢华为手机&quot;</span><br>]<br><br><span class="hljs-comment">#批量转换成document对象 </span><br>documents = [<br>    Document(page_content=text, metadata=&#123;<span class="hljs-string">&quot;source&quot;</span>:<span class="hljs-string">&quot;maual&quot;</span>&#125;) <span class="hljs-keyword">for</span> text <span class="hljs-keyword">in</span> texts<br>]<br><br><span class="hljs-comment">#正式存入 Redis 数据库</span><br>store = Redis.from_documents(<br>    <span class="hljs-comment">#上面带有page_content 和 metadata 的列表。</span><br>    documents=documents,<br>    <span class="hljs-comment">#会调用这个模型把 page_content 变成向量</span><br>    embedding=llm,<br>    redis_url=<span class="hljs-string">&quot;redis://localhost:6379&quot;</span>,<br>    index_name=<span class="hljs-string">&quot;my_index11&quot;</span>,<br>)<br><span class="hljs-comment">#转换成可以智能搜索的检索器as_retriever方法，search_kwargs这里表示top-k,最后只返回最相似的两条</span><br>ret = store.as_retriever(search_kwargs=&#123;<span class="hljs-string">&quot;k&quot;</span>:<span class="hljs-number">2</span>&#125;)<br><span class="hljs-comment">#开始检索</span><br>result = ret.invoke(<span class="hljs-string">&quot;梨最好吃了，但是我用华为手机&quot;</span>)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> result:<br>    <span class="hljs-built_in">print</span>(i.page_content)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-15-29-47-image.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><code>content</code> 一类字段是原始文本</li>
+<li><code>content_vector</code> 一类字段是 Embedding 后的向量</li>
+<li><code>source</code> 等字段是元数据</li>
+</ul>
+<p><img src="/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-15-29-52-image.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="使用langchain-redis的redisvectorstore写入"><a href="#使用langchain-redis的redisvectorstore写入" class="headerlink" title="使用langchain_redis的redisvectorstore写入"></a>使用langchain_redis的redisvectorstore写入</h3><p>这里无法安装langchain_redis，所以使用</p>
+<p>from langchain_community.vectorstores import Redis</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_community.vectorstores <span class="hljs-keyword">import</span> Redis<br><span class="hljs-keyword">from</span> langchain_community.embeddings <span class="hljs-keyword">import</span> DashScopeEmbeddings<br><span class="hljs-keyword">from</span> langchain_core.documents <span class="hljs-keyword">import</span> Document  <span class="hljs-comment"># 必须导入这个类</span><br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br><br>load_dotenv()<br><br><span class="hljs-comment"># 1. 初始化模型</span><br>llm = DashScopeEmbeddings(<br>    model=<span class="hljs-string">&quot;text-embedding-v4&quot;</span>,<br>    dashscope_api_key=os.getenv(<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>)<br>)<br><br>texts = [<br>    <span class="hljs-string">&quot;我最爱吃苹果了，和使用苹果手机了&quot;</span>,<br>    <span class="hljs-string">&quot;我不爱吃苹果,我只用华为手机&quot;</span>,<br>    <span class="hljs-string">&quot;我既喜欢吃苹果，也喜欢华为手机&quot;</span><br>]<br><br><span class="hljs-comment"># 2. 生成 Document 对象列表（关键步骤）</span><br><span class="hljs-comment"># 将文本和元数据通过 zip 结合在一起</span><br>docs = [<br>    Document(page_content=text, metadata=meta) <br>    <span class="hljs-keyword">for</span> text, meta <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(texts, [&#123;<span class="hljs-string">&quot;segment_id&quot;</span>: <span class="hljs-built_in">str</span>(i)&#125; <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-built_in">len</span>(texts) + <span class="hljs-number">1</span>)])<br>]<br><br><span class="hljs-comment"># 3. 初始化并存入 Redis</span><br><span class="hljs-comment"># 注意：from_documents 内部会自动调用你的 llm 来生成向量并存入</span><br>con = Redis.from_documents(<br>    documents=docs,            <span class="hljs-comment"># 传入组装好的 Document 对象列表</span><br>    index_name=<span class="hljs-string">&quot;newgroup&quot;</span>,<br>    redis_url=<span class="hljs-string">&quot;redis://localhost:6379&quot;</span>,<br>    embedding=llm<br>)<br><br><span class="hljs-comment"># 4. 验证结果</span><br><span class="hljs-comment"># 此时数据已经存入，你可以尝试检索一下</span><br>query = <span class="hljs-string">&quot;谁喜欢用华为手机？&quot;</span><br>results = con.similarity_search(query, k=<span class="hljs-number">2</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;针对提问 &#x27;<span class="hljs-subst">&#123;query&#125;</span>&#x27; 的检索结果：&quot;</span>)<br><span class="hljs-keyword">for</span> doc <span class="hljs-keyword">in</span> results:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;内容: <span class="hljs-subst">&#123;doc.page_content&#125;</span> | 元数据: <span class="hljs-subst">&#123;doc.metadata&#125;</span>&quot;</span>) <br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-15-57-47-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>先初始化模块，提取特征，它将中文文本转化为一组高维向量（通常是 1536 维）。</p>
+<p>docs为数据封装内容，将原有的数据和标签打包一起，，con为存储和索引，然后再使similarity语义检测，</p>
+<p><img src="/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-16-02-43-image.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="链接已有的索引"><a href="#链接已有的索引" class="headerlink" title="链接已有的索引"></a>链接已有的索引</h3><p>核心动作是：</p>
+<ul>
+<li>连接已有的 <code>index_name</code></li>
+<li>把查询文本向量化</li>
+<li>在 Redis 中找最相近的若干条文本</li>
+<li>返回 <code>(Document, score)</code> 结果</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_community.vectorstores <span class="hljs-keyword">import</span> Redis<br><span class="hljs-keyword">from</span> langchain_community.embeddings <span class="hljs-keyword">import</span> DashScopeEmbeddings<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br><br>load_dotenv()<br>embeddingModel = DashScopeEmbeddings(<br>    model=<span class="hljs-string">&quot;text-embedding-v4&quot;</span>,<br>    dashscope_api_key=os.getenv(<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>)<br>)<br><span class="hljs-comment">#执行带置信度评分的语义检索</span><br><span class="hljs-comment">#链接初始化，它必须依赖 embeddingModel 才能把你的查询语句转化成同样的向量格式。</span><br>v_store = Redis(<br>    embedding=embeddingModel,<br>    index_name=<span class="hljs-string">&quot;newgroup&quot;</span>,<br>    redis_url=<span class="hljs-string">&quot;redis://localhost:6379&quot;</span><br>)<br><br><span class="hljs-comment">#问题</span><br>query = <span class="hljs-string">&quot;我最爱吃梨了，和使用苹果手机了&quot;</span><br><span class="hljs-comment">#相似度检索</span><br><span class="hljs-comment">#with_relevance_scores：这是关键！普通检索只返回内容，而这个方法会返回一个元组,k是数据库给你返回最相似和第二相似的两条记录。</span><br>result = v_store.similarity_search_with_score(query, k=<span class="hljs-number">3</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=== 查询结果 ===&quot;</span>)<br><span class="hljs-comment">#使用enumerate枚举，然后从1开始，i就是数量，doc和score为内容</span><br><span class="hljs-keyword">for</span> i, (doc, score) <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(result, <span class="hljs-number">1</span>):<br>    similarity = <span class="hljs-number">1</span> - score<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;结果 <span class="hljs-subst">&#123;i&#125;</span>:&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;内容: <span class="hljs-subst">&#123;doc.page_content&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;元数据: <span class="hljs-subst">&#123;doc.metadata&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;相似度: <span class="hljs-subst">&#123;similarity:<span class="hljs-number">.4</span>f&#125;</span>&quot;</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/25/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A03/2026-05-26-23-33-09-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong><code>similarity_search_with_score()</code> 返回的 <code>score</code>，很多实现里本质上是“距离”而不是“越大越好”的概率分数。</strong></p>
+<ul>
+<li>有些场景下，<code>score</code> 越小反而表示越相似</li>
+<li>代码里把它换算成 <code>1 - score</code>，更多是为了课程演示时方便直觉理解</li>
+<li>真正项目里，必须看具体向量库、距离度量方式和返回定义，不能机械地把所有 <code>score</code> 都按“相似度百分比”解释</li>
+</ul>
+<h3 id="元数据过滤、混合检索、重排序"><a href="#元数据过滤、混合检索、重排序" class="headerlink" title="元数据过滤、混合检索、重排序"></a>元数据过滤、混合检索、重排序</h3><p>但真实项目里，通常还会再叠加三类能力：</p>
+<ul>
+<li><strong>元数据过滤（metadata filter）</strong>：先用 <code>source</code>、<code>category</code>、时间范围、权限字段等条件缩小候选范围，再做向量检索。</li>
+<li><strong>混合检索（hybrid retrieval）</strong>：同时结合语义向量检索和关键词检索，或者结合不同类型的召回路径。</li>
+<li><strong>重排序（rerank）</strong>：先召回一批候选结果，再用更精细的模型或策略重新排序。</li>
+</ul>
+<p>这三者可以这样理解：</p>
+<ul>
+<li>过滤，解决“只在某个业务范围内找”</li>
+<li>混合，解决“既想看语义，也不想丢掉关键词命中”</li>
+<li>重排序，解决“已经找回来了，但顺序还不够好”</li>
+</ul>
+<p>其中“重排序”特别值得单独记一下。它并不是重新去全库里搜索，而是对<strong>已经召回的一小批候选结果</strong>做二次排序优化。很多系统里，向量检索负责第一阶段召回，reranker 负责第二阶段排序，这样往往能兼顾速度和效果。</p>
+<p>后续见part4…….</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,1362 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="RAG 检索增强生成RAG（Retrieval-Augmented Generation，检索增强生成），本质上是一种“先检索，再生成”的应用架构。用户提问后，系统不会立刻只靠大模型自身记忆回答，而是先从外部知识库中检索相关材料，再把这些材料与问题一起交给大模型生成答案。 RAG 主要是在解决 知识冻结、私有知识缺失、最新信息不可用、回答缺少依据 这类问题。 本章不再重复展开，而是把重点前移到一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="agent智能体学习4">
+<meta property="og:url" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="RAG 检索增强生成RAG（Retrieval-Augmented Generation，检索增强生成），本质上是一种“先检索，再生成”的应用架构。用户提问后，系统不会立刻只靠大模型自身记忆回答，而是先从外部知识库中检索相关材料，再把这些材料与问题一起交给大模型生成答案。 RAG 主要是在解决 知识冻结、私有知识缺失、最新信息不可用、回答缺少依据 这类问题。 本章不再重复展开，而是把重点前移到一个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-13-32-49-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-13-37-25-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-13-47-45-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-14-31-40-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-15-11-28-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-15-18-31-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-15-28-42-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-20-12-01-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-20-48-40-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-20-49-10-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-21-06-48-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-21-07-09-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-22-28-30-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-22-28-38-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-01-20-20-55-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-01-20-21-14-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-01-20-30-25-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-01-20-36-57-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-21-48-34-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-21-50-17-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-22-08-27-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-22-36-28-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-22-38-56-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-22-47-45-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-23-16-36-image.png">
+<meta property="og:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-23-19-57-image.png">
+<meta property="article:published_time" content="2026-05-26T15:53:23.000Z">
+<meta property="article:modified_time" content="2026-06-08T14:47:59.555Z">
+<meta property="article:author" content="0ldcat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-13-32-49-image.png">
+  
+  
+  <title>agent智能体学习4 - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"...","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="agent智能体学习4">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2026-05-26 23:53" pubdate>
+        2026年5月26日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      36k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      298 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">agent智能体学习4</h1>
+            
+            <div class="markdown-body">
+              <h1 id="RAG-检索增强生成"><a href="#RAG-检索增强生成" class="headerlink" title="RAG 检索增强生成"></a>RAG 检索增强生成</h1><p><strong>RAG（Retrieval-Augmented Generation，检索增强生成）</strong>，本质上是一种“<strong>先检索，再生成</strong>”的应用架构。用户提问后，系统不会立刻只靠大模型自身记忆回答，而是先从外部知识库中检索相关材料，再把这些材料与问题一起交给大模型生成答案。</p>
+<p>RAG 主要是在解决 <strong>知识冻结、私有知识缺失、最新信息不可用、回答缺少依据</strong> 这类问题。</p>
+<p>本章不再重复展开，而是把重点前移到一个更适合开发者的问题上：<strong>既然已经知道要用 RAG，那么代码里到底是哪些环节决定了回答质量？</strong></p>
+<p>从工程视角看，影响效果最明显的通常不是“有没有接上向量库”这么简单，而是：</p>
+<ul>
+<li>文档是否被正确加载</li>
+<li>文本是否被合理切块</li>
+<li>Embedding 是否稳定</li>
+<li>检索是否召回了真正相关的片段</li>
+<li>Prompt 是否把上下文用对了</li>
+</ul>
+<p>LangChain 官方文档通常也把 RAG 拆成两大阶段：<strong>索引（Indexing）</strong>、<strong>检索与生成（Retrieval and Generation）</strong>。</p>
+<p>这不是为了重复，而是为了把“平台里的按钮和配置项”翻译成“代码里的组件与数据流”。</p>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-13-32-49-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="知识库准备"><a href="#知识库准备" class="headerlink" title="知识库准备"></a>知识库准备</h2><p>索引阶段面对的是“<strong>原始文档</strong>”，例如 Word、PDF、Markdown、TXT、CSV、JSON 等文件。它的目标不是回答问题，而是把这些文档处理成“<strong>未来方便检索</strong>”的形态。</p>
+<p>这一阶段通常包括：</p>
+<ol>
+<li><strong>加载（Load）</strong>：把原始文件读成 LangChain 的 <code>Document</code> 对象。</li>
+<li><strong>分割（Split）</strong>：把长文档切成较小的片段，便于后续向量化和检索。</li>
+<li><strong>向量化（Embed）</strong>：把每个文档片段转成向量。</li>
+<li><strong>存储（Store）</strong>：把“片段内容 + 向量 + 元数据”写入向量数据库。</li>
+</ol>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-13-37-25-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>这里有两个很容易忽略的点：</p>
+<ul>
+<li><p><strong>索引通常是离线做的</strong>。<br>比如每天定时重建一次知识库，或在文档更新后增量写入；它不一定跟用户问答发生在同一时刻。</p>
+</li>
+<li><p><strong>索引不只是“存文本”</strong>。<br>它真正要存的是“<strong>文本片段 + 向量表示 + metadata</strong>”，这样后面才可能做相似检索、来源展示、条件过滤。</p>
+</li>
+</ul>
+<p><strong>什么是 metadata？</strong>  </p>
+<p>“索引标签”。<code>metadata</code> 是和文档片段绑定的附加信息，例如文件路径 <code>source</code>、页码 <code>page</code>、标题、作者、日期、分类等。<br>在 RAG 里，真正参与向量化的是正文 <code>page_content</code>；<code>metadata</code> 更多用于<strong>来源展示、过滤条件、结果解释</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_core.documents <span class="hljs-keyword">import</span> Document<br><br><span class="hljs-comment"># 手动创建一个带元数据的文档</span><br>doc = Document(<br>    page_content=<span class="hljs-string">&quot;public void login() &#123; ... &#125;&quot;</span>,<br>    metadata=&#123;<br>        <span class="hljs-string">&quot;file_name&quot;</span>: <span class="hljs-string">&quot;AuthService.java&quot;</span>,<br>        <span class="hljs-string">&quot;author&quot;</span>: <span class="hljs-string">&quot;bigcat&quot;</span>,<br>        <span class="hljs-string">&quot;security_level&quot;</span>: <span class="hljs-string">&quot;high&quot;</span>,  <span class="hljs-comment"># 手动定义的元数据</span><br>        <span class="hljs-string">&quot;is_obfuscated&quot;</span>: <span class="hljs-literal">False</span>      <span class="hljs-comment"># 也是你定义的</span><br>    &#125;<br>)<br></code></pre></div></td></tr></table></figure>
+
+<p>在很多项目中，RAG最重要的也是需要分类，对应的文件内容赋予对应的元数据类型</p>
+<p>当用户真正发起问题时，系统进入第二阶段。这对应的就是第 2 章里“基于知识库提问 &#x2F; 生成回答”的那部分能力，只不过这里我们要看清楚它在代码里究竟分成了哪几步：</p>
+<ol>
+<li>用户输入问题。</li>
+<li>把问题也向量化。</li>
+<li>去向量库里找最相似的文档片段。</li>
+<li>把这些片段作为 <code>context</code> 放进 Prompt。</li>
+<li>再把 <code>context + question</code> 一起发给大模型生成答案。</li>
+</ol>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-13-47-45-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>这一阶段的核心不是“再去建库”，而是“<strong>拿已经建好的索引来查资料</strong>”。也就是说：</p>
+<ul>
+<li><strong>索引阶段</strong>：提前备好资料库。</li>
+<li><strong>检索阶段</strong>：每次提问时现场查资料。</li>
+</ul>
+<h2 id="管道式RAG和Agent-RAG"><a href="#管道式RAG和Agent-RAG" class="headerlink" title="管道式RAG和Agent RAG"></a>管道式RAG和Agent RAG</h2><p> <strong>管道式 RAG</strong>：<strong>先检索、再生成</strong>，流程由代码固定，而非由模型临时决策。</p>
+<p><strong>Agent RAG</strong>：模型自己决定要不要检索、什么时候检索、检索几次(后续学习…)</p>
+<h2 id="Top-K、Rerank、混合检索"><a href="#Top-K、Rerank、混合检索" class="headerlink" title="Top K、Rerank、混合检索"></a>Top K、Rerank、混合检索</h2><p><strong>Top-K</strong> 是最基础的参数，K 代表<strong>数量</strong>。</p>
+<ul>
+<li><p><strong>含义</strong>：当你在数据库里搜索时，系统会按“相似度”从高到低排序，取前 K 个结果。</p>
+</li>
+<li><p><strong>直观理解</strong>：如果你设置 <code>Top-K = 5</code>，系统就只把最像答案的前 5 个代码块抓出来。</p>
+</li>
+<li><p><strong>痛点</strong>：K 选大了，垃圾信息多（Context 变乱）；K 选小了，可能漏掉关键漏洞点。</p>
+</li>
+</ul>
+<p><strong>混合检索是</strong>向量检索 (Vector Search)** + <strong>关键词检索 (BM25&#x2F;Keyword Search)</strong> 的结合。**</p>
+<ul>
+<li><p><strong>向量检索</strong>：懂意思。你搜“登录绕过”，它能帮你找到“认证逻辑”。</p>
+</li>
+<li><p><strong>关键词检索</strong>：懂名字。你搜特定的函数名 <code>mysqli_query</code>，它能精准定位，不会被语义干扰。</p>
+</li>
+</ul>
+<p><strong>Rerank重排序</strong></p>
+<p>这是目前提升 RAG 效果最猛的招数。</p>
+<ul>
+<li><p><strong>含义</strong>：在 Top-K 选出“入围名单”后，再请出一个<strong>专门的重排模型（Reranker）</strong>，对这几个结果进行精细化的二次打分。</p>
+</li>
+<li><p><strong>为什么需要它</strong>：向量数据库（Top-K）算的是空间距离，比较粗糙；Rerank 模型会深挖提问和代码块之间的<strong>逻辑关系</strong>。</p>
+</li>
+<li><p><strong>流程</strong>：</p>
+<ol>
+<li><p><strong>粗排</strong>：从 100 万行代码里用 Top-K 抓出 50 行（快但糙）。</p>
+</li>
+<li><p><strong>精排</strong>：用 Rerank 给这 50 行重新排座次，把真正有漏洞的那 3 行排到第一名（慢但准）。</p>
+</li>
+</ol>
+</li>
+</ul>
+<p>这里可以把它们和代码链路对上：</p>
+<ol>
+<li><strong>先召回候选片段</strong>：检索器不一定只有向量检索，也可能是关键词、混合检索。</li>
+<li><strong>再做过滤或重排</strong>：按 <code>metadata</code> 过滤范围，或用 reranker 对候选片段重新打分。</li>
+<li><strong>最后再进 Prompt</strong>：把更少但更相关的片段送给模型，而不是把一大堆噪声上下文都塞进去。</li>
+<li><strong>生成后保留来源</strong>：真实项目里常常会返回文件名、页码、片段来源，便于核验。</li>
+<li><strong>持续做评测与观测</strong>：离线看召回命中率、答案质量，线上看检索链路和生成链路谁在掉链子。</li>
+</ol>
+<p>RAG更完整的理解应该是：<strong>数据处理、检索策略、上下文组织、答案生成、来源追踪与效果评测</strong>共同组成了一条工程链路</p>
+<h2 id="RAG处理"><a href="#RAG处理" class="headerlink" title="RAG处理"></a>RAG处理</h2><p>RAG 并不是某一个单独类就能完成的功能，它更像一条由多个组件拼起来的流水线。LangChain 的价值，正是在于它把这些组件都统一成了较一致的接口，方便我们按步骤搭起来。</p>
+<p>本章最常见的组件分工如下：</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>作用</th>
+<th>常见类 &#x2F; 说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Document</strong></td>
+<td>LangChain 中统一的文档对象</td>
+<td>由 <code>page_content</code> + <code>metadata</code> 组成</td>
+</tr>
+<tr>
+<td><strong>文档加载器</strong></td>
+<td>从 TXT、PDF、Word、Markdown、JSON、CSV 等读入文档</td>
+<td><code>TextLoader</code>、<code>PyPDFLoader</code>、<code>UnstructuredWordDocumentLoader</code> 等</td>
+</tr>
+<tr>
+<td><strong>文本分割器</strong></td>
+<td>把长文档切成较小片段</td>
+<td><code>RecursiveCharacterTextSplitter</code> 最常见</td>
+</tr>
+<tr>
+<td><strong>嵌入模型</strong></td>
+<td>把文本片段转成向量</td>
+<td>本项目常见 <code>DashScopeEmbeddings</code></td>
+</tr>
+<tr>
+<td><strong>向量数据库</strong></td>
+<td>存储向量并支持相似检索</td>
+<td>Redis &#x2F; RedisStack、Chroma、FAISS 等</td>
+</tr>
+<tr>
+<td><strong>检索器</strong></td>
+<td>用户提问时从向量库召回相关片段</td>
+<td>常见由 <code>vector_store.as_retriever()</code> 得到</td>
+</tr>
+<tr>
+<td><strong>提示词模板</strong></td>
+<td>把检索结果和用户问题组织成 Prompt</td>
+<td><code>PromptTemplate</code>、<code>ChatPromptTemplate</code></td>
+</tr>
+<tr>
+<td><strong>聊天模型</strong></td>
+<td>基于上下文生成最终答案</td>
+<td><code>ChatOpenAI</code>、<code>init_chat_model()</code> 等</td>
+</tr>
+</tbody></table>
+<ol>
+<li>用<strong>文档加载器</strong>把原始文件转成 <code>Document</code>。</li>
+<li>用<strong>文本分割器</strong>把长文档切成多个片段。</li>
+<li>用<strong>嵌入模型</strong>把片段转成向量，并写入<strong>向量数据库</strong>。</li>
+<li>用户提问时，把问题拿去做向量检索，得到相关片段。</li>
+<li>把片段作为上下文，和用户问题一起填进 Prompt。</li>
+<li>调用大模型，得到最终答案。</li>
+</ol>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-14-31-40-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="写入向量数据库方法"><a href="#写入向量数据库方法" class="headerlink" title="写入向量数据库方法"></a>写入向量数据库方法</h2><p>两种写法：<code>from_documents(...)</code>、<code>add_texts(...)</code></p>
+<p>它们都能把内容写入向量库，但适合的输入形态和工程语义不一样。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>更适合什么场景</th>
+<th>你手里通常有什么数据</th>
+<th>常见理解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>from_documents</code></strong></td>
+<td>已经完成“加载 + 分割”之后的一步入库</td>
+<td><code>Document</code> 列表</td>
+<td>更像“把文档片段整批建库”</td>
+</tr>
+<tr>
+<td><strong><code>add_texts</code></strong></td>
+<td>已经有向量库实例，需要持续追加内容</td>
+<td>字符串列表 + 可选 metadata</td>
+<td>更像“往现有索引里追加文本”</td>
+</tr>
+</tbody></table>
+<p>可以把它们看作两种数据入口，并不冲突，只取决于<strong>你手里现在是 <code>Document</code> 列表还是纯文本列表</strong>：</p>
+<ul>
+<li><strong>文档流驱动</strong>：<code>Loader -&gt; Splitter -&gt; List[Document] -&gt; from_documents(...)</code>（典型 RAG 建索引）</li>
+<li><strong>纯文本流驱动</strong>：<code>texts + metadata -&gt; add_texts(...)</code>（接口落库、增量追加、脱离 Loader 的实验）</li>
+</ul>
+<h3 id="存入解释"><a href="#存入解释" class="headerlink" title="存入解释"></a>存入解释</h3><p><strong>第一类：<code>from_documents</code>，对应完整 RAG 链路</strong></p>
+<p>在后面代码里，流程是：</p>
+<ol>
+<li>用 <code>Docx2txtLoader</code> 加载 <code>alibaba-java.docx</code></li>
+<li>用 <code>CharacterTextSplitter</code> 切分文档</li>
+<li>得到一批切好的 <code>Document</code></li>
+<li>调用 <code>Redis.from_documents(...)</code> 直接写入向量库</li>
+</ol>
+<p>也就是说，<code>from_documents(...)</code> 更像是“<strong>把已经准备好的知识片段整批建成索引</strong>”。</p>
+<p><strong>第二类：<code>add_texts</code>，对应单独演示向量库存取</strong></p>
+<p>在 下面代码 里，案例没有先走 Loader 和 Splitter，而是直接给出一组字符串 <code>texts</code> 与对应的 <code>metadata</code>，再按两步完成写入：</p>
+<ol>
+<li>先创建 <code>RedisVectorStore</code>；</li>
+<li>再调用 <code>add_texts(texts, metadata)</code> 写入。</li>
+</ol>
+<p>这种写法更像是在演示：</p>
+<ul>
+<li>向量库本身如何使用</li>
+<li>纯文本如何批量入库</li>
+<li>已有索引如何继续追加内容</li>
+</ul>
+<p>所以它更适合拿来理解“<strong>向量存储层怎么工作</strong>”，也更适合做一些小规模实验、增量写入、脱离文档加载器的独立入库逻辑。</p>
+<p>接下来会有3个脚本</p>
+<p>    1、1 redis vector stroe.py ——怎么把文本写入</p>
+<p>    2、2 vector store similarity search.py —— 怎么把相关内容查出来</p>
+<p>    3、3 embedding rag llm.py —— 查出来的内容给大模型</p>
+<p>三者就不是零散的小例子，而是 RAG 完整链路的三个片段。</p>
+<h4 id="存"><a href="#存" class="headerlink" title="存"></a>存</h4><p>首先初始化模型，然后文本内容的准备，然后与可见性调用（数据库print(“写入向量数据库”)embeddings &#x3D; llm），构建元数据，给每个文本分配一个id，然后向量数据库链接与持久化的写入。</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_community.vectorstores <span class="hljs-keyword">import</span> Redis<br><span class="hljs-keyword">from</span> langchain_community.embeddings <span class="hljs-keyword">import</span> DashScopeEmbeddings<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br>load_dotenv()<br><br><br><span class="hljs-comment"># 初始化向量数据库</span><br>llm = DashScopeEmbeddings(<br>    model = <span class="hljs-string">&quot;text-embedding-v4&quot;</span>,<br>    dashscope_api_key=os.getenv(<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>),<br>)<br><br><br>texts = [<br>    <span class="hljs-string">&quot;我喜欢吃苹果，用苹果手机&quot;</span>,<br>    <span class="hljs-string">&quot;我喜欢吃香蕉&quot;</span>,<br>    <span class="hljs-string">&quot;我喜欢吃橙子&quot;</span>,<br>    <span class="hljs-string">&quot;我喜欢吃葡萄&quot;</span>,<br>]<br><br><span class="hljs-comment">#写入向量数据库</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;写入向量数据库&quot;</span>)<br>embeddings = llm.embed_documents(texts)<br><span class="hljs-comment"># 打印向量</span><br><span class="hljs-keyword">for</span> i, vec <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(embeddings,<span class="hljs-number">1</span>):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;向量<span class="hljs-subst">&#123;i&#125;</span>: <span class="hljs-subst">&#123;vec&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;文本<span class="hljs-subst">&#123;i&#125;</span>: <span class="hljs-subst">&#123;texts[i-<span class="hljs-number">1</span>]&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">50</span>)<br><br><span class="hljs-comment">#定义每条对应的segment_id</span><br><span class="hljs-comment">#真实 RAG 中这些 metadata 往往来自 Document.metadata，也可作为来源展示或过滤条件</span><br>metadata = [&#123;<span class="hljs-string">&quot;segment_id&quot;</span>: <span class="hljs-built_in">str</span>(i)&#125; <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-built_in">len</span>(texts) + <span class="hljs-number">1</span>)]<br><br><span class="hljs-comment"># 配置向量数据库 索引名称 和 向量数据库</span><br>vector_store = Redis(<br>    index_name=<span class="hljs-string">&quot;rag_index&quot;</span>,<br>    redis_url=<span class="hljs-string">&quot;redis://localhost:6379&quot;</span>,<br>    embedding=llm,<br>)<br>ids = vector_store.add_texts(texts, metadata)<br><br><br><span class="hljs-built_in">print</span>(ids[<span class="hljs-number">0</span>:<span class="hljs-number">5</span>])<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-15-11-28-image.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="取"><a href="#取" class="headerlink" title="取"></a>取</h4><p>建立模型llm，作用是把用户输入转为向量</p>
+<p>然后建立数据库链接的句柄，然后使用results &#x3D; vector_store.simil进行相似度搜索</p>
+<p>最后输入归一化</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_community.vectorstores <span class="hljs-keyword">import</span> Redis<br><span class="hljs-keyword">from</span> langchain_community.embeddings <span class="hljs-keyword">import</span> DashScopeEmbeddings<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br>load_dotenv()<br><br><br><span class="hljs-comment"># 初始化向量数据库</span><br>llm = DashScopeEmbeddings(<br>    model = <span class="hljs-string">&quot;text-embedding-v4&quot;</span>,<br>    dashscope_api_key=os.getenv(<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>),<br>)<br><br><span class="hljs-comment">#链接向量数据库</span><br>vector_store = Redis(<br>    index_name=<span class="hljs-string">&quot;rag_index&quot;</span>, <span class="hljs-comment"># 索引名称 需要一致</span><br>    redis_url=<span class="hljs-string">&quot;redis://localhost:6379&quot;</span>,<br>    embedding=llm,<br>)<br><br><br><span class="hljs-comment">#查询向量数据库</span><br>query = <span class="hljs-string">&quot;我喜欢吃水果&quot;</span><br>results = vector_store.similarity_search_with_score(query, k=<span class="hljs-number">3</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=== 查询结果 ===&quot;</span>)<br><span class="hljs-keyword">for</span> i , (doc,score) <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(results,<span class="hljs-number">1</span>):<br>    similarity = <span class="hljs-number">1</span> - score <span class="hljs-comment"># type: ignore</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;文档<span class="hljs-subst">&#123;i&#125;</span>: <span class="hljs-subst">&#123;doc.page_content&#125;</span>&quot;</span>)  <span class="hljs-comment"># type: ignore</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;相似度<span class="hljs-subst">&#123;i&#125;</span>: <span class="hljs-subst">&#123;similarity&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;元数据<span class="hljs-subst">&#123;i&#125;</span>: <span class="hljs-subst">&#123;doc.metadata&#125;</span>&quot;</span>)  <span class="hljs-comment"># type: ignore</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">50</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-15-18-31-image.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="文档加载器"><a href="#文档加载器" class="headerlink" title="文档加载器"></a>文档加载器</h4><p>RAG 的第一步，往往不是“接模型”，而是“<strong>把你的知识读进来</strong>”。文档加载器的职责，就是把不同来源的数据统一转换成 LangChain 的 <code>Document</code> 格式。</p>
+<p>先记住两个统一接口就够了：</p>
+<ul>
+<li><code>load()</code>：一次性加载全部文档</li>
+<li><code>lazy_load()</code>：按需流式加载，适合大文件或大批量数据</li>
+</ul>
+<p>为什么要转成document：</p>
+<ul>
+<li><code>page_content</code>：正文内容</li>
+<li><code>metadata</code>：来源、页码、文件名、分类等附加信息</li>
+</ul>
+<h5 id="加载器选择"><a href="#加载器选择" class="headerlink" title="加载器选择"></a>加载器选择</h5><ol>
+<li><p><strong>先按文件类型选</strong></p>
+<ul>
+<li>TXT 用 <code>TextLoader</code></li>
+<li>PDF 用 <code>PyPDFLoader</code></li>
+<li>Word 用 <code>UnstructuredWordDocumentLoader</code> 或 <code>Docx2txtLoader</code></li>
+<li>Markdown 用 <code>UnstructuredMarkdownLoader</code></li>
+<li>JSON 用 <code>JSONLoader</code></li>
+<li>CSV 用 <code>CSVLoader</code></li>
+</ul>
+<p>2.<strong>再按解析精度和成本选</strong></p>
+<ul>
+<li>想快速跑通案例，优先选依赖少、接口直接的加载器</li>
+<li>想保留更丰富版面结构、标题层级、表格信息，再考虑更强的解析器</li>
+</ul>
+<p><strong>RAG 效果好不好，很多时候不是模型先出问题，而是文档解析质量先决定了一半。</strong></p>
+</li>
+</ol>
+<h5 id="文档加载案例"><a href="#文档加载案例" class="headerlink" title="文档加载案例"></a>文档加载案例</h5><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_community.document_loaders <span class="hljs-keyword">import</span> TextLoader<br><br>file_path = <span class="hljs-string">&quot;file/txt/1.txt&quot;</span><br><br>docs = TextLoader(file_path,encoding=<span class="hljs-string">&quot;utf-8&quot;</span>).load()<br><br><span class="hljs-built_in">print</span>(docs) <br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-15-28-42-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>PDF:</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">docs = PyPDFLoader(<br>    file_path=<span class="hljs-string">&quot;assets/sample.pdf&quot;</span>,<br>    extraction_mode=<span class="hljs-string">&quot;plain&quot;</span>,  <span class="hljs-comment"># plain 纯文本；layout 按版面</span><br>).load()<br></code></pre></div></td></tr></table></figure>
+
+<p>word：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">docs = UnstructuredWordDocumentLoader(<br>    file_path=<span class="hljs-string">&quot;assets/alibaba-more.docx&quot;</span>,<br>    mode=<span class="hljs-string">&quot;single&quot;</span>,  <span class="hljs-comment"># single 整篇一个 Document；elements 按元素切分</span><br>).load()<br></code></pre></div></td></tr></table></figure>
+
+<p>Markdown：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">docs = UnstructuredMarkdownLoader(<br>    file_path=<span class="hljs-string">&quot;assets/sample.md&quot;</span>,<br>    mode=<span class="hljs-string">&quot;elements&quot;</span>,  <span class="hljs-comment"># single 整篇；elements 按元素切分</span><br>).load()<br></code></pre></div></td></tr></table></figure>
+
+<p>json:</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">docs = JSONLoader(<br>    file_path=<span class="hljs-string">&quot;assets/sample.json&quot;</span>,<br>    jq_schema=<span class="hljs-string">&quot;.&quot;</span>,  <span class="hljs-comment"># 提取所有字段</span><br>    text_content=<span class="hljs-literal">False</span>,  <span class="hljs-comment"># 是否按字符串处理内容</span><br>).load()<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">docs_all = CSVLoader(file_path=<span class="hljs-string">&quot;assets/sample.csv&quot;</span>).load()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=== 方式一：整行作为 page_content ===&quot;</span>)<br><span class="hljs-built_in">print</span>(<br>    <span class="hljs-string">&quot;page_content 示例:&quot;</span>,<br>    (<br>        docs_all[<span class="hljs-number">0</span>].page_content[:<span class="hljs-number">80</span>] + <span class="hljs-string">&quot;...&quot;</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(docs_all[<span class="hljs-number">0</span>].page_content) &gt; <span class="hljs-number">80</span><br>        <span class="hljs-keyword">else</span> docs_all[<span class="hljs-number">0</span>].page_content<br>    ),<br>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;metadata 示例:&quot;</span>, docs_all[<span class="hljs-number">0</span>].metadata, <span class="hljs-string">&quot;\n&quot;</span>)<br><br><span class="hljs-comment"># 方式二：指定 content_columns 与 metadata_columns → 正文只取 content 列，title/author 进 metadata，便于检索时按作者/标题过滤</span><br>docs_split = CSVLoader(<br>    file_path=<span class="hljs-string">&quot;assets/sample.csv&quot;</span>,<br>    metadata_columns=[<span class="hljs-string">&quot;title&quot;</span>, <span class="hljs-string">&quot;author&quot;</span>],<br>    content_columns=[<span class="hljs-string">&quot;content&quot;</span>],<br>).load()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=== 方式二：content 列作为正文，title/author 进 metadata ===&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;page_content 示例:&quot;</span>, docs_split[<span class="hljs-number">0</span>].page_content)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;metadata 示例:&quot;</span>, docs_split[<span class="hljs-number">0</span>].metadata)<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="文本分割器"><a href="#文本分割器" class="headerlink" title="文本分割器"></a>文本分割器</h4><p>文档加载之后，通常还不能直接拿去建 RAG。原因很简单：<strong>原始文档经常太长</strong>。</p>
+<p>这会带来两个现实问题：</p>
+<ul>
+<li><strong>检索效果差</strong>：整篇文档太大，向量表达会过于粗糙，难以精确定位到真正相关的小段内容。</li>
+<li><strong>生成成本高</strong>：就算检索回来整篇文档，也很可能塞不进模型上下文，或者把大量无关内容一并送给模型。</li>
+</ul>
+<p>所以，RAG 中几乎都会有“<strong>切块（chunking）</strong>”这一步。</p>
+<p>面对通用文本时，<code>RecursiveCharacterTextSplitter</code> 往往是最推荐的入门分割器。它会尽量优先保留较大的语义单位，例如段落、句子；如果某一段还太长，再继续往更小层级切。</p>
+<p><strong>分割策略本身就是 RAG 质量的重要一环。</strong></p>
+<h5 id="场景场景"><a href="#场景场景" class="headerlink" title="场景场景"></a>场景场景</h5><table>
+<thead>
+<tr>
+<th>分割器</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>RecursiveCharacterTextSplitter</strong></td>
+<td>通用首选，优先保持较大语义单位，必要时递归切得更细</td>
+</tr>
+<tr>
+<td><strong>CharacterTextSplitter</strong></td>
+<td>按指定分隔符切，简单直接</td>
+</tr>
+<tr>
+<td><strong>MarkdownHeaderTextSplitter</strong></td>
+<td>按 Markdown 标题层级切分</td>
+</tr>
+<tr>
+<td><strong>HTMLHeaderTextSplitter</strong></td>
+<td>按 HTML 标题结构切分</td>
+</tr>
+<tr>
+<td><strong>TokenTextSplitter</strong></td>
+<td>按 token 数控制块大小，更贴近模型上下文限制</td>
+</tr>
+<tr>
+<td><strong>语义切分（Semantic Chunking）</strong></td>
+<td>按语义变化切分，尽量让相关内容保留在同一块中，但成本更高、实现更复杂</td>
+</tr>
+<tr>
+<td><strong>代码类分割器</strong></td>
+<td>按函数、类、逻辑块切分代码文本</td>
+</tr>
+</tbody></table>
+<p>这里补充一个真实项目里的判断：切分策略不是越高级越好，而是要看“值不值得”。像语义切分这种方案，理论上更有机会保留完整语义，但它往往需要额外的向量计算或更复杂的实现。对于初学者和大多数入门项目来说，先把 <code>RecursiveCharacterTextSplitter</code> 用好，通常比一开始就追求复杂切分更重要。</p>
+<p><code>RecursiveCharacterTextSplitter</code> 最常用的是下面几个参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+<th>实践理解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chunk_size</code></td>
+<td>单块最大长度</td>
+<td>块太大不利于检索，块太小又容易语义碎片化</td>
+</tr>
+<tr>
+<td><code>chunk_overlap</code></td>
+<td>相邻块重叠长度</td>
+<td>防止句子、语义被截断，常见取块大小的 10%～20%</td>
+</tr>
+<tr>
+<td><code>length_function</code></td>
+<td>长度计算方式</td>
+<td>默认常用 <code>len</code>，即按字符数；也可按 token 数</td>
+</tr>
+<tr>
+<td><code>separators</code></td>
+<td>优先切分分隔符</td>
+<td>决定先按段落、换行、句号还是更细粒度去切</td>
+</tr>
+</tbody></table>
+<p>先把下面这条经验记住就够用了：</p>
+<ul>
+<li><strong>通用文档问答</strong>：优先用 <code>RecursiveCharacterTextSplitter</code></li>
+<li><strong>先调 <code>chunk_size</code> 和 <code>chunk_overlap</code></strong></li>
+<li><strong>跑通后再逐步优化切分规则</strong></li>
+</ul>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-20-12-01-image.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><p>文档分割器</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_text_splitters <span class="hljs-keyword">import</span> RecursiveCharacterTextSplitter<br><span class="hljs-keyword">from</span> langchain_core.documents <span class="hljs-keyword">import</span> Document<br><br><span class="hljs-comment"># 1. 修正数据结构：texts 应该是字符串，而不是带花括号的 set（集合）</span><br>text_content = (<br>    <span class="hljs-string">&quot;大模型RAG（检索增强生成）是一种结合生成模型与外部知识检索的技术，通过从大规模文档或数据库中检索相关信息，&quot;</span><br>    <span class="hljs-string">&quot;辅助生成模型以提升回答的准确性和相关性。其核心流程包括用户输入查询、系统检索相关知识、&quot;</span><br>    <span class="hljs-string">&quot;生成模型基于检索结果生成内容，并输出最终答案。RAG的优势在于能够弥补生成模型的知识盲区，&quot;</span><br>    <span class="hljs-string">&quot;提供更准确、实时和可解释的输出，广泛应用于问答系统、内容生成、客服、教育和企业领域。&quot;</span><br>    <span class="hljs-string">&quot;然而，其也面临依赖高质量知识库、可能的响应延迟、较高的维护成本以及数据隐私等挑战。&quot;</span><br>)<br><br><span class="hljs-comment"># 2. 初始化切分器</span><br>text_splitter = RecursiveCharacterTextSplitter(<br>    chunk_size=<span class="hljs-number">100</span>,      <span class="hljs-comment"># 为了演示效果，我把 1000 改小到了 100</span><br>    chunk_overlap=<span class="hljs-number">20</span>,    <span class="hljs-comment"># 块与块之间重叠 20 字</span><br>    length_function=<span class="hljs-built_in">len</span><br>)<br><br><span class="hljs-comment"># 3. 核心逻辑 A：切分纯文本 (返回的是 List[str])</span><br>done_text = text_splitter.split_text(text_content)<br><br><span class="hljs-comment"># 4. 核心逻辑 B：切分 Document 对象 (返回的是 List[Document])</span><br><span class="hljs-comment"># 先把字符串包装成 LangChain 需要的 Document 对象</span><br><span class="hljs-comment">#这两行就是把每个给一个&quot;source&quot;: &quot;manual_input&quot;标签，文本内容存入document  然后将document切分成多个块（第二行）</span><br>raw_documents = [Document(page_content=text_content, metadata=&#123;<span class="hljs-string">&quot;source&quot;</span>: <span class="hljs-string">&quot;manual_input&quot;</span>&#125;)]<br>done_documents = text_splitter.split_documents(raw_documents)<br><br><span class="hljs-comment"># 打印结果</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;--- 纯文本切分结果 (共 <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(done_text)&#125;</span> 块) ---&quot;</span>)<br><span class="hljs-comment"># 枚举 done_text 列表，打印每个块的内容和索引</span><br><span class="hljs-keyword">for</span> i, t <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(done_text):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;块 <span class="hljs-subst">&#123;i+<span class="hljs-number">1</span>&#125;</span>: <span class="hljs-subst">&#123;t&#125;</span>\n&quot;</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;--- Document 对象切分结果 (共 <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(done_documents)&#125;</span> 块) ---&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;第一块的元数据: <span class="hljs-subst">&#123;done_documents[<span class="hljs-number">0</span>].metadata&#125;</span>&quot;</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-20-48-40-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>先加载在切分</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_text_splitters <span class="hljs-keyword">import</span> RecursiveCharacterTextSplitter<br><span class="hljs-keyword">from</span> langchain_unstructured <span class="hljs-keyword">import</span> UnstructuredLoader<br><span class="hljs-keyword">from</span> langchain_community.document_loaders <span class="hljs-keyword">import</span> TextLoader<br><br><br>loade_file = TextLoader(<span class="hljs-string">r&quot;D:\lanchain_study\RAG\file\txt\1.txt&quot;</span>, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>)<br>documents = loade_file.load()<br>text_spliter = RecursiveCharacterTextSplitter(<br>    chunk_size=<span class="hljs-number">50</span>, <span class="hljs-comment"># 每个分块的最大字符数</span><br>    chunk_overlap=<span class="hljs-number">30</span>, <span class="hljs-comment"># 分块之间的重叠字符数</span><br>    length_function=<span class="hljs-built_in">len</span><br>)<br><br><br><br>splitter_documents = text_spliter.split_documents(documents)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;分块后的文档数量: <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(splitter_documents)&#125;</span>&quot;</span>)<br><br><span class="hljs-keyword">for</span> splitter_document <span class="hljs-keyword">in</span> splitter_documents:<br>    <span class="hljs-built_in">print</span>(splitter_document.page_content)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-20-49-10-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>在真实 RAG 项目里，最常见就是：</p>
+<p><strong>loader.load() -&gt; split_documents() -&gt; embeddings -&gt; vector store</strong></p>
+<p><strong>混合检索（Hybrid）</strong>：关键词检索（如 BM25）与向量检索结合，缓解“专有名词、编号、错误码”等仅靠向量不够准的问题。</p>
+<p>        <strong>具体实现：</strong> 在数据库端（如 Redis 或 Elasticsearch）同时开启两条赛道：</p>
+<ol>
+<li><p><strong>全文检索赛道</strong>：使用 <strong>BM25</strong> 算法对文本进行分词匹配。</p>
+</li>
+<li><p><strong>向量检索赛道</strong>：使用 <strong>HNSW</strong> 等算法进行语义相似度匹配。</p>
+</li>
+<li><p><strong>结果融合</strong>：通过 <strong>RRF (Reciprocal Rank Fusion)</strong> 算法，根据两边结果的排名进行加权汇总，重新排出一份最终列表。</p>
+</li>
+</ol>
+<p>    <strong>作用：</strong></p>
+<ul>
+<li><p><strong>弥补语义盲区</strong>：向量模型有时会过度关注“意思”而忽略“关键字”。比如搜 <code>CVE-2023-2333</code>，向量可能搜出一堆 2023 年的漏洞，而 BM25 能精准锁定包含这个编号的文档。</p>
+</li>
+<li><p><strong>提升首位召回率</strong>：让“搜得到”变成“搜得准”。</p>
+</li>
+</ul>
+<p><strong>重排序（Rerank）</strong>：先向量召回较多候选片段，再用交叉编码器等模型对「问题—片段」重新打分，提高最终送入 Prompt 的质量。</p>
+<p>    <strong>具体实现：</strong> 在检索完成后增加一个“精排”环节：</p>
+<ol>
+<li><p><strong>初筛（Recall）</strong>：先用向量检索快准狠地从 100 万条里捞出前 50 条候选片段。</p>
+</li>
+<li><p><strong>精排（Rerank）</strong>：将用户问题与这 50 个片段<strong>两两配对</strong>，输入到一个 <strong>Cross-Encoder 模型</strong>（如 <code>BGE-Reranker</code>）。</p>
+</li>
+<li><p><strong>二次打分</strong>：Rerank 模型会深度计算“问题”与“片段”的真实相关性，输出 0-1 的分值，你根据分值重新排序，只取前 5 条喂给 LLM。</p>
+</li>
+</ol>
+<p><strong>作用：</strong></p>
+<ul>
+<li><p><strong>过滤噪音</strong>：向量检索为了速度牺牲了精度，Rerank 则是为了精度不惜耗费一点计算资源。</p>
+</li>
+<li><p><strong>缓解 Context 限制</strong>：LLM 记不住太长的上下文，Rerank 确保喂给它的都是“最精华”的参考资料。</p>
+</li>
+</ul>
+<p><strong>查询改写</strong>：多查询扩展、HyDE 等，用额外一步改善问句与文档的匹配（常与 Agent 或固定预处理脚本结合）。</p>
+<p>    <strong>具体实现：</strong> 在正式去数据库搜之前，先让 LLM 对用户的问题动个“微整形”：</p>
+<ul>
+<li><p><strong>多查询（Multi-Query）</strong>：让 LLM 生成 3 个意思相近但表达不同的问题，同时去搜，最后合并结果。</p>
+</li>
+<li><p><strong>假设性回答（HyDE）</strong>：让 LLM 先根据常识编一个“虚假但结构完整”的答案，然后拿着这个<strong>假答案</strong>去库里搜真正的参考文档（答案搜答案往往比问题搜答案更准）。</p>
+</li>
+<li><p><strong>分解查询（Sub-Query）</strong>：如果问题太复杂（如“对比 PHP 和 Java 的注入防御”），将其拆成两个子问题分别检索。</p>
+</li>
+</ul>
+<p><strong>作用：</strong></p>
+<ul>
+<li><p><strong>消除表达差异</strong>：解决用户问得太简略（如只发一个报错截图的文字）导致搜不到的问题。</p>
+</li>
+<li><p><strong>增加覆盖面</strong>：防止因为一个词的细微差别导致错过核心文档。</p>
+</li>
+</ul>
+<p><strong>评测与观测</strong>：准备一批「问题—期望引用片段或标准答」做回归；线上可用 <a target="_blank" rel="noopener" href="https://docs.langchain.com/langsmith/observability-llm-tutorial">LangSmith</a> 等工具追踪检索与生成全链路，定位是检索差还是 Prompt &#x2F; 模型问题。</p>
+<p>    <strong>具体实现：</strong> 这不是一个功能，而是一套<strong>监控体系</strong>：</p>
+<ul>
+<li><p><strong>自动化评测（RAGAS）</strong>：利用 LLM 作为“裁判”，给检索结果打分。主要看三个指标：<strong>忠实度</strong>（模型有没有胡编）、<strong>答案相关性</strong>（有没有对非所问）、<strong>上下文精度</strong>（搜出来的东西有用吗）。</p>
+</li>
+<li><p><strong>全链路追踪（Tracing）</strong>：使用 <strong>LangSmith</strong> 或 <strong>Arize Phoenix</strong>。</p>
+<ul>
+<li>你可以清晰看到：用户问了 A -&gt; 改写成了 B -&gt; 检索到了 C、D -&gt; Rerank 留下了 C -&gt; LLM 生成了答案 E。</li>
+</ul>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-21-06-48-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-21-07-09-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>进一步看，生产级 RAG 的优化通常可以从五个方向入手：</p>
+<table>
+<thead>
+<tr>
+<th>方向</th>
+<th>常见做法</th>
+<th>主要解决什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查询侧</td>
+<td>查询改写、多查询、HyDE</td>
+<td>用户问法和文档说法对不上</td>
+</tr>
+<tr>
+<td>索引侧</td>
+<td>合理切块、Overlap、元数据、解析质量</td>
+<td>入库内容太碎、太脏或缺少过滤字段</td>
+</tr>
+<tr>
+<td>检索侧</td>
+<td>向量检索、BM25、混合检索、RRF</td>
+<td>单一路径召回不稳定</td>
+</tr>
+<tr>
+<td>排序侧</td>
+<td>Rerank、阈值过滤、Top K 调整</td>
+<td>候选片段多但质量参差不齐</td>
+</tr>
+<tr>
+<td>生成侧</td>
+<td>引用来源、上下文压缩、答案约束</td>
+<td>回答不可信或上下文太长</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="RAG综合案例"><a href="#RAG综合案例" class="headerlink" title="RAG综合案例"></a>RAG综合案例</h2><p>智能运维助手</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI <span class="hljs-comment"># 导入OpenAI模型</span><br><span class="hljs-keyword">from</span> langchain_community.embeddings <span class="hljs-keyword">import</span> DashScopeEmbeddings <span class="hljs-comment"># 向量嵌入模型</span><br><span class="hljs-keyword">from</span> langchain_community.vectorstores <span class="hljs-keyword">import</span> Redis <span class="hljs-comment"># redis向量数据库</span><br><span class="hljs-keyword">from</span> langchain_community.document_loaders <span class="hljs-keyword">import</span> PyPDFLoader <span class="hljs-comment"># 文档载入器</span><br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> PromptTemplate <span class="hljs-comment"># 提示模板</span><br><span class="hljs-keyword">from</span> langchain_text_splitters <span class="hljs-keyword">import</span> RecursiveCharacterTextSplitter <span class="hljs-comment"># 文本切分器</span><br><span class="hljs-keyword">from</span> langchain_core.runnables <span class="hljs-keyword">import</span> RunnablePassthrough <span class="hljs-comment"># 传递运行对象</span><br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br><br><br>load_dotenv()<br>api_key = os.getenv(<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>)<br><span class="hljs-comment"># 初始化大模型</span><br>llm_chat = ChatOpenAI(<br>    model = <span class="hljs-string">&quot;qwen3.6-plus&quot;</span>,<br>    api_key = api_key, <span class="hljs-comment"># type: ignore</span><br>    base_url = <span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span> <span class="hljs-comment"># type: ignore</span><br>)<br><span class="hljs-comment"># 初始化向量嵌入模型</span><br>llm_embedding = DashScopeEmbeddings(<br>    model = <span class="hljs-string">&quot;text-embedding-v4&quot;</span>,<br>    dashscope_api_key=api_key,<br>)<br><span class="hljs-comment"># 初始化提示词模板</span><br>prompt_temp = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    请使用以下提供的文本内容来回答问题。仅使用提供的文本信息，</span><br><span class="hljs-string">    如果文本中没有相关信息，请回答&quot;抱歉，提供的文本中没有这个信息&quot;。</span><br><span class="hljs-string"></span><br><span class="hljs-string">    文本内容：</span><br><span class="hljs-string">    &#123;context&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">    问题：&#123;question&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">    回答：</span><br><span class="hljs-string">    &quot;</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><br>prompt = PromptTemplate(<br>    template=prompt_temp,<br>    input_variables=[<span class="hljs-string">&quot;context&quot;</span>, <span class="hljs-string">&quot;question&quot;</span>],<br>)<span class="hljs-comment"># 定义提示词模板 这里使用prompttemplate 是因为需要在提示词中插入变量 context 和 question 的值</span><br><br><br><span class="hljs-keyword">try</span>:<br><span class="hljs-comment"># 尝试从现有的索引初始化向量存储</span><br>    vectorstore = Redis.from_existing_index(<br>        embedding=llm_embedding,<br>        index_name=<span class="hljs-string">&quot;pdf_index&quot;</span>,<br>        redis_url=<span class="hljs-string">&quot;redis://localhost:6379/0&quot;</span>,<br>    ) <span class="hljs-comment"># type: ignore</span><br>    <span class="hljs-comment"># 检查索引是否存在</span><br>    index_info = vectorstore.client.ft(<span class="hljs-string">&quot;pdf_index&quot;</span>).info()<br>    <span class="hljs-built_in">print</span>(index_info)<br>    <span class="hljs-comment">#可以弄个检测索引是否存在 用来判断是否需要初始化数据 这里暂时略过 不是重点</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;✅ 发现现有索引 &#x27;pdf_index&#x27;，已直接连接，跳过 PDF 加载和切分。&quot;</span>)<br><span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;❌ 未发现索引 &#x27;pdf_index&#x27;，正在初始化数据...&quot;</span>)<br>    <span class="hljs-comment"># 加载pdf 使用PyPDFLoader加载pdf文件</span><br>    loader = PyPDFLoader(<span class="hljs-string">r&quot;D:\lanchain_study\RAG\基于强化学习的网络渗透测试路径自动生成.pdf&quot;</span>)<br>    documents = loader.load()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;已成功加载 PDF，共 <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(documents)&#125;</span> 页&quot;</span>)<br><br>        <span class="hljs-comment"># 分割</span><br>    pdf_splitter = RecursiveCharacterTextSplitter(<br>        chunk_size=<span class="hljs-number">700</span>, <span class="hljs-comment"># 每个分块的最大字符数</span><br>        chunk_overlap=<span class="hljs-number">100</span>, <span class="hljs-comment"># 分块之间的重叠字符数</span><br>        length_function=<span class="hljs-built_in">len</span><br>    )<br><span class="hljs-comment"># 分割文档</span><br>    texts = pdf_splitter.split_documents(documents)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;切分完成，产生 <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(texts)&#125;</span> 个文档片段&quot;</span>)<br><br><span class="hljs-comment"># 文本清洗函数</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">clean_text</span>(<span class="hljs-params">text</span>):<br>        <span class="hljs-comment"># 使用 &#x27;ignore&#x27; 模式强制转换，丢掉无法编码的非法字符</span><br>        <span class="hljs-keyword">return</span> text.encode(<span class="hljs-string">&#x27;utf-8&#x27;</span>, <span class="hljs-string">&#x27;ignore&#x27;</span>).decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br><br><span class="hljs-comment"># 遍历切分后的文档，清洗内容</span><br>    <span class="hljs-keyword">for</span> doc <span class="hljs-keyword">in</span> texts:<br>        doc.page_content = clean_text(doc.page_content)<br>        <span class="hljs-comment"># 顺便检查一下 metadata 里的内容，有时 metadata 也会包含非法字符</span><br>        <span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> doc.metadata.items():<br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(value, <span class="hljs-built_in">str</span>):<br>                doc.metadata[key] = clean_text(value)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;文本清洗完成，准备存入 Redis...&quot;</span>)<br><br>    <span class="hljs-comment"># 初始化向量数据库</span><br>    vectorstore = Redis.from_documents(    <br>        documents=texts, <br>        embedding=llm_embedding, <br>        redis_url=<span class="hljs-string">&quot;redis://localhost:6379/0&quot;</span>,<br>        index_name=<span class="hljs-string">&quot;pdf_index&quot;</span>,<br>    )<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;✅ 文本已成功存入 Redis，索引 &#x27;pdf_index&#x27; 已创建。&quot;</span>)<br><br><br><span class="hljs-comment"># 检索器</span><br>retriever = vectorstore.as_retriever(search_kwargs=&#123;<span class="hljs-string">&quot;k&quot;</span>: <span class="hljs-number">5</span>&#125;)<br><br><span class="hljs-comment"># rag 链 先整理内容，然后再使用RunnablePassthrough占位， 再传给提示词，然后再给大模型生成回答</span><br>rag_chain = (<br>    &#123;<br>        <span class="hljs-comment"># 从检索器获取相关文档 使用lambda函数获取问题参数 question</span><br>        <span class="hljs-string">&quot;context&quot;</span>: <span class="hljs-keyword">lambda</span> x: retriever.invoke(x[<span class="hljs-string">&quot;question&quot;</span>]), <br>        <span class="hljs-comment"># 保持问题参数 question 不被修改</span><br>        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-keyword">lambda</span> x: x[<span class="hljs-string">&quot;question&quot;</span>]<br>    &#125; <br>    | prompt <br>    | llm_chat<br>)<br>question = <span class="hljs-string">&quot;这个论文的主题是什么？&quot;</span><br>result = rag_chain.invoke(&#123;<span class="hljs-string">&quot;question&quot;</span>: question&#125;)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n有外挂知识库，来自文档<span class="hljs-subst">&#123;loader.file_path&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;问题：<span class="hljs-subst">&#123;question&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;回答：<span class="hljs-subst">&#123;result.content&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span>*<span class="hljs-number">50</span>)<br><br><br><br>no_rag_chain = (<br>    &#123;   <span class="hljs-comment"># 这个lambda函数是模拟无外挂知识库的情况，返回一个固定字符串</span><br>        <span class="hljs-string">&quot;context&quot;</span>: <span class="hljs-keyword">lambda</span> _: <span class="hljs-string">&quot;（未提供相关文档，模拟无外挂知识库）&quot;</span>,<br>        <span class="hljs-string">&quot;question&quot;</span>: RunnablePassthrough(),<br>    &#125;<br>    | prompt<br>    | llm_chat<br>)<br>result_no_rag = no_rag_chain.invoke(&#123;<span class="hljs-string">&quot;question&quot;</span>: question&#125;)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n无外挂知识库，来自文档<span class="hljs-subst">&#123;loader.file_path&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;问题：<span class="hljs-subst">&#123;question&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;回答：<span class="hljs-subst">&#123;result_no_rag.content&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span>*<span class="hljs-number">50</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-22-28-30-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-05-27-22-28-38-image.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="MCP模型上下文协议"><a href="#MCP模型上下文协议" class="headerlink" title="MCP模型上下文协议"></a>MCP模型上下文协议</h1><p><strong>一套跨应用、跨框架、跨宿主都能复用的统一连接标准。</strong></p>
+<p><strong>让“外部工具、资源、提示词模板”等能力，能够按统一协议被不同 AI 应用发现和使用。</strong></p>
+<p>设你在 IDE 里有一个 AI 编程助手，希望它能：</p>
+<ul>
+<li>读取本地代码仓库</li>
+<li>查 GitHub Issue</li>
+<li>调内部文档系统</li>
+<li>查询云服务配置</li>
+<li>调用数据库辅助排查问题</li>
+</ul>
+<p>没有 MCP，你往往要为这个 AI 助手单独实现很多连接器。如果这些能力都已经按 MCP 标准暴露，那么这个 AI 助手只需要支持 MCP，就可以统一接入这些服务。</p>
+<p>这时，MCP 的价值就很明显了：<strong>一次暴露，多处复用</strong>；<strong>统一 schema，降低适配成本</strong>；<strong>更容易形成工具生态</strong>。</p>
+<p>现实中的 AI 应用也是一样。一个真正有用的 AI 助手，往往不仅要“说”，还要能：查本地文件、查数据库、搜 GitHub Issue、调天气接口、发消息到 Slack &#x2F; 微信 &#x2F; 邮件、调用内部业务系统。</p>
+<p>MCP给AI应用提供一个更像“<strong>统一插口</strong>”的东西。 <strong>AI 应用和外部能力之间的通用适配层</strong>。</p>
+<h2 id="与Tool、RAG、Agent区别"><a href="#与Tool、RAG、Agent区别" class="headerlink" title="与Tool、RAG、Agent区别"></a>与Tool、RAG、Agent区别</h2><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>解决什么问题</th>
+<th>典型关注点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Tool &#x2F; Function Calling</strong></td>
+<td>模型如何调用一个具体工具</td>
+<td>工具 schema、参数、调用结果</td>
+</tr>
+<tr>
+<td><strong>RAG</strong></td>
+<td>模型如何拿到外部知识上下文</td>
+<td>文档加载、切块、检索、上下文拼接</td>
+</tr>
+<tr>
+<td><strong>MCP</strong></td>
+<td>外部能力如何被标准化暴露与接入</td>
+<td>Host &#x2F; Client &#x2F; Server、协议、传输、发现</td>
+</tr>
+<tr>
+<td><strong>Agent</strong></td>
+<td>谁来规划、决策、调用这些能力</td>
+<td>推理、编排、记忆、执行闭环</td>
+</tr>
+</tbody></table>
+<p>MCP 最直观的价值，就是把原本分散的外部能力，用统一方式暴露给 AI 应用。</p>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-01-20-20-55-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-01-20-21-14-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>通过 MCP 等统一协议，一次开发、多端复用。</p>
+<h2 id="MCP服务器能暴露什么"><a href="#MCP服务器能暴露什么" class="headerlink" title="MCP服务器能暴露什么"></a>MCP服务器能暴露什么</h2><p>MCP 服务器最核心的三类能力是：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>作用</th>
+<th>控制方式</th>
+<th>对应案例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Tools</strong></td>
+<td>可执行动作，例如查天气、查数据库、发请求</td>
+<td><strong>模型可触发</strong></td>
+<td><code>McpServer.py</code>、<code>McpServerWeatherByFastMCP.py</code></td>
+</tr>
+<tr>
+<td><strong>Resources</strong></td>
+<td>可读取内容，例如文件、配置、数据库 schema、API 响应</td>
+<td><strong>应用 &#x2F; 宿主决定如何使用</strong></td>
+<td><code>McpServerByFastMCP.py</code> 的 <code>@mcp.resource()</code></td>
+</tr>
+<tr>
+<td><strong>Prompts</strong></td>
+<td>可复用的提示词模板 &#x2F; 工作流模板</td>
+<td><strong>用户显式选择更常见</strong></td>
+<td><code>McpServerByFastMCP.py</code> 的 <code>@mcp.prompt()</code></td>
+</tr>
+</tbody></table>
+<p>官方对三者的控制方式有明确区分：</p>
+<ul>
+<li><strong>Tools 是 model-controlled</strong></li>
+<li><strong>Resources 是 application-driven</strong></li>
+<li><strong>Prompts 更偏 user-controlled</strong></li>
+</ul>
+<p>也就是说：</p>
+<ul>
+<li>Tool 更适合让模型自动决定何时调用</li>
+<li>Resource 更适合由宿主决定如何纳入上下文</li>
+<li>Prompt 更适合由用户显式触发某种模板化工作流</li>
+</ul>
+<p><strong>工具是 MCP 的一部分，但不是全部。</strong></p>
+<h3 id="其他能力"><a href="#其他能力" class="headerlink" title="其他能力"></a>其他能力</h3><p>除了 Tools &#x2F; Resources &#x2F; Prompts，官方协议里还有一些更进阶的客户端 &#x2F; 会话能力，例如：</p>
+<ul>
+<li><strong>Sampling</strong>：服务器通过客户端向<strong>宿主侧的 LLM</strong> 请求一次生成（把“算力在哪一侧”也纳入协议协作）</li>
+<li><strong>Elicitation</strong>：服务器通过客户端向用户请求补充信息</li>
+<li><strong>Logging</strong>：服务器向客户端发送结构化日志</li>
+<li><strong>Progress &#x2F; Notifications</strong>：长任务过程中的进度和通知</li>
+</ul>
+<p>这些内容在当前仓库案例里没有作为主线展开，但对理解 MCP 很重要，因为它说明：</p>
+<p><strong>MCP 不只是“列出工具然后调用工具”，它还定义了更完整的人机协作和上下文交换机制。</strong></p>
+<p>在真实项目里，MCP 最常见的落地方向通常有三种：</p>
+<ol>
+<li><p><strong>给现成 AI 应用接能力</strong><br>例如让 Cursor、Claude Desktop、VS Code、ChatGPT 类客户端接入文件系统、代码库、浏览器、内部系统。</p>
+</li>
+<li><p><strong>给自研 Agent 平台做统一工具接入层</strong><br>这样 Agent 平台就不用为 GitHub、数据库、知识库、Slack、云平台各写一套不同协议。</p>
+</li>
+<li><p><strong>让企业内部能力变成可复用的 AI 接口层</strong><br>例如把“查工单”“查订单”“查配置”“发通知”这些能力封装成 MCP 服务，供多个 AI 应用共享。</p>
+</li>
+</ol>
+<p><strong>安全与信任边界（落地必知）：</strong> MCP Server 往往能以较高权限访问本机文件、内网 API 或密钥；生产环境应控制<strong>来源可信</strong>（仅安装审计过的服务）、<strong>最小权限</strong>与<strong>网络隔离</strong>，并记录调用审计。这与“能接什么”同样重要。</p>
+<h2 id="怎么使用MCP"><a href="#怎么使用MCP" class="headerlink" title="怎么使用MCP"></a>怎么使用MCP</h2><h3 id="现成的"><a href="#现成的" class="headerlink" title="现成的"></a>现成的</h3><ul>
+<li>找到现成的 MCP Server</li>
+<li>在宿主应用里配置连接方式</li>
+<li>让客户端自动发现其 Tools &#x2F; Resources &#x2F; Prompts</li>
+</ul>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-01-20-30-25-image.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="本地"><a href="#本地" class="headerlink" title="本地"></a>本地</h3><p>如果你要接的是：本地文件系统、内部数据库、企业私有 API、自己的业务系统。</p>
+<p>就要自己写 MCP Server</p>
+<h2 id="FastMCP"><a href="#FastMCP" class="headerlink" title="FastMCP"></a>FastMCP</h2><p>FastMCP 是 MCP 官方 Python 生态里用来快速编写 MCP Server 的高层封装。它帮你把很多底层样板工作收起来，让你可以更接近“写 Python 函数”的方式去暴露 MCP 能力。</p>
+<p>先把它和 MCP 的关系看成下面这组对应：</p>
+<ul>
+<li><strong>MCP</strong> 是协议标准，解决“AI 应用怎么统一接入外部能力”</li>
+<li><strong>FastMCP</strong> 是 Python 里的服务端开发工具，解决“我怎么更方便地把能力按 MCP 标准暴露出去”</li>
+</ul>
+<p><strong>MCP 是规则</strong>，<strong>FastMCP 是实现这些规则的一种工具</strong>。这就像：HTTP 是协议，FastAPI &#x2F; Flask 是帮助你实现 HTTP 服务的框架。</p>
+<h2 id="在langchain中使用"><a href="#在langchain中使用" class="headerlink" title="在langchain中使用"></a>在langchain中使用</h2><p>LangChain 官方已经提供了对 MCP 的适配支持。常见路线是：</p>
+<ol>
+<li>用 <code>MultiServerMCPClient</code> 连接一台或多台 MCP 服务器</li>
+<li>通过 <code>get_tools()</code> 取回 MCP 工具</li>
+<li>把这些工具交给 <code>create_tool_calling_agent</code> 或 <code>create_agent</code></li>
+<li>让 Agent 在对话中实际调用它们</li>
+</ol>
+<p>这也说明了 MCP 和 LangChain 的关系：</p>
+<ul>
+<li><strong>MCP</strong> 负责“标准化接入”</li>
+<li><strong>LangChain &#x2F; Agent</strong> 负责“把接进来的能力真正用起来”</li>
+</ul>
+<h2 id="MCP架构"><a href="#MCP架构" class="headerlink" title="MCP架构"></a>MCP架构</h2><p>MCP 采用典型的 <strong>Host - Client - Server</strong> 架构。</p>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-01-20-36-57-image.png" srcset="/img/loading.gif" lazyload></p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>MCP Host（MCP 主机）</strong></td>
+<td>用户真正交互的应用，例如 IDE、桌面客户端、聊天应用、自研 AI 平台</td>
+</tr>
+<tr>
+<td><strong>MCP Client（MCP 客户端）</strong></td>
+<td>Host 内部负责和某个 MCP Server 建立协议连接的组件</td>
+</tr>
+<tr>
+<td><strong>MCP Server（MCP 服务器）</strong></td>
+<td>对外暴露 Tools &#x2F; Resources &#x2F; Prompts 等能力的服务</td>
+</tr>
+<tr>
+<td><strong>本地 &#x2F; 远程资源</strong></td>
+<td>服务器可访问的文件、数据库、API、内部系统等</td>
+</tr>
+</tbody></table>
+<h3 id="MCP协议层中的工作方式"><a href="#MCP协议层中的工作方式" class="headerlink" title="MCP协议层中的工作方式"></a>MCP协议层中的工作方式</h3><ol>
+<li><strong>Host &#x2F; Client 发起连接</strong></li>
+<li><strong>Client 和 Server 做初始化</strong></li>
+<li><strong>双方声明各自支持的 capabilities</strong></li>
+<li><strong>客户端发现服务器提供的 tools &#x2F; resources &#x2F; prompts</strong></li>
+<li><strong>按需调用或读取</strong></li>
+<li><strong>结果返回给 Host，再由模型 &#x2F; UI 使用</strong></li>
+</ol>
+<p>完整调用：</p>
+<p>如果把 MCP 放回一轮真实问答里，可以把它拆成下面 5 个动作：</p>
+<ol>
+<li><p><strong>握手与能力发现（Handshake &amp; Discovery）</strong><br>Host 启动后，会根据配置连接 MCP Server，并完成初始化。此时客户端会知道：这台服务器提供了哪些 Tools、Resources、Prompts，以及它支持哪些 capabilities。</p>
+</li>
+<li><p><strong>用户提问与上下文注入（Context Injection）</strong><br>用户提出问题后，Host 会把“用户问题 + 已发现的工具说明 &#x2F; 资源信息 &#x2F; 提示词信息”一并提供给模型或应用逻辑。</p>
+</li>
+<li><p><strong>模型或应用做决策（Reasoning &#x2F; Decision）</strong><br>模型决定是否需要调用某个 Tool，或者应用决定是否读取某个 Resource、选用某个 Prompt。</p>
+</li>
+<li><p><strong>路由与执行（Routing &amp; Execution）</strong><br>Host &#x2F; Client 按协议把请求发给 MCP Server。Server 在自己的进程或远端服务中执行真正的逻辑，例如查天气、读文件、查数据库。</p>
+</li>
+<li><p><strong>结果回传与继续生成（Result Feedback）</strong><br>Server 把结果返回给 Client，Client 再把结果交回 Host，由 Host 继续让模型生成最终回答，或者直接展示给用户。</p>
+</li>
+</ol>
+<h2 id="FastMCP的基本写法以及常用的API"><a href="#FastMCP的基本写法以及常用的API" class="headerlink" title="FastMCP的基本写法以及常用的API"></a>FastMCP的基本写法以及常用的API</h2><figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> mcp.server.fastmcp <span class="hljs-keyword">import</span> FastMCP <span class="hljs-comment">#引入mcp</span><br><br>mcp = FastMCP(<span class="hljs-string">&quot;Demo&quot;</span>)   <span class="hljs-comment">#创建一个FastMCP对象，名称为Demo，用于处理MCP请求</span><br><br><span class="hljs-meta">@mcp.tool() </span><span class="hljs-comment"># 定义一个工具函数，用于处理加法操作</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">a: <span class="hljs-built_in">int</span>, b: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:<br>    <span class="hljs-keyword">return</span> a + b<br><br><br><span class="hljs-meta">@mcp.resource(<span class="hljs-params"><span class="hljs-string">&quot;greeting://default&quot;</span></span>) </span><span class="hljs-comment">#resource 资源函数 用于资料查询</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_greeting</span>() -&gt; <span class="hljs-built_in">str</span>:<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Hello, World!&quot;</span><br><br><span class="hljs-meta">@mcp.prompt() </span><span class="hljs-comment">#prompt 用于提示词</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">greet_user</span>(<span class="hljs-params">name: <span class="hljs-built_in">str</span>, style: <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;default&quot;</span></span>) -&gt; <span class="hljs-built_in">str</span>: <span class="hljs-comment">#</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;Hello, <span class="hljs-subst">&#123;name&#125;</span>!&quot;</span><br><br><br>mcp.run(transport=<span class="hljs-string">&quot;stdio&quot;</span>) <span class="hljs-comment">#stdio（标准输入输出）是最常用的方式，意味着 AI 进程启动你的 Python 脚本，通过控制台行进行“加密通信”。</span><br><span class="hljs-comment"># mcp.run(transport=&quot;sse&quot;, host=&quot;127.0.0.1&quot;, port=8000)</span><br></code></pre></div></td></tr></table></figure>
+
+<p>结合网络安全，可以为：</p>
+<ul>
+<li><p><strong>Tool</strong>：<code>@mcp.tool() def run_nmap(ip: str)</code> —— 让 AI 真的去扫端口。</p>
+</li>
+<li><p><strong>Resource</strong>：<code>@mcp.resource(&quot;logs://latest_scan&quot;)</code> —— 让 AI 随时能翻看最近一次的扫描日志。</p>
+</li>
+<li><p><strong>Prompt</strong>：<code>@mcp.prompt() def audit_report_template(vuln_list: str)</code> —— 给 AI 一个专业的渗透测试报告模板。</p>
+</li>
+</ul>
+<p>完整调用</p>
+<p>把协议层想象成一条完整链路，会更容易理解：</p>
+<ol>
+<li>用户在 Host 中发起请求</li>
+<li>Host 内部某个 MCP Client 与对应 Server 建立会话</li>
+<li>Client 发现 Server 暴露的能力</li>
+<li>模型或应用决定是否调用某个 Tool &#x2F; 读取某个 Resource &#x2F; 获取某个 Prompt</li>
+<li>Server 执行或返回结果</li>
+<li>Host 把结果展示给用户，或继续交给模型推理</li>
+</ol>
+<p>如果这个流程再落到 LangChain Agent 里，就会变成：</p>
+<ol>
+<li><code>MultiServerMCPClient</code> 连接 MCP 服务</li>
+<li><code>get_tools()</code> 获取工具</li>
+<li>Agent 拿到工具列表</li>
+<li>用户提问</li>
+<li>Agent 选择工具</li>
+<li>工具返回结果</li>
+<li>模型基于结果继续生成最终回答</li>
+</ol>
+<h2 id="本地MCP代码测试"><a href="#本地MCP代码测试" class="headerlink" title="本地MCP代码测试"></a>本地MCP代码测试</h2><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>McpServerByFastMCP.py</code></td>
+<td>FastMCP 正式写法示例</td>
+<td>展示 <code>tool / resource / prompt + stdio</code></td>
+</tr>
+<tr>
+<td><code>McpServerWeatherByFastMCP.py</code></td>
+<td>天气服务端</td>
+<td>展示天气 Tool 和 HTTP&#x2F;SSE 兼容写法</td>
+</tr>
+<tr>
+<td><code>McpClient.py</code></td>
+<td>简化版客户端</td>
+<td><strong>同进程教学版</strong>，不是严格意义上的协议网络客户端</td>
+</tr>
+<tr>
+<td><code>mcp.json</code></td>
+<td>客户端连接配置</td>
+<td>声明要连接哪些 MCP 服务、怎么连接</td>
+</tr>
+<tr>
+<td><code>McpClientAgent.py</code></td>
+<td>LangChain + MCP 客户端</td>
+<td>更贴近真实项目，读取 <code>mcp.json</code> 后把 MCP 工具交给 Agent</td>
+</tr>
+</tbody></table>
+<p>McpServerWeatherByFastMCP.py</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> mcp.server.fastmcp <span class="hljs-keyword">import</span> FastMCP<br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br>load_dotenv()<br><br>PROXY = &#123;<br>    <span class="hljs-string">&quot;http&quot;</span>: <span class="hljs-string">&quot;http://127.0.0.1:10808&quot;</span>,<br>    <span class="hljs-string">&quot;https&quot;</span>: <span class="hljs-string">&quot;http://127.0.0.1:10808&quot;</span>,<br>&#125;<br><br>mcp = FastMCP(<span class="hljs-string">&quot;Weather&quot;</span>)<br><br><span class="hljs-meta">@mcp.tool()</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">city: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    查询指定城市的即时天气。</span><br><span class="hljs-string"></span><br><span class="hljs-string">    参数:</span><br><span class="hljs-string">        loc: 城市名称字符串。为了提高调用成功率，建议优先传英文城市名，</span><br><span class="hljs-string">             如 Beijing、Shanghai。</span><br><span class="hljs-string"></span><br><span class="hljs-string">    返回:</span><br><span class="hljs-string">        OpenWeather 当前天气接口返回的 JSON 字符串，包含气温、体感温度、</span><br><span class="hljs-string">        湿度、风速、天气描述等信息。</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    url = <span class="hljs-string">&quot;https://api.openweathermap.org/data/2.5/weather&quot;</span><br>    params = &#123;<br>        <span class="hljs-string">&quot;q&quot;</span>: <span class="hljs-string">&quot;city&quot;</span>,<br>        <span class="hljs-string">&quot;appid&quot;</span>: os.environ[<span class="hljs-string">&quot;OPENWEATHER_API_KEY&quot;</span>],<br>        <span class="hljs-string">&quot;units&quot;</span>: <span class="hljs-string">&quot;metric&quot;</span>,<br>        <span class="hljs-string">&quot;lang&quot;</span>: <span class="hljs-string">&quot;zh_cn&quot;</span>,<br>    &#125;<br><br>    response = requests.get(url, params=params, timeout=<span class="hljs-number">10</span>, proxies=PROXY) <br>    data = response.json() <span class="hljs-comment"># 解析JSON响应</span><br>    <span class="hljs-keyword">return</span> json.dumps(data, ensure_ascii=<span class="hljs-literal">False</span>)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    mcp.run(transport=<span class="hljs-string">&quot;sse&quot;</span>) <span class="hljs-comment"># type: ignore</span><br></code></pre></div></td></tr></table></figure>
+
+<p>mcp.json</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;mcpServers&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;weather&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;url&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;http://127.0.0.1:8000/sse&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;transport&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;sse&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>Mcpclient</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br>load_dotenv()<br><span class="hljs-keyword">from</span> pathlib <span class="hljs-keyword">import</span> Path<br><span class="hljs-keyword">from</span> langchain_mcp_adapters.client <span class="hljs-keyword">import</span> MultiServerMCPClient <span class="hljs-comment"># 多服务器MCP客户端</span><br><span class="hljs-keyword">import</span> asyncio  <span class="hljs-comment"># 异步库</span><br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI <span class="hljs-comment"># OpenAI聊天模型</span><br><span class="hljs-keyword">from</span> langchain_classic.agents <span class="hljs-keyword">import</span> AgentExecutor,create_tool_calling_agent <span class="hljs-comment"># 工具调用智能体执行器 </span><br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate, MessagesPlaceholder<br> <span class="hljs-comment"># 聊天消息提示模板和消息占位符</span><br><br><br>_MCP_JSON_PATH = Path(__file__).resolve().parent / <span class="hljs-string">&quot;mcp.json&quot;</span> <span class="hljs-comment"># 解析mcp.json文件路径</span><br><span class="hljs-comment"># file_path 可以的类型有 str, Path, None</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">load_mcp_servers</span>(<span class="hljs-params">file_path: <span class="hljs-built_in">str</span> | Path | <span class="hljs-literal">None</span>=<span class="hljs-literal">None</span></span>) -&gt; <span class="hljs-built_in">dict</span>: <span class="hljs-comment"># 加载mcp.json文件 回显加载内容</span><br>    path = Path(file_path) <span class="hljs-keyword">if</span> file_path <span class="hljs-keyword">else</span> _MCP_JSON_PATH<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> path.exists():<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;mcp.json文件不存在: <span class="hljs-subst">&#123;path&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">return</span> (<span class="hljs-string">&quot;mcpServers&quot;</span>, &#123;&#125;) <span class="hljs-comment"># type: ignore</span><br><br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(path, <span class="hljs-string">&quot;r&quot;</span>, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>) <span class="hljs-keyword">as</span> f:<br>        config = json.load(f)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;已加载mcp文件: <span class="hljs-subst">&#123;path&#125;</span>, 内容: <span class="hljs-subst">&#123;config&#125;</span>,拥有<span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(config)&#125;</span>个服务器&quot;</span>)<br>        <span class="hljs-keyword">return</span> config<br><span class="hljs-comment"># 异步运行聊天循环，根据配置文件加载服务器 可以的类型有 str, Path, None</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">run_chat_loop</span>(<span class="hljs-params">config_path: <span class="hljs-built_in">str</span> | Path | <span class="hljs-literal">None</span>=<span class="hljs-literal">None</span></span>) -&gt; <span class="hljs-literal">None</span>:<br>    config = load_mcp_servers(config_path)<br>    <span class="hljs-comment"># 从配置中获取MCP服务器列表</span><br>    <span class="hljs-comment"># 如果配置中没有mcpServers键，返回空字典</span><br>    servers = config.get(<span class="hljs-string">&quot;mcpServers&quot;</span>, &#123;&#125;) <br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> servers:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;配置中没有mcpServers键，无法连接MCP服务器&quot;</span>)<br>        <span class="hljs-keyword">return</span><br>    <span class="hljs-comment"># 创建MCP客户端</span><br>    client = MultiServerMCPClient(servers)<br>    tools = <span class="hljs-keyword">await</span> client.get_tools() <span class="hljs-comment"># 获取MCP服务器工具</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> tools:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;MCP服务器没有工具，无法运行智能体&quot;</span>)<br>        <span class="hljs-keyword">return</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;MCP服务器工具: <span class="hljs-subst">&#123;tools&#125;</span>&quot;</span>)<br><span class="hljs-comment"># 创建OpenAI聊天模型</span><br><span class="hljs-comment"># 定义模型名称、API密钥和API基础URL</span><br><span class="hljs-comment"># type: ignore</span><br>    llm = ChatOpenAI(<br>        model = <span class="hljs-string">&quot;qwen3.6-plus&quot;</span>,<br>        api_key = os.environ[<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>],<br>        openai_api_base = <span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span> <span class="hljs-comment"># type: ignore</span><br>    )<br><span class="hljs-comment"># 创建聊天提示模板</span><br><span class="hljs-comment"># 定义系统提示、用户输入占位符和工具调用占位符</span><br>    prompt = ChatPromptTemplate.from_messages([<br>        (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个有用的助手，需要使用提供的工具来完成用户请求&quot;</span>),<br>        (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;&#123;input&#125;&quot;</span>),<br>        MessagesPlaceholder(variable_name=<span class="hljs-string">&quot;agent_scratchpad&quot;</span>),<br>    ])<br><span class="hljs-comment"># 创建工具调用智能体</span><br><span class="hljs-comment"># 定义模型、工具和提示模板</span><br>    agent = create_tool_calling_agent(llm,tools,prompt) <span class="hljs-comment"># type: ignore</span><br>    agent_exec = AgentExecutor(agent=agent, tools=tools, verbose=<span class="hljs-literal">True</span>, handle_parsing=<span class="hljs-string">&quot;ignore&quot;</span>) <span class="hljs-comment"># type: ignore</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n 工具调用智能体执行器已创建, 请输入用户请求&quot;</span>)<br><span class="hljs-comment"># 运行聊天循环</span><br><span class="hljs-comment"># 处理用户输入、调用智能体执行器、打印输出</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        <span class="hljs-keyword">try</span>:<br>            user_input = <span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;\n请输入用户请求: &quot;</span>)<br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> user_input:<br>                <span class="hljs-keyword">continue</span><br>            <span class="hljs-keyword">if</span> user_input.lower() == <span class="hljs-string">&quot;exit&quot;</span>:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;程序退出...&quot;</span>)<br>                <span class="hljs-keyword">break</span><br>            result = <span class="hljs-keyword">await</span> agent_exec.ainvoke(&#123;<span class="hljs-string">&quot;input&quot;</span>: user_input&#125;)<br>            output = result.get(<span class="hljs-string">&quot;output&quot;</span>, result)<br>            <span class="hljs-built_in">print</span>(output)<br>        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;发生错误: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>            <span class="hljs-keyword">break</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>() -&gt; <span class="hljs-literal">None</span>:<br>    asyncio.run(run_chat_loop())<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    main()<br></code></pre></div></td></tr></table></figure>
+
+<ol>
+<li>读取 <code>mcp.json</code></li>
+<li>用 <code>MultiServerMCPClient</code> 连接服务</li>
+<li>通过 <code>get_tools()</code> 拿到 MCP 工具</li>
+<li>把工具交给 LangChain Agent</li>
+<li>让 Agent 在对话中实际使用这些工具</li>
+</ol>
+<p>根据 LangChain 官方文档，除了 <code>get_tools()</code>，现在还可以：</p>
+<ul>
+<li><code>get_resources()</code></li>
+<li><code>get_prompt()</code></li>
+<li>使用 stateful session</li>
+<li>处理 logging &#x2F; elicitation &#x2F; structured content</li>
+</ul>
+<h1 id="Agent-智能体"><a href="#Agent-智能体" class="headerlink" title="Agent 智能体"></a>Agent 智能体</h1><p><strong>Agent 不是某个单独的模型，也不是某个单独的工具，而是一种“围绕目标持续做决策并调用能力”的运行方式</strong></p>
+<p>可以把 Agent 看作：<strong>Agent &#x3D; 模型 + 工具集 + 运行循环 + 当前状态</strong>。</p>
+<p>这里的四个部分分别代表：</p>
+<ul>
+<li><strong>模型（Model）</strong>：负责理解用户目标、分析当前局面、决定下一步。</li>
+<li><strong>工具集（Tools）</strong>：负责执行动作，例如查天气、查库存、调用 API、搜索文档、访问数据库。</li>
+<li><strong>运行循环（Loop）</strong>：负责让模型不是只回答一次，而是可以“想一步、做一步、看结果、再决定下一步”。</li>
+<li><strong>状态（State）</strong>：负责保存本轮对话、工具返回、中间结果，有时也包含短期记忆。</li>
+</ul>
+<p><strong>不是所有 Agent 都必须同时具备“长期记忆、复杂规划、多智能体协作”。</strong></p>
+<p>一个最简单的 Agent 只要能：1. 读懂用户目标；2. 知道什么时候调工具；3. 能根据工具结果继续判断；4. 最后给出答案。就已经是 Agent 了。</p>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-21-48-34-image.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Agent之React"><a href="#Agent之React" class="headerlink" title="Agent之React"></a>Agent之React</h2><p><strong>ReAct &#x3D; Reason + Act。</strong>中文可以看作：<strong>先推理，再行动。</strong></p>
+<p>这是 Agent 最经典的一种运行循环：</p>
+<ol>
+<li><strong>Thought &#x2F; Reason（思考）</strong>：当前要做什么，先想一步。</li>
+<li><strong>Action（行动）</strong>：如果需要外部能力，就调用某个工具。</li>
+<li><strong>Observation（观察）</strong>：拿到工具返回结果。</li>
+<li><strong>继续循环或结束</strong>：如果还没完成，就继续下一轮；如果信息足够，就给出最终答案。</li>
+</ol>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-21-50-17-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>ReAct 更应该被理解成一种<strong>工作机制</strong>，而不只是某种固定的 Prompt 模板格式。</p>
+<p>常见的 Agent 形态还包括：</p>
+<ul>
+<li><strong>Plan-and-Execute</strong>：先整体规划，再按计划逐步执行。</li>
+<li><strong>Router &#x2F; Supervisor</strong>：先判断该把任务交给哪个工具、哪个子 Agent、哪个流程。</li>
+<li><strong>Workflow + Agent 混合</strong>：固定部分用工作流，遇到不确定节点时再让 Agent 决策。</li>
+<li><strong>Multi-Agent &#x2F; A2A</strong>：多个 Agent 分工协作，由一个主 Agent 或协调器统筹。</li>
+<li><strong>Human-in-the-loop</strong>：关键步骤需要人工确认，Agent 不是全自动闭环。</li>
+</ul>
+<h2 id="Tool-与-Agent-的关系"><a href="#Tool-与-Agent-的关系" class="headerlink" title="Tool 与 Agent 的关系"></a>Tool 与 Agent 的关系</h2><p><strong>Tool（工具）</strong> 是能力封装。</p>
+<p>例如： <code>get_weather()</code>、<code>search_products()</code>、<code>check_inventory()</code>、<code>book_flight()</code>。它们都只是“能做一件事”的函数或接口。</p>
+<p><strong>Agent</strong> 则是决策者。</p>
+<p>它负责判断：现在要不要调用工具、调哪个工具、先调哪个、后调哪个、一个工具够不够、工具失败了要不要重试或换路线、什么时候可以停止并给最终答案。</p>
+<p>所以两者关系可以概括成：<strong>Tool &#x3D; 能力；Agent &#x3D; 决策 + 使用这些能力。</strong></p>
+<p>Agent 的典型场景也在从“会调几个工具”扩展到更完整的任务闭环。比如：</p>
+<ul>
+<li><strong>浏览器自动化 &#x2F; Computer Use Agent</strong>：根据目标理解页面、点击按钮、填写表单、滚动页面，并通过截图或页面状态校验结果。</li>
+<li><strong>长任务研究代理</strong>：围绕复杂问题拆分子任务，多轮搜索、交叉验证资料，最后生成带来源的结构化报告。</li>
+<li><strong>代码库维护代理</strong>：读取代码库、定位相关文件、制定修改计划、编辑代码、运行测试，并根据失败结果继续修复。</li>
+<li><strong>文件 &#x2F; 数据分析代理</strong>：读取表格、PDF、日志或业务数据，调用代码执行、SQL、统计或可视化工具，输出分析结论和图表。</li>
+</ul>
+<h2 id="Agent构建"><a href="#Agent构建" class="headerlink" title="Agent构建"></a>Agent构建</h2><h3 id="V0-3-classic-路线"><a href="#V0-3-classic-路线" class="headerlink" title="V0.3 &#x2F; classic 路线"></a>V0.3 &#x2F; classic 路线</h3><p>帮助理解 Agent 内部到底怎么转：Prompt、工具、Executor、循环是怎么配合的。</p>
+<h3 id="V1-x-create-agent-路线"><a href="#V1-x-create-agent-路线" class="headerlink" title="V1.x &#x2F; create_agent 路线"></a>V1.x &#x2F; create_agent 路线</h3><p>掌握当前官方更推荐的写法，更接近真实项目开发。</p>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-22-08-27-image.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="agent-scratchpad-提示"><a href="#agent-scratchpad-提示" class="headerlink" title="agent_scratchpad 提示"></a>agent_scratchpad 提示</h3><p>其中 <code>ChatPromptTemplate</code>、占位符与消息结构</p>
+<p>这里多出来的 <code>&#123;agent_scratchpad&#125;</code> 专供多轮工具循环使用。</p>
+<p>这不是装饰，它的作用非常关键。它相当于 Agent 的“草稿区 &#x2F; 中间步骤区”，用来承接：模型上一轮决定调用什么工具；工具返回了什么；下一轮模型基于这些信息继续推理。</p>
+<p>如果没有这块区域，模型就很难在多步循环里“记住刚刚自己做过什么”。</p>
+<p>所以在 classic 路线（ReAct架构）里，<code>agent_scratchpad</code> 不是一个边角知识点，而是 <strong>ReAct 循环能成立的重要拼图</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><span class="hljs-comment"># 这个示例展示了如何使用 langchain_classic 中的 create_tool_calling_agent 来创建一个能够调用工具的智能体，并使用 AgentExecutor 来执行这个智能体。</span><br><span class="hljs-keyword">from</span> langchain_classic.agents <span class="hljs-keyword">import</span> create_tool_calling_agent, AgentExecutor <br><span class="hljs-comment"># 提示词模板类，用于定义智能体的提示词结构</span><br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate <br><span class="hljs-comment"># 工具调用智能体需要的工具类</span><br><span class="hljs-keyword">from</span> langchain_core.tools <span class="hljs-keyword">import</span> tool<br><span class="hljs-keyword">import</span> requests<br><br>load_dotenv()<br><br><span class="hljs-meta">@tool</span><br><span class="hljs-comment"># 定义一个工具函数，这个函数会被智能体调用来查询天气信息</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">loc</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    查询即时天气函数</span><br><span class="hljs-string"></span><br><span class="hljs-string">    :param loc: 必要参数，字符串类型，表示查询天气的城市名称；中国城市需用英文名，如 Beijing、Shanghai。</span><br><span class="hljs-string">    :return: OpenWeather API 返回的天气信息，JSON 序列化后的字符串。</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    url = <span class="hljs-string">&quot;https://api.openweathermap.org/data/2.5/weather&quot;</span><br>    params = &#123;<br>        <span class="hljs-string">&quot;q&quot;</span>: loc,<br>        <span class="hljs-string">&quot;appid&quot;</span>: os.getenv(<span class="hljs-string">&quot;OPENWEATHER_API_KEY&quot;</span>),<br>        <span class="hljs-string">&quot;units&quot;</span>: <span class="hljs-string">&quot;metric&quot;</span>,<br>        <span class="hljs-string">&quot;lang&quot;</span>: <span class="hljs-string">&quot;zh_cn&quot;</span>,<br>    &#125;<br>    <span class="hljs-comment"># 使用requests  库发送HTTP GET请求来调用天气API，传入查询参数，并设置超时时间和代理</span><br>    response = requests.get(url, params=params, timeout=<span class="hljs-number">5</span>, proxies=&#123;<span class="hljs-string">&quot;http&quot;</span>: <span class="hljs-string">&quot;http://127.0.0.1:7890&quot;</span>, <span class="hljs-string">&quot;https&quot;</span>: <span class="hljs-string">&quot;http://127.0.0.1:7890&quot;</span>&#125;)<br>    data = response.json()<br>    <span class="hljs-built_in">print</span>(json.dumps(data))<br>    <span class="hljs-keyword">return</span> json.dumps(data)<br><br><span class="hljs-comment"># 大模型初始化</span><br>llm = ChatOpenAI(<br>    model = <span class="hljs-string">&quot;qwen3.6-plus&quot;</span>,<br>    api_key = os.environ[<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>],<br>    openai_api_base = <span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span> <span class="hljs-comment"># type: ignore</span><br>)<br><br><br>prompt = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个天气查询助手，能够根据用户输入的城市名称查询当前的天气情况。&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;&#123;input&#125;&quot;</span>),<br>    (<br>        <span class="hljs-string">&quot;placeholder&quot;</span>,<span class="hljs-comment"># 这个占位符是智能体提示词模板中的一个特殊角色，表示在这个位置会动态插入工具调用的相关消息，智能体会根据工具调用的结果来生成回复</span><br>        <span class="hljs-string">&quot;&#123;agent_scratchpad&#125;&quot;</span> <span class="hljs-comment"># 这个 &#123;agent_scratchpad&#125; 是一个变量占位符，智能体会把工具调用的相关消息插入到这个位置，形成完整的提示词消息列表</span><br>    ) <span class="hljs-comment">#这里草稿纸保留的是智能体在调用工具时的相关消息，包括工具调用的输入参数、工具调用的结果等，这些消息会被智能体用来生成最终的回复，确保回复能够正确反映工具调用的结果</span><br>])<br><br><br>tools = [get_weather] <span class="hljs-comment"># 定义一个工具列表，这里只有一个工具函数 get_weather，智能体会使用这个工具来查询天气信息 固定工具</span><br>agent = create_tool_calling_agent(llm=llm, tools=tools, prompt=prompt) <span class="hljs-comment"># 使用 create_tool_calling_agent 创建一个工具调用智能体，传入大模型实例、工具列表和提示词模板</span><br>agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=<span class="hljs-literal">True</span>) <span class="hljs-comment"># 创建一个 AgentExecutor 实例，传入智能体和工具列表，AgentExecutor 是一个执行器类，用于执行智能体的逻辑，包括调用工具、生成回复等 verbose=True 表示在执行过程中会输出详细的日志信息，方便我们观察智能体的行为和工具调用的过程</span><br><br><br>result = agent_executor.invoke(&#123;<span class="hljs-string">&quot;input&quot;</span>: <span class="hljs-string">&quot;请告诉我福州和厦门当前的天气情况&quot;</span>&#125;) <span class="hljs-comment"># 使用 AgentExecutor 的 invoke 方法来执行智能体，传入用户输入的字符串，这个输入会被智能体用来生成回复，并且在需要调用工具时会自动调用工具来获取相关信息</span><br><span class="hljs-built_in">print</span>(result) <span class="hljs-comment"># 输出智能体的最终回复，看看它是否正确查询了天气信息并生成了合理的回答</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-22-36-28-image.png" srcset="/img/loading.gif" lazyload></p>
+<ol>
+<li>定义 <code>get_weather</code> 工具</li>
+<li>定义 <code>ChatPromptTemplate</code></li>
+<li>在 Prompt 里保留 <code>agent_scratchpad</code></li>
+<li>用 <code>create_tool_calling_agent</code> 得到 Agent</li>
+<li>用 <code>AgentExecutor</code> 驱动执行</li>
+</ol>
+<p> Agent 并不是“一次回答完”，而是更像这样：</p>
+<ol>
+<li>先判断需要查天气</li>
+<li>调一次 <code>get_weather(fuzhou)</code></li>
+<li>再调一次 <code>get_weather(xiamen)</code></li>
+<li>根据两次工具结果做比较</li>
+<li>最后输出总结</li>
+</ol>
+<p><strong>一个 classic Agent 如何做多步工具调用，并把多次结果汇总成最终回答。</strong></p>
+<h3 id="更现代的Agent"><a href="#更现代的Agent" class="headerlink" title="更现代的Agent"></a>更现代的Agent</h3><h4 id="create-Agent意义"><a href="#create-Agent意义" class="headerlink" title="create_Agent意义"></a>create_Agent意义</h4><p><code>create_agent</code> 的最大价值不是“少写几行代码”，而是：<strong>把 Agent 的常见配置收口到一个统一入口里。</strong></p>
+<p>你通常会把这些东西交给它：模型，工具，系统提示，有时再加结构化输出、状态、中间件等。这样你可以更专注于业务目标，而不是一开始就陷进大量底层组装细节里。</p>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-22-38-56-image.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>create_agent</code> 常见的 6 个参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>是否常见</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>model</code></td>
+<td>必备</td>
+<td>让谁来做推理与决策</td>
+</tr>
+<tr>
+<td><code>tools</code></td>
+<td>很常见</td>
+<td>给 Agent 哪些可调用能力</td>
+</tr>
+<tr>
+<td><code>system_prompt</code></td>
+<td>很常见</td>
+<td>约束 Agent 的角色、风格和工作规则</td>
+</tr>
+<tr>
+<td><code>response_format</code></td>
+<td>很常见</td>
+<td>让最终结果更适合结构化输出</td>
+</tr>
+<tr>
+<td><code>checkpointer</code></td>
+<td>工程化能力</td>
+<td>保存运行状态，可支撑短期记忆</td>
+</tr>
+<tr>
+<td><code>middleware</code></td>
+<td>工程化能力</td>
+<td>在模型调用、工具调用等阶段插入自定义控制逻辑</td>
+</tr>
+</tbody></table>
+<p>放到项目开发里，可以这样对应：</p>
+<ul>
+<li><code>model</code>：模型能力怎么选</li>
+<li><code>tools</code>：Agent 可以用哪些外部能力</li>
+<li><code>system_prompt</code>：行为规则怎么约束</li>
+<li><code>response_format</code>：输出要不要便于程序直接接收</li>
+<li><code>checkpointer</code>：跨多轮调用时，状态和短期记忆怎么保留</li>
+<li><code>middleware</code>：要不要加入守护、拦截、动态控制</li>
+</ul>
+<h4 id="结构化输出"><a href="#结构化输出" class="headerlink" title="结构化输出"></a>结构化输出</h4><p><strong>Agent 不一定只能返回自然语言，它也可以返回结构化结果</strong></p>
+<p>我们常常不只是想“让模型说一段话”，而是希望它最终给出：JSON、TypedDict、Pydantic 对象、便于程序直接消费的字段结构。</p>
+<p>官方文档也把 <code>response_format</code> 作为 <code>create_agent</code> 的重点能力之一。所以你可以把这个能力理解成：<strong>Agent 不只是会调用工具，它还可以把最终答案整理成程序更容易接收的格式。</strong></p>
+<p><code>response_format</code> 常见有三种理解方式：</p>
+<ul>
+<li>直接传 schema 类型：例如 <code>TypedDict</code>、Pydantic 模型，框架会按模型能力自动选择更合适的结构化输出策略。</li>
+<li>显式 <code>ProviderStrategy(schema)</code>：当底层模型原生支持结构化输出时，更贴近 provider 原生能力。</li>
+<li>显式 <code>ToolStrategy(schema)</code>：把结构化输出当成一次工具调用式约束，兼容性通常更好。</li>
+</ul>
+<p><code>response_format</code> 不是“把字符串转 JSON”的后处理，而是在 Agent 最终输出阶段，把“结果长什么样”提前约束清楚。也就是最后呈现出来的</p>
+<h4 id="数据持久化与记忆管理"><a href="#数据持久化与记忆管理" class="headerlink" title="数据持久化与记忆管理"></a>数据持久化与记忆管理</h4><p><code>checkpointer</code> 会在每一个节点、每一次工具调用结束后，<strong>强行把当前整张“草稿纸”（包括所有的 Messages、变量状态、上下文）拍一个快照（Snapshot），然后死死地刻进数据库里（如 SQLite、PostgreSQL 或内存）。</strong></p>
+<p><code>thread_id</code> 就是那个用来做“沙盒隔离”的唯一工牌（会话标识）。</p>
+<p>    <code>thread_id</code> 只是一个普通的字符串（比如 <code>thread_abc_123</code>），它被包含在一个叫 <code>config</code>（配置字典）的对象里：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">config = &#123;<span class="hljs-string">&quot;configurable&quot;</span>: &#123;<span class="hljs-string">&quot;thread_id&quot;</span>: <span class="hljs-string">&quot;1的专线_001&quot;</span>&#125;&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>当你带着这个 <code>config</code> 去调用 <code>agent_executor.ainvoke(..., config)</code> 时：</p>
+<ul>
+<li><p><code>checkpointer</code> 会在数据库里开辟一个专属的房间，房间号就是 <code>thread_id</code>。</p>
+</li>
+<li><p>这个房间里的所有草稿纸、中间状态、工具执行结果，**只属于这个特定的 <code>thread_id</code>**。</p>
+</li>
+<li><p><strong>绝对防串台</strong>：哪怕另一个用户发起一模一样的天气查询，只要 <code>thread_id</code> 不同，两边的记忆和状态在物理数据库层面上就是完全隔离、绝对安全的。</p>
+</li>
+</ul>
+<p>Short-term Memory 短期记忆指的是：在当前会话（也就是同一个 <code>thread_id</code>）的生命周期内，模型能够持续追踪、累加并复盘的所有上下文。</p>
+<p>它是怎么在铁三角里闭环的？</p>
+<ol>
+<li><p><strong>内容载体</strong>： <code>agent_scratchpad</code>（草稿纸插槽）这里面装的消息列表，加上历史的对话记录，在概念上就构成了 Agent 的<strong>短期记忆</strong>。</p>
+</li>
+<li><p><strong>保存机制</strong>：每当大模型和工具产生新的互动，短期记忆就会被更新，然后被 <code>checkpointer</code> 捕捉并贴上 <code>thread_id</code> 的标签冷冻保存到数据库。</p>
+</li>
+<li><p><strong>唤醒机制</strong>：当你下一秒再次输入“那明天呢？”（用户并没有说明是哪个城市），Agent 接收到请求，第一件事是根据你的 <code>thread_id</code> 去数据库里把那张冰冻的“草稿纸”捞出来，大模型一看历史记忆里上一步查的是“福州”，它立刻就能心领神会，用短期记忆成功脑补出：“哦，用户是在问<strong>福州</strong>明天的天气。”</p>
+</li>
+</ol>
+<p>这就需要考研模型的上下文，不过再怎么考验，也抵不过最后的的大量数据，所以这就需要</p>
+<p>1、记忆滑动窗口（Sliding Window）</p>
+<p>只保留最近 5 轮或 10 轮的对话消息，太久远的记忆直接从草稿纸上抹去，防止上下文无限膨胀。</p>
+<p>2、 摘要压缩（Summary Memory）</p>
+<p>每当对话和工具执行结果超过一定长度，让另一个专门的小模型在后台把这些长篇大论压缩成一段几百字的</p>
+<blockquote>
+<p><em>“前情提要：用户让 Agent 扫描了 192.168.1.1，发现 80 端口开放了 Apache 服务，且存在未授权访问漏洞。”</em> 下一次请求时，只带上这段摘要，直接省掉几千个 Token。</p>
+</blockquote>
+<p>3、 转化为“长期记忆”（RAG &#x2F; 向量数据库）</p>
+<p>如果工具吐出的数据非常重要（比如一份全网段扫描报告），不要放在短期记忆里占用上下文通道。</p>
+<ul>
+<li><p>把它切碎，存进<strong>向量数据库</strong>。</p>
+</li>
+<li><p>当用户下一次提问时，Agent 触发一个“检索工具”，只把与当前问题最相关的几行数据捞出来临时贴进上下文。这也就是常说的 <strong>RAG（检索增强生成）</strong> 路线。</p>
+</li>
+</ul>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-22-47-45-image.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="stream-与-LangSmith-和invoke什么关系"><a href="#stream-与-LangSmith-和invoke什么关系" class="headerlink" title="stream 与 LangSmith 和invoke什么关系"></a>stream 与 LangSmith 和invoke什么关系</h3><p>在真实项目里，只会 <code>invoke()</code> 还不够，因为 Agent 往往不是一步完成的。</p>
+<h4 id="stream"><a href="#stream" class="headerlink" title="stream"></a>stream</h4><p><code>stream()</code> 的价值就在于：<strong>把中间进展实时暴露出来。</strong></p>
+<p>这对实际项目非常有用，因为它能帮助你：</p>
+<ul>
+<li>看到 Agent 到底卡在模型还是工具上</li>
+<li>看到是否发生了多轮工具调用</li>
+<li>给前端提供更好的交互体验</li>
+<li>调试“为什么这次 Agent 没按预期走”</li>
+</ul>
+<p>所以这里的区别很直接：<code>invoke()</code> 更像等最终结果，<code>stream()</code> 更像看 Agent 执行过程。</p>
+<h4 id="LangSmith"><a href="#LangSmith" class="headerlink" title="LangSmith"></a>LangSmith</h4><p>Agent 的问题，往往不是“有没有报错”这么简单，而是：</p>
+<ul>
+<li>为什么调了这个工具而不是那个</li>
+<li>为什么多调了一轮</li>
+<li>为什么结构化输出没按预期生成</li>
+<li>为什么这一步耗时特别长</li>
+</ul>
+<p>这类问题只看最后一句回答，通常是不够的。也是为什么官方文档会把 <strong>LangSmith</strong> 和 Agent 经常放在一起讲。可以把 LangSmith 先看作：<strong>用于追踪、调试、测试、评估 Agent 运行过程的可观测平台。</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv<br><span class="hljs-keyword">from</span> langchain_openai <span class="hljs-keyword">import</span> ChatOpenAI<br><span class="hljs-comment"># 这个示例展示了如何使用 langchain_classic 中的 create_tool_calling_agent 来创建一个能够调用工具的智能体，并使用 AgentExecutor 来执行这个智能体。</span><br><span class="hljs-keyword">from</span> langchain_classic.agents <span class="hljs-keyword">import</span> create_tool_calling_agent, AgentExecutor <br><span class="hljs-comment"># 提示词模板类，用于定义智能体的提示词结构</span><br><span class="hljs-keyword">from</span> langchain_core.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate <br><span class="hljs-comment"># 工具调用智能体需要的工具类</span><br><span class="hljs-keyword">from</span> langchain_core.tools <span class="hljs-keyword">import</span> tool<br><span class="hljs-keyword">import</span> requests<br><br>load_dotenv()<br><br><span class="hljs-meta">@tool</span><br><span class="hljs-comment"># 定义一个工具函数，这个函数会被智能体调用来查询天气信息</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_weather</span>(<span class="hljs-params">loc</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    查询即时天气函数</span><br><span class="hljs-string"></span><br><span class="hljs-string">    :param loc: 必要参数，字符串类型，表示查询天气的城市名称；中国城市需用英文名，如 Beijing、Shanghai。</span><br><span class="hljs-string">    :return: OpenWeather API 返回的天气信息，JSON 序列化后的字符串。</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    url = <span class="hljs-string">&quot;https://api.openweathermap.org/data/2.5/weather&quot;</span><br>    params = &#123;<br>        <span class="hljs-string">&quot;q&quot;</span>: loc,<br>        <span class="hljs-string">&quot;appid&quot;</span>: os.getenv(<span class="hljs-string">&quot;OPENWEATHER_API_KEY&quot;</span>),<br>        <span class="hljs-string">&quot;units&quot;</span>: <span class="hljs-string">&quot;metric&quot;</span>,<br>        <span class="hljs-string">&quot;lang&quot;</span>: <span class="hljs-string">&quot;zh_cn&quot;</span>,<br>    &#125;<br>    <span class="hljs-comment"># 使用requests  库发送HTTP GET请求来调用天气API，传入查询参数，并设置超时时间和代理</span><br>    response = requests.get(url, params=params, timeout=<span class="hljs-number">5</span>, proxies=&#123;<span class="hljs-string">&quot;http&quot;</span>: <span class="hljs-string">&quot;http://127.0.0.1:7890&quot;</span>, <span class="hljs-string">&quot;https&quot;</span>: <span class="hljs-string">&quot;http://127.0.0.1:7890&quot;</span>&#125;)<br>    data = response.json()<br>    <span class="hljs-built_in">print</span>(json.dumps(data))<br>    <span class="hljs-keyword">return</span> json.dumps(data)<br><br><span class="hljs-comment"># 大模型初始化</span><br>llm = ChatOpenAI(<br>    model = <span class="hljs-string">&quot;qwen3.6-plus&quot;</span>,<br>    api_key = os.environ[<span class="hljs-string">&quot;aliQwen_API_KEY&quot;</span>],<br>    openai_api_base = <span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span> <span class="hljs-comment"># type: ignore</span><br>)<br><br><br>prompt = ChatPromptTemplate.from_messages([<br>    (<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;你是一个天气查询助手，能够根据用户输入的城市名称查询当前的天气情况。&quot;</span>),<br>    (<span class="hljs-string">&quot;human&quot;</span>, <span class="hljs-string">&quot;&#123;input&#125;&quot;</span>),<br>    (<br>        <span class="hljs-string">&quot;placeholder&quot;</span>,<span class="hljs-comment"># 这个占位符是智能体提示词模板中的一个特殊角色，表示在这个位置会动态插入工具调用的相关消息，智能体会根据工具调用的结果来生成回复</span><br>        <span class="hljs-string">&quot;&#123;agent_scratchpad&#125;&quot;</span> <span class="hljs-comment"># 这个 &#123;agent_scratchpad&#125; 是一个变量占位符，智能体会把工具调用的相关消息插入到这个位置，形成完整的提示词消息列表</span><br>    ) <span class="hljs-comment">#这里草稿纸保留的是智能体在调用工具时的相关消息，包括工具调用的输入参数、工具调用的结果等，这些消息会被智能体用来生成最终的回复，确保回复能够正确反映工具调用的结果</span><br>])<br><br><br>tools = [get_weather] <span class="hljs-comment"># 定义一个工具列表，这里只有一个工具函数 get_weather，智能体会使用这个工具来查询天气信息 固定工具</span><br>agent = create_tool_calling_agent(llm=llm, tools=tools, prompt=prompt) <span class="hljs-comment"># 使用 create_tool_calling_agent 创建一个工具调用智能体，传入大模型实例、工具列表和提示词模板</span><br>agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=<span class="hljs-literal">True</span>) <span class="hljs-comment"># 创建一个 AgentExecutor 实例，传入智能体和工具列表，AgentExecutor 是一个执行器类，用于执行智能体的逻辑，包括调用工具、生成回复等 verbose=True 表示在执行过程中会输出详细的日志信息，方便我们观察智能体的行为和工具调用的过程</span><br><br><span class="hljs-comment">#这里先用 invoke 看最终结果；如需观察中间步骤，可在工程里改为 stream()</span><br>result = agent_executor.stream(&#123;<span class="hljs-string">&quot;input&quot;</span>: <span class="hljs-string">&quot;请告诉我福州和厦门当前的天气情况&quot;</span>&#125;) <span class="hljs-comment"># 使用 AgentExecutor 的 invoke 方法来执行智能体，传入用户输入的字符串，这个输入会被智能体用来生成回复，并且在需要调用工具时会自动调用工具来获取相关信息</span><br><span class="hljs-built_in">print</span>(result) <span class="hljs-comment"># 输出智能体的最终回复，看看它是否正确查询了天气信息并生成了合理的回答</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-23-16-36-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>这个代码和上面那个利用classic的差不多，但是重点已经变了，不再强调 Prompt + Executor 的手工组装，而是在强调：</p>
+<ul>
+<li><code>create_agent(...)</code> 的统一创建方式</li>
+<li><code>response_format</code> 带来的结构化输出</li>
+<li>Agent 的更简洁用法</li>
+</ul>
+<h2 id="人类审核-与-middleware"><a href="#人类审核-与-middleware" class="headerlink" title="人类审核 与 middleware"></a>人类审核 与 middleware</h2><p>如果说 <code>tools</code> 是给 Agent 增加能力，<code>middleware</code> 更像是给 Agent 增加运行边界。它可以在模型调用、工具调用、状态更新等阶段插入控制逻辑。</p>
+<p><img src="/2026/05/26/agent%E6%99%BA%E8%83%BD%E4%BD%93%E5%AD%A6%E4%B9%A04/2026-06-06-23-19-57-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>常见用途包括：</p>
+<ul>
+<li><strong>动态提示词</strong>：根据用户、租户、权限或场景调整 system prompt。</li>
+<li><strong>工具调用守护</strong>：高风险工具调用前先检查参数、权限或业务规则。</li>
+<li><strong>人类审核</strong>：删除、支付、发消息、批量修改这类动作，不让 Agent 静默执行。</li>
+<li><strong>日志与监控</strong>：记录关键决策、工具参数、异常和耗时。</li>
+</ul>
+<p>所以生产级 Agent 的重点不是“工具越多越好”，而是：能力越强，边界越要清楚。</p>
+<p>后续介绍学习</p>
+<h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><p>单来说，ReAct 是 <strong>Reason（推理） + Act（行动）</strong> 的缩写。它是现代大模型自主调用工具、化身 Agent 的<strong>底层核心方法论</strong>。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
